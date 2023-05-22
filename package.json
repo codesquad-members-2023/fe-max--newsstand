@@ -3,7 +3,12 @@
   "version": "1.0.0",
   "description": "뉴스스탠드 프로젝트",
   "main": "index.js",
-  "scripts": {},
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/silvertae/fe-max--newsstand.git"
@@ -21,6 +26,7 @@
     "eslint": "^8.41.0",
     "eslint-config-prettier": "^8.8.0",
     "prettier": "^2.8.8",
-    "typescript": "^5.0.4"
+    "typescript": "^5.0.4",
+    "vite": "^4.3.2"
   }
 }
