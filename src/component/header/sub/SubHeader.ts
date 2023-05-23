@@ -5,13 +5,13 @@ export class SubHeader extends Base {
     super();
     this.render(`
         <div class="header__sub">
-            ${this.setSubHeader("연합뉴스", "hi")}
-            ${this.setSubHeader("연합뉴스", "bye")}
+            ${this.setRolling("연합뉴스", "hi")}
+            ${this.setRolling("연합뉴스", "bye")}
         </div>
     `);
   }
 
-  setSubHeader(press: string, title: string) {
+  setRolling(press: string, title: string) {
     return `
         <div class="header__sub__rolling">
             <div class="header__sub__rolling-press">
