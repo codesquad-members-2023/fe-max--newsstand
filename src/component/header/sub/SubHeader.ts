@@ -20,10 +20,7 @@ export class SubHeader extends Base {
           </div>
         </div>
     `);
-    this.init();
   }
-
-  async init() {}
 
   setRolling(data: RollingDataType[]) {
     const rolling = data
