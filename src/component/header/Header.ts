@@ -14,6 +14,7 @@ export class Header extends Base {
   }
 
   init() {
+    this.subHeader.init();
     this.setChildren(this.mainHeader, this.subHeader);
   }
 }
