@@ -15,11 +15,11 @@ class Dispatcher {
     this.callbacks.push(callback);
   }
 
-  dispatch(payload: () => void) {
+  dispatch(payload: Action) {
     if (this.isDispatching) {
       console.error("디스패치 도중 디스패치할 수 없습니다");
     }
-
+    console.log('디스패치제대로');
     this.isDispatching = true;
     for (const callback of this.callbacks) {
       callback(payload);

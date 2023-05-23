@@ -1,3 +1,5 @@
+import { rollerActions } from "../../actions/NewsRoller/NewsRollerActions";
+import { AppDispatcher } from "../../dispatcher/AppDispatcher";
 import { NewsRollerStore } from "../../stores/NewsRollerStore";
 
 export class NewsRoller {
@@ -14,53 +16,72 @@ export class NewsRoller {
     this.setEvent();
 
     NewsRollerStore.register(() => this.render());
-    NewsRollerStore.register(() => this.leftRolling());
-    NewsRollerStore.register(() => this.rightRolling());
+    // NewsRollerStore.register(() => this.leftRolling());
+    // NewsRollerStore.register(() => this.rightRolling());
   }
 
-  leftRolling() {
-    const state = NewsRollerStore.getState();
-    if (state.leftIsRolling) {
-      console.log("돌림");
-    } else {
-      console.log("멈춤");
-    }
-  }
+  // leftRolling() {
+  //   const state = NewsRollerStore.getState();
+  //   if (state.leftIsRolling) {
+  //     console.log("아무일없이 계속 돌림");
+  //   } else {
+  //     console.log("왼쪽을 멈춤");
+  //   }
+  // }
 
-  rightRolling() {
-    const state = NewsRollerStore.getState();
-    if (state.rightIsRolling) {
-      console.log("돌림");
-    } else {
-      console.log("멈춤");
-    }
-  }
+  // rightRolling() {
+  //   const state = NewsRollerStore.getState();
+  //   if (state.rightIsRolling) {
+  //     console.log("아무일없이 계속 돌림");
+  //   } else {
+  //     console.log("오른쪽을 멈춤");
+  //   }
+  // }
 
   setEvent() {
-    // this.containerLeft?.addEventListener("transitionend", this.handleTransitionEnd);
-    const headlines = document.querySelectorAll<HTMLElement>(".headline");
-    headlines.forEach((headline) => {
-      headline.addEventListener("mouseenter", (e: MouseEvent) => this.handleHeadlineEnter(e));
-      headline.addEventListener("mouseleave", (e: MouseEvent) => this.handleHeadlineLeave(e));
-    });
+    this.newsRoller;
+
+    if (this.newsRoller !== null) {
+      this.newsRoller.addEventListener("mouseover", (e: MouseEvent) => this.handleHeadlineEnter(e));
+      // this.newsRoller.addEventListener("mouseout", (e: Event) => this.handleHeadlineLeave(e));
+    }
+    // if (rightHeadline !== null) {
+    //   rightHeadline.addEventListener("mouseenter", (e: Event) => this.handleHeadlineEnter(e));
+    //   rightHeadline.addEventListener("mouseleave", (e: Event) => this.handleHeadlineLeave(e));
+    // }
   }
 
   handleHeadlineEnter(e: MouseEvent) {
-    console.log("들어옴");
-    const target: HTMLElement | null = e.currentTarget as HTMLElement;
-    if (target instanceof HTMLElement) {
-      if (target.classList.contains("left")) {
-        console.log("왼쪽임");
-      } else if (target.classList.contains("right")) {
-        console.log("오른쪽임");
-      }
+    const target = e.target as HTMLElement;
+    const prevTarget = e.relatedTarget as HTMLElement;
+    if (target.closest(".headline.left")) {
+      console.log(target);
+      console.log(prevTarget);
+      AppDispatcher.dispatch(rollerActions.stopRolling("leftIsRolling"));
     }
+
+    // if (target.classList.contains("left")) {
+    //   console.log("왼쪽들어오고 디스패치");
+    //
+    //   // rollerActions.stopRolling("leftIsRolling") 부분이 결국 디스패쳐에서의 Action 타입을 반환해서 되는건가? 질문하기
+    // } else if (target.classList.contains("right")) {
+    //   console.log("오른쪽들어오고 디스패치");
+    //   AppDispatcher.dispatch(rollerActions.stopRolling("rightIsRolling"));
+    // }
   }
 
-  handleHeadlineLeave(e: MouseEvent) {
-    console.log("나감");
-    console.log(e.target);
-  }
+  // handleHeadlineLeave(e: Event) {
+  //   const target = e.target as HTMLElement;
+  //   console.log(target);
+  //   console.log("나감");
+  //   if (target.classList.contains("left")) {
+  //     console.log("왼쪽나가고 디스패치");
+  //     AppDispatcher.dispatch(rollerActions.resumeRolling("leftIsRolling"));
+  //   } else if (target.classList.contains("right")) {
+  //     console.log("오른쪽나가고 디스패치");
+  //     AppDispatcher.dispatch(rollerActions.resumeRolling("rightIsRolling"));
+  //   }
+  // }
 
   createNewsRoller() {
     const newsRoller: HTMLElement = document.createElement("div");
@@ -82,13 +103,10 @@ export class NewsRoller {
     const dataForLeft = state.leftHeadlineData;
     const dataForRight = state.rightHeadlineData;
 
-    console.log(dataForLeft);
-    console.log(dataForRight);
-
     return `
       <div class="news-roller-left">
         <div class="press-name">연합뉴스</div>
-        <div class="headline">
+        <div class="headline left">
           <div class="headline-container-left">
             ${dataForLeft
               .map((data: string, index: number) => {
@@ -102,7 +120,7 @@ export class NewsRoller {
       </div>
       <div class="news-roller-right">
         <div class="press-name">연합뉴스</div>
-        <div class="headline">
+        <div class="headline right">
           <div class="headline-container-right">
             ${dataForRight
               .map((data: string, index: number) => {

@@ -20,7 +20,7 @@ class Store {
   constructor() {
     const state: State = {
       leftIsRolling: true,
-      rightIsRolling: false,
+      rightIsRolling: true,
       leftHeadlineData: db.headlines.slice(0, 5),
       rightHeadlineData: db.headlines.slice(-5),
     };
@@ -57,18 +57,28 @@ class Store {
   dispatch(action: Action): void {
     const newState = this.reduce(this.state, action);
     for (const key in newState) {
-      if (newState.hasOwnProperty(key)) {
-        const stateKey = key as keyof State;
-        this.state[stateKey] = newState[stateKey];
-      }
+      this.state[key] = newState[key];
     }
   }
+
+  // dispatch(action: Action): void {
+  //   const newState = this.reduce(this.state, action);
+  //   for (const key in newState) {
+  //     if (newState.hasOwnProperty(key)) {
+  //       const stateKey = key as keyof State;
+  //       this.state[stateKey] = newState[stateKey];
+  //     }
+  //   }
+  // }
 
   reduce(state: State, action: Action): State {
     switch (action.type) {
       case "STOP_ROLLING":
+        console.log(action.direction + "멈춰");
+
         return { ...state, [action.direction]: false };
       case "RESUME_ROLLING":
+        console.log(action.direction + "돌려");
         return { ...state, [action.direction]: true };
       default:
         console.error("정의되지 않은 액션타입");

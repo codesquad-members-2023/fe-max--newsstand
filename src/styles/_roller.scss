@@ -17,7 +17,7 @@
     @include font.BodySM;
     color: color.$gray500;
     height: 17px;
-    //overflow: hidden;
+    overflow: hidden;
 
     &-container-left,
     &-container-right {
