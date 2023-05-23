@@ -82,6 +82,9 @@
 }
 
 .rolling__wrapper {
+  transform: translateY(0px);
+  transition: transform 1s;
+
   &__item {
     width: 461px;
     height: 49px;
