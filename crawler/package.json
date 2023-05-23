@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "crawl-data": "npx ts-node --esm grid-view.ts"
+    "crawl-grid-view": "npx ts-node --esm grid-view.ts",
+    "crawl-list-view": "npx ts-node --esm list-view.ts"
   },
   "keywords": [],
   "author": "",

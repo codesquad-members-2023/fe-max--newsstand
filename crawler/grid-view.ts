@@ -12,7 +12,7 @@ import fs from "fs";
   await page.goto("https://www.naver.com/");
 
   // Scrape
-  const pressData: { src: String | undefined; alt: String | undefined }[] = [];
+  const pressData: { src: string | undefined; alt: string | undefined }[] = [];
 
   for (let i = 0; i < 4; i++) {
     const pressBoxes = await page.$$(
