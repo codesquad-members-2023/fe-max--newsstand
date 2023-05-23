@@ -1,0 +1,35 @@
+@use "../../style/common.scss";
+
+.rolling-news-bar {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+
+  &__container {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid common.$gray-100;
+    background-color: common.$off-white;
+    margin-bottom: 33px;
+
+    display: flex;
+    gap: 16px;
+  }
+
+  &__press-name {
+    @include common.title-sm;
+
+    color: common.$black;
+  }
+
+  &__title {
+    @include common.body-sm;
+
+    color: common.$gray-500;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

@@ -22,26 +22,26 @@ $pretendard: "Pretendard";
 @mixin title-xs {
   font-family: $pretendard;
   font-size: 12px;
-  font-weight: medium;
+  font-weight: 500;
 }
 
 @mixin body-md {
   font-family: $pretendard;
   font-size: 16px;
-  font-weight: medium;
+  font-weight: 500;
   line-height: 22px;
 }
 
 @mixin body-sm {
   font-family: $pretendard;
   font-size: 14px;
-  font-weight: medium;
+  font-weight: 500;
 }
 
 @mixin body-xs {
   font-family: $pretendard;
   font-size: 14px;
-  font-weight: medium;
+  font-weight: 500;
 }
 
 // Color

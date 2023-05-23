@@ -1,0 +1,59 @@
+@use "/src/style/common.scss";
+
+$frame-width: 930px;
+$frame-height: 388px;
+$row: 4;
+$col: 6;
+
+.main-view-frame {
+  width: $frame-width;
+  height: $frame-height;
+  position: relative;
+  border: 1px solid common.$gray-100;
+
+  &__row-frame1 {
+    width: 100%;
+    height: 1px;
+    position: absolute;
+    top: calc($frame-height / $row);
+    background-color: common.$gray-100;
+  }
+
+  &__row-frame2 {
+    @extend .main-view-frame__row-frame1;
+    top: calc($frame-height / $row * 2);
+  }
+
+  &__row-frame3 {
+    @extend .main-view-frame__row-frame1;
+    top: calc($frame-height / $row * 3);
+  }
+
+  &__col-frame1 {
+    width: 1px;
+    height: 100%;
+    position: absolute;
+    left: calc($frame-width / 6);
+    background-color: common.$gray-100;
+  }
+
+  &__col-frame2 {
+    @extend .main-view-frame__col-frame1;
+    left: calc($frame-width / $col * 2);
+  }
+
+  &__col-frame3 {
+    @extend .main-view-frame__col-frame1;
+    left: calc($frame-width / $col * 3);
+  }
+
+  &__col-frame4 {
+    @extend .main-view-frame__col-frame1;
+    left: calc($frame-width / $col * 4);
+  }
+
+  &__col-frame5 {
+    @extend .main-view-frame__col-frame1;
+    left: calc($frame-width / $col * 5);
+  }
+}

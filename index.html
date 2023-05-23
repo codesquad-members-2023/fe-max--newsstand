@@ -13,7 +13,49 @@
     <title>News Stand</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <header class="header">
+        <div class="header__title">
+          <div class="header__logo"></div>
+          <h2 class="header__text">뉴스스탠드</h2>
+        </div>
+        <div class="header__today-date">2023.05.21. 일요일</div>
+      </header>
+      <section class="rolling-news-bar">
+        <div class="rolling-news-bar__container">
+          <div class="rolling-news-bar__press-name">연합뉴스</div>
+          <div class="rolling-news-bar__title">[1보] 김기현 안철수 어절씨구 저절씨구</div>
+        </div>
+        <div class="rolling-news-bar__container">
+          <div class="rolling-news-bar__press-name">연합뉴스</div>
+          <div class="rolling-news-bar__title">[속보] 김기현 안철수 어절씨구 저절씨구</div>
+        </div>
+      </section>
+      <div class="tab-and-viewer">
+        <ul class="tab-and-viewer__tab">
+          <li class="tab-and-viewer__all-press-tab--selected">전체 언론사</li>
+          <li class="tab-and-viewer__subscribed-press-tab">내가 구독한 언론사</li>
+        </ul>
+        <ul class="tab-and-viewer__viewer-buttons">
+          <li class="tab-and-viewer__list-view-button"></li>
+          <li class="tab-and-viewer__grid-view-button--selected"></li>
+        </ul>
+      </div>
+      <section class="main-view">
+        <div class="main-view__left-arrow"></div>
+        <div class="main-view-frame">
+          <i class="main-view-frame__row-frame1"></i>
+          <i class="main-view-frame__row-frame2"></i>
+          <i class="main-view-frame__row-frame3"></i>
+          <i class="main-view-frame__col-frame1"></i>
+          <i class="main-view-frame__col-frame2"></i>
+          <i class="main-view-frame__col-frame3"></i>
+          <i class="main-view-frame__col-frame4"></i>
+          <i class="main-view-frame__col-frame5"></i>
+        </div>
+        <div class="main-view__right-arrow"></div>
+      </section>
+    </div>
     <script type="module" src="/src/index.ts"></script>
   </body>
 </html>

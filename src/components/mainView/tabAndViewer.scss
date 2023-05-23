@@ -1,0 +1,70 @@
+@use "../../style/common.scss";
+
+.tab-and-viewer {
+  margin-bottom: 26.5px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__tab {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  &__all-press-tab,
+  &__subscribed-press-tab {
+    @include common.body-md;
+
+    color: common.$gray-200;
+    cursor: pointer;
+  }
+
+  &__all-press-tab--selected,
+  &__subscribed-press-tab--selected {
+    @include common.title-md;
+
+    color: common.$black;
+    cursor: pointer;
+  }
+
+  &__viewer-buttons {
+    display: flex;
+    gap: 6px;
+  }
+
+  &__grid-view-button {
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+
+    background-image: url(/src/assets/sprite_main.png);
+    background-size: 422px 405px;
+    background-position: -232px -367px;
+    background-repeat: no-repeat;
+  }
+
+  &__list-view-button {
+    @extend .tab-and-viewer__grid-view-button;
+
+    background-position: -43px -367px;
+  }
+
+  &__grid-view-button--selected {
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+
+    background-image: url(/src/assets/sprite_main.png);
+    background-size: 422px 405px;
+    background-position: -358px -367px;
+    background-repeat: no-repeat;
+  }
+
+  &__list-view-button--selected {
+    @extend .tab-and-viewer__grid-view-button--selected;
+
+    background-position: -169px -367px;
+  }
+}
