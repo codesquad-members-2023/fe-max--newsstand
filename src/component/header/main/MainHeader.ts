@@ -6,7 +6,7 @@ export class MainHeader extends Base {
     this.render(`
         <div class="header__main">
             <div class="header__main__title">
-                <img class="header__main__title-logo" src="./src/assets/logo.svg">
+                <img class="header__main__title-logo" src="./src/assets/logo.svg" addClick="refresh">
                 <span class="header__main__title-text">뉴스스탠드</span>
             </div>
             <div class="header__main__date">${this.getDate()}</div>
@@ -31,6 +31,10 @@ export class MainHeader extends Base {
     const day = days[now.getDay()];
 
     return `${year}. ${month}. ${date}. ${day}`;
+  }
+
+  refresh() {
+    location.reload();
   }
 }
 
