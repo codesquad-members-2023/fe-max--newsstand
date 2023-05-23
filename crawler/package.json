@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "crawl-grid-view": "npx ts-node --esm grid-view.ts",
-    "crawl-list-view": "npx ts-node --esm list-view.ts"
+    "crawl-list-view": "npx ts-node --esm list-view.ts",
+    "crawl-recent-headlines": "npx ts-node --esm recent-headlines.ts"
   },
   "keywords": [],
   "author": "",
