@@ -1,10 +1,8 @@
-import "./index.scss";
-import { setupCounter } from "./counter.ts";
+import "./components/index.ts";
+import "./styles/index.scss";
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <div>
-    Hello
+    <news-stand></news-stand>
   </div>
 `;
-
-setupCounter(document.querySelector<HTMLButtonElement>("#counter")!);
