@@ -4,15 +4,19 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently \"vite\" \"node ./server/server.mjs\"",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
   "devDependencies": {
+    "concurrently": "^8.0.1",
     "typescript": "^5.0.2",
     "vite": "^4.3.2"
   },
   "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "fs": "^0.0.1-security",
     "sass": "^1.62.1"
   }
 }
