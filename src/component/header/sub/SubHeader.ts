@@ -23,13 +23,13 @@ export class SubHeader extends Base {
     this.setRollingAnimation();
   }
 
-  setRolling(type: keyof StoreType) {
-    const store = this.store[type];
+  setRolling(target: keyof StoreType) {
+    const store = this.store[target];
     const itemList = this.setItemList(store);
     const rolling = itemList
       .map((item) => {
         return `
-        <div class="rolling__wrapper__item">
+        <div class="rolling__wrapper__item"  addMouseout="${target}Mouseout" addMouseover="${target}Mouseover">
           <div class="rolling__wrapper__item-press">
             ${item.media}
           </div>
@@ -58,7 +58,6 @@ export class SubHeader extends Base {
   setItemList(store: RollingDataState) {
     const currentIndex = store.currentIndex;
     const maxIndex = store.data.length - 1;
-
     if (currentIndex >= maxIndex) {
       return [store.data[maxIndex], store.data[0]];
     }
@@ -69,12 +68,15 @@ export class SubHeader extends Base {
     const component = this.components[`${target}Wrapper`];
     const currentIndex = this.store[target].currentIndex;
     const dataLength = this.store[target].data.length;
+    const isMove = this.store[target].state === "move";
 
-    component.style.transition = "transform 1s";
-    component.style.transform = "translateY(-49px)";
-    this.store[target].currentIndex++;
-    if (currentIndex === dataLength - 1) {
-      this.store[target].currentIndex = 0;
+    if (isMove) {
+      component.style.transition = "transform 1s";
+      component.style.transform = "translateY(-49px)";
+      this.store[target].currentIndex++;
+      if (currentIndex === dataLength - 1) {
+        this.store[target].currentIndex = 0;
+      }
     }
   }
 
@@ -85,7 +87,29 @@ export class SubHeader extends Base {
     component.style.transform = "translateY(0px)";
     component.style.transition = "none";
     component.innerHTML = "";
-    component.innerHTML = rollingTemplate;
+
+    const elementData = this.htmlParser.getElements(rollingTemplate);
+    if (elementData.length) {
+      elementData.forEach((child) => {
+        component.appendChild(this.createChild(child));
+      });
+    }
+  }
+
+  leftMouseout() {
+    this.store.left.state = "move";
+  }
+
+  rightMouseout() {
+    this.store.right.state = "move";
+  }
+
+  leftMouseover() {
+    this.store.left.state = "stop";
+  }
+
+  rightMouseover() {
+    this.store.right.state = "stop";
   }
 
   leftTransitionend() {
@@ -96,3 +120,4 @@ export class SubHeader extends Base {
     this.setTransitionend("right");
   }
 }
+
