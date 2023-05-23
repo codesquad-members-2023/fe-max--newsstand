@@ -3,3 +3,10 @@
 @import "common";
 
 @import "component/header";
+@import "component/main";
+
+.app {
+  width: 930px;
+  margin: 0 auto;
+}
+
