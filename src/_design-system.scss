@@ -1,0 +1,34 @@
+//- font
+@mixin f-display {
+  font: 24px Pretendard-Bold;
+}
+@mixin f-title-md {
+  font: 16px Pretendard-Bold;
+}
+@mixin f-title-sm {
+  font: 14px Pretendard-Bold;
+}
+@mixin f-title-xs {
+  font: 12px Pretendard-Bold;
+}
+@mixin f-body-md {
+  font: 16px/22px Pretendard-Medium;
+}
+@mixin f-body-sm {
+  font: 14px Pretendard-Medium;
+}
+@mixin f-body-xs {
+  font: 12px Pretendard-Medium;
+}
+
+//- colors
+$color-white-70: #ffffffb3;
+$color-white: #fff;
+$color-off-white: #f5f7f9;
+$color-grey-100: #d2dae0;
+$color-grey-200: #879298;
+$color-grey-300: #6e8091;
+$color-grey-400: #5f6e76;
+$color-grey-500: #4b5966;
+$color-black: #14212b;
+$color-primary: #4362d0;
