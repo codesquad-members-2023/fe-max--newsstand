@@ -1,3 +1,7 @@
+@use 'font';
+@use 'color';
+@import url('https://cdn.jsdelivr.net/npm/normalize.css');
+
 h1 {
-  color: red;
+  @include font.display;
 }
