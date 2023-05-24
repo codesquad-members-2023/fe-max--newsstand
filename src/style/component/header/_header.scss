@@ -1,0 +1,18 @@
+@import '../../base/color', '../../base/font', '../../base/mixin';
+
+.header {
+  width: 930px;
+  height: 29px;
+  display: flex;
+  justify-content: space-between;
+
+  &__title {
+    font: $display;
+    color: $color-black;
+  }
+
+  &__date {
+    font: $body-md;
+    color: $color-gray-500;
+  }
+}
