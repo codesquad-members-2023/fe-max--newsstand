@@ -1,7 +1,9 @@
 @use 'font';
 @use 'color';
+@use 'layout/header';
 @import url('https://cdn.jsdelivr.net/npm/normalize.css');
 
-h1 {
-  @include font.display;
+#app {
+  width: 830px;
+  margin: 58px auto;
 }

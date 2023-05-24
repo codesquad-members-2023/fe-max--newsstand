@@ -1,0 +1,24 @@
+@use '../font';
+
+.news-stand {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  &__logo {
+    display: flex;
+    gap: 8px;
+    height: 30px;
+
+    img {
+      filter: brightness(0) saturate(100%) invert(31%) sepia(61%) saturate(1532%) hue-rotate(207deg) brightness(96%) contrast(87%);
+    }
+
+    h1 {
+      @include font.display;
+      margin: 0px;
+    }
+  }
+}
