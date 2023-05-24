@@ -1,8 +1,8 @@
-@use "./style/reset.scss";
-@use "./components/header/header.scss";
-@use "./components/rollingNewsBar/rollingNewsBar.scss";
-@use "./components/mainView/tabAndViewer.scss";
-@use "./components/mainView/gridView.scss";
+@use "@style/reset.scss";
+@use "@components/header/header.scss";
+@use "@components/rollingNewsBar/rollingNewsBar.scss";
+@use "@components/mainView/tabAndViewer.scss";
+@use "@components/mainView/gridView.scss";
 
 #app {
   width: 930px;
