@@ -1,5 +1,7 @@
-import App from './App';
-import './styles/main.scss';
+import NewsStand from './NewsStand';
+import './main.css'
 
-const app = new App();
-app.render();
+const app = document.querySelector('#app')!;
+const newsStand = new NewsStand();
+
+app.append(newsStand.element);

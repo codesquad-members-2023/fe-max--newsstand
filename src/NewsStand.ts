@@ -1,14 +1,15 @@
 import Header from "./Header";
+import style from './NewsStand.module.css'
 
-export default class App {
+export default class NewsStand {
   public element: HTMLElement;
   private header: Header;
   constructor() {
-    this.element = document.querySelector('#app')!;
+    this.element = document.createElement("div");
+    this.element.classList.add(style.news_stand);
+    
     this.header = new Header();
-  }
 
-  render() {
     this.element.append(this.header.element);
   }
 }

@@ -1,0 +1,52 @@
+:root {
+  --white-70: rgba(255, 255, 255, 0.7);
+  --white: #FFFFFF;
+  --off-white: #F5F7F9;
+  --gray-100: #D2DAE0;
+  --gray-200: #879298;
+  --gray-300: #6E8091;
+  --gray-400: #5F6E76;
+  --gray-500: #4B5966;
+  --black: #14212B;
+  --primary: #4362D0;
+}
+
+.bg-white-70{
+  background: var(--white-70);
+}
+
+.bg-white {
+  background: var(--white);
+}
+
+.bg-off-white {
+  background: var(--off-white);
+}
+
+.bg-gray-100 {
+  background: var(--gray-100);
+}
+
+.bg-gray-200 {
+  background: var(--gray-200);
+}
+
+.bg-gray-300 {
+  background: var(--gray-300);
+}
+
+.bg-gray-400 {
+  background: var(--gray-400);
+}
+
+.bg-gray-500 {
+  background: var(--gray-500);
+}
+
+.bg-black {
+  background: var(--black);
+}
+
+.bg-primary {
+  background: var(--primary);
+}
