@@ -8,7 +8,7 @@
 사용언어: `TypeScript`, `Scss`  
 폰트: `Pretendard`  
 개발 서버: `Vite`  
-feature list: https://github.com/aaaz425/fe-max--newsstand/wiki
+feature list: https://github.com/aaaz425/fe-max--newsstand/wiki/feature-list
 
 - 정돈되지 않았던 개발 습관을 버리고, build 및 설계 과정을 체계화 시킨다
 - github의 `wiki` 탭과 `issue` 탭을 적극 활용한다
