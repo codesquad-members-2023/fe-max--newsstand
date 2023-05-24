@@ -1,5 +1,9 @@
 import style from './Header.module.css';
 
+type HeaderProps = {
+  dateInfo: Date
+}
+
 export default class Header {
   public element: HTMLElement;
   private logo: HTMLDivElement;
@@ -7,7 +11,7 @@ export default class Header {
   private h1: HTMLHeadingElement;
   private date: HTMLParagraphElement;
 
-  constructor() {
+  constructor(props: HeaderProps) {
     this.element = document.createElement('header');
     this.element.classList.add(style.header);
 
@@ -25,19 +29,18 @@ export default class Header {
 
     this.date = document.createElement('p');
     this.date.classList.add('font-body-md');
-    this.date.textContent = getDate();
+    this.date.textContent = this.getDate(props.dateInfo);
 
     this.logo.append(this.img, this.h1);
     this.element.append(this.logo, this.date);
   }
-}
 
-function getDate(): string {
-  const date = new Date();
-  const year = date.getFullYear();
-  const month = (date.getMonth() + 1).toString().padStart(2, '0');
-  const day = date.getDate().toString().padStart(2, '0');
-  const dayOfWeek = date.toLocaleDateString('ko-KR', { weekday: 'long' });
+  private getDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const dayOfWeek = date.toLocaleDateString('ko-KR', { weekday: 'long' });
 
-  return `${year}. ${month}. ${day}. ${dayOfWeek}`;
+    return `${year}. ${month}. ${day}. ${dayOfWeek}`;
+  }
 }
