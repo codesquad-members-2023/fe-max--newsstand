@@ -1,0 +1,16 @@
+{
+  "name": "my_crawling",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node grid.js && node rolling.js && node list.js",
+    "prestart": "npm install"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "puppeteer": "^20.3.0"
+  }
+}
