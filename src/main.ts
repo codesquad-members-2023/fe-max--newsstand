@@ -1,5 +1,5 @@
+import App from './App';
 import './styles/main.scss';
-import { getHeaderTemplate } from './components/header.ts';
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML =
-  getHeaderTemplate();
+const app = new App();
+app.render();
