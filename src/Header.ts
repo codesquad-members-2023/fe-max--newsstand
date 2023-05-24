@@ -6,7 +6,7 @@ type HeaderProps = {
 
 export default class Header {
   public element: HTMLElement;
-  private logo: HTMLDivElement;
+  private logo: HTMLAnchorElement;
   private img: HTMLImageElement;
   private h1: HTMLHeadingElement;
   private date: HTMLParagraphElement;
@@ -15,9 +15,13 @@ export default class Header {
     this.element = document.createElement('header');
     this.element.classList.add(style.header);
 
-    this.logo = document.createElement('div');
-    this.logo.classList.add();
+    this.logo = document.createElement('a');
     this.logo.classList.add(style.logo);
+    this.logo.href = '#';
+    this.logo.addEventListener('click', (event) => {
+      event.preventDefault();
+      location.reload();
+    });
 
     this.img = document.createElement('img');
     this.img.setAttribute('src', 'src/assets/icons/newspaper.svg');
