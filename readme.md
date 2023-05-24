@@ -19,7 +19,7 @@
 https://www.figma.com/file/iQd9P7Au8FAEp2wkFdXDVs/Untitled?type=whiteboard&node-id=0%3A1&t=L6xGWD7ScFP21LBh-1
 
 ## 백로그
-https://www.notion.so/db7e7c8208444bd1acaed14fda6fbf2b?pvs=4
+https://skitter-tachometer-31f.notion.site/db7e7c8208444bd1acaed14fda6fbf2b
 
 ## Feature list
 https://github.com/hjsong333/fe-max--newsstand/wiki/Feature-List
