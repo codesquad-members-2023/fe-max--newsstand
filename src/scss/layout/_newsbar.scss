@@ -1,0 +1,25 @@
+@use '../abstracts' as *;
+
+.auto-rolling__area {
+  display: flex;
+  gap: 0.5rem;
+
+  .news-bar {
+    flex-grow: 1;
+    display: flex;
+    justify-content: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: $color-off-white;
+    border: 1px solid $color-gray-100;
+
+    .press-name {
+      color: $color-black;
+    }
+
+    .news-oneline {
+      flex-grow: 1;
+      color: $color-gray-500;
+    }
+  }
+}
