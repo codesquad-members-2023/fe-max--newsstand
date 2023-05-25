@@ -1,4 +1,4 @@
-import NewsStand from './NewsStand';
+import NewsStand from './components/NewsStand';
 import './styles/main.css'
 
 const state = {

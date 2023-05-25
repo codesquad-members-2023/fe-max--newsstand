@@ -1,6 +1,7 @@
-import Header from "./Header";
-import NewsBar from "./NewsBar";
+
 import style from './NewsStand.module.css'
+import Header from './header/Header';
+import NewsBar from './newsBar/NewsBar';
 
 type NewsStandProps = {
   dateInfo: Date
