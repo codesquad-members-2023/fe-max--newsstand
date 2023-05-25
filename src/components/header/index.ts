@@ -14,20 +14,17 @@ const addTitleEvent = () => {
 const updateDate = () => {
   const $todayDate = $(".header__today-date");
 
-  $todayDate.textContent = getDate();
+  $todayDate.textContent = getFormattedDate();
 };
 
-const getDate = () => {
-  const now = new Date();
+const getFormattedDate = () => {
+  const date = new Date();
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    weekday: "long",
+  };
 
-  const year = now.getFullYear();
-  const month = now.getMonth() + 1;
-  const day = now.getDate();
-
-  const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
-  const dayOfWeek = weekdays[now.getDay()];
-
-  return `${year}.${month.toString().padStart(2, "0")}.${day
-    .toString()
-    .padStart(2, "0")}. ${dayOfWeek}요일`;
+  return new Intl.DateTimeFormat("ko-KR", options).format(date);
 };
