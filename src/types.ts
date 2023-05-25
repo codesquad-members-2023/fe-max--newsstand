@@ -3,3 +3,8 @@ type GridImg = {
   src: string,
   alt: string
 }
+
+type GridInfo = {
+  imgs: GridImg[],
+  page: number
+}

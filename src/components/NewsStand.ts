@@ -5,7 +5,7 @@ import NewsBar from './newsBar/NewsBar';
 
 type NewsStandProps = {
   dateInfo: Date;
-  gridImgs: GridImg[];
+  gridInfo: GridInfo
 };
 
 export default class NewsStand {
@@ -20,7 +20,7 @@ export default class NewsStand {
 
     this.header = new Header({ dateInfo: props.dateInfo });
     this.newsBar = new NewsBar();
-    this.main = new Main({ gridImgs: props.gridImgs });
+    this.main = new Main({ gridInfo: props.gridInfo });
 
     this.element.append(this.header.element, this.newsBar.element, this.main.element);
   }

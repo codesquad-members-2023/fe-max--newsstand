@@ -1,8 +1,4 @@
-import style from './GridView.module.css'
-
-type GridViewProps = {
-  gridImgs: GridImg[]
-}
+import style from './GridView.module.css';
 
 export default class GridView {
   public element: HTMLElement;
@@ -11,11 +7,11 @@ export default class GridView {
   private rows: HTMLTableRowElement[];
   private cells: HTMLTableCellElement[];
 
-  constructor(props: GridViewProps) {
+  constructor({ gridInfo }: { gridInfo: GridInfo }) {
     this.element = document.createElement('section');
-    
+
     this.table = document.createElement('table');
-    this.table.classList.add(style.table)
+    this.table.classList.add(style.table);
 
     this.tbody = document.createElement('tbody');
     const numberOfRows = 4;
@@ -23,7 +19,8 @@ export default class GridView {
     this.rows = [...Array(numberOfRows)].map((_) => document.createElement('tr'));
 
     const numberOfCells = numberOfRows * numberOfCellsInRow;
-    this.cells = props.gridImgs.slice(0, numberOfCells).map((gridImg, index) => {
+    const firstGridIndex = numberOfCells * gridInfo.page;
+    this.cells = gridInfo.imgs.slice(firstGridIndex, firstGridIndex + numberOfCells).map((gridImg) => {
       const cell = document.createElement('td');
       cell.classList.add(style.cell);
 
@@ -33,7 +30,7 @@ export default class GridView {
 
       const img = document.createElement('img');
       img.classList.add(style.media_logo);
-      Object.assign(img, {src: gridImg.src, alt: gridImg.alt});
+      Object.assign(img, { src: gridImg.src, alt: gridImg.alt });
 
       anchor.append(img);
       cell.append(anchor);
@@ -42,9 +39,12 @@ export default class GridView {
     });
 
     this.rows.forEach((row, index) => {
-      const cellsInRow = this.cells.slice(index * numberOfCellsInRow, (index + 1) * numberOfCellsInRow);
+      const cellsInRow = this.cells.slice(
+        index * numberOfCellsInRow,
+        (index + 1) * numberOfCellsInRow
+      );
       row.append(...cellsInRow);
-    })
+    });
 
     this.tbody.append(...this.rows);
     this.table.append(this.tbody);

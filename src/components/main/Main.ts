@@ -1,10 +1,10 @@
-import GridView from "./GridView";
-import MainHeader from "./MainHeader";
-import style from './Main.module.css'
+import GridView from './GridView';
+import MainHeader from './MainHeader';
+import style from './Main.module.css';
 
 type MainProps = {
-  gridImgs: GridImg[]
-}
+  gridInfo: GridInfo;
+};
 
 export default class Main {
   public element: HTMLElement;
@@ -16,7 +16,7 @@ export default class Main {
     this.element.classList.add(style.main);
 
     this.header = new MainHeader();
-    this.content = new GridView({ gridImgs: props.gridImgs});
+    this.content = new GridView({ gridInfo: props.gridInfo });
 
     this.element.append(this.header.element, this.content.element);
   }
