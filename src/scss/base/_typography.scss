@@ -1,0 +1,19 @@
+$sans: 'Pretendard Variable', -apple-system, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR',
+  'Malgun Gothic', sans-serif;
+
+:root {
+  --font-family-sans: #{$sans};
+
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-display: 1.5rem;
+
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+}
+
+body {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-display);
+}
