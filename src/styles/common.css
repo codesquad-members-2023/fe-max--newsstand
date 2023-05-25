@@ -12,3 +12,11 @@ ul, ol {
   margin: 0;
   list-style: none;
 }
+
+table {
+  border-collapse: collapse;
+}
+
+td, th {
+  border: 1px solid black;
+}
