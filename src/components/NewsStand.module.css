@@ -1,4 +1,7 @@
 .news_stand {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
   width: 830px;
   margin: 58px auto;
 }

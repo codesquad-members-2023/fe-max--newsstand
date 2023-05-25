@@ -1,0 +1,30 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tab_list {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.viewer_list {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.dimmed {
+  color: var(--gray-200);
+}
+
+.inactive_icon {
+  filter: invert(91%) sepia(10%) saturate(162%) hue-rotate(163deg) brightness(98%) contrast(86%);
+}
+
+.active_icon {
+  filter: invert(31%) sepia(99%) saturate(972%) hue-rotate(206deg) brightness(91%) contrast(88%);
+}
