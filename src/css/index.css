@@ -208,6 +208,10 @@ display:revert; revert to element instead of attribute */
   color: #4362d0;
 }
 
+.grid {
+  position: relative;
+}
+
 .grid-view {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -229,11 +233,20 @@ display:revert; revert to element instead of attribute */
   height: 20px;
 }
 
-.right-button {
+.prev-button {
   display: flex;
-  position: relative;
+  position: absolute;
+  left: -71px;
+  bottom: 172.5px;
+  cursor: pointer;
+}
+
+.next-button {
+  display: flex;
+  position: absolute;
   left: 978px;
-  bottom: 215px;
+  bottom: 172.5px;
+  cursor: pointer;
 }
 
 #app {

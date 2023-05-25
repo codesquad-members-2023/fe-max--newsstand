@@ -1,5 +1,5 @@
-@use "color.scss";
-@use "font.scss";
+@use 'color.scss';
+@use 'font.scss';
 
 .total-media {
   &__tab-bar {
@@ -45,6 +45,10 @@
   }
 }
 
+.grid {
+  position: relative;
+}
+
 .grid-view {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -62,12 +66,23 @@
     padding: 10px;
     border: 1px solid color.$gray100;
   }
+
+  img {
+    height: 20px;
+  }
 }
 
-.right-button {
+.prev-button {
   display: flex;
-  position: relative;
+  position: absolute;
+  left: -71px;
+  bottom: 172.5px;
+  cursor: pointer;
+}
+.next-button {
+  display: flex;
+  position: absolute;
   left: 978px;
-  bottom: 215px;
-  // background-color: black;
+  bottom: 172.5px;
+  cursor: pointer;
 }
