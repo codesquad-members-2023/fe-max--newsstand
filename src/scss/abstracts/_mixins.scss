@@ -1,0 +1,50 @@
+@use 'variables' as *;
+
+@mixin fontDisplay() {
+  font-family: $font-family-sans;
+  font-size: $font-size-display;
+  font-weight: $font-weight-bold;
+  line-height: normal;
+}
+
+@mixin fontTitleMD() {
+  font-family: $font-family-sans;
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+  line-height: normal;
+}
+
+@mixin fontTitleSM() {
+  font-family: $font-family-sans;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  line-height: normal;
+}
+
+@mixin fontTitleXS() {
+  font-family: $font-family-sans;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  line-height: normal;
+}
+
+@mixin fontBodyMD() {
+  font-family: $font-family-sans;
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  line-height: 22px;
+}
+
+@mixin fontBodySM() {
+  font-family: $font-family-sans;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  line-height: normal;
+}
+
+@mixin fontBodyXS() {
+  font-family: $font-family-sans;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  line-height: normal;
+}
