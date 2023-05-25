@@ -1,15 +1,12 @@
-import { RollerModel } from "./Model/RollerModel";
-import { RollerIntent } from "./Intent/RollerIntent";
-import { bannerInitialize } from "./View/header/NewsBanner";
-import { Roller } from "./View/header/Roller";
-// import { NewsRoller } from "./View/components/NewsRoller/NewsRoller";
-// import { TotalMedia } from "./View/components/TotalMedia/TotalMedia";
-import "./css/index.css";
+// import rollerModel from './Model/RollerModel';
+// import intent from './Intent/RollerIntent';
 
-// new NewsBanner();
+import { bannerInitialize } from './View/header/NewsBannerView';
+import { rollerInitialize } from './View/header/RollerView';
+import { mediaInitialize } from './View/main/MediaView';
+
+import './css/index.css';
+
 bannerInitialize();
-
-const rollerModel = new RollerModel();
-await rollerModel.initState();
-const rollerIntent = new RollerIntent(rollerModel);
-new Roller(rollerModel, rollerIntent);
+rollerInitialize();
+mediaInitialize();
