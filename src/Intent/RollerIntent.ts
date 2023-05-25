@@ -1,18 +1,31 @@
-import { RollerModel } from "../Model/RollerModel";
+import model from '../Model/RollerModel';
 
-export class RollerIntent {
-  model: RollerModel;
+const handleLeftMouseEnter = () => {
+  model.setState({ leftRolling: false });
+};
+const handleRightMouseEnter = () => {
+  model.setState({ rightRolling: false });
+};
+const handleLeftMouseLeave = () => {
+  model.setState({ leftRolling: true });
+};
+const handleRightMouseLeave = () => {
+  model.setState({ rightRolling: true });
+};
 
-  constructor(model: RollerModel) {
-    this.model = model;
-    this.handleLeftMouseEnter = this.handleLeftMouseEnter.bind(this);
-    this.handleRightMouseEnter = this.handleRightMouseEnter.bind(this);
-    this.handleLeftMouseLeave = this.handleLeftMouseLeave.bind(this);
-    this.handleRightMouseLeave = this.handleRightMouseLeave.bind(this);
-  }
+const setLeftRollingAmount = () => {
+  model.setState({ leftRollingAmount: 0 });
+};
 
-  handleLeftMouseEnter() {}
-  handleRightMouseEnter() {}
-  handleLeftMouseLeave() {}
-  handleRightMouseLeave() {}
-}
+const setRightRollingAmount = () => {
+  model.setState({ rightRollingAmount: 0 });
+};
+
+export default {
+  handleLeftMouseEnter,
+  handleRightMouseEnter,
+  handleLeftMouseLeave,
+  handleRightMouseLeave,
+  setRightRollingAmount,
+  setLeftRollingAmount,
+};

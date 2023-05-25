@@ -144,6 +144,7 @@ display:revert; revert to element instead of attribute */
   line-height: 16.71px;
   color: #4b5966;
   height: 17px;
+  overflow: hidden;
 }
 .news-roller .headline-container-left, .news-roller .headline-container-right {
   display: flex;
@@ -223,6 +224,9 @@ display:revert; revert to element instead of attribute */
   background-color: #ffffff;
   padding: 10px;
   border: 1px solid #d2dae0;
+}
+.grid-view img {
+  height: 20px;
 }
 
 .right-button {
