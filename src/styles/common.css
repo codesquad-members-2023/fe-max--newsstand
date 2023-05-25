@@ -18,5 +18,11 @@ table {
 }
 
 td, th {
-  border: 1px solid black;
+  border: 1px solid var(--black);
+}
+
+button {
+  padding: 0;
+  border: none;
+  background-color: var(--white);
 }

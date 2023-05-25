@@ -1,5 +1,6 @@
 import GridView from "./GridView";
 import MainHeader from "./MainHeader";
+import style from './Main.module.css'
 
 export default class Main {
   public element: HTMLElement;
@@ -8,6 +9,8 @@ export default class Main {
 
   constructor() {
     this.element = document.createElement('main');
+    this.element.classList.add(style.main);
+
     this.header = new MainHeader();
     this.content = new GridView();
 

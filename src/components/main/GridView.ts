@@ -1,3 +1,5 @@
+import style from './GridView.module.css'
+
 export default class GridView {
   public element: HTMLElement;
   private table: HTMLTableElement;
@@ -7,7 +9,10 @@ export default class GridView {
 
   constructor() {
     this.element = document.createElement('section');
+    
     this.table = document.createElement('table');
+    this.table.classList.add(style.table)
+
     this.tbody = document.createElement('tbody');
     const numberOfRows = 4;
     const numberOfCellsInRow = 6;
@@ -15,9 +20,14 @@ export default class GridView {
     const numberOfCells = numberOfRows * numberOfCellsInRow;
     this.cells = [...Array(numberOfCells)].map((_, index) => {
       const cell = document.createElement('td');
+      cell.classList.add(style.cell);
+
       const anchor = document.createElement('a');
+      anchor.classList.add(style.media_thumb);
+
       const img = document.createElement('img');
-      Object.assign(img, {src:'', alt: `브랜드마크${index + 1}`});
+      img.classList.add(style.media_logo);
+      Object.assign(img, {src:'https://s.pstatic.net/static/newsstand/2020/logo/light/0604/015.png', alt: `브랜드마크${index + 1}`});
 
       anchor.append(img);
       cell.append(anchor);

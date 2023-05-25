@@ -1,0 +1,18 @@
+.table {
+  width: 930px;
+  height: 388px;
+}
+
+.cell {
+  padding: 0;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.media_thumb {
+  display: block;
+}
+
+.media_logo {
+  height: 20px;
+}
