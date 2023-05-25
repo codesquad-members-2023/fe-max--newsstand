@@ -1,22 +1,40 @@
 @use "@style/common.scss";
 
-.rolling-news-bar {
+$rolling-news-bar-height: 46px;
+
+.rolling-news-bar-section {
   display: flex;
   justify-content: space-between;
   gap: 8px;
+}
+
+.rolling-news-bar {
+  width: 100%;
+  height: $rolling-news-bar-height;
+  position: relative;
+  border: 1px solid common.$gray-100;
+  background-color: common.$off-white;
+  margin-bottom: 33px;
+  overflow: hidden;
 
   &__container {
-    width: 100%;
+    position: relative;
+    bottom: 0px;
+
+    &.active {
+      bottom: $rolling-news-bar-height;
+      transition: bottom 0.5s;
+    }
+  }
+
+  &__item {
     padding: 16px;
-    border: 1px solid common.$gray-100;
-    background-color: common.$off-white;
-    margin-bottom: 33px;
 
     display: flex;
     gap: 16px;
   }
 
-  &__press-name {
+  &__press {
     @include common.title-sm;
 
     color: common.$black;
@@ -25,6 +43,7 @@
   &__title {
     @include common.body-sm;
 
+    text-decoration: none;
     color: common.$gray-500;
     cursor: pointer;
 
