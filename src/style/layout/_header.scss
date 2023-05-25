@@ -1,0 +1,27 @@
+body {
+	@include flex-center;
+	min-height: 100vh;
+}
+
+.root {
+	width: 930px;
+}
+
+.header {
+	@include flex-space-between;
+	align-items: flex-end;
+	margin-bottom: 40px;
+
+	&__title {
+		@include flex-left-center;
+
+		h1 {
+			@include typography($DISPLAY);
+			padding-left: 8px;
+		}
+	}
+
+	&__date {
+		@include typography($BODY_SM);
+	}
+}

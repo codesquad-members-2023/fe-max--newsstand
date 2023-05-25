@@ -1,0 +1,25 @@
+@mixin button($color) {
+	@include flex-center;
+	@include typography($BODY_XS, $GRAY400);
+	border: 1px solid $GRAY100;
+	gap: 2px;
+	padding: 5px 10px 5px 8px;
+	background-color: $color;
+	border-radius: 50px;
+
+	img {
+		width: 12px;
+		display: block;
+	}
+}
+
+@mixin button-circle {
+	border: 1px solid $GRAY100;
+	border-radius: 50px;
+	padding: 6px;
+
+	img {
+		width: 12px;
+		display: block;
+	}
+}

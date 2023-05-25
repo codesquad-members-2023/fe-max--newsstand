@@ -1,0 +1,22 @@
+@mixin typography($type, $color: $BLACK) {
+	font-size: nth($type, 1);
+	font-weight: nth($type, 2);
+	line-height: nth($type, 3);
+	color: $color;
+}
+
+@mixin flex-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+@mixin flex-left-center {
+	display: flex;
+	align-items: center;
+}
+
+@mixin flex-space-between {
+	display: flex;
+	justify-content: space-between;
+}

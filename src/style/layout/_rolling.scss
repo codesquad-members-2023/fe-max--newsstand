@@ -1,0 +1,23 @@
+.rolling {
+	@include flex-space-between;
+	width: 100%;
+	gap: 6px;
+	margin-bottom: 32px;
+
+	&__left,
+	&__right {
+		@include flex-left-center;
+		width: 100%;
+		gap: 16px;
+		background: $OFF_WHITE;
+		border: 1px solid $GRAY100;
+		padding: 16px;
+
+		.press {
+			@include typography($TITLE_SM);
+		}
+		.title {
+			@include typography($BODY_SM);
+		}
+	}
+}
