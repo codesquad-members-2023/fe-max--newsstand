@@ -1,12 +1,12 @@
-
-import style from './NewsStand.module.css'
+import style from './NewsStand.module.css';
 import Header from './header/Header';
 import Main from './main/Main';
 import NewsBar from './newsBar/NewsBar';
 
 type NewsStandProps = {
-  dateInfo: Date
-}
+  dateInfo: Date;
+  gridImgs: GridImg[];
+};
 
 export default class NewsStand {
   public element: HTMLElement;
@@ -15,12 +15,12 @@ export default class NewsStand {
   private main: Main;
 
   constructor(props: NewsStandProps) {
-    this.element = document.createElement("div");
+    this.element = document.createElement('div');
     this.element.classList.add(style.news_stand);
-    
-    this.header = new Header({ dateInfo: props.dateInfo});
+
+    this.header = new Header({ dateInfo: props.dateInfo });
     this.newsBar = new NewsBar();
-    this.main = new Main();
+    this.main = new Main({ gridImgs: props.gridImgs });
 
     this.element.append(this.header.element, this.newsBar.element, this.main.element);
   }

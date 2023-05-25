@@ -1,5 +1,9 @@
 import style from './GridView.module.css'
 
+type GridViewProps = {
+  gridImgs: GridImg[]
+}
+
 export default class GridView {
   public element: HTMLElement;
   private table: HTMLTableElement;
@@ -7,7 +11,7 @@ export default class GridView {
   private rows: HTMLTableRowElement[];
   private cells: HTMLTableCellElement[];
 
-  constructor() {
+  constructor(props: GridViewProps) {
     this.element = document.createElement('section');
     
     this.table = document.createElement('table');
@@ -17,17 +21,19 @@ export default class GridView {
     const numberOfRows = 4;
     const numberOfCellsInRow = 6;
     this.rows = [...Array(numberOfRows)].map((_) => document.createElement('tr'));
+
     const numberOfCells = numberOfRows * numberOfCellsInRow;
-    this.cells = [...Array(numberOfCells)].map((_, index) => {
+    this.cells = props.gridImgs.slice(0, numberOfCells).map((gridImg, index) => {
       const cell = document.createElement('td');
       cell.classList.add(style.cell);
 
       const anchor = document.createElement('a');
+      anchor.href = '#';
       anchor.classList.add(style.media_thumb);
 
       const img = document.createElement('img');
       img.classList.add(style.media_logo);
-      Object.assign(img, {src:'https://s.pstatic.net/static/newsstand/2020/logo/light/0604/015.png', alt: `브랜드마크${index + 1}`});
+      Object.assign(img, {src: gridImg.src, alt: gridImg.alt});
 
       anchor.append(img);
       cell.append(anchor);
