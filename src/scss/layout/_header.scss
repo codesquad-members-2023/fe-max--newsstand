@@ -1,0 +1,17 @@
+@use '../abstracts' as *;
+
+header {
+  display: flex;
+  justify-content: space-between;
+
+  .logo__area {
+    text-decoration: none;
+    color: $color-black;
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .system-date {
+    color: $color-gray-500;
+  }
+}

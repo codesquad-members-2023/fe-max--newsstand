@@ -1,5 +1,9 @@
 @use '../abstracts' as *;
 
-body {
+h1 {
   @include fontDisplay();
+}
+
+body {
+  @include fontBodyMD();
 }
