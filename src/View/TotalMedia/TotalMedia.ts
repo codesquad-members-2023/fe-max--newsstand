@@ -1,7 +1,7 @@
 export class TotalMedia {
   app: HTMLElement | null;
-  tabBar: HTMLElement | null;
-  grid: HTMLElement | null;
+  tabBar: HTMLElement;
+  grid: HTMLElement;
   constructor() {
     this.app = document.querySelector("#app");
     this.tabBar = this.createTabBar();
@@ -13,10 +13,8 @@ export class TotalMedia {
   createTotalMedia() {
     const totalMedia = document.createElement("div");
     totalMedia.classList.add("total-media");
-    if (this.tabBar !== null && this.grid !== null) {
-      totalMedia.appendChild(this.tabBar);
-      totalMedia.appendChild(this.grid);
-    }
+    totalMedia.appendChild(this.tabBar);
+    totalMedia.appendChild(this.grid);
 
     this.app?.appendChild(totalMedia);
   }

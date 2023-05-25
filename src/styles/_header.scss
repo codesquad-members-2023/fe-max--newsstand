@@ -1,7 +1,16 @@
 @use "color.scss";
 @use "font.scss";
 
-.header {
+// header {
+//   font-family: font.$Pretendard;
+//   padding: 0 175px;
+
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+// }
+
+.banner {
   position: relative;
   display: flex;
   align-items: flex-end;

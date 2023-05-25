@@ -90,7 +90,7 @@ display:revert; revert to element instead of attribute */
   all: revert;
 }
 
-.header {
+.banner {
   position: relative;
   display: flex;
   align-items: flex-end;
@@ -98,7 +98,7 @@ display:revert; revert to element instead of attribute */
   height: 29px;
   margin-top: 58px;
 }
-.header-left {
+.banner-left {
   display: flex;
   align-items: center;
   width: 136px;
@@ -109,7 +109,7 @@ display:revert; revert to element instead of attribute */
   line-height: 28.64px;
   cursor: pointer;
 }
-.header-right {
+.banner-right {
   display: flex;
   position: absolute;
   right: 0;
@@ -144,7 +144,6 @@ display:revert; revert to element instead of attribute */
   line-height: 16.71px;
   color: #4b5966;
   height: 17px;
-  overflow: hidden;
 }
 .news-roller .headline-container-left, .news-roller .headline-container-right {
   display: flex;
@@ -233,7 +232,7 @@ display:revert; revert to element instead of attribute */
   bottom: 215px;
 }
 
-body {
+#app {
   font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   padding: 0 175px;
   display: flex;
