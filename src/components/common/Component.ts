@@ -7,4 +7,11 @@ export default class Component extends HTMLElement {
     styleResetLink.href = "src/styles/reset.scss";
     shadowRoot.append(styleResetLink, dom);
   }
+
+  static createStylesheetLink(url: string) {
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = url;
+    return link;
+  }
 }
