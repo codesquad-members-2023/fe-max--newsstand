@@ -91,3 +91,9 @@ customElements.define("my-element", MyElement);
 ###### Cons
 
 - Not very readable in terms of markup structure.
+
+### `static` Methods on Custom Components
+
+- Create the DOM first, then pass it on to `super()` (`Component`).
+  - Cannot call `this.createDOM()`, so make `createDOM` a static method.
+- For methods that are not specific to a single instance, make them static.
