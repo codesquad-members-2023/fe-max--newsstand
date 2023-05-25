@@ -8,12 +8,33 @@
       rel="stylesheet"
       as="style"
       crossorigin
-      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard.css"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/variable/pretendardvariable-dynamic-subset.css"
     />
     <title>News Stand</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <div id="wrap">
+        <header>
+          <a class="logo__area" href="#">
+            <img src="./src/assets/logo.svg" alt="newstand logo" />
+            <h1>뉴스스탠드</h1>
+          </a>
+          <div class="system-date">2023. 05. 26. 금요일</div>
+        </header>
+        <section class="auto-rolling__area">
+          <div class="news-bar news-bar--left">
+            <div class="press-name">연합뉴스</div>
+            <div class="news-oneline">누리호 첫 '실전발사' 성공…뉴 스페이스 시대 열었다</div>
+          </div>
+          <div class="news-bar news-bar--right">
+            <div class="press-name">연합뉴스</div>
+            <div class="news-oneline">'전세사기 특별법' 국회통과…최우선변제금만큼 무이자대출</div>
+          </div>
+        </section>
+        <main></main>
+      </div>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

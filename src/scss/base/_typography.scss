@@ -1,0 +1,17 @@
+@use '../abstracts' as *;
+
+h1 {
+  @include fontDisplay();
+}
+
+body {
+  @include fontBodyMD();
+}
+
+.press-name {
+  @include fontTitleSM();
+}
+
+.news-oneline {
+  @include fontBodySM();
+}
