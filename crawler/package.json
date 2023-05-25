@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "puppeteer": "^20.3.0"
+  },
+  "scripts": {
+    "start": "npm install && node grid.js && node list.js && node rolling.js"
+  }
+}
+
