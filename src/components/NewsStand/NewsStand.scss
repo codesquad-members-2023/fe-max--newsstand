@@ -2,3 +2,15 @@
   width: 930px;
   display: block;
 }
+
+.headlines-container {
+  width: 100%;
+  margin-bottom: 32px;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+
+  recent-headline {
+    flex-grow: 1;
+  }
+}

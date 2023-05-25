@@ -1,0 +1,27 @@
+@use "@styles/_design-system.scss" as *;
+
+.headline-container {
+  width: 100%;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  background-color: $color-off-white;
+  border: 1px solid $color-grey-100;
+
+  .press-name {
+    flex-shrink: 0;
+    color: $color-black;
+    @include f-title-sm;
+  }
+
+  .headline {
+    width: 100%;
+    color: $color-grey-500;
+    @include f-body-sm;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

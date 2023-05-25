@@ -10,14 +10,20 @@ class NewsStand extends Component {
     const topElement = document.createElement("div");
 
     const topHeader = document.createElement("top-header");
-    // const recentHeadlines = document.createElement("recent-headlines");
+
+    const recentHeadlinesContainer = document.createElement("div");
+    recentHeadlinesContainer.className = "headlines-container";
+    const recentHeadlineLeft = document.createElement("recent-headline");
+    const recentHeadlineRight = document.createElement("recent-headline");
+    recentHeadlinesContainer.append(recentHeadlineLeft, recentHeadlineRight);
+
     // const mainNews = document.createElement("main-news");
 
     const stylesheetLink = Component.createStylesheetLink(
       "src/components/NewsStand/NewsStand.scss"
     );
 
-    topElement.append(topHeader, stylesheetLink);
+    topElement.append(topHeader, recentHeadlinesContainer, stylesheetLink);
     return topElement;
   }
 }
