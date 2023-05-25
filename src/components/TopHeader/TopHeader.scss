@@ -1,22 +1,19 @@
 @use "@styles/_design-system.scss" as *;
 
+:host {
+  display: block;
+}
+
 .header-container {
   width: 100%;
-  margin-bottom: 40px;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-
-  border: 1px solid blue;
 }
 
 .title-container {
   display: flex;
   gap: 8px;
-
-  img {
-    fill: blue;
-  }
 
   h1 {
     @include f-display;
