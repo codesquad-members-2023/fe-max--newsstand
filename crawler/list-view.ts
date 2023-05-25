@@ -112,7 +112,7 @@ interface Press {
         ".MediaNewsView-module__link_item___XI2W1"
       )!;
       for (let subArticle of subArticleItems) {
-        const subArticleTitle = (await await (
+        const subArticleTitle = (await (
           await subArticle.getProperty("innerText")
         ).jsonValue()) as string;
 
