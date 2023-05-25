@@ -24,7 +24,7 @@ export default class Header {
     });
 
     this.img = document.createElement('img');
-    this.img.setAttribute('src', 'src/assets/icons/newspaper.svg');
+    this.img.setAttribute('src', 'assets/icons/newspaper.svg');
     this.img.setAttribute('alt', '뉴스 스탠드');
 
     this.h1 = document.createElement('h1');
