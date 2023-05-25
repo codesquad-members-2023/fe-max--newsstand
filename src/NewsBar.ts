@@ -1,4 +1,5 @@
 import RollingNews from "./RollingNews";
+import style from './NewsBar.module.css';
 
 export default class NewsBar {
   public element: HTMLElement;
@@ -7,6 +8,8 @@ export default class NewsBar {
 
   constructor() {
     this.element = document.createElement('section');
+    this.element.classList.add(style.news_bar);
+
     this.leftRollingNews = new RollingNews();
     this.rightRollingNews = new RollingNews();
 

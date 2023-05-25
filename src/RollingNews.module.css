@@ -1,0 +1,10 @@
+.rolling_news {
+  box-sizing: border-box;
+  display: flex;
+  padding: 16px;
+  gap: 16px;
+  width: 461px;
+  height: 49px;
+  background: var(--off-white);
+  border: 1px solid var(--gray-100);
+}
