@@ -1,1 +1,1 @@
-import "./NewsStand.ts";
+import "./NewsStand/NewsStand.ts";
