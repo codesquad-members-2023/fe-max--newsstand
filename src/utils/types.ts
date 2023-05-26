@@ -11,3 +11,23 @@ export interface TextElementObj {
 }
 
 export type ElementType = ElementObj | TextElementObj;
+
+export type Headline = {
+  media: string;
+  title: string;
+};
+
+export type Roller = {
+  headlineList: Headline[];
+  headline: Headline[];
+  index: number;
+  isMove: boolean;
+};
+
+export type newsStandState = {
+  date: Date;
+  leftRoller: Roller;
+  rightRoller: Roller;
+  rollerTick: number;
+};
+

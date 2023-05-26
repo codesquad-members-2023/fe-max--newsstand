@@ -1,26 +1,42 @@
+import { Headline } from "../utils/types";
 import { Base } from "./Base";
-import { Header } from "./header/Header";
+import { Header } from "./Header";
+import { RollerContainer } from "./RollerContainer";
 import { Main } from "./main/Main";
+type AppProps = {
+  date: Date;
+  leftRollerHeadline: Headline[];
+  rightRollerHeadline: Headline[];
+};
 
 export class App extends Base {
-  root: HTMLElement;
   header: Header;
+  rollerContainer: RollerContainer;
   main: Main;
-  constructor(root: HTMLElement) {
+  constructor(props: AppProps) {
     super();
-    this.root = root;
-    this.header = new Header();
+    this.header = new Header({ date: props.date });
     this.main = new Main();
+    this.rollerContainer = new RollerContainer({
+      leftRollerHeadline: props.leftRollerHeadline,
+      rightRollerHeadline: props.rightRollerHeadline,
+    });
 
     this.render(`
         <div class="app"></div>
     `);
-    this.init();
+    this.setChildren(this.header, this.rollerContainer, this.main);
   }
 
-  init() {
-    this.setChildren(this.header, this.main);
-    this.root.appendChild(this.node!);
+  update(state: AppProps) {
+    this.header.update({
+      date: state.date,
+    });
+
+    this.rollerContainer.update({
+      leftRollerHeadline: state.leftRollerHeadline,
+      rightRollerHeadline: state.rightRollerHeadline,
+    });
   }
 }
 

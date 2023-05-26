@@ -3,7 +3,8 @@ import { ElementObj, ElementType, TextElementObj } from "./../utils/types";
 export class Base {
   node: Element | null;
   htmlParser: HtmlParser;
-  components: { [key: string]: HTMLElement } = {};
+  component: { [key: string]: HTMLElement } = {};
+  components: { [key: string]: HTMLElement[] } = {};
   constructor() {
     this.htmlParser = new HtmlParser();
     this.node = null;
@@ -66,7 +67,13 @@ export class Base {
     const element = document.createElement(data.tagName);
     data.attributes.forEach((attr) => {
       if (attr.name === "data-component") {
-        this.components[attr.value] = element;
+        this.component[attr.value] = element;
+      } else if (attr.name === "data-components") {
+        if (attr.value in this.components) {
+          this.components[attr.value].push(element);
+        } else {
+          this.components[attr.value] = [element];
+        }
       } else if (attr.name.startsWith("add")) {
         const type = attr.name.slice(3).toLowerCase();
         const handler = (this as any)[attr.value];
