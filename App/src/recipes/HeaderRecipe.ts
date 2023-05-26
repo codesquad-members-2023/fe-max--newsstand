@@ -3,41 +3,6 @@ import { RollingBar } from "../components/RollingBar";
 import { Recipe } from "../core/Recipe";
 import logo from "/img/icon/logo.svg";
 
-// <header>
-//   <div class="inner">
-//     <h1 class="logo">
-//       <img src="./img/icon/logo.svg" alt="뉴스스탠드 아이콘" />
-//       <span>뉴스스탠드</span>
-//     </h1>
-//     <p class="date">XXXX. XX. XX. X요일</p>
-//   </div>
-
-//   <ul class="rolling-bar">
-//     <li>
-//       <h2 class="blind">연합뉴스 헤드라인</h2>
-//       <ul class="rolling">
-//         <li>
-//           <a class="outlet" href="">연합뉴스</a>
-//           <a class="article" href=""
-//             >[1보] 김기현·안철수·천하람·황교안, 與전대 본경선 진출</a
-//           >
-//         </li>
-//       </ul>
-//     </li>
-//     <li>
-//       <h2 class="blind">연합뉴스 헤드라인</h2>
-//       <ul class="rolling">
-//         <li>
-//           <a class="outlet" href="">연합뉴스</a>
-//           <a class="article" href=""
-//             >[1보] 김기현·안철수·천하람·황교안, 與전대 본경선 진출</a
-//           >
-//         </li>
-//       </ul>
-//     </li>
-//   </ul>
-// </header>
-
 class ArticleRecipe extends Recipe {
   constructor() {
     super({

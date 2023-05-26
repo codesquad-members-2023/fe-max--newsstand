@@ -2,9 +2,9 @@ import { Store } from "./core/Store";
 import { state } from "./interfaces/state";
 import { AppRecipe } from "./recipes/AppRecipe";
 import { setGlobalStore } from "./utils/globalStore";
-import "./style.css";
 import { RollingTurn } from "./constants/RollingTurn";
 import { initRollingNews } from "./utils/initRollingNews";
+import "./style.css";
 
 (async () => {
   const root: HTMLElement | null = document.getElementById("root");
@@ -36,12 +36,6 @@ import { initRollingNews } from "./utils/initRollingNews";
           : RollingTurn.Left;
     }
   }, 1000);
-
-  // setInterval(() => {
-  //   getRollingNews().then((news) => {
-  //     store.state.rollingNews = news;
-  //   });
-  // }, 5000)
 
   const dateSetInterval = setInterval(() => {
     store.state.date = new Date();

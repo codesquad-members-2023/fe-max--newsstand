@@ -20,10 +20,7 @@ export class DateDisplay extends Component {
     const dayOfWeek = ["일", "월", "화", "수", "목", "금", "토", "일"][
       date.getDay()
     ];
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const seconds = date.getSeconds();
-    //     <p class="date">XXXX. XX. XX. X요일</p>
+    
     this.element.textContent = `${year}. ${month < 10 ? "0" + month : month}. ${day < 10 ? "0" + day : day}. ${dayOfWeek}요일`;
   }
 }
