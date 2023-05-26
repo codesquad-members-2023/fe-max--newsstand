@@ -151,6 +151,12 @@ display:revert; revert to element instead of attribute */
   flex-direction: column;
   gap: 20px;
 }
+.news-roller .headline-container-left > div, .news-roller .headline-container-right > div {
+  width: 363px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
 .news-roller .headline-item {
   display: flex;
   align-items: center;
@@ -211,6 +217,44 @@ display:revert; revert to element instead of attribute */
 .grid {
   position: relative;
 }
+.grid-overlay {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f7f9;
+  padding: 10px;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+}
+.grid-overlay__button {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 14.32px;
+  color: #879298;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 74px;
+  height: 24px;
+  background-color: #ffffff;
+  margin: 0 auto;
+  gap: 2px;
+  border: 1px solid #d2dae0;
+  border-radius: 50px;
+}
+.grid-overlay .text {
+  width: 42px;
+  height: 14px;
+}
+.grid-overlay .plus-shape {
+  width: 12px;
+  height: 12px;
+  background-image: url("/public/images/plus-button.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+}
 
 .grid-view {
   display: grid;
@@ -222,7 +266,9 @@ display:revert; revert to element instead of attribute */
   height: 388px;
 }
 .grid-view .grid-item {
+  position: relative;
   display: flex;
+  z-index: 1;
   justify-content: center;
   align-items: center;
   background-color: #ffffff;

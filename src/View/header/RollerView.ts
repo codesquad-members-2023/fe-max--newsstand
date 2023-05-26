@@ -60,7 +60,7 @@ const startRolling = (containerLeft: HTMLElement, containerRight: HTMLElement) =
   containerLeft.style.transition = 'transform 1s';
   setInterval(() => {
     const state = model.getState();
-
+    // console.log("그래도 지구는 돈다");
     if (!state.leftRolling) {
       return;
     }
@@ -85,17 +85,17 @@ const startRolling = (containerLeft: HTMLElement, containerRight: HTMLElement) =
 
       if (state.leftRollingAmount === 2) {
         intent.setLeftRollingAmount();
-        containerLeft.style.transition = 'transform 1s';
+        containerLeft.style.transition = 'transform 0.5s';
       }
     }
   }, 2000);
 
   setTimeout(() => {
     //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-    containerRight.style.transition = 'transform 1s';
+    containerRight.style.transition = 'transform 0.5s';
     setInterval(() => {
       const state = model.getState();
-      
+
       if (!state.rightRolling) {
         return;
       }
@@ -120,7 +120,7 @@ const startRolling = (containerLeft: HTMLElement, containerRight: HTMLElement) =
 
         if (state.rightRollingAmount === 2) {
           intent.setRightRollingAmount();
-          containerRight.style.transition = 'transform 1s';
+          containerRight.style.transition = 'transform 0.5s';
         }
       }
     }, 2000);
