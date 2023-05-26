@@ -57,7 +57,7 @@ export default class GridView {
 
     this.rows.forEach((row, index) => {
       const startIndex = index * this.numbers.cellsInRow;
-      const limitIndex = (index + 1) * this.numbers.cellsInRow
+      const limitIndex = (index + 1) * this.numbers.cellsInRow;
       for (let i = startIndex; i < limitIndex; i++) {
         row.append(this.cells[i]);
       }
@@ -100,27 +100,74 @@ export default class GridView {
     this.tbody.append(...this.rows);
     this.table.append(this.tbody);
     this.element.append(this.table, this.leftArrow, this.rightArrow);
+
+    this.setEvent();
+  }
+
+  setEvent() {
+    this.cells.forEach((cell, index) => {
+      cell.addEventListener('mouseenter', () => {
+        invoke({
+          type: 'turnOnSubscriptionCover',
+          payload: {
+            hoverOnGrid: true,
+            hoveredCellIndex: index
+          }
+        });
+      });
+    });
   }
 
   updateProps({ gridInfo }: { gridInfo: GridInfo }) {
-    const gridImgs = gridInfo.imgs;
-    const gridPage = gridInfo.page;
-    
-    if (this.page === gridPage) {
+    const { imgs, page, isHover, hoverIndex } = gridInfo;
+
+    if (this.page === page) {
+      this.renderSubscription(isHover, hoverIndex);
       return;
     }
-    
-    this.page = gridPage;
 
+    this.page = page;
+    this.flipPage(imgs);
+  }
+
+  renderSubscription(isHover: boolean, hoverIndex: number) {
+    for (let i = 0; i < this.cells.length; i++) {
+      const cell = this.cells[i];
+      if (isHover && hoverIndex === i) {
+        const subscription = document.createElement('div');
+        subscription.classList.add(style.subscription);
+  
+        const button = document.createElement('a');
+        button.href = '#';
+        button.classList.add('subscribe-button');
+        button.textContent = '구독하기';
+  
+        const plus = document.createElement('img');
+        plus.src = 'assets/icons/plus-sm.svg';
+        plus.alt = '';
+  
+        button.insertAdjacentElement('afterbegin', plus);
+        subscription.append(button);
+  
+        cell.append(subscription);
+        continue;
+      } 
+      if (cell.childElementCount > 1) {
+        cell.removeChild(cell.lastElementChild!);
+      }
+    }
+  }
+
+  flipPage(imgs: GridImg[]) {
     const numberOfCells = this.numbers.rows * this.numbers.cellsInRow;
     const firstGridIndex = numberOfCells * this.page;
     const limitGridIndex = firstGridIndex + numberOfCells;
 
-    gridImgs.slice(firstGridIndex, limitGridIndex).forEach((gridImg, index) => {
+    imgs.slice(firstGridIndex, limitGridIndex).forEach((img, index) => {
       const mediaLogo = this.cells[index].firstElementChild?.firstElementChild!;
-      mediaLogo.setAttribute('src', gridImg.src);
-      mediaLogo.setAttribute('alt', gridImg.alt);
-    })
+      mediaLogo.setAttribute('src', img.src);
+      mediaLogo.setAttribute('alt', img.alt);
+    });
 
     if (this.page === 0 && !this.leftArrow.classList.contains('no-display')) {
       this.leftArrow.classList.add('no-display');

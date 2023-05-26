@@ -5,7 +5,7 @@ import NewsBar from './newsBar/NewsBar';
 
 type NewsStandProps = {
   dateInfo: Date;
-  gridInfo: GridInfo
+  gridInfo: GridInfo,
 };
 
 export default class NewsStand {

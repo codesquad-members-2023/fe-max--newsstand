@@ -5,11 +5,9 @@ import './styles/main.css';
 const state = {
   dateInfo: new Date(),
   gridImgs: getGridImgs(),
-  gridPage: 0
-};
-
-type Action = {
-  type: string;
+  gridPage: 0,
+  hoverOnGrid: false,
+  hoveredCellIndex: -1
 };
 
 export const invoke = (action: Action) => {
@@ -19,6 +17,10 @@ export const invoke = (action: Action) => {
       break;
     case 'moveToPrevGridPage':
       state.gridPage = state.gridPage - 1;
+      break;
+    case 'turnOnSubscriptionCover':
+      state.hoverOnGrid = action.payload.hoverOnGrid;
+      state.hoveredCellIndex = action.payload.hoveredCellIndex;
       break;
   }
 
@@ -30,8 +32,10 @@ const newsStand = new NewsStand({
   dateInfo: state.dateInfo,
   gridInfo: {
     imgs: state.gridImgs,
-    page: state.gridPage
-  }
+    page: state.gridPage,
+    isHover: state.hoverOnGrid,
+    hoverIndex: state.hoveredCellIndex
+  },
 });
 
 app.append(newsStand.element);
@@ -41,7 +45,9 @@ const onChangeState = () => {
     dateInfo: state.dateInfo,
     gridInfo: {
       imgs: state.gridImgs,
-      page: state.gridPage
+      page: state.gridPage,
+      isHover: state.hoverOnGrid,
+      hoverIndex: state.hoveredCellIndex
     }
   });
 };
