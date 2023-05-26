@@ -24,6 +24,6 @@ export class DateDisplay extends Component {
     const minutes = date.getMinutes();
     const seconds = date.getSeconds();
     //     <p class="date">XXXX. XX. XX. X요일</p>
-    this.element.textContent = `${year}. ${month}. ${day}. ${dayOfWeek}요일 ${hours}:${minutes}:${seconds}`;
+    this.element.textContent = `${year}. ${month < 10 ? "0" + month : month}. ${day < 10 ? "0" + day : day}. ${dayOfWeek}요일`;
   }
 }
