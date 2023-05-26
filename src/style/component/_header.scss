@@ -1,113 +1,44 @@
 .header {
-  &__main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px;
+  gap: 8px;
+  width: 930px;
+  height: 49px;
+
+  &__title {
     display: flex;
-    justify-content: space-between;
+    flex-direction: row;
     align-items: center;
     padding: 0px;
     gap: 8px;
-    width: 930px;
-    height: 49px;
+    width: 136px;
+    height: 29px;
 
-    &__title {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      padding: 0px;
-      gap: 8px;
-      width: 136px;
+    &-logo {
+      width: 24px;
+      height: 24px;
+      flex: none;
+      order: 0;
+      flex-grow: 0;
+      cursor: pointer;
+    }
+
+    &-text {
+      width: 104px;
       height: 29px;
-
-      &-logo {
-        width: 24px;
-        height: 24px;
-        flex: none;
-        order: 0;
-        flex-grow: 0;
-        cursor: pointer;
-      }
-
-      &-text {
-        width: 104px;
-        height: 29px;
-        @include display;
-        color: $black;
-        flex: none;
-        order: 1;
-        flex-grow: 0;
-      }
+      @include display;
+      color: $black;
+      flex: none;
+      order: 1;
+      flex-grow: 0;
     }
 
     &__date {
       width: 140px;
       height: 22px;
       @include body-md;
-      color: $gray500;
-    }
-  }
-
-  &__sub {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    padding: 0px;
-    gap: 8px;
-    width: 930px;
-    height: 49px;
-    background: $off-white;
-
-    &__rolling {
-      box-sizing: border-box;
-      width: 461px;
-      height: 49px;
-      border: 1px solid $gray100;
-      overflow: hidden;
-
-      &-press {
-        display: flex;
-        align-items: center;
-        width: 49px;
-        height: 17px;
-        @include title-sm;
-        color: $black;
-      }
-
-      &-title {
-        width: 364px;
-        height: 17px;
-        @include body-sm;
-        color: $gray500;
-      }
-    }
-  }
-}
-
-.rolling__wrapper {
-  transform: translateY(0px);
-  transition: transform 1s;
-
-  &__item {
-    width: 461px;
-    height: 49px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    gap: 16px;
-
-    &-press {
-      display: flex;
-      align-items: center;
-      width: 49px;
-      height: 17px;
-      @include title-sm;
-      color: $black;
-    }
-
-    &-title {
-      width: 364px;
-      height: 17px;
-      @include body-sm;
       color: $gray500;
     }
   }
