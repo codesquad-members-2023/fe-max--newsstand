@@ -29,6 +29,7 @@ $rolling-news-bar-height: 46px;
 
   &__item {
     padding: 16px;
+    white-space: nowrap;
 
     display: flex;
     gap: 16px;
@@ -46,6 +47,8 @@ $rolling-news-bar-height: 46px;
     text-decoration: none;
     color: common.$gray-500;
     cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     &:hover {
       text-decoration: underline;
