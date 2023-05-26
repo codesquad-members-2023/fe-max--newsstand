@@ -21,7 +21,9 @@ $rolling-news-bar-height: 46px;
     position: relative;
     bottom: 0px;
 
-    &.active {
+    &--active {
+      @extend .rolling-news-bar__container;
+
       bottom: $rolling-news-bar-height;
       transition: bottom 0.5s;
     }

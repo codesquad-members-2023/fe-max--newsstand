@@ -82,10 +82,10 @@ export class RollingNewsBar {
   }
 
   private activateAnimation() {
-    this.container.classList.add("active");
+    this.container.className = "rolling-news-bar__container--active";
   }
 
   private inactivateAnimation() {
-    this.container.classList.remove("active");
+    this.container.className = "rolling-news-bar__container";
   }
 }
