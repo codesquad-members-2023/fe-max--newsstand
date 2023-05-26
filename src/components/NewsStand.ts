@@ -24,4 +24,8 @@ export default class NewsStand {
 
     this.element.append(this.header.element, this.newsBar.element, this.main.element);
   }
+
+  updateProps(props: NewsStandProps) {
+    this.main.updateProps({ gridInfo: props.gridInfo });
+  }
 }

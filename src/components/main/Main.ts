@@ -20,4 +20,8 @@ export default class Main {
 
     this.element.append(this.header.element, this.content.element);
   }
+
+  updateProps(props: MainProps) {
+    this.content.updateProps({ gridInfo: props.gridInfo });
+  }
 }
