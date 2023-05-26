@@ -19,7 +19,22 @@ const handlePrevButtonClick = () => {
   console.log(model.getState());
 };
 
+const handleMouseEnter = (currentEnterGrid: HTMLElement) => {
+  model.setState({ currentEnterGrid: currentEnterGrid, isInsideGrid: true });
+};
+
+const handleMouseLeave = (currentLeaveGrid: HTMLElement) => {
+  model.setState({ currentLeaveGrid: currentLeaveGrid });
+};
+
+const handleGridLeave = () => {
+  model.setState({ isInsideGrid: false });
+};
+
 export default {
   handleNextButtonClick,
   handlePrevButtonClick,
+  handleMouseEnter,
+  handleMouseLeave,
+  handleGridLeave,
 };

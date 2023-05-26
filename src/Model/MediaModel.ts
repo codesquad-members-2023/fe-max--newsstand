@@ -8,7 +8,11 @@ interface MediaState {
   currentPage: number;
   startPoint: number;
   itemsPerGrid: number;
-  [key: string]: string | number | boolean | object | [] | string[];
+  currentEnterGrid: HTMLElement | null;
+  currentOverlay: HTMLElement | null;
+  isInsideGrid: boolean;
+  currentLeaveGrid: HTMLElement | null;
+  [key: string]: string | number | boolean | object | [] | string[] | HTMLElement | null;
 }
 
 type Listener = () => void;
@@ -32,8 +36,11 @@ let state: MediaState = {
   images: await initImagesState(),
   currentPage: 1,
   startPoint: 0,
-
   itemsPerGrid: 24,
+  currentEnterGrid: null,
+  currentOverlay: null,
+  isInsideGrid: false,
+  currentLeaveGrid: null,
 };
 
 function shuffleArray(target: []) {

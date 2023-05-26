@@ -9,8 +9,10 @@ export const mediaInitialize = () => {
   if (gridView && nextButton && prevButton) {
     createGridItems(gridView);
     render(gridView, nextButton, prevButton);
+    setEvent(nextButton, prevButton, gridView);
+
     model.subscribe(() => render(gridView, nextButton, prevButton));
-    setEvent(nextButton, prevButton);
+    model.subscribe(() => displayOverlay(gridView));
   }
 };
 
@@ -29,23 +31,78 @@ const createGridItems = (gridView: HTMLElement) => {
   }
 };
 
-const setEvent = (nextButton: HTMLElement, prevButton: HTMLElement) => {
+const createGridOverlay = () => {
+  const gridOverlay = document.createElement('div');
+  gridOverlay.classList.add('grid-overlay');
+  const overlayButton = document.createElement('button');
+  overlayButton.classList.add('grid-overlay__button');
+  gridOverlay.appendChild(overlayButton);
+
+  const plusShape = document.createElement('div');
+  plusShape.classList.add('plus-shape');
+
+  const textBox = document.createElement('div');
+  textBox.classList.add('text');
+  textBox.textContent = '구독하기';
+
+  overlayButton.appendChild(plusShape);
+  overlayButton.appendChild(textBox);
+
+  return gridOverlay;
+};
+
+const setEvent = (nextButton: HTMLElement, prevButton: HTMLElement, gridView: HTMLElement) => {
   if (nextButton && prevButton) {
     nextButton.addEventListener('click', intent.handleNextButtonClick);
     prevButton.addEventListener('click', intent.handlePrevButtonClick);
   }
+
+  if (gridView) {
+    const gridItems = gridView.querySelectorAll('.grid-item');
+
+    gridItems.forEach((gridItem) => {
+      gridItem.addEventListener('mouseenter', (e) => {
+        const target: EventTarget | null = e.target as HTMLElement;
+        if (target instanceof HTMLElement && target.classList.contains('grid-item')) {
+          intent.handleMouseEnter(target);
+        }
+      });
+    });
+
+    gridView.addEventListener('mouseleave', intent.handleGridLeave);
+  }
 };
+
+function displayOverlay(gridView: HTMLElement) {
+  const state = model.getState();
+  if (state.isInsideGrid) {
+    state.currentOverlay?.remove();
+
+    const gridOverlayElements = gridView.getElementsByClassName('grid-overlay');
+    if (state.currentEnterGrid) {
+      if (gridOverlayElements.length > 0) {
+        return;
+      }
+
+      const currentOverlay = createGridOverlay();
+      state.currentEnterGrid.prepend(currentOverlay);
+      state.currentOverlay = currentOverlay;
+    }
+  } else {
+    state.currentOverlay?.remove();
+    return;
+  }
+}
 
 function render(gridView: HTMLElement, nextButton: HTMLElement, prevButton: HTMLElement) {
   const state = model.getState();
-  console.log(state);
-  if (state.currentPage < 2) {
-    console.log(nextButton);
+
+  if (state.currentPage === 1) {
     prevButton.style.display = 'none';
   } else {
     prevButton.style.display = 'block';
   }
-  if (state.currentPage < 4) {
+  if (state.currentPage < state.images.length / state.itemsPerGrid) {
     nextButton.style.display = 'block';
   } else {
     nextButton.style.display = 'none';
@@ -54,14 +111,11 @@ function render(gridView: HTMLElement, nextButton: HTMLElement, prevButton: HTML
   const gridItems = gridView.children;
 
   for (let i = 0; i < state.itemsPerGrid; i++) {
-    console.log(gridItems[i]);
     const gridImage: HTMLElement | null = gridItems[i].querySelector('img');
     if (gridImage) {
       gridImage.setAttribute('src', state.images[i + state.startPoint]);
     }
   }
-
-  // console.log(state.currentPage);
 }
 
 // createTotalMedia() {
