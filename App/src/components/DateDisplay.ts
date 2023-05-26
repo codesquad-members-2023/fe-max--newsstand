@@ -1,11 +1,11 @@
 import { Component } from "../core/Component";
-import { getGlobalStore } from "../utils/GlobalStore";
+import { getGlobalStore } from "../utils/globalStore";
 
 export class DateDisplay extends Component {
   private store;
 
-  constructor() {
-    super("p");
+  constructor(tagName:string) {
+    super(tagName);
     this.store = getGlobalStore();
     this.store.subscribe("date", () => {
       this.render();
@@ -17,7 +17,9 @@ export class DateDisplay extends Component {
     const year = date.getFullYear();
     const month = date.getMonth();
     const day = date.getDate();
-    const dayOfWeek = ["일", "월", "화", "수", "목", "금", "토", "일"][date.getDay()]
+    const dayOfWeek = ["일", "월", "화", "수", "목", "금", "토", "일"][
+      date.getDay()
+    ];
     const hours = date.getHours();
     const minutes = date.getMinutes();
     const seconds = date.getSeconds();

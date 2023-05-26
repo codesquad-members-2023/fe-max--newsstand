@@ -1,7 +1,7 @@
 import { Component } from "./Component";
 
 interface RecipePayload {
-  tagName?: string;
+  tagName: string;
   attrs?: {
     [key: string]: string;
   };
@@ -15,16 +15,16 @@ export class Recipe {
   public children;
   public textContent;
 
-  constructor(payload: RecipePayload = {}) {
-    const { tagName, attrs = {}, textContent, children = [] } = payload;
+  constructor(payload: RecipePayload = { tagName: "div" }) {
+    const { tagName = "div", attrs = {}, textContent, children = [] } = payload;
     this.tagName = tagName;
     this.attrs = attrs;
     this.textContent = textContent;
     this.children = children;
   }
 
-  cook() {
-    const component = new Component(this.tagName);
+  cook(comp = Component) {
+    const component = new comp(this.tagName);
 
     if (this.attrs) {
       Object.entries(this.attrs).forEach(([name, value]) => {

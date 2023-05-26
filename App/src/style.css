@@ -135,7 +135,12 @@ header .rolling-bar {
 }
 
 header .rolling-bar li {
-  flex-grow: 1;
+  width: 100%;
+  overflow: hidden;
+}
+
+header .rolling {
+  position: relative;
 }
 
 header .rolling li {
@@ -143,6 +148,15 @@ header .rolling li {
   box-sizing: border-box;
   border: 1px solid var(--color-gray-100);
   background-color: var(--color-off-white);
+  transition-property: transform top;
+  transition-duration: 300ms;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+header .rolling li.next {
+  position: absolute;
+  top: 100%;
 }
 
 header .rolling .outlet {
