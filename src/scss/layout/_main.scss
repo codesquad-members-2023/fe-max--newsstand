@@ -1,0 +1,51 @@
+@use '../abstracts' as *;
+
+.header--main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .tab-btn {
+    display: flex;
+    gap: 1.5rem;
+
+    &__item {
+      cursor: pointer;
+      color: $color-gray-200;
+
+      &.active {
+        color: $color-black;
+      }
+    }
+  }
+
+  .view-btn {
+    display: flex;
+    gap: 0.5rem;
+
+    &__icon {
+      filter: invert(90%) sepia(8%) saturate(203%) hue-rotate(163deg) brightness(96%) contrast(94%);
+
+      &.active {
+        filter: invert(50%) sepia(50%) saturate(6004%) hue-rotate(214deg) brightness(83%) contrast(96%);
+      }
+    }
+  }
+}
+
+.content-area {
+  width: 930px;
+  height: 388px;
+  margin-top: 25px;
+  border-top: 1px solid $color-gray-100;
+  border-left: 1px solid $color-gray-100;
+
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+
+  .grid-item {
+    border-bottom: 1px solid $color-gray-100;
+    border-right: 1px solid $color-gray-100;
+  }
+}
