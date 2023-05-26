@@ -3,6 +3,7 @@
 
 @use 'layout/header';
 @use 'layout/newsbar';
+@use 'layout/main';
 
 #app {
   display: flex;
@@ -16,5 +17,4 @@
   flex-direction: column;
   // 절대단위는 이후에 조정 필요
   gap: 40px;
-  width: 930px;
 }

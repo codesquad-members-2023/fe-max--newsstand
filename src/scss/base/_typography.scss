@@ -7,11 +7,15 @@ h1 {
 body {
   @include fontBodyMD();
 }
-
+// newsbar
 .press-name {
   @include fontTitleSM();
 }
-
+// main header
 .news-oneline {
   @include fontBodySM();
+}
+
+.tab-btn__item.active {
+  @include fontTitleMD();
 }

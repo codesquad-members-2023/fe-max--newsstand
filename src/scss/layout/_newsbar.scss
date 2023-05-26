@@ -18,8 +18,13 @@
     }
 
     .news-oneline {
+      cursor: pointer;
       flex-grow: 1;
       color: $color-gray-500;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 }
