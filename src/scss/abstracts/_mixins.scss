@@ -1,5 +1,6 @@
 @use 'variables' as *;
 
+// font style
 @mixin fontDisplay() {
   font-family: $font-family-sans;
   font-size: $font-size-display;
@@ -47,4 +48,29 @@
   font-size: $font-size-xs;
   font-weight: $font-weight-medium;
   line-height: normal;
+}
+// position
+@mixin pos-center-x($type: absolute) {
+  @if ($type == fixed or $type == absolute) {
+    position: $type;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+@mixin pos-center-y($type: absolute) {
+  @if ($type == fixed or $type == absolute) {
+    position: $type;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+@mixin pos-center($type: absolute) {
+  @if ($type == fixed or $type == absolute) {
+    position: $type;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
 }
