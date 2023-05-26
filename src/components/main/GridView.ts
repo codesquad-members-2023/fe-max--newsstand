@@ -116,6 +116,15 @@ export default class GridView {
         });
       });
     });
+
+    this.tbody.addEventListener('mouseleave', () => {
+      invoke({
+        type: 'turnOffSubscriptionCover',
+        payload: {
+          hoverOnGrid: false
+        }
+      })
+    })
   }
 
   updateProps({ gridInfo }: { gridInfo: GridInfo }) {

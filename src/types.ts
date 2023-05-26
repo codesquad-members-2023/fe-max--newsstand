@@ -11,6 +11,12 @@ type Action =
         hoverOnGrid: boolean;
         hoveredCellIndex: number;
       };
+    }
+  | {
+      type: 'turnOffSubscriptionCover';
+      payload: {
+        hoverOnGrid: boolean;
+      };
     };
 
 type GridImg = {

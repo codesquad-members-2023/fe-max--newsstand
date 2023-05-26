@@ -22,6 +22,10 @@ export const invoke = (action: Action) => {
       state.hoverOnGrid = action.payload.hoverOnGrid;
       state.hoveredCellIndex = action.payload.hoveredCellIndex;
       break;
+    case 'turnOffSubscriptionCover':
+      state.hoverOnGrid = action.payload.hoverOnGrid;
+      state.hoveredCellIndex = -1;
+      break;
   }
 
   onChangeState();
@@ -35,7 +39,7 @@ const newsStand = new NewsStand({
     page: state.gridPage,
     isHover: state.hoverOnGrid,
     hoverIndex: state.hoveredCellIndex
-  },
+  }
 });
 
 app.append(newsStand.element);
