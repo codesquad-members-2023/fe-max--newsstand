@@ -1,26 +1,3 @@
-interface imageData {
-  src: string;
-  alt: string;
-}
-
-interface MediaState {
-  images: string[];
-  currentPage: number;
-  startPoint: number;
-  itemsPerGrid: number;
-  currentEnterGrid: HTMLElement | null;
-  currentOverlay: HTMLElement | null;
-  isInsideGrid: boolean;
-  currentLeaveGrid: HTMLElement | null;
-  [key: string]: string | number | boolean | object | [] | string[] | HTMLElement | null;
-}
-
-type Listener = () => void;
-
-type Intent = {
-  [key: string]: string | number | boolean | object | [];
-};
-
 const initImagesState = async () => {
   const response = await fetch('/src/services/grid.json');
   const data = await response.json();
@@ -40,7 +17,6 @@ let state: MediaState = {
   currentEnterGrid: null,
   currentOverlay: null,
   isInsideGrid: false,
-  currentLeaveGrid: null,
 };
 
 function shuffleArray(target: []) {
@@ -76,3 +52,25 @@ const notifyListeners = () => {
 initImagesState();
 
 export default { getState, setState, subscribe };
+
+interface imageData {
+  src: string;
+  alt: string;
+}
+
+interface MediaState {
+  images: string[];
+  currentPage: number;
+  startPoint: number;
+  itemsPerGrid: number;
+  currentEnterGrid: HTMLElement | null;
+  currentOverlay: HTMLElement | null;
+  isInsideGrid: boolean;
+  [key: string]: string | number | boolean | object | [] | string[] | HTMLElement | null;
+}
+
+type Listener = () => void;
+
+type Intent = {
+  [key: string]: string | number | boolean | object | [];
+};

@@ -1,22 +1,3 @@
-type RollerState = {
-  headlines: string[];
-  leftRolling: boolean;
-  rightRolling: boolean;
-  leftRollingAmount: number;
-  rightRollingAmount: number;
-  leftCurrentIndex: number;
-  leftNextIndex: number;
-  rightCurrentIndex: number;
-  rightNextIndex: number;
-  [key: string]: string | number | boolean | object | [];
-};
-
-type Listener = () => void;
-
-type Intent = {
-  [key: string]: string | number | boolean | object | [];
-};
-
 const initHeadlinesState = async () => {
   const response = await fetch('/src/services/db.json');
   const data = await response.json();
@@ -65,3 +46,21 @@ initHeadlinesState();
 
 export default { getState, setState, subscribe };
 // setState, subscribe
+export type RollerState = {
+  headlines: string[];
+  leftRolling: boolean;
+  rightRolling: boolean;
+  leftRollingAmount: number;
+  rightRollingAmount: number;
+  leftCurrentIndex: number;
+  leftNextIndex: number;
+  rightCurrentIndex: number;
+  rightNextIndex: number;
+  [key: string]: string | number | boolean | object | [];
+};
+
+type Listener = () => void;
+
+type Intent = {
+  [key: string]: string | number | boolean | object | [];
+};

@@ -1,30 +1,19 @@
 import intent from '../../Intent/RollerIntent';
 import model from '../../Model/RollerModel';
-
-type RollerState = {
-  headlines: string[];
-  leftRolling: boolean;
-  rightRolling: boolean;
-  leftRollingAmount: number;
-  rightRollingAmount: number;
-  leftCurrentIndex: number;
-  leftNextIndex: number;
-  rightCurrentIndex: number;
-  rightNextIndex: number;
-  [key: string]: string | number | boolean | object | [];
-};
+import { RollerState } from '../../Model/RollerModel';
 
 export const rollerInitialize = () => {
   const containerLeft: HTMLElement | null = document.querySelector('.headline-container-left');
   const containerRight: HTMLElement | null = document.querySelector('.headline-container-right');
+
   const headlineLeft: HTMLElement | null = document.querySelector('.headline.left');
   const headlineRight: HTMLElement | null = document.querySelector('.headline.right');
 
-  const state: RollerState = model.getState();
+  const state = model.getState();
 
   if (containerLeft && containerRight) {
     createInitialHeadline(containerLeft, containerRight, state);
-    startRolling(containerLeft, containerRight);
+    handleRolling(containerLeft, containerRight);
   }
   if (headlineLeft && headlineRight) {
     setEvent(headlineLeft, headlineRight);
@@ -49,18 +38,11 @@ const createInitialHeadline = (containerLeft: HTMLElement, containerRight: HTMLE
   containerRight.appendChild(secondRightHeadline);
 };
 
-const setEvent = (headlineLeft: HTMLElement, headlineRight: HTMLElement) => {
-  headlineLeft.addEventListener('mouseenter', intent.handleLeftMouseEnter);
-  headlineRight.addEventListener('mouseenter', intent.handleRightMouseEnter);
-  headlineLeft.addEventListener('mouseout', intent.handleLeftMouseLeave);
-  headlineRight.addEventListener('mouseout', intent.handleRightMouseLeave);
-};
-
-const startRolling = (containerLeft: HTMLElement, containerRight: HTMLElement) => {
-  containerLeft.style.transition = 'transform 1s';
+const handleRolling = (containerLeft: HTMLElement, containerRight: HTMLElement) => {
+  containerLeft.style.transition = 'transform 0.5s';
   setInterval(() => {
     const state = model.getState();
-    // console.log("그래도 지구는 돈다");
+
     if (!state.leftRolling) {
       return;
     }
@@ -91,7 +73,6 @@ const startRolling = (containerLeft: HTMLElement, containerRight: HTMLElement) =
   }, 2000);
 
   setTimeout(() => {
-    //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
     containerRight.style.transition = 'transform 0.5s';
     setInterval(() => {
       const state = model.getState();
@@ -125,9 +106,60 @@ const startRolling = (containerLeft: HTMLElement, containerRight: HTMLElement) =
       }
     }, 2000);
   }, 1000);
-  //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-  // }
+};
+
+const setEvent = (headlineLeft: HTMLElement, headlineRight: HTMLElement) => {
+  headlineLeft.addEventListener('mouseenter', intent.handleLeftMouseEnter);
+  headlineRight.addEventListener('mouseenter', intent.handleRightMouseEnter);
+  headlineLeft.addEventListener('mouseout', intent.handleLeftMouseLeave);
+  headlineRight.addEventListener('mouseout', intent.handleRightMouseLeave);
 };
 
 // [속보] 쿤디, '돼지파스타 맛있어서 돼지된 것 같아...'
 //[단독] 쿤디, 청년다방 오징어 튀김 중독됐다 '이 맛 못끊어...'
+
+//GPT 코드
+// const handleRolling = (container: HTMLElement, stateKeys: {rolling: string, rollingAmount: string, nextIndex: string}) => {
+//   container.style.transition = 'transform 0.5s';
+//   setInterval(() => {
+//     const state = model.getState();
+
+//     if (!state[stateKeys.rolling]) {
+//       return;
+//     }
+
+//     if (state[stateKeys.rollingAmount] === 0) {
+//       container.style.transition = '';
+//       container.firstElementChild?.remove();
+//       const lastElem = document.createElement('div');
+//       if (lastElem) {
+//         state[stateKeys.nextIndex] += 2;
+//         lastElem.textContent = state.headlines[state[stateKeys.nextIndex]];
+//       }
+//       container.appendChild(lastElem);
+
+//       if (state[stateKeys.nextIndex] === (stateKeys.nextIndex === 'leftNextIndex' ? 8 : 9)) {
+//         state[stateKeys.nextIndex] = stateKeys.nextIndex === 'leftNextIndex' ? -2 : -1;
+//       }
+//     }
+
+//     container.style.transform = `translateY(${-37 * state[stateKeys.rollingAmount]}px)`;
+//     state[stateKeys.rollingAmount]++;
+
+//     if (state[stateKeys.rollingAmount] === 2) {
+//       if (stateKeys.rolling === 'leftRolling') {
+//         intent.setLeftRollingAmount();
+//       } else {
+//         intent.setRightRollingAmount();
+//       }
+//       container.style.transition = 'transform 0.5s';
+//     }
+//   }, 2000);
+// };
+
+// const handleRollingForBoth = (containerLeft: HTMLElement, containerRight: HTMLElement) => {
+//   handleRolling(containerLeft, {rolling: 'leftRolling', rollingAmount: 'leftRollingAmount', nextIndex: 'leftNextIndex'});
+//   setTimeout(() => {
+//     handleRolling(containerRight, {rolling: 'rightRolling', rollingAmount: 'rightRollingAmount', nextIndex: 'rightNextIndex'});
+//   }, 1000);
+// };

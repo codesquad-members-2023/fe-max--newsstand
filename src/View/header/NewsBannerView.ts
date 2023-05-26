@@ -1,3 +1,11 @@
+export const bannerInitialize = () => {
+  const banner: HTMLElement | null = document.querySelector('.banner');
+  if (banner) {
+    createDate(banner, getCurrentDate);
+  }
+  setEvent();
+};
+
 const getCurrentDate = () => {
   const currentDate = new Date();
   const options: Intl.DateTimeFormatOptions = {
@@ -6,9 +14,7 @@ const getCurrentDate = () => {
     day: '2-digit',
     weekday: 'long',
   };
-  const formattedDate = new Intl.DateTimeFormat('ko-KR', options).format(
-    currentDate,
-  );
+  const formattedDate = new Intl.DateTimeFormat('ko-KR', options).format(currentDate);
 
   return formattedDate;
 };
@@ -23,19 +29,10 @@ const createDate = (banner: HTMLElement, getDateFn: () => string) => {
 };
 
 const setEvent = () => {
-  const newsStandLogo: HTMLElement | null =
-    document.querySelector('.banner-left');
+  const newsStandLogo: HTMLElement | null = document.querySelector('.banner-left');
   if (newsStandLogo) {
     newsStandLogo.addEventListener('click', () => {
       location.reload();
     });
   }
-};
-
-export const bannerInitialize = () => {
-  const banner: HTMLElement | null = document.querySelector('.banner');
-  if (banner) {
-    createDate(banner, getCurrentDate);
-  }
-  setEvent();
 };
