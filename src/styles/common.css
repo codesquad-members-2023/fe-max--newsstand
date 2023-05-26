@@ -26,3 +26,7 @@ button {
   border: none;
   background-color: var(--white);
 }
+
+.no-display {
+  display: none;
+}

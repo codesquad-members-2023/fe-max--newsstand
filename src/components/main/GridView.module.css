@@ -1,3 +1,7 @@
+.grid_view {
+  position: relative;
+}
+
 .table {
   width: 930px;
   height: 388px;
@@ -16,4 +20,18 @@
 
 .media_logo {
   height: 20px;
+}
+
+.left_arrow {
+  position: absolute;
+  left: -48px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.right_arrow {
+  position: absolute;
+  right: -48px;
+  top: 50%;
+  transform: translateY(-50%);
 }
