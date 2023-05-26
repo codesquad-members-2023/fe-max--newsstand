@@ -37,5 +37,15 @@
   width: 930px;
   height: 388px;
   margin-top: 25px;
-  border: 1px solid $color-gray-100;
+  border-top: 1px solid $color-gray-100;
+  border-left: 1px solid $color-gray-100;
+
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+
+  .grid-item {
+    border-bottom: 1px solid $color-gray-100;
+    border-right: 1px solid $color-gray-100;
+  }
 }
