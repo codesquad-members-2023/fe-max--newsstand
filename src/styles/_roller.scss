@@ -1,0 +1,55 @@
+@use 'color.scss';
+@use 'font.scss';
+@use 'animation.scss';
+
+.news-roller {
+  display: flex;
+  gap: 8px;
+  margin-top: 40px;
+
+  height: 49px;
+
+  .press-name {
+    @include font.TitleSM;
+  }
+
+  .headline {
+    @include font.BodySM;
+    color: color.$gray500;
+    height: 17px;
+    overflow: hidden;
+
+    &-container-left,
+    &-container-right {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+      > div {
+        width: 363px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+      // animation: moveVertically 1s;
+    }
+
+    &-item {
+      display: flex;
+      align-items: center;
+      height: 17px;
+    }
+  }
+
+  &-left,
+  &-right {
+    display: flex;
+    align-items: flex-start;
+    padding: 16px;
+    gap: 16px;
+    width: 461px;
+    height: 49px;
+    border: 1px solid color.$gray100;
+    background-color: color.$off-white;
+  }
+}
