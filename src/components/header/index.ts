@@ -1,4 +1,4 @@
-import { $ } from "../../utils/domUtils";
+import { $ } from "@utils/domUtils";
 
 export const initHeader = () => {
   addTitleEvent();

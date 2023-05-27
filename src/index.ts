@@ -1,5 +1,5 @@
-import { initHeader } from "./components/header";
-import { initRollingNewsBar } from "./components/rollingNewsBar";
+import { initHeader } from "@components/header";
+import { initRollingNewsBar } from "@components/rollingNewsBar";
 
 const init = () => {
   initHeader();

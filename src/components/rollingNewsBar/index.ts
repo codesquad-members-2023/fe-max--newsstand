@@ -1,4 +1,4 @@
-import { $ } from "../../utils/domUtils";
+import { $ } from "@utils/domUtils";
 import { RollingNewsBar } from "./rollingNewsBar";
 
 export const initRollingNewsBar = async () => {
