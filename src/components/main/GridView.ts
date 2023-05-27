@@ -63,13 +63,14 @@ export default class GridView {
     const button = document.createElement('a');
     button.href = '#';
     button.classList.add('subscribe-button');
-    button.textContent = '구독하기';
 
     const plus = document.createElement('img');
     plus.src = 'assets/icons/plus-sm.svg';
     plus.alt = '';
 
-    button.insertAdjacentElement('afterbegin', plus);
+    const text = document.createTextNode('');
+
+    button.append(plus, text);
     this.subscription.append(button);
 
     this.rows.forEach((row, index) => {
@@ -161,11 +162,15 @@ export default class GridView {
       const cell = this.cells[i];
       if (isHover && hoverIndex === i) {
         const mediaLogo = cell.firstElementChild?.firstElementChild! as HTMLElement;
-        this.subscription.firstElementChild!.textContent = subscriptionInfo.includes(
+        const textNode = this.subscription.firstElementChild?.lastChild as HTMLElement;
+        const subscriptionText = subscriptionInfo.includes(
           Number(mediaLogo.dataset.id)
         )
           ? '해지하기'
           : '구독하기';
+        if (textNode) {
+          textNode.textContent = subscriptionText;
+        }
         cell.append(this.subscription);
         continue;
       }
