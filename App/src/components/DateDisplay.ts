@@ -15,7 +15,7 @@ export class DateDisplay extends Component {
   render() {
     const { date } = this.store.state;
     const year = date.getFullYear();
-    const month = date.getMonth();
+    const month = date.getMonth() + 1;
     const day = date.getDate();
     const dayOfWeek = ["일", "월", "화", "수", "목", "금", "토", "일"][
       date.getDay()

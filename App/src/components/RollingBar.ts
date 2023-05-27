@@ -36,19 +36,20 @@ export class RollingBar extends Component {
     const isLeft = rollingTurn === RollingTurn.Left ? true : false;
     const rolling = isLeft ? rollings[0] : rollings[1];
     const rollingNews = isLeft ? leftRollingNews : rightRollingNews;
-    const rollingNewsIndex = isLeft
+    let rollingNewsIndex = isLeft
       ? leftRollingNewsIndex
       : rightRollingNewsIndex;
     const { news } = rollingNews;
     if (rollingNewsIndex === news.length) {
       this.globalStore.state.rollingFlag = false;
+      rollingNewsIndex = 0;
       if (isLeft) {
         this.globalStore.state.leftRollingNewsIndex = 0;
         initRollingNews();
       } else {
         this.globalStore.state.rightRollingNewsIndex = 0;
       }
-      
+
       this.globalStore.state.rollingFlag = true;
     }
 
@@ -73,8 +74,8 @@ export class RollingBar extends Component {
 
     setTimeout(() => {
       li?.remove();
-      cloneLi.className = ""
-      cloneLi.removeAttribute("style")
+      cloneLi.className = "";
+      cloneLi.removeAttribute("style");
     }, 300);
   }
 
@@ -93,9 +94,9 @@ export class RollingBar extends Component {
 
     this.element.addEventListener("mouseover", () => {
       this.globalStore.state.rollingFlag = false;
-    })
+    });
     this.element.addEventListener("mouseout", () => {
       this.globalStore.state.rollingFlag = true;
-    })
+    });
   }
 }
