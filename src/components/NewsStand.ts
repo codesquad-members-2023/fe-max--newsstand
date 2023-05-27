@@ -5,7 +5,13 @@ import NewsBar from './newsBar/NewsBar';
 
 type NewsStandProps = {
   dateInfo: Date;
-  gridInfo: GridInfo,
+  gridInfo: GridInfo;
+};
+
+type NewNewsStandProps = {
+  dateInfo: Date;
+  gridInfo: GridInfo;
+  subscriptionInfo: number[];
 };
 
 export default class NewsStand {
@@ -25,7 +31,7 @@ export default class NewsStand {
     this.element.append(this.header.element, this.newsBar.element, this.main.element);
   }
 
-  updateProps(props: NewsStandProps) {
-    this.main.updateProps({ gridInfo: props.gridInfo });
+  updateProps(props: NewNewsStandProps) {
+    this.main.updateProps({ gridInfo: props.gridInfo, subscriptionInfo: props.subscriptionInfo });
   }
 }

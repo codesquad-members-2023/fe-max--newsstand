@@ -7,7 +7,8 @@ const state = {
   gridImgs: getGridImgs(),
   gridPage: 0,
   hoverOnGrid: false,
-  hoveredCellIndex: -1
+  hoveredCellIndex: -1,
+  subscribedMediaIds: [56]
 };
 
 export const invoke = (action: Action) => {
@@ -52,6 +53,7 @@ const onChangeState = () => {
       page: state.gridPage,
       isHover: state.hoverOnGrid,
       hoverIndex: state.hoveredCellIndex
-    }
+    },
+    subscriptionInfo: state.subscribedMediaIds
   });
 };

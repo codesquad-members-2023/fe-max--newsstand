@@ -6,6 +6,11 @@ type MainProps = {
   gridInfo: GridInfo;
 };
 
+type NewMainProps = {
+  gridInfo: GridInfo;
+  subscriptionInfo: number[];
+};
+
 export default class Main {
   public element: HTMLElement;
   private header: MainHeader;
@@ -21,7 +26,10 @@ export default class Main {
     this.element.append(this.header.element, this.content.element);
   }
 
-  updateProps(props: MainProps) {
-    this.content.updateProps({ gridInfo: props.gridInfo });
+  updateProps(props: NewMainProps) {
+    this.content.updateProps({
+      gridInfo: props.gridInfo,
+      subscriptionInfo: props.subscriptionInfo
+    });
   }
 }

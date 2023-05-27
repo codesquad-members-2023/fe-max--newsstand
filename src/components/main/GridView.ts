@@ -7,6 +7,7 @@ export default class GridView {
   private tbody: HTMLTableSectionElement;
   private rows: HTMLTableRowElement[];
   private cells: HTMLTableCellElement[];
+  private subscription: HTMLDivElement;
   private leftArrow: HTMLAnchorElement;
   private rightArrow: HTMLAnchorElement;
   private page: number;
@@ -48,12 +49,28 @@ export default class GridView {
         const img = document.createElement('img');
         img.classList.add(style.media_logo);
         Object.assign(img, { src: gridImg.src, alt: gridImg.alt });
+        img.dataset.id = gridImg.id.toString();
 
         anchor.append(img);
         cell.append(anchor);
 
         return cell;
       });
+
+    this.subscription = document.createElement('div');
+    this.subscription.classList.add(style.subscription);
+
+    const button = document.createElement('a');
+    button.href = '#';
+    button.classList.add('subscribe-button');
+    button.textContent = '구독하기';
+
+    const plus = document.createElement('img');
+    plus.src = 'assets/icons/plus-sm.svg';
+    plus.alt = '';
+
+    button.insertAdjacentElement('afterbegin', plus);
+    this.subscription.append(button);
 
     this.rows.forEach((row, index) => {
       const startIndex = index * this.numbers.cellsInRow;
@@ -123,15 +140,15 @@ export default class GridView {
         payload: {
           hoverOnGrid: false
         }
-      })
-    })
+      });
+    });
   }
 
-  updateProps({ gridInfo }: { gridInfo: GridInfo }) {
+  updateProps({ gridInfo, subscriptionInfo }: { gridInfo: GridInfo; subscriptionInfo: number[] }) {
     const { imgs, page, isHover, hoverIndex } = gridInfo;
 
     if (this.page === page) {
-      this.renderSubscription(isHover, hoverIndex);
+      this.renderSubscriptionCover(isHover, hoverIndex, subscriptionInfo);
       return;
     }
 
@@ -139,28 +156,19 @@ export default class GridView {
     this.flipPage(imgs);
   }
 
-  renderSubscription(isHover: boolean, hoverIndex: number) {
+  renderSubscriptionCover(isHover: boolean, hoverIndex: number, subscriptionInfo: number[]) {
     for (let i = 0; i < this.cells.length; i++) {
       const cell = this.cells[i];
       if (isHover && hoverIndex === i) {
-        const subscription = document.createElement('div');
-        subscription.classList.add(style.subscription);
-  
-        const button = document.createElement('a');
-        button.href = '#';
-        button.classList.add('subscribe-button');
-        button.textContent = '구독하기';
-  
-        const plus = document.createElement('img');
-        plus.src = 'assets/icons/plus-sm.svg';
-        plus.alt = '';
-  
-        button.insertAdjacentElement('afterbegin', plus);
-        subscription.append(button);
-  
-        cell.append(subscription);
+        const mediaLogo = cell.firstElementChild?.firstElementChild! as HTMLElement;
+        this.subscription.firstElementChild!.textContent = subscriptionInfo.includes(
+          Number(mediaLogo.dataset.id)
+        )
+          ? '해지하기'
+          : '구독하기';
+        cell.append(this.subscription);
         continue;
-      } 
+      }
       if (cell.childElementCount > 1) {
         cell.removeChild(cell.lastElementChild!);
       }
@@ -176,6 +184,7 @@ export default class GridView {
       const mediaLogo = this.cells[index].firstElementChild?.firstElementChild!;
       mediaLogo.setAttribute('src', img.src);
       mediaLogo.setAttribute('alt', img.alt);
+      mediaLogo.setAttribute('data-id', img.id.toString());
     });
 
     if (this.page === 0 && !this.leftArrow.classList.contains('no-display')) {
