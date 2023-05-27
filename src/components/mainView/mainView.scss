@@ -30,10 +30,10 @@ $col: 6;
   }
 }
 
-.main-view-frame {
+.grid-view-frame {
   width: $frame-width;
   height: $frame-height;
-  position: relative;
+  position: absolute;
   border: 1px solid common.$gray-100;
 
   &__row-frame1 {
@@ -45,12 +45,12 @@ $col: 6;
   }
 
   &__row-frame2 {
-    @extend .main-view-frame__row-frame1;
+    @extend .grid-view-frame__row-frame1;
     top: calc($frame-height / $row * 2);
   }
 
   &__row-frame3 {
-    @extend .main-view-frame__row-frame1;
+    @extend .grid-view-frame__row-frame1;
     top: calc($frame-height / $row * 3);
   }
 
@@ -63,22 +63,22 @@ $col: 6;
   }
 
   &__col-frame2 {
-    @extend .main-view-frame__col-frame1;
+    @extend .grid-view-frame__col-frame1;
     left: calc($frame-width / $col * 2);
   }
 
   &__col-frame3 {
-    @extend .main-view-frame__col-frame1;
+    @extend .grid-view-frame__col-frame1;
     left: calc($frame-width / $col * 3);
   }
 
   &__col-frame4 {
-    @extend .main-view-frame__col-frame1;
+    @extend .grid-view-frame__col-frame1;
     left: calc($frame-width / $col * 4);
   }
 
   &__col-frame5 {
-    @extend .main-view-frame__col-frame1;
+    @extend .grid-view-frame__col-frame1;
     left: calc($frame-width / $col * 5);
   }
 }
