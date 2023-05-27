@@ -32,6 +32,26 @@ app.get("/rolling-news", (request, response) => {
   });
 });
 
+app.get("/press-logos", (request, response) => {
+  const path = "./crawler/grid.json";
+
+  fs.readFile(path, "utf-8", (error, data) => {
+    if (error) {
+      response.status(500).json({ error: "Failed to read grid.json" });
+
+      return;
+    }
+
+    try {
+      const jsonData = JSON.parse(data);
+
+      response.json(jsonData);
+    } catch {
+      response.status(500).json({ error: "Failed to parse JSON data" });
+    }
+  });
+});
+
 app.listen(port, () => {
   console.log("서버가 8080번 포트에서 실행 중입니다.");
 });
