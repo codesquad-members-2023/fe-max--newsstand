@@ -4,11 +4,7 @@
 
 .headlines-container {
   width: 100%;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 50% 50%;
   gap: 8px;
-
-  recent-headline {
-    flex-grow: 1;
-  }
 }
