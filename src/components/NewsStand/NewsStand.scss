@@ -7,14 +7,6 @@ top-header {
   margin-bottom: 40px;
 }
 
-.headlines-container {
-  width: 100%;
+headlines-container {
   margin-bottom: 32px;
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-
-  recent-headline {
-    flex-grow: 1;
-  }
 }
