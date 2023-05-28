@@ -14,8 +14,14 @@ export class RollerContainer extends Base {
   timer: Timer;
   constructor(private props: RollerContainerProps) {
     super();
-    this.left = new Roller({ headlineList: props.leftRollerHeadline });
-    this.right = new Roller({ headlineList: props.rightRollerHeadline });
+    this.left = new Roller({
+      headlineList: props.leftRollerHeadline,
+      position: "left",
+    });
+    this.right = new Roller({
+      headlineList: props.rightRollerHeadline,
+      position: "right",
+    });
 
     this.render(`<div class="rollerContainer"></div>`);
     this.setChildren(this.left, this.right);
@@ -23,8 +29,14 @@ export class RollerContainer extends Base {
   }
 
   update(props: RollerContainerProps) {
-    this.left.update({ headlineList: props.leftRollerHeadline });
-    this.right.update({ headlineList: props.rightRollerHeadline });
+    this.left.update({
+      headlineList: props.leftRollerHeadline,
+      position: "left",
+    });
+    this.right.update({
+      headlineList: props.rightRollerHeadline,
+      position: "right",
+    });
 
     this.props = props;
   }
@@ -39,4 +51,3 @@ class Timer {
     }, 1000);
   }
 }
-

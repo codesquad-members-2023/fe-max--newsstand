@@ -1,16 +1,18 @@
+import { dispatcher } from "..";
 import { Headline } from "../utils/types";
 import { Base } from "./Base";
 
 type rollerProps = {
   headlineList: Headline[];
+  position: "left" | "right";
 };
 
 export class Roller extends Base {
   constructor(private props: rollerProps) {
     super();
     this.render(`
-            <div class="rollerContainer__roller">
-                <div class="rollerContainer__roller__wrapper"  addTransitionend="handleTransitionend" data-component="rollerWrapper">
+            <div class="rollerContainer__roller" addMouseenter="handleMouseOver" addMouseleave="handleMouseleave">
+                <div class="rollerContainer__roller__wrapper" addTransitionend="handleTransitionend" data-component="rollerWrapper">
                     ${this.setRoller(props.headlineList)}
                 </div>
             </div>`);
@@ -66,5 +68,18 @@ export class Roller extends Base {
       target.style.transform = "translateY(0px)";
     }
   }
-}
 
+  handleMouseOver() {
+    dispatcher({
+      type: "TOGGLE_ROLLING_STATE",
+      target: this.props.position,
+    });
+  }
+
+  handleMouseleave() {
+    dispatcher({
+      type: "TOGGLE_ROLLING_STATE",
+      target: this.props.position,
+    });
+  }
+}
