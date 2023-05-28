@@ -1,30 +1,55 @@
 import Component from "@components/common/Component.ts";
 
-class RecentHeadline extends Component {
-  constructor() {
-    const topElement = RecentHeadline.createDOM();
-    super(topElement);
-  }
+type THeadlineData = {
+  pressName: string;
+  headline: string;
+};
 
-  private static createDOM() {
+class RecentHeadline extends Component {
+  private pressEl: HTMLElement;
+  private headlineEl: HTMLElement;
+
+  constructor() {
     const topElement = document.createElement("div");
     topElement.className = "headline-container";
 
-    const press = document.createElement("span");
-    press.className = "press-name";
-    press.textContent = "Some Press"; // receive as props.
+    const pressEl = document.createElement("span");
+    pressEl.className = "press-name";
+    pressEl.textContent = "Some Press"; // receive as props.
 
-    const headline = document.createElement("a");
-    headline.className = "headline";
-    headline.textContent = "breaking news: something happened"; // receive as props.
-    headline.href = "";
+    const headlineEl = document.createElement("a");
+    headlineEl.className = "headline";
+    headlineEl.textContent = "breaking news: something happened"; // receive as props.
+    headlineEl.href = "";
 
     const stylesheetLink = Component.createStylesheetLink(
       "src/components/RecentHeadline/RecentHeadline.scss"
     );
 
-    topElement.append(press, headline, stylesheetLink);
-    return topElement;
+    topElement.append(pressEl, headlineEl, stylesheetLink);
+
+    super(topElement);
+    this.pressEl = pressEl;
+    this.headlineEl = headlineEl;
+  }
+
+  update({ pressName, headline }: THeadlineData) {
+    this.pressEl.textContent = pressName;
+    this.headlineEl.textContent = headline;
+  }
+
+  setHeadlineData(newVal: THeadlineData) {
+    this.dataset.headlineContent = JSON.stringify(newVal);
+  }
+
+  static get observedAttributes() {
+    return ["headline-content"];
+  }
+
+  attributeChangedCallback(name: string, _oldVal: string, newVal: string) {
+    if (name === "headline-content") {
+      this.update(JSON.parse(newVal));
+    }
   }
 }
 
