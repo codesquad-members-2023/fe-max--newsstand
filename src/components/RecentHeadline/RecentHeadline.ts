@@ -43,11 +43,11 @@ export default class RecentHeadline extends Component {
   }
 
   static get observedAttributes() {
-    return ["headline-content"];
+    return ["data-headline-content"];
   }
 
   attributeChangedCallback(name: string, _oldVal: string, newVal: string) {
-    if (name === "headline-content") {
+    if (name === "data-headline-content") {
       this.update(JSON.parse(newVal));
     }
   }
