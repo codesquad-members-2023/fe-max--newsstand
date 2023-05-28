@@ -1,11 +1,11 @@
 import Component from "@components/common/Component.ts";
 
-type THeadlineData = {
+export type THeadlineData = {
   pressName: string;
   headline: string;
 };
 
-class RecentHeadline extends Component {
+export default class RecentHeadline extends Component {
   private pressEl: HTMLElement;
   private headlineEl: HTMLElement;
 

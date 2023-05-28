@@ -1,13 +1,8 @@
 import Component from "@components/common/Component.ts";
 import { getDateString } from "@utils/index.ts";
 
-class TopHeader extends Component {
+export default class TopHeader extends Component {
   constructor() {
-    const topElement = TopHeader.createDOM();
-    super(topElement);
-  }
-
-  private static createDOM() {
     const topElement = document.createElement("header");
     topElement.className = "header-container";
 
@@ -29,7 +24,8 @@ class TopHeader extends Component {
     );
 
     topElement.append(titleContainer, dateContainer, stylesheetLink);
-    return topElement;
+
+    super(topElement);
   }
 }
 
