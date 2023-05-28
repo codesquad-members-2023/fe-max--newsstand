@@ -1,0 +1,66 @@
+.rollerContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 8px;
+  width: 930px;
+  height: 49px;
+  background: $off-white;
+
+  &__roller {
+    box-sizing: border-box;
+    width: 461px;
+    height: 49px;
+    border: 1px solid $gray100;
+    overflow: hidden;
+
+    &-press {
+      display: flex;
+      align-items: center;
+      width: 49px;
+      height: 17px;
+      @include title-sm;
+      color: $black;
+    }
+
+    &-title {
+      width: 364px;
+      height: 17px;
+      @include body-sm;
+      color: $gray500;
+    }
+
+    &__wrapper {
+      transform: translateY(0px);
+      transition: transform 1s;
+
+      &__item {
+        width: 461px;
+        height: 49px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+
+        &-press {
+          display: flex;
+          align-items: center;
+          width: 49px;
+          height: 17px;
+          @include title-sm;
+          color: $black;
+        }
+
+        &-title {
+          width: 364px;
+          height: 17px;
+          @include body-sm;
+          color: $gray500;
+        }
+      }
+    }
+  }
+}
+

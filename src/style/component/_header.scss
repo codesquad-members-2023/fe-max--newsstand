@@ -1,0 +1,46 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px;
+  gap: 8px;
+  width: 930px;
+  height: 49px;
+
+  &__title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 8px;
+    width: 136px;
+    height: 29px;
+
+    &-logo {
+      width: 24px;
+      height: 24px;
+      flex: none;
+      order: 0;
+      flex-grow: 0;
+      cursor: pointer;
+    }
+
+    &-text {
+      width: 104px;
+      height: 29px;
+      @include display;
+      color: $black;
+      flex: none;
+      order: 1;
+      flex-grow: 0;
+    }
+
+    &__date {
+      width: 140px;
+      height: 22px;
+      @include body-md;
+      color: $gray500;
+    }
+  }
+}
+
