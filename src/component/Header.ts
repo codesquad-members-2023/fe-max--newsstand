@@ -37,10 +37,9 @@ export class Header extends Base {
     const date = this.component["headerDate"].innerText;
     const newDate = this.getDate(props.date);
 
-    if (date === newDate) {
+    if (date !== newDate) {
       this.component["headerDate"].innerText = newDate;
       this.props = props;
     }
   }
 }
-

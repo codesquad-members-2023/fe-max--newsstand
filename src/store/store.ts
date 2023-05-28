@@ -30,7 +30,9 @@ const setStore = async () => {
     },
     incrementIndex(type: "left" | "right") {
       const roller = this.getRoller(type);
-      this.updateRoller(roller);
+      if (roller.isMove) {
+        this.updateRoller(roller);
+      }
     },
     toggleRollingState(target: "left" | "right") {
       const roller = this.getRoller(target);
@@ -42,6 +44,7 @@ const setStore = async () => {
     updateRoller(roller: Roller) {
       roller.index++;
       roller.index %= roller.headlineList.length;
+
       const nextIndex = (roller.index + 1) % roller.headlineList.length;
 
       roller.headline = [
@@ -72,4 +75,3 @@ const setStore = async () => {
 const store = await setStore();
 
 export default store;
-

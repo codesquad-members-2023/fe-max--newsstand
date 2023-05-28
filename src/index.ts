@@ -37,11 +37,12 @@ export const dispatcher = (action: Action) => {
   switch (action.type) {
     case "INCREMENT_TICK": {
       store.incrementTick();
-      stateChanged(store.getState());
+      stateChanged(state);
       break;
     }
     case "TOGGLE_ROLLING_STATE": {
-      action.target;
+      store.toggleRollingState(action.target);
+      break;
     }
   }
 };
