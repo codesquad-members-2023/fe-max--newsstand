@@ -74,9 +74,8 @@
 .grid-container {
   width: 930px;
   margin-top: 25px;
-  border: 1px solid $color-gray-100;
-  // border-top: 1px solid $color-gray-100;
-  // border-left: 1px solid $color-gray-100;
+  border-top: 1px solid $color-gray-100;
+  border-left: 1px solid $color-gray-100;
 
   display: grid;
   grid-template-columns: repeat(6, 1fr);
