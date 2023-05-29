@@ -6,12 +6,15 @@ export type THeadlineData = {
 };
 
 export default class RecentHeadline extends Component {
-  private pressEl: HTMLElement;
-  private headlineEl: HTMLElement;
+  private topElement: HTMLElement;
+  private currHeadlineWrapper: HTMLElement;
 
   constructor() {
     const topElement = document.createElement("div");
     topElement.className = "headline-container";
+
+    const currHeadlineWrapper = document.createElement("div");
+    currHeadlineWrapper.className = "headline-wrapper";
 
     const pressEl = document.createElement("span");
     pressEl.className = "press-name";
@@ -24,16 +27,47 @@ export default class RecentHeadline extends Component {
       "src/components/RecentHeadline/RecentHeadline.scss"
     );
 
-    topElement.append(pressEl, headlineEl, stylesheetLink);
+    currHeadlineWrapper.append(pressEl, headlineEl);
+    topElement.append(stylesheetLink, currHeadlineWrapper);
 
     super(topElement);
-    this.pressEl = pressEl;
-    this.headlineEl = headlineEl;
+    this.topElement = topElement;
+    this.currHeadlineWrapper = currHeadlineWrapper;
   }
 
-  update({ pressName, headline }: THeadlineData) {
-    this.pressEl.textContent = pressName;
-    this.headlineEl.textContent = headline;
+  update(newHeadlineData: THeadlineData) {
+    const nextHeadlineWrapper = this.createHeadlineWrapper(newHeadlineData);
+    this.topElement.appendChild(nextHeadlineWrapper);
+
+    this.currHeadlineWrapper.classList.add("move-up");
+    nextHeadlineWrapper.classList.add("move-up");
+
+    this.currHeadlineWrapper.addEventListener(
+      "transitionend",
+      () => {
+        this.currHeadlineWrapper.remove();
+        this.currHeadlineWrapper = nextHeadlineWrapper;
+        nextHeadlineWrapper.classList.remove("move-up");
+      },
+      { once: true }
+    );
+  }
+
+  createHeadlineWrapper({ pressName, headline }: THeadlineData) {
+    const headlineWrapper = document.createElement("div");
+    headlineWrapper.className = "headline-wrapper";
+
+    const pressEl = document.createElement("span");
+    pressEl.className = "press-name";
+    pressEl.textContent = pressName;
+
+    const headlineEl = document.createElement("a");
+    headlineEl.className = "headline";
+    headlineEl.textContent = headline;
+    headlineEl.href = "";
+
+    headlineWrapper.append(pressEl, headlineEl);
+    return headlineWrapper;
   }
 
   setHeadlineData(newVal: THeadlineData) {
@@ -44,7 +78,9 @@ export default class RecentHeadline extends Component {
     return ["data-headline-content"];
   }
 
-  attributeChangedCallback(name: string, _oldVal: string, newVal: string) {
+  attributeChangedCallback(name: string, oldVal: string, newVal: string) {
+    if (oldVal === newVal) return;
+
     if (name === "data-headline-content") {
       this.update(JSON.parse(newVal));
     }
