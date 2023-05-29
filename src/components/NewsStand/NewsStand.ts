@@ -3,9 +3,6 @@ import TopHeader from "@components/TopHeader/TopHeader";
 import HeadlinesContainer from "@components/RecentHeadline/HeadlinesContainer";
 
 class NewsStand extends Component {
-  private topHeader: TopHeader;
-  private headlinesContainer: HeadlinesContainer;
-
   constructor() {
     const topElement = document.createElement("div");
 
@@ -24,15 +21,6 @@ class NewsStand extends Component {
     topElement.append(topHeader, headlinesContainer, stylesheetLink);
 
     super(topElement);
-    this.topHeader = topHeader;
-    this.headlinesContainer = headlinesContainer;
-    // this.mainNews = mainNews;
-  }
-
-  connectedCallback() {
-    // call `.update` of views.
-    // this.topHeader.update();
-    // this.headlinesContainer.update();
   }
 }
 

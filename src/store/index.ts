@@ -60,8 +60,15 @@ export function dispatch(action: TAction) {
 function reducer(action: TAction) {
   switch (action.type) {
     case "headlinesRollerTick":
-      // Manipulate `store.headlinesRollerTick`, `store.leftHeadlineIdx`, `store.rightHeadlineIdx`.
-      store.headlinesRollerTick++;
+      store.headlinesRollerTick += 1;
+
+      if (store.headlinesRollerTick % 5 === 0) {
+        store.leftHeadlineIdx += 2;
+        store.leftHeadlineIdx %= store.recentHeadlines.length;
+      } else if (store.headlinesRollerTick % 5 === 1) {
+        store.rightHeadlineIdx += 2;
+        store.rightHeadlineIdx %= store.recentHeadlines.length;
+      }
 
       // Inform observers about the updated state (i.e. trigger a re-render of the relevant views).
       store.headlinesRollerTickObservers.forEach((x) => {

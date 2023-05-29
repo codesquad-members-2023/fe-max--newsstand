@@ -15,11 +15,9 @@ export default class RecentHeadline extends Component {
 
     const pressEl = document.createElement("span");
     pressEl.className = "press-name";
-    pressEl.textContent = "Some Press"; // receive as props.
 
     const headlineEl = document.createElement("a");
     headlineEl.className = "headline";
-    headlineEl.textContent = "breaking news: something happened"; // receive as props.
     headlineEl.href = "";
 
     const stylesheetLink = Component.createStylesheetLink(

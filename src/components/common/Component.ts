@@ -14,4 +14,6 @@ export default class Component extends HTMLElement {
     link.href = url;
     return link;
   }
+
+  public update(_newState: {}) {}
 }

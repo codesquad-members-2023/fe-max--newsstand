@@ -10,6 +10,7 @@ export type THeadlinesProps = {
 export default class HeadlinesContainer extends Component {
   private leftHeadline: RecentHeadline;
   private rightHeadline: RecentHeadline;
+  private readonly intervalId: number;
 
   constructor() {
     const topElement = document.createElement("div");
@@ -35,6 +36,10 @@ export default class HeadlinesContainer extends Component {
 
     observeStates(this, EState.HeadlinesRollerTick);
     dispatch({ type: EState.HeadlinesRollerTick }); // to initialize
+
+    this.intervalId = window.setInterval(() => {
+      dispatch({ type: EState.HeadlinesRollerTick });
+    }, 1000);
   }
 
   update({ leftHeadlineProps, rightHeadlineProps }: THeadlinesProps) {
@@ -55,9 +60,10 @@ export default class HeadlinesContainer extends Component {
       this.update(JSON.parse(newVal));
     }
   }
-}
 
-// TODO: timer
-// `dispatch(HeadlinesRollerTick)` every 5 seconds.
+  disconnectedCallback() {
+    window.clearInterval(this.intervalId);
+  }
+}
 
 customElements.define("headlines-container", HeadlinesContainer);
