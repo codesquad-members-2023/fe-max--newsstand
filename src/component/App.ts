@@ -7,6 +7,10 @@ type AppProps = {
   date: Date;
   leftRollerHeadline: Headline[];
   rightRollerHeadline: Headline[];
+  currentMode: "grid" | "list";
+  grid: {
+    gridData: { src: string; alt: string }[];
+  };
 };
 
 export class App extends Base {
@@ -16,12 +20,11 @@ export class App extends Base {
   constructor(props: AppProps) {
     super();
     this.header = new Header({ date: props.date });
-    this.main = new Main();
+    this.main = new Main({ currentMode: props.currentMode, grid: props.grid });
     this.rollerContainer = new RollerContainer({
       leftRollerHeadline: props.leftRollerHeadline,
       rightRollerHeadline: props.rightRollerHeadline,
     });
-
     this.render(`
         <div class="app"></div>
     `);
@@ -39,4 +42,3 @@ export class App extends Base {
     });
   }
 }
-

@@ -1,4 +1,5 @@
 .main {
+  position: relative;
   &__tab {
     display: flex;
     flex-direction: row;
@@ -70,6 +71,27 @@
       img {
         width: 52px;
       }
+    }
+  }
+
+  &__buttons {
+    width: 930px;
+
+    &-prev,
+    &-next {
+      background: none;
+      border: none;
+      position: absolute;
+      top: 50%;
+      cursor: pointer;
+    }
+
+    &-prev {
+      left: -83px;
+    }
+
+    &-next {
+      right: -83px;
     }
   }
 }
