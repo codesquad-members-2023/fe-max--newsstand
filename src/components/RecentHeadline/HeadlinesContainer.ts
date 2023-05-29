@@ -1,5 +1,6 @@
 import Component from "@components/common/Component.ts";
 import RecentHeadline, { THeadlineData } from "./RecentHeadline.ts";
+import { EState, observeStates, dispatch } from "@store/index.ts";
 
 export type THeadlinesProps = {
   leftHeadlineProps: THeadlineData;
@@ -31,6 +32,9 @@ export default class HeadlinesContainer extends Component {
     super(topElement);
     this.leftHeadline = leftHeadline;
     this.rightHeadline = rightHeadline;
+
+    observeStates(this, EState.HeadlinesRollerTick);
+    dispatch({ type: EState.HeadlinesRollerTick }); // to initialize
   }
 
   update({ leftHeadlineProps, rightHeadlineProps }: THeadlinesProps) {
@@ -54,5 +58,6 @@ export default class HeadlinesContainer extends Component {
 }
 
 // TODO: timer
+// `dispatch(HeadlinesRollerTick)` every 5 seconds.
 
 customElements.define("headlines-container", HeadlinesContainer);
