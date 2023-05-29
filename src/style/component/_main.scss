@@ -58,8 +58,6 @@
     grid-template-columns: repeat(6, 153.95px);
     grid-template-rows: repeat(4, 96.25px);
     grid-gap: 1px;
-    background-color: $black;
-    border: 1px solid black;
 
     &__item {
       display: flex;
@@ -67,6 +65,7 @@
       align-items: center;
       background: $white;
       box-sizing: border-box;
+      outline: 1px solid $black;
 
       img {
         width: 52px;
@@ -74,4 +73,3 @@
     }
   }
 }
-
