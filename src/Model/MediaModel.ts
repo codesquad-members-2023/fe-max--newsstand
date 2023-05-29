@@ -8,17 +8,6 @@ const initImagesState = async () => {
 
   return shuffledImages;
 };
-
-let state: MediaState = {
-  images: await initImagesState(),
-  currentPage: 1,
-  startPoint: 0,
-  itemsPerGrid: 24,
-  currentEnterGrid: null,
-  currentOverlay: null,
-  isInsideGrid: false,
-};
-
 function shuffleArray(target: []) {
   for (let i = target.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -27,27 +16,72 @@ function shuffleArray(target: []) {
   return target;
 }
 
-const listeners: Listener[] = [];
+export interface MediaState {
+  mediaViewMode: string;
+
+  currentPage: number;
+  images: string[];
+  gridStartPoint: number;
+  itemsPerGrid: number;
+
+  currentEnterGrid: HTMLElement | null;
+  currentOverlay: HTMLElement | null;
+  isInsideGrid: boolean;
+
+  [key: string]: string | number | boolean | object | [] | string[] | HTMLElement | null | undefined;
+}
+
+let state: MediaState = {
+  mediaViewMode: 'grid',
+
+  //grid 모드 상태
+  currentPage: 1,
+  images: await initImagesState(),
+  gridStartPoint: 0,
+  itemsPerGrid: 24,
+
+  // 오버레이 관련 상태
+  isInsideGrid: false,
+  currentEnterGrid: null,
+  currentOverlay: null,
+};
+
+const listeners: Record<keyof MediaState, Listener[]> = {};
+
+const subscribe = (key: keyof MediaState, listener: Listener) => {
+  if (!listeners[key]) {
+    listeners[key] = [];
+  }
+  listeners[key].push(listener);
+};
 
 const getState = (): MediaState => {
-  return state;
+  // return state;
+  return { ...state };
 };
 
-const setState = (newState: Intent) => {
-  state = { ...state, ...newState };
-
-  notifyListeners();
-};
-
-const subscribe = (listener: Listener) => {
-  listeners.push(listener);
-};
-
-const notifyListeners = () => {
-  for (const listener of listeners) {
-    listener();
+const setState = (newState: Partial<MediaState>) => {
+  for (let key in newState) {
+    if (state[key] !== newState[key]) {
+      state[key] = newState[key];
+      if (listeners[key]) {
+        listeners[key].forEach((listener) => listener(state[key]));
+      }
+    }
   }
 };
+
+// const setState = (newState: Intent) => {
+//   state = { ...state, ...newState };
+
+//   notifyListeners();
+// };
+
+// const notifyListeners = () => {
+//   for (const listener of listeners) {
+//     listener();
+//   }
+// };
 
 initImagesState();
 
@@ -58,19 +92,9 @@ interface imageData {
   alt: string;
 }
 
-interface MediaState {
-  images: string[];
-  currentPage: number;
-  startPoint: number;
-  itemsPerGrid: number;
-  currentEnterGrid: HTMLElement | null;
-  currentOverlay: HTMLElement | null;
-  isInsideGrid: boolean;
-  [key: string]: string | number | boolean | object | [] | string[] | HTMLElement | null;
-}
+// type Listener = (value: keyof MediaState | undefined) => void;
+type Listener = (value: string | number | boolean | object | [] | string[] | HTMLElement | null | undefined) => void;
 
-type Listener = () => void;
-
-type Intent = {
-  [key: string]: string | number | boolean | object | [];
-};
+// type Intent = {
+//   [key: string]: string | number | boolean | object | [];
+// };
