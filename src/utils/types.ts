@@ -24,10 +24,15 @@ export type Roller = {
   isMove: boolean;
 };
 
+export type GridData = { src: string; alt: string }[];
+
 export type newsStandState = {
   date: Date;
   leftRoller: Roller;
   rightRoller: Roller;
   rollerTick: number;
+  currentMode: "grid" | "list";
+  gird: {
+    gridData: GridData;
+  };
 };
-

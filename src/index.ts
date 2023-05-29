@@ -1,5 +1,5 @@
 import { App } from "./component/App";
-import store from "./store/store";
+import { store } from "./store/store";
 import { newsStandState } from "./utils/types";
 
 type ActionType = "INCREMENT_TICK" | "TOGGLE_ROLLING_STATE";
@@ -31,6 +31,8 @@ const app = new App({
   date: state.date,
   leftRollerHeadline: state.leftRoller.headline,
   rightRollerHeadline: state.rightRoller.headline,
+  currentMode: state.currentMode,
+  grid: state.gird,
 });
 
 export const dispatcher = (action: Action) => {
@@ -52,6 +54,8 @@ const stateChanged = (state: newsStandState) => {
     date: state.date,
     leftRollerHeadline: state.leftRoller.headline,
     rightRollerHeadline: state.rightRoller.headline,
+    currentMode: state.currentMode,
+    grid: state.gird,
   });
   appRender();
 };
