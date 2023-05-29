@@ -5,11 +5,11 @@
   justify-content: space-between;
   align-items: center;
 
-  .tab-btn {
+  .tab-btn__menu {
     display: flex;
     gap: 1.5rem;
 
-    &__item {
+    .tab-btn__item {
       cursor: pointer;
       color: $color-gray-200;
 
@@ -19,15 +19,30 @@
     }
   }
 
-  .view-btn {
+  .view-btn__menu {
     display: flex;
     gap: 0.5rem;
 
-    &__icon {
-      filter: invert(90%) sepia(8%) saturate(203%) hue-rotate(163deg) brightness(96%) contrast(94%);
+    .view-btn__item {
+      width: 24px;
+      height: 24px;
+      background-position: center;
+      background-repeat: no-repeat;
 
-      &.active {
-        filter: invert(50%) sepia(50%) saturate(6004%) hue-rotate(214deg) brightness(83%) contrast(96%);
+      &.list-icon {
+        background-image: url(/src/assets/list-view.svg);
+
+        &.active {
+          background-image: url(/src/assets/list-view-on.svg);
+        }
+      }
+
+      &.grid-icon {
+        background-image: url(/src/assets/grid-view.svg);
+
+        &.active {
+          background-image: url(/src/assets/grid-view-on.svg);
+        }
       }
     }
   }
@@ -37,15 +52,21 @@
   position: relative;
   .btn {
     position: absolute;
+    width: 24px;
+    height: 40px;
+    background-position: center;
+    background-repeat: no-repeat;
 
     &--left {
       @include pos-center-y();
       left: calc(-24px - 3rem);
+      background-image: url(/src/assets/left-btn.svg);
     }
 
     &--right {
       @include pos-center-y();
       right: calc(-24px - 3rem);
+      background-image: url(/src/assets/right-btn.svg);
     }
   }
 }
@@ -53,8 +74,9 @@
 .grid-container {
   width: 930px;
   margin-top: 25px;
-  border-top: 1px solid $color-gray-100;
-  border-left: 1px solid $color-gray-100;
+  border: 1px solid $color-gray-100;
+  // border-top: 1px solid $color-gray-100;
+  // border-left: 1px solid $color-gray-100;
 
   display: grid;
   grid-template-columns: repeat(6, 1fr);
