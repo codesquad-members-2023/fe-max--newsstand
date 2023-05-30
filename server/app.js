@@ -1,11 +1,14 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const cors = require('cors');
+const app = express();
 
-var app = express();
-
+const corsOptions = {
+  origin: 'http://127.0.0.1:5173'
+}
 // view engine setup
 
 app.use(logger('dev'));
@@ -13,8 +16,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.get('/mediaBrands', function (req, res) {
-  const filePath = path.join(__dirname, 'data', 'grid.json');
+app.get('/mediaBrands', cors(corsOptions), function (req, res) {
+  const filePath = path.join(__dirname, 'data', 'mediaBrands.json');
   let mediaBrands;
 
   try {
