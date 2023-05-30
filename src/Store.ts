@@ -1,20 +1,35 @@
 import { Reducer } from "./Reducer";
-import { Action, newsStandState } from "./utils/types";
+import { Action, GridData, newsStandState } from "./utils/types";
+
+const fisherYatesShuffle = (array: GridData) => {
+  let count = array.length;
+
+  while (count) {
+    let index = Math.floor(Math.random() * count--);
+    let temp = array[count];
+
+    array[count] = array[index];
+    array[index] = temp;
+  }
+
+  return array;
+};
 
 const fetchData = async () => {
   const rollingResponse = await fetch("http://localhost:8080/rolling");
   const headlineList = await rollingResponse.json();
   const gridResponse = await fetch("http://localhost:8080/grid");
-  const gridList = await gridResponse.json();
+  const gridList = fisherYatesShuffle(await gridResponse.json());
 
   return { headlineList, gridList };
 };
 
 const createState = async () => {
+  const ITEM_PER_PAGE = 24;
   const { headlineList, gridList } = await fetchData();
   const leftHeadlineList = headlineList.slice(0, headlineList.length / 2);
   const rightHeadlineList = headlineList.slice(headlineList.length / 2);
-  const initialGridList = gridList.slice(0, 24);
+  const currentGridList = gridList.slice(0, ITEM_PER_PAGE);
   const gridMode: "grid" | "list" = "grid";
 
   const state = {
@@ -33,8 +48,10 @@ const createState = async () => {
     },
     rollerTick: 0,
     currentMode: gridMode,
+    currentPage: 0,
     grid: {
-      gridData: initialGridList,
+      gridData: gridList,
+      currentGridList: currentGridList,
     },
   };
 

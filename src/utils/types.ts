@@ -32,8 +32,10 @@ export type newsStandState = {
   rightRoller: RollerType;
   rollerTick: number;
   currentMode: "grid" | "list";
+  currentPage: number;
   grid: {
     gridData: GridData;
+    currentGridList: GridData;
   };
 };
 
@@ -46,5 +48,17 @@ export interface ToggleRollingState {
   target: "left" | "right";
 }
 
-export type Action = IncrementTick | ToggleRollingState;
+export interface IncrementPage {
+  type: "INCREMENT_PAGE";
+}
+
+export interface DecrementPage {
+  type: "DECREMENT_PAGE";
+}
+
+export type Action =
+  | IncrementTick
+  | ToggleRollingState
+  | IncrementPage
+  | DecrementPage;
 

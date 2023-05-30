@@ -14,6 +14,7 @@ export class App extends Base {
     this.header = new Header({ date: this.state.date });
     this.main = new Main({
       currentMode: this.state.currentMode,
+      currentPage: this.state.currentPage,
       grid: this.state.grid,
     });
     this.rollerContainer = new RollerContainer({

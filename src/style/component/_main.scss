@@ -19,9 +19,13 @@
       flex-direction: row;
       align-items: center;
       padding: 0px;
-
+      color: $gray200;
       width: 216px;
       height: 22px;
+
+      .select {
+        color: $black;
+      }
 
       &-all {
         width: 75px;
@@ -95,3 +99,4 @@
     }
   }
 }
+
