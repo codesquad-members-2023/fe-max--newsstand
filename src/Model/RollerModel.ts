@@ -34,7 +34,8 @@ const setState = (newState: Partial<RollerState>) => {
 };
 
 async function initHeadlinesState() {
-  const response = await fetch('/src/services/db.json');
+  // const response = await fetch('/src/services/db.json');
+  const response = await fetch('http://localhost:8080/headlines');
   const data = await response.json();
 
   return data.headlines;

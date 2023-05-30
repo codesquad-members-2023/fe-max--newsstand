@@ -43,7 +43,8 @@ interface imageData {
 }
 
 async function initImagesState() {
-  const response = await fetch('/src/services/grid.json');
+  // const response = await fetch('/src/services/grid.json');
+  const response = await fetch('http://localhost:8080/images');
   const data = await response.json();
 
   const images = data.images.map((image: imageData) => image.src);
