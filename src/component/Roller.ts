@@ -1,4 +1,4 @@
-import { dispatcher } from "..";
+import { store } from "../Store";
 import { Headline } from "../utils/types";
 import { Base } from "./Base";
 
@@ -11,11 +11,11 @@ export class Roller extends Base {
   constructor(private props: rollerProps) {
     super();
     this.render(`
-            <div class="rollerContainer__roller" addMouseenter="handleMouseOver" addMouseleave="handleMouseleave">
-                <div class="rollerContainer__roller__wrapper" addTransitionend="handleTransitionend" data-component="rollerWrapper">
-                    ${this.setRoller(props.headlineList)}
-                </div>
-            </div>`);
+        <div class="rollerContainer__roller" addMouseenter="handleMouseOver" addMouseleave="handleMouseleave">
+            <div class="rollerContainer__roller__wrapper" addTransitionend="handleTransitionend" data-component="rollerWrapper">
+                ${this.setRoller(props.headlineList)}
+            </div>
+        </div>`);
   }
 
   setRoller(headlineList: Headline[]) {
@@ -70,16 +70,17 @@ export class Roller extends Base {
   }
 
   handleMouseOver() {
-    dispatcher({
+    store.dispatch({
       type: "TOGGLE_ROLLING_STATE",
       target: this.props.position,
     });
   }
 
   handleMouseleave() {
-    dispatcher({
+    store.dispatch({
       type: "TOGGLE_ROLLING_STATE",
       target: this.props.position,
     });
   }
 }
+

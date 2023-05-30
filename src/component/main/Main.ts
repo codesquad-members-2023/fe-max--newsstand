@@ -1,17 +1,15 @@
+import { GridData } from "../../utils/types";
 import { Base } from "../Base";
-type MainProps = {
+type MainState = {
   currentMode: "grid" | "list";
   grid: {
-    gridData: { src: string; alt: string }[];
+    gridData: GridData;
   };
 };
 
 export class Main extends Base {
-  props: MainProps;
-
-  constructor(props: MainProps) {
+  constructor(private state: MainState) {
     super();
-    this.props = props;
     this.render(`
         <main class="main">
             ${this.setTab()}
@@ -57,7 +55,7 @@ export class Main extends Base {
   }
 
   setGrid() {
-    const gridData = this.props.grid.gridData;
+    const gridData = this.state.grid.gridData;
     const gridElement = this.components["gridItem"];
     gridData.forEach((data, index) => {
       const element = this.setTemplate(
@@ -75,5 +73,5 @@ export class Main extends Base {
     });
   }
 
-  update(props: MainProps) {}
+  update(props: MainState) {}
 }
