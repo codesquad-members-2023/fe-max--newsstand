@@ -1,0 +1,24 @@
+[
+  {
+    "type": "NEWS-ONELINE",
+    "officeName": "연합뉴스",
+    "title": "헌재 '사드 부지 제공' 헌법소원 각하",
+    "url": "https://news.naver.com/main/list.naver?mode=LPOD&mid=sec&sid1=001&sid2=140&oid=001&isYeonhapFlash=Y&aid=0013963828"
+  },
+  {
+    "type": "NEWSSTAND-PRESS-BLOCK",
+    "category": "종합/경제",
+    "logoURL": "https://s.pstatic.net/static/newsstand/2020/logo/light/0604/907.png",
+    "name": "경북매일신문",
+    "pid": "907",
+    "redData": "20230525 14:30:21",
+    "materials": [
+      {
+        "type": "MATERIAL-NEWSSTAND-HEADLINE",
+        "title": "8개월 만에 불 밝힌 포항제철소 야경",
+        "imgURL": "https://s.pstatic.net/dthumb.phinf/?src=%22https%3A%2F%2Fs.pstatic.net%2Fstatic%2Fnewsstand%2F2023%2F0525%2Farticle_img%2Fnew_main%2F9123%2F143625_001.jpg%22&type=nf312_208&service=navermain",
+        "url": "http://www.kbmaeil.com/news/articleView.html?idxno=959370"
+      }
+    ]
+  }
+]

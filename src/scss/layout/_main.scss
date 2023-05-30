@@ -1,0 +1,94 @@
+@use '../abstracts' as *;
+
+.header--main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .tab-btn__menu {
+    display: flex;
+    gap: 1.5rem;
+
+    .tab-btn__item {
+      cursor: pointer;
+      color: $color-gray-200;
+
+      &.active {
+        color: $color-black;
+      }
+    }
+  }
+
+  .view-btn__menu {
+    display: flex;
+    gap: 0.5rem;
+
+    .view-btn__item {
+      width: 24px;
+      height: 24px;
+      background-position: center;
+      background-repeat: no-repeat;
+
+      &.list-icon {
+        background-image: url(/src/assets/list-view.svg);
+
+        &.active {
+          background-image: url(/src/assets/list-view-on.svg);
+        }
+      }
+
+      &.grid-icon {
+        background-image: url(/src/assets/grid-view.svg);
+
+        &.active {
+          background-image: url(/src/assets/grid-view-on.svg);
+        }
+      }
+    }
+  }
+}
+
+.content-area {
+  position: relative;
+  .btn {
+    position: absolute;
+    width: 24px;
+    height: 40px;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    &--left {
+      @include pos-center-y();
+      left: calc(-24px - 3rem);
+      background-image: url(/src/assets/left-btn.svg);
+    }
+
+    &--right {
+      @include pos-center-y();
+      right: calc(-24px - 3rem);
+      background-image: url(/src/assets/right-btn.svg);
+    }
+  }
+}
+
+.grid-container {
+  width: 930px;
+  margin-top: 25px;
+  border-top: 1px solid $color-gray-100;
+  border-left: 1px solid $color-gray-100;
+
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(4, 6.046875rem);
+
+  .grid-item {
+    position: relative;
+    border-bottom: 1px solid $color-gray-100;
+    border-right: 1px solid $color-gray-100;
+
+    img {
+      height: 20px;
+      @include pos-center();
+    }
+  }
+}
