@@ -1,0 +1,44 @@
+@import '../../base/color', '../../base/font', '../../base/mixin';
+
+.rolling {
+  width: 930px;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 32px 71px;
+
+  &__left,
+  &__right {
+    display: flex;
+    gap: 16px;
+    padding-left: 16px;
+    width: 461px;
+    height: 49px;
+    box-sizing: border-box;
+    background-color: $color-off-white;
+    border: 1px solid $color-gray-100;
+
+    span,
+    a {
+      text-decoration: none;
+      margin: 16px 0;
+      display: block;
+    }
+
+    .left__press,
+    .right__press {
+      font: $title-sm;
+      color: $color-black;
+    }
+
+    .left__article,
+    .right__article {
+      font: $body-sm;
+      color: $color-gray-500;
+
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+  }
+}

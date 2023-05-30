@@ -1,4 +1,5 @@
-import { $ } from './util/util';
 import { App } from './component/App';
+import { setGrid } from './component/main/Main';
 
-new App($('body'));
+new App();
+setGrid();

@@ -1,0 +1,38 @@
+@import '../../base/color', '../../base/font', '../../base/mixin';
+
+.press {
+  &__grid {
+    display: none;
+    gap: 47px;
+
+    &--activated {
+      display: flex;
+    }
+
+    .grid__wrapper {
+      width: 930px;
+      height: 388px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+
+      .grid__items {
+        background-color: $color-white;
+        border: 1px solid $color-gray-100;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+
+        img {
+          width: 65px;
+          height: 20px;
+        }
+      }
+    }
+
+    .grid__left,
+    .grid__right {
+      cursor: pointer;
+    }
+  }
+}
