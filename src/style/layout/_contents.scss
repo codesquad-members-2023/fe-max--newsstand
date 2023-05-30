@@ -1,0 +1,213 @@
+.contents {
+	position: relative;
+}
+
+/* 화살표 버튼 */
+.btn-move {
+	position: absolute;
+	top: 50%;
+
+	&.prev {
+		left: -83px;
+	}
+	&.next {
+		right: -83px;
+	}
+}
+
+/* 콘텐츠영역 */
+.contents__top {
+	@include flex-space-between;
+	margin-bottom: 25px;
+}
+.contents__bottom {
+	position: relative;
+}
+
+.btn__tap,
+.btn__viewer {
+	@include flex-left-center;
+}
+
+.btn__tap {
+	gap: 24px;
+
+	button {
+		@include typography($BODY_MD);
+	}
+
+	.active {
+		@include typography($TITLE_MD);
+	}
+}
+
+.btn__viewer {
+	gap: 11px;
+
+	svg.active path {
+		fill: $PRIMARY;
+	}
+}
+
+/* 스낵바 & 알럿창 */
+.snack-bar {
+	z-index: 10;
+	position: absolute;
+	transform: translate(-50%, -50%);
+	background-color: $PRIMARY;
+	@include typography($BODY_MD, $WHITE);
+	padding: 16px 24px;
+	top: 50%;
+	left: 50%;
+	box-shadow: 0px 4px 2px rgba(20, 33, 43, 0.02),
+		0px 2px 18px rgba(20, 33, 43, 0.08);
+}
+
+.alert {
+	z-index: 10;
+	position: absolute;
+	transform: translate(-50%, -50%);
+	top: 50%;
+	left: 50%;
+	position: absolute;
+	width: 320px;
+	border: 1px solid $GRAY100;
+
+	&__text {
+		padding: 24px;
+		text-align: center;
+		@include typography($BODY_MD, $GRAY400);
+		background-color: $WHITE;
+		border-bottom: 1px solid $GRAY100;
+		span {
+			@include typography($TITLE_MD);
+		}
+	}
+	&__btn {
+		@include flex-center;
+		&--unsubscribe {
+			border-right: 1px solid $GRAY100;
+		}
+		button {
+			flex-basis: 50%;
+			padding: 13px 0;
+			background-color: $OFF_WHITE;
+		}
+	}
+}
+
+/* 그리드 영역 */
+.view__grid {
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
+	grid-template-rows: repeat(4, 1fr);
+	width: 930px;
+	height: 388px;
+	gap: 1px;
+}
+.grid-item {
+	position: relative;
+	@include flex-center;
+	outline: 1px solid $GRAY100;
+
+	&:hover {
+		background-color: $OFF_WHITE;
+	}
+}
+
+/* 리스트 영역 */
+.list-view {
+	width: 100%;
+	border: 1px solid $GRAY100;
+
+	&__categoty {
+		overflow: hidden;
+		white-space: nowrap;
+		display: flex;
+		background-color: $OFF_WHITE;
+		border-bottom: 1px solid $GRAY100;
+		@include typography($BODY_SM, $GRAY300);
+
+		.categoty-item {
+			white-space: nowrap;
+			gap: 8px;
+			@include flex-space-between;
+			align-items: center;
+			padding: 11.5px 16px;
+
+			&.active {
+				@include typography($TITLE_XS);
+				background-color: #7890e7;
+				flex: 0 0 166px;
+				color: $WHITE;
+			}
+			a {
+				font-size: 14px;
+			}
+			img {
+				width: 14px;
+			}
+			.entire {
+				color: $WHITE70;
+			}
+		}
+	}
+
+	&__contents {
+		padding: 24px;
+
+		.info {
+			width: 100%;
+			@include flex-left-center;
+			gap: 16px;
+			margin-bottom: 16px;
+			@include typography($BODY_XS, $GRAY400);
+		}
+
+		.news {
+			display: flex;
+			gap: 32px;
+			&__main {
+				img {
+					width: 320px;
+					height: 200px;
+				}
+				p {
+					margin-top: 16px;
+					@include typography($BODY_MD);
+				}
+			}
+			&__sub {
+				ul {
+					display: flex;
+					flex-direction: column;
+					gap: 16px;
+					@include typography($BODY_MD, $GRAY500);
+				}
+				.caption {
+					@include typography($BODY_SM, $GRAY200);
+					margin-top: 16px;
+				}
+			}
+		}
+	}
+}
+
+.btn-grid-box {
+	position: absolute;
+	background-color: $OFF_WHITE;
+	z-index: 10;
+}
+
+.btn-grid-subscribe {
+	@include button($WHITE);
+}
+.btn-grid-unsubscribe {
+	@include button($OFF_WHITE);
+}
+.btn-contents-unsubscribe {
+	@include button-circle;
+}
+.btn-contents-subscribe {
+	@include button($OFF_WHITE);
+}
