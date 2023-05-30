@@ -10,12 +10,12 @@ export class NewsRoller {
     const name = document.createElement('div');
     this.name = name;
     name.classList.add('press-name');
-    name.textContent = props.oneLineNews[0].officeName;
+    name.textContent = props[0].name;
 
     const headLine = document.createElement('div');
     this.title = headLine;
     headLine.classList.add('news-oneline');
-    headLine.textContent = props.oneLineNews[0].title;
+    headLine.textContent = props[0].title;
 
     this.element.append(name, headLine);
   }

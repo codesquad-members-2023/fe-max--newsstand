@@ -37,8 +37,8 @@ export class GridView {
   render(props) {
     this.gridItems.forEach((item, idx) => {
       const itemImg = item.children[0] as HTMLImageElement;
-      itemImg.src = props.newsData[idx].logoURL;
-      itemImg.alt = props.newsData[idx].name;
+      itemImg.src = props.gridData[idx].logoURL;
+      itemImg.alt = props.gridData[idx].name;
     });
   }
 }
