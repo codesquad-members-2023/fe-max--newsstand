@@ -7,11 +7,6 @@ import NewsBar from './newsBar/NewsBar';
 type NewsStandProps = {
   dateInfo: Date;
   gridInfo: GridInfo;
-};
-
-type NewNewsStandProps = {
-  dateInfo: Date;
-  gridInfo: GridInfo;
   subscriptionInfo: number[];
 };
 
@@ -26,12 +21,12 @@ export default class NewsStand {
 
     this.header = new Header({ dateInfo: props.dateInfo });
     this.newsBar = new NewsBar();
-    this.main = new Main({ gridInfo: props.gridInfo });
+    this.main = new Main({ gridInfo: props.gridInfo, subscriptionInfo: props.subscriptionInfo });
 
     this.element.append(this.header.element, this.newsBar.element, this.main.element);
   }
 
-  updateProps(props: NewNewsStandProps) {
+  updateProps(props: NewsStandProps) {
     this.main.updateProps({ gridInfo: props.gridInfo, subscriptionInfo: props.subscriptionInfo });
   }
 }

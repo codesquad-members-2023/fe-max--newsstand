@@ -17,6 +17,13 @@ type Action =
       payload: {
         hoverOnGrid: boolean;
       };
+    }
+    
+    | {
+      type: 'initGridImages',
+      payload: {
+        images: GridImg[]
+      }
     };
 
 type GridImg = {

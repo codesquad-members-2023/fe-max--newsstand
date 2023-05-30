@@ -2,6 +2,11 @@ import { invoke } from '../../main';
 import { createElement } from '../../utils/domUtils';
 import style from './GridView.module.css';
 
+type GridViewProps = {
+  gridInfo: GridInfo;
+  subscriptionInfo: number[];
+};
+
 export default class GridView {
   public element;
   private table;
@@ -9,32 +14,33 @@ export default class GridView {
   private subscriptionCover;
   private leftArrow;
   private rightArrow;
-  private page: number;
   private numberOfCells: number;
+  private props;
 
-  constructor({ gridInfo }: { gridInfo: GridInfo }) {
+  constructor(props: GridViewProps) {
     this.element = createElement('section', { class: style.grid_view });
-    this.table = createElement('table', { class: style.table});
+    this.table = createElement('table', { class: style.table });
     const tbody = createElement('tbody');
-    
+
     const numberOfRows = 4;
     const numberOfCellsInRow = 6;
     this.numberOfCells = numberOfRows * numberOfCellsInRow;
-    this.page = gridInfo.page;
-    const firstGridIndex = this.numberOfCells * this.page;
 
     const rows = [...Array(numberOfRows)].map((_) => createElement('tr'));
-    this.cells = gridInfo.imgs
-      .slice(firstGridIndex, firstGridIndex + this.numberOfCells)
-      .map((gridImg) => {
-        const cell = createElement('td', { class: style.cell});
-        const anchor = createElement('a', { href: '#', class: style.media_thumb});
-        const img = createElement('img', {class: style.media_logo, src: gridImg.src, alt: gridImg.alt, 'data-id': gridImg.id.toString()});
-
-        anchor.append(img);
-        cell.append(anchor);
-        return cell;
+    this.cells = [...Array(this.numberOfCells)].map((_) => {
+      const cell = createElement('td', { class: style.cell });
+      const anchor = createElement('a', { href: '#', class: style.media_thumb });
+      const img = createElement('img', {
+        class: style.media_logo,
+        src: '',
+        alt: '',
+        'data-id': ''
       });
+
+      anchor.append(img);
+      cell.append(anchor);
+      return cell;
+    });
 
     rows.forEach((row, index) => {
       const startIndex = index * numberOfCellsInRow;
@@ -44,28 +50,33 @@ export default class GridView {
       }
     });
 
-    const leftArrowImg = createElement('img', { src: 'assets/icons/left_arrow.svg'});
+    const leftArrowImg = createElement('img', { src: 'assets/icons/left_arrow.svg' });
     this.leftArrow = createElement('a', { href: '#', class: style.left_arrow });
     this.leftArrow.append(leftArrowImg);
 
-    const rightArrowImg = createElement('img', { src: 'assets/icons/right_arrow.svg'});
-    this.rightArrow = createElement('a', { href: '#', class: style.right_arrow});
+    const rightArrowImg = createElement('img', { src: 'assets/icons/right_arrow.svg' });
+    this.rightArrow = createElement('a', { href: '#', class: style.right_arrow });
     this.rightArrow.append(rightArrowImg);
 
-    this.leftArrow.classList.toggle('no-display', this.page === 0);
-    this.rightArrow.classList.toggle('no-display', this.page === 3);
-    
     tbody.append(...rows);
     this.table.append(tbody);
     this.element.append(this.table, this.leftArrow, this.rightArrow);
 
-    this.subscriptionCover = createElement('div', { class: style.subscription});
-    const button = createElement('a', { href: '#', class: 'subscribe-button'});
-    const plus = createElement('img', { src: 'assets/icons/plus-sm.svg', alt: ''});
+    this.renderCurrentPage(props.gridInfo.imgs, props.gridInfo.page);
+
+    this.subscriptionCover = createElement('div', { class: style.subscription });
+    const button = createElement('a', { href: '#', class: 'subscribe-button' });
+    const plus = createElement('img', { src: 'assets/icons/plus-sm.svg', alt: '' });
     const text = document.createTextNode('');
     button.append(plus, text);
     this.subscriptionCover.append(button);
 
+    this.props = {
+      imgs: [...props.gridInfo.imgs],
+      page: props.gridInfo.page,
+      isHover: props.gridInfo.isHover,
+      hoverIndex: props.gridInfo.hoverIndex
+    };
     this.setEvent();
   }
 
@@ -78,7 +89,7 @@ export default class GridView {
             hoverOnGrid: true,
             hoveredCellIndex: index
           }
-        }, this);
+        });
       });
     });
 
@@ -88,35 +99,45 @@ export default class GridView {
         payload: {
           hoverOnGrid: false
         }
-      }, this);
+      });
     });
 
     this.leftArrow.addEventListener('click', () => {
       invoke({
         type: 'moveToPrevGridPage'
-      }, this);
+      });
     });
 
     this.rightArrow.addEventListener('click', () => {
       invoke({
         type: 'moveToNextGridPage'
-      }, this);
+      });
     });
   }
 
-  updateProps({ gridInfo, subscriptionInfo }: { gridInfo: GridInfo; subscriptionInfo: number[] }) {
-    const { imgs, page, isHover, hoverIndex } = gridInfo;
-
-    if (this.page === page) {
-      this.renderSubscriptionCover(isHover, hoverIndex, subscriptionInfo);
-      return;
+  updateProps(props: GridViewProps) {
+    const { imgs, page, isHover, hoverIndex } = props.gridInfo;
+    if (this.props.isHover !== isHover || this.props.hoverIndex !== hoverIndex) {
+      this.renderSubscriptionCover(isHover, hoverIndex, props.subscriptionInfo);
     }
 
-    this.page = page;
-    this.flipPage(imgs);
+    if (this.props.page !== page || this.props.imgs.length !== imgs.length) {
+      this.renderCurrentPage(imgs, page);
+    }
+
+    this.props = {
+      imgs: [...props.gridInfo.imgs],
+      page: props.gridInfo.page,
+      isHover: props.gridInfo.isHover,
+      hoverIndex: props.gridInfo.hoverIndex
+    };
   }
 
-  private renderSubscriptionCover(isHover: boolean, hoverIndex: number, subscriptionInfo: number[]) {
+  private renderSubscriptionCover(
+    isHover: boolean,
+    hoverIndex: number,
+    subscriptionInfo: number[]
+  ) {
     for (let i = 0; i < this.cells.length; i++) {
       const cell = this.cells[i];
       if (isHover && hoverIndex === i) {
@@ -136,8 +157,8 @@ export default class GridView {
     }
   }
 
-  private flipPage(imgs: GridImg[]) {
-    const firstGridIndex = this.numberOfCells * this.page;
+  private renderCurrentPage(imgs: GridImg[], page: number) {
+    const firstGridIndex = this.numberOfCells * page;
     const limitGridIndex = firstGridIndex + this.numberOfCells;
 
     imgs.slice(firstGridIndex, limitGridIndex).forEach((img, index) => {
@@ -150,7 +171,7 @@ export default class GridView {
       mediaLogo.setAttribute('data-id', img.id.toString());
     });
 
-    this.leftArrow.classList.toggle('no-display', this.page === 0);
-    this.rightArrow.classList.toggle('no-display', this.page === 3);
+    this.leftArrow.classList.toggle('no-display', page === 0);
+    this.rightArrow.classList.toggle('no-display', page === 3);
   }
 }

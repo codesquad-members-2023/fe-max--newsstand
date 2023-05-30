@@ -1,5 +1,4 @@
-import gridData from '../db/grid.json';
-
-export const getGridImgs = () => {
-  return gridData;
+export const getGridImgs = async ():Promise<GridImg[]> => {
+  const response =  await fetch('http://localhost:3000/mediaBrands');
+  return await response.json();
 }

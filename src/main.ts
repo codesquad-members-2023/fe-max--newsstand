@@ -3,15 +3,29 @@ import { getGridImgs } from './utils/dataFetch';
 import { shuffleArray } from './utils/randomUtils';
 import './styles/main.css';
 
-const state = {
+const state: {
+  dateInfo: Date;
+  gridInfo: GridInfo;
+  subscribedMediaIds: number[];
+} = {
   dateInfo: new Date(),
   gridInfo: {
-    imgs: shuffleArray(getGridImgs()),
+    imgs: [],
     page: 0,
     isHover: false,
     hoverIndex: -1
   },
   subscribedMediaIds: [56]
+};
+
+const initGridImgs = async () => {
+  const images = shuffleArray(await getGridImgs());
+  invoke({
+    type: 'initGridImages',
+    payload: {
+      images: images
+    }
+  });
 };
 
 export const invoke = (action: Action) => {
@@ -30,6 +44,9 @@ export const invoke = (action: Action) => {
       state.gridInfo.isHover = action.payload.hoverOnGrid;
       state.gridInfo.hoverIndex = -1;
       break;
+    case 'initGridImages':
+      state.gridInfo.imgs = action.payload.images;
+      break;
   }
 
   onChangeState();
@@ -38,10 +55,12 @@ export const invoke = (action: Action) => {
 const app = document.querySelector('#app')!;
 const newsStand = new NewsStand({
   dateInfo: state.dateInfo,
-  gridInfo: state.gridInfo
+  gridInfo: state.gridInfo,
+  subscriptionInfo: state.subscribedMediaIds
 });
 
 app.append(newsStand.element);
+initGridImgs();
 
 const onChangeState = () => {
   newsStand.updateProps({
