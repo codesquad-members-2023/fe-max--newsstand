@@ -7,60 +7,50 @@ const initHeadlinesState = async () => {
 
 let state: RollerState = {
   headlines: await initHeadlinesState(),
+
   leftRolling: true,
   rightRolling: true,
 
-  leftRollingAmount: 1,
-  rightRollingAmount: 1,
-
-  leftCurrentIndex: 0,
   leftNextIndex: 2,
-
-  rightCurrentIndex: 1,
   rightNextIndex: 3,
+
+  indexIncrement: 2,
 };
 
-const listeners: Listener[] = [];
+const listeners: Record<keyof RollerState, Listener[]> = {};
+const subscribe = (key: keyof RollerState, listener: Listener) => {
+  if (!listeners[key]) {
+    listeners[key] = [];
+  }
+  listeners[key].push(listener);
+};
 
 const getState = (): RollerState => {
-  return state;
+  return { ...state };
 };
-
-const setState = (newState: Intent) => {
-  state = { ...state, ...newState };
-
-  notifyListeners();
-};
-
-const subscribe = (listener: Listener) => {
-  listeners.push(listener);
-};
-
-const notifyListeners = () => {
-  for (const listener of listeners) {
-    listener();
+const setState = (newState: Partial<RollerState>) => {
+  for (let key in newState) {
+    if (state[key] !== newState[key]) {
+      state[key] = newState[key];
+      if (listeners[key]) {
+        listeners[key].forEach((listener) => listener(state[key]));
+      }
+    }
   }
 };
 
-initHeadlinesState();
-
 export default { getState, setState, subscribe };
-// setState, subscribe
-export type RollerState = {
+
+type Listener = (value: string | number | boolean | object | [] | string[] | HTMLElement | null | undefined) => void;
+export interface RollerState {
+  [key: string]: string | number | boolean | object | [] | string[] | HTMLElement | null | undefined;
+
   headlines: string[];
+  indexIncrement: number;
+
   leftRolling: boolean;
   rightRolling: boolean;
-  leftRollingAmount: number;
-  rightRollingAmount: number;
-  leftCurrentIndex: number;
+
   leftNextIndex: number;
-  rightCurrentIndex: number;
   rightNextIndex: number;
-  [key: string]: string | number | boolean | object | [];
-};
-
-type Listener = () => void;
-
-type Intent = {
-  [key: string]: string | number | boolean | object | [];
-};
+}

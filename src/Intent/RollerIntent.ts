@@ -2,6 +2,7 @@ import model from '../Model/RollerModel';
 
 const handleLeftMouseEnter = () => {
   model.setState({ leftRolling: false });
+  console.log('false로만듬');
 };
 const handleRightMouseEnter = () => {
   model.setState({ rightRolling: false });
@@ -13,12 +14,19 @@ const handleRightMouseLeave = () => {
   model.setState({ rightRolling: true });
 };
 
-const setLeftRollingAmount = () => {
-  model.setState({ leftRollingAmount: 0 });
+const leftIncreaseNextIndex = () => {
+  const state = model.getState();
+  model.setState({ leftNextIndex: state.leftNextIndex + 2 });
 };
-
-const setRightRollingAmount = () => {
-  model.setState({ rightRollingAmount: 0 });
+const rightIncreaseNextIndex = () => {
+  const state = model.getState();
+  model.setState({ rightNextIndex: state.rightNextIndex + 2 });
+};
+const leftResetNextIndex = () => {
+  model.setState({ leftNextIndex: 0 });
+};
+const rightResetNextIndex = () => {
+  model.setState({ rightNextIndex: 1 });
 };
 
 export default {
@@ -26,6 +34,9 @@ export default {
   handleRightMouseEnter,
   handleLeftMouseLeave,
   handleRightMouseLeave,
-  setRightRollingAmount,
-  setLeftRollingAmount,
+
+  leftIncreaseNextIndex,
+  rightIncreaseNextIndex,
+  leftResetNextIndex,
+  rightResetNextIndex,
 };
