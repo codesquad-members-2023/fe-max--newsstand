@@ -1,0 +1,20 @@
+{
+  "name": "crawler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "crawl-grid-view": "npx ts-node --esm grid-view.ts",
+    "crawl-list-view": "npx ts-node --esm list-view.ts",
+    "crawl-recent-headlines": "npx ts-node --esm recent-headlines.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "puppeteer": "^20.3.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  },
+  "type": "module"
+}
