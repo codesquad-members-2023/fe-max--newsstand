@@ -1,8 +1,15 @@
-import express from "express";
-import fetch from "node-fetch";
-import { parse } from "node-html-parser";
+import express from 'express';
+import debugLib from 'debug';
+import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
+import createError from 'http-errors';
 
+const debug = debugLib('app:startup');
 const app = express();
+
+// Middleware
+app.use(morgan('tiny'));
+app.use(cookieParser());
 
 app.get("/rolling-news", async (req, res) => {
   try {
@@ -30,6 +37,17 @@ app.get("/rolling-news", async (req, res) => {
   }
 });
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
+app.use((req, res, next) => {
+  next(createError(404));
 });
+
+// Error handler
+app.use((err, req, res, next) => {
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.status(err.status || 500);
+  res.render('error');
+});
+
+const port = process.env.PORT || 3000;
+app.listen(port, () => debug(`Listening on port ${port}...`));
