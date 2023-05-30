@@ -3,14 +3,14 @@ import model from '../Model/MediaModel';
 const handleNextButtonClick = () => {
   const state = model.getState();
   model.setState({
-    currentPage: state.currentPage + 1, //next 버튼이니 1을 증가
+    currentPage: state.currentPage + 1, 
     gridStartPoint: state.gridStartPoint + state.itemsPerGrid,
   });
 };
 const handlePrevButtonClick = () => {
   const state = model.getState();
   model.setState({
-    currentPage: state.currentPage - 1, //prev 버튼이니 1을 감소
+    currentPage: state.currentPage - 1, 
     gridStartPoint: state.gridStartPoint - state.itemsPerGrid,
   });
 };
