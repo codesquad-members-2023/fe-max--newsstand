@@ -33,14 +33,13 @@ export class GridView {
     this.$group.className = "grid-view-group";
   }
 
-  getElement() {
-    return this.$gridView;
-  }
-
   async initRender() {
     await this.store.fetchPressLogos();
-    const ITEM_PER_PAGE = 24;
-    const logos = this.store.getPaginatedLogos(ITEM_PER_PAGE);
+    this.appendPressBox();
+  }
+
+  private appendPressBox() {
+    const logos = this.store.getPaginatedLogos();
 
     logos.forEach((logo) => {
       const pressBox = this.createPressBoxElement(logo);
@@ -64,34 +63,63 @@ export class GridView {
 
     return box;
   }
+
+  getElement() {
+    return this.$gridView;
+  }
+
+  prevPageRender() {
+    this.store.decreasePage();
+    this.clearPressBox();
+    this.appendPressBox();
+  }
+
+  nextPageRender() {
+    this.store.increasePage();
+    this.clearPressBox();
+    this.appendPressBox();
+  }
+
+  private clearPressBox() {
+    Array.from(this.$group.children).forEach((element) => element.remove());
+  }
 }
 
 class GridStore {
-  logos: PressLogo[] = [];
-  currentPage: number = 1;
+  private logos: PressLogo[] = [];
+  private currentPage: number = 1;
+  private maxPage: number = 1;
+  private ITEM_PER_PAGE: number = 24;
 
   setLogos(data: PressLogo[]) {
     this.logos = data;
   }
 
-  getPaginatedLogos(itemPerPage: number) {
-    return this.logos.slice((this.currentPage - 1) * itemPerPage, this.currentPage * itemPerPage);
+  private setMaxPage(logosLength: number) {
+    this.maxPage = Math.ceil(logosLength / this.ITEM_PER_PAGE);
+  }
+
+  getPaginatedLogos() {
+    return this.logos.slice(
+      (this.currentPage - 1) * this.ITEM_PER_PAGE,
+      this.currentPage * this.ITEM_PER_PAGE
+    );
   }
 
   increasePage() {
+    if (this.currentPage >= this.maxPage) {
+      return;
+    }
+
     this.currentPage += 1;
   }
 
   decreasePage() {
+    if (this.currentPage <= 1) {
+      return;
+    }
+
     this.currentPage -= 1;
-  }
-
-  initPage() {
-    this.currentPage = 1;
-  }
-
-  getPage() {
-    return this.currentPage;
   }
 
   async fetchPressLogos() {
@@ -99,5 +127,6 @@ class GridStore {
     const data = await response.json();
 
     this.setLogos(data);
+    this.setMaxPage(data.length);
   }
 }

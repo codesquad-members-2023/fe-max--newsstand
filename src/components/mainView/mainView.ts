@@ -8,6 +8,7 @@ export class MainView {
 
   constructor() {
     this.initElement();
+    this.setEvents();
   }
 
   initElement() {
@@ -17,5 +18,14 @@ export class MainView {
 
     this.$mainView.append(this.$leftArrow, this.$rightArrow);
     this.$mainView.append(this.gridView.getElement());
+  }
+
+  setEvents() {
+    this.$leftArrow.addEventListener("click", () => {
+      this.gridView.prevPageRender();
+    });
+    this.$rightArrow.addEventListener("click", () => {
+      this.gridView.nextPageRender();
+    });
   }
 }
