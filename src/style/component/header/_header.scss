@@ -1,0 +1,25 @@
+@import '../../base/color', '../../base/font', '../../base/mixin';
+
+.header {
+  width: 930px;
+  height: 29px;
+  display: flex;
+  margin: 58px auto 40px;
+  justify-content: space-between;
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font: $display;
+    color: $color-black;
+    cursor: pointer;
+  }
+
+  &__date {
+    display: flex;
+    align-items: center;
+    font: $body-md;
+    color: $color-gray-500;
+  }
+}

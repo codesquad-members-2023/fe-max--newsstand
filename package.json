@@ -1,0 +1,29 @@
+{
+  "name": "fe-max--newsstand",
+  "version": "1.0.0",
+  "description": "뉴스스탠드 프로젝트",
+  "main": "index.js",
+  "scripts": {
+    "style": "sass --watch ./src/style/index.scss:./dist/style/index.css",
+    "dev": "tsc && vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.2.3",
+    "@typescript-eslint/eslint-plugin": "^5.59.6",
+    "@typescript-eslint/parser": "^5.59.6",
+    "eslint": "^8.41.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "2.8.8",
+    "sass": "^1.62.1",
+    "ts-node": "^10.9.1",
+    "tslib": "^2.5.2",
+    "typescript": "^5.0.4",
+    "vite": "^4.3.2"
+  }
+}

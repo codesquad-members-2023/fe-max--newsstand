@@ -1,0 +1,40 @@
+@import '../../base/color', '../../base/font', '../../base/mixin';
+
+.press {
+  &__header {
+    display: flex;
+    width: 930px;
+    justify-content: space-between;
+    margin: 0 0 24px 71px;
+
+    .tap {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+
+      span {
+        display: block;
+        cursor: pointer;
+      }
+
+      &__all {
+        font: $title-md;
+        color: $color-black;
+      }
+
+      &__subscribed {
+        font: $body-md;
+        color: $color-gray-200;
+      }
+    }
+
+    .viewer {
+      display: flex;
+      gap: 14px;
+
+      img {
+        cursor: pointer;
+      }
+    }
+  }
+}
