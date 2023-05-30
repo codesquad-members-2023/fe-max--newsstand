@@ -31,7 +31,3 @@ type GridInfo = {
   isHover: boolean;
   hoverIndex: number;
 };
-
-type Component = {
-  updateProps: Function;
-}

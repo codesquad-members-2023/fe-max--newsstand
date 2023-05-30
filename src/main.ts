@@ -14,7 +14,7 @@ const state = {
   subscribedMediaIds: [56]
 };
 
-export const invoke = (action: Action, target: Component) => {
+export const invoke = (action: Action) => {
   switch (action.type) {
     case 'moveToNextGridPage':
       state.gridInfo.page = state.gridInfo.page + 1;
@@ -32,7 +32,7 @@ export const invoke = (action: Action, target: Component) => {
       break;
   }
 
-  onChangeState(target);
+  onChangeState();
 };
 
 const app = document.querySelector('#app')!;
@@ -43,8 +43,8 @@ const newsStand = new NewsStand({
 
 app.append(newsStand.element);
 
-const onChangeState = (target: Component) => {
-  target.updateProps({
+const onChangeState = () => {
+  newsStand.updateProps({
     dateInfo: state.dateInfo,
     gridInfo: state.gridInfo,
     subscriptionInfo: state.subscribedMediaIds
