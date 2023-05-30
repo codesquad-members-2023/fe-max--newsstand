@@ -2,19 +2,20 @@ import { RollingNewsBarItem, RollingNewsData } from "./rollingNewsBarItem";
 
 export class RollingNewsBar {
   private newsData: RollingNewsData[] = [];
-  private item: RollingNewsBarItem = new RollingNewsBarItem();
-  private nextItem: RollingNewsBarItem = new RollingNewsBarItem();
   private rollingIndex: number = 0;
-  private rollingNewsBar: HTMLDivElement = document.createElement("div");
-  private container: HTMLDivElement = document.createElement("div");
   private intervalId: number | null = null;
 
+  private item: RollingNewsBarItem = new RollingNewsBarItem();
+  private nextItem: RollingNewsBarItem = new RollingNewsBarItem();
+  private rollingNewsBar: HTMLDivElement = document.createElement("div");
+  private container: HTMLDivElement = document.createElement("div");
+
   constructor() {
-    this.initRollingNewsBarElement();
-    this.setMouseEvent();
+    this.initElement();
+    this.setEvents();
   }
 
-  private initRollingNewsBarElement() {
+  private initElement() {
     this.rollingNewsBar.className = "rolling-news-bar";
     this.container.className = "rolling-news-bar__container";
 
@@ -22,18 +23,21 @@ export class RollingNewsBar {
     this.rollingNewsBar.append(this.container);
   }
 
-  private setMouseEvent() {
+  private setEvents() {
     const titleElement = this.item.getTitleElement();
 
     titleElement.addEventListener("mouseenter", () => {
-      if (this.intervalId) {
-        window.clearInterval(this.intervalId);
-        this.intervalId = null;
-      }
+      this.pauseRolling();
     });
 
     titleElement.addEventListener("mouseleave", () => {
       this.startRolling();
+    });
+
+    this.container.addEventListener("transitionend", () => {
+      this.increaseRollingIndex();
+      this.updateRender();
+      this.inactivateAnimation();
     });
   }
 
@@ -48,7 +52,7 @@ export class RollingNewsBar {
   private increaseRollingIndex() {
     this.rollingIndex += 1;
 
-    if (this.newsData && this.newsData.length === this.rollingIndex) {
+    if (this.rollingIndex >= this.newsData.length) {
       this.rollingIndex = 0;
     }
   }
@@ -68,17 +72,14 @@ export class RollingNewsBar {
   startRolling() {
     this.intervalId = window.setInterval(() => {
       this.activateAnimation();
-
-      this.container.addEventListener(
-        "transitionend",
-        () => {
-          this.increaseRollingIndex();
-          this.updateRender();
-          this.inactivateAnimation();
-        },
-        { once: true }
-      );
     }, 5000);
+  }
+
+  pauseRolling() {
+    if (this.intervalId) {
+      window.clearInterval(this.intervalId);
+      this.intervalId = null;
+    }
   }
 
   private activateAnimation() {
