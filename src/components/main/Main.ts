@@ -1,6 +1,7 @@
 import GridView from './GridView';
 import MainHeader from './MainHeader';
 import style from './Main.module.css';
+import { createElement } from '../../utils/domUtils';
 
 type MainProps = {
   gridInfo: GridInfo;
@@ -12,13 +13,12 @@ type NewMainProps = {
 };
 
 export default class Main {
-  public element: HTMLElement;
+  public element;
   private header: MainHeader;
   private content: GridView;
 
   constructor(props: MainProps) {
-    this.element = document.createElement('main');
-    this.element.classList.add(style.main);
+    this.element = createElement('main', { class: style.main });
 
     this.header = new MainHeader();
     this.content = new GridView({ gridInfo: props.gridInfo });

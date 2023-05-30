@@ -1,42 +1,34 @@
+import { createElement } from '../../utils/domUtils';
 import style from './Header.module.css';
 
 type HeaderProps = {
-  dateInfo: Date
-}
+  dateInfo: Date;
+};
 
 export default class Header {
-  public element: HTMLElement;
-  private logo: HTMLAnchorElement;
-  private img: HTMLImageElement;
-  private h1: HTMLHeadingElement;
-  private date: HTMLParagraphElement;
+  public element;
+  private logo;
+  private date;
 
   constructor(props: HeaderProps) {
-    this.element = document.createElement('header');
-    this.element.classList.add(style.header);
+    this.element = createElement('header', { class: style.header });
 
-    this.logo = document.createElement('a');
-    this.logo.classList.add(style.logo);
-    this.logo.href = '#';
+    this.logo = createElement('a', { href: '#', class: style.logo });
+
+    const img = createElement('img', { src: 'assets/icons/newspaper.svg', alt: '뉴스 스탠드' });
+    const title = createElement('h1', { class: 'font-display' });
+    title.textContent = '뉴스 스탠드';
+
+    this.date = createElement('p', { class: 'font-body-md' });
+    this.date.textContent = this.getDate(props.dateInfo);
+
+    this.logo.append(img, title);
+    this.element.append(this.logo, this.date);
+
     this.logo.addEventListener('click', (event) => {
       event.preventDefault();
       location.reload();
     });
-
-    this.img = document.createElement('img');
-    this.img.setAttribute('src', 'assets/icons/newspaper.svg');
-    this.img.setAttribute('alt', '뉴스 스탠드');
-
-    this.h1 = document.createElement('h1');
-    this.h1.classList.add('font-display');
-    this.h1.textContent = '뉴스 스탠드';
-
-    this.date = document.createElement('p');
-    this.date.classList.add('font-body-md');
-    this.date.textContent = this.getDate(props.dateInfo);
-
-    this.logo.append(this.img, this.h1);
-    this.element.append(this.logo, this.date);
   }
 
   private getDate(date: Date): string {

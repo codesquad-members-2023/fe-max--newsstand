@@ -6,7 +6,7 @@ export default class GridView {
   public element;
   private table;
   private cells;
-  private subscription;
+  private subscriptionCover;
   private leftArrow;
   private rightArrow;
   private page: number;
@@ -45,30 +45,31 @@ export default class GridView {
     });
 
     const leftArrowImg = createElement('img', { src: 'assets/icons/left_arrow.svg'});
-    const leftArrowClass = this.page === 0 ? [style.left_arrow, 'no-display'] : style.left_arrow;
-    this.leftArrow = createElement('a', { href: '#', class: leftArrowClass });
+    this.leftArrow = createElement('a', { href: '#', class: style.left_arrow });
     this.leftArrow.append(leftArrowImg);
 
     const rightArrowImg = createElement('img', { src: 'assets/icons/right_arrow.svg'});
-    const rightArrowClass = this.page === 3 ? [style.right_arrow, 'no-display'] : style.right_arrow;
-    this.rightArrow = createElement('a', { href: '#', class: rightArrowClass});
+    this.rightArrow = createElement('a', { href: '#', class: style.right_arrow});
     this.rightArrow.append(rightArrowImg);
+
+    this.leftArrow.classList.toggle('no-display', this.page === 0);
+    this.rightArrow.classList.toggle('no-display', this.page === 3);
     
     tbody.append(...rows);
     this.table.append(tbody);
     this.element.append(this.table, this.leftArrow, this.rightArrow);
 
-    this.subscription = createElement('div', { class: style.subscription});
+    this.subscriptionCover = createElement('div', { class: style.subscription});
     const button = createElement('a', { href: '#', class: 'subscribe-button'});
     const plus = createElement('img', { src: 'assets/icons/plus-sm.svg', alt: ''});
     const text = document.createTextNode('');
     button.append(plus, text);
-    this.subscription.append(button);
+    this.subscriptionCover.append(button);
 
     this.setEvent();
   }
 
-  setEvent() {
+  private setEvent() {
     this.cells.forEach((cell, index) => {
       cell.addEventListener('mouseenter', () => {
         invoke({
@@ -77,7 +78,7 @@ export default class GridView {
             hoverOnGrid: true,
             hoveredCellIndex: index
           }
-        });
+        }, this);
       });
     });
 
@@ -87,19 +88,19 @@ export default class GridView {
         payload: {
           hoverOnGrid: false
         }
-      });
+      }, this);
     });
 
     this.leftArrow.addEventListener('click', () => {
       invoke({
         type: 'moveToPrevGridPage'
-      });
+      }, this);
     });
 
     this.rightArrow.addEventListener('click', () => {
       invoke({
         type: 'moveToNextGridPage'
-      });
+      }, this);
     });
   }
 
@@ -115,48 +116,41 @@ export default class GridView {
     this.flipPage(imgs);
   }
 
-  renderSubscriptionCover(isHover: boolean, hoverIndex: number, subscriptionInfo: number[]) {
+  private renderSubscriptionCover(isHover: boolean, hoverIndex: number, subscriptionInfo: number[]) {
     for (let i = 0; i < this.cells.length; i++) {
       const cell = this.cells[i];
       if (isHover && hoverIndex === i) {
-        const mediaLogo = cell.firstElementChild?.firstElementChild! as HTMLElement;
-        const textNode = this.subscription.firstElementChild?.lastChild as HTMLElement;
-        const subscriptionText = subscriptionInfo.includes(Number(mediaLogo.dataset.id))
-          ? '해지하기'
-          : '구독하기';
-        if (textNode) {
-          textNode.textContent = subscriptionText;
+        const mediaLogo = cell.querySelector(`.${style.media_logo}`);
+        const textNode = this.subscriptionCover.querySelector('.subscribe-button')?.lastChild;
+        if (mediaLogo instanceof HTMLElement && textNode) {
+          textNode.textContent = subscriptionInfo.includes(Number(mediaLogo.dataset.id))
+            ? '해지하기'
+            : '구독하기';
+          cell.append(this.subscriptionCover);
         }
-        cell.append(this.subscription);
         continue;
       }
       if (cell.childElementCount > 1) {
-        cell.removeChild(cell.lastElementChild!);
+        cell.lastElementChild?.remove();
       }
     }
   }
 
-  flipPage(imgs: GridImg[]) {
+  private flipPage(imgs: GridImg[]) {
     const firstGridIndex = this.numberOfCells * this.page;
     const limitGridIndex = firstGridIndex + this.numberOfCells;
 
     imgs.slice(firstGridIndex, limitGridIndex).forEach((img, index) => {
-      const mediaLogo = this.cells[index].firstElementChild?.firstElementChild!;
+      const mediaLogo = this.cells[index].querySelector(`.${style.media_logo}`);
+      if (mediaLogo === null) {
+        return;
+      }
       mediaLogo.setAttribute('src', img.src);
       mediaLogo.setAttribute('alt', img.alt);
       mediaLogo.setAttribute('data-id', img.id.toString());
     });
 
-    if (this.page === 0 && !this.leftArrow.classList.contains('no-display')) {
-      this.leftArrow.classList.add('no-display');
-    } else if (this.page !== 0 && this.leftArrow.classList.contains('no-display')) {
-      this.leftArrow.classList.remove('no-display');
-    }
-
-    if (this.page === 3 && !this.rightArrow.classList.contains('no-display')) {
-      this.rightArrow.classList.add('no-display');
-    } else if (this.page !== 3 && this.rightArrow.classList.contains('no-display')) {
-      this.rightArrow.classList.remove('no-display');
-    }
+    this.leftArrow.classList.toggle('no-display', this.page === 0);
+    this.rightArrow.classList.toggle('no-display', this.page === 3);
   }
 }

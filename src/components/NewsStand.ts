@@ -1,3 +1,4 @@
+import { createElement } from '../utils/domUtils';
 import style from './NewsStand.module.css';
 import Header from './header/Header';
 import Main from './main/Main';
@@ -15,14 +16,13 @@ type NewNewsStandProps = {
 };
 
 export default class NewsStand {
-  public element: HTMLElement;
+  public element;
   private header: Header;
   private newsBar: NewsBar;
   private main: Main;
 
   constructor(props: NewsStandProps) {
-    this.element = document.createElement('div');
-    this.element.classList.add(style.news_stand);
+    this.element = createElement('div', { class: style.news_stand});
 
     this.header = new Header({ dateInfo: props.dateInfo });
     this.newsBar = new NewsBar();
