@@ -1,10 +1,3 @@
-const initHeadlinesState = async () => {
-  const response = await fetch('/src/services/db.json');
-  const data = await response.json();
-
-  return data.headlines;
-};
-
 let state: RollerState = {
   headlines: await initHeadlinesState(),
 
@@ -18,6 +11,7 @@ let state: RollerState = {
 };
 
 const listeners: Record<keyof RollerState, Listener[]> = {};
+
 const subscribe = (key: keyof RollerState, listener: Listener) => {
   if (!listeners[key]) {
     listeners[key] = [];
@@ -38,6 +32,13 @@ const setState = (newState: Partial<RollerState>) => {
     }
   }
 };
+
+async function initHeadlinesState() {
+  const response = await fetch('/src/services/db.json');
+  const data = await response.json();
+
+  return data.headlines;
+}
 
 export default { getState, setState, subscribe };
 

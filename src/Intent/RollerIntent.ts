@@ -2,7 +2,6 @@ import model from '../Model/RollerModel';
 
 const handleLeftMouseEnter = () => {
   model.setState({ leftRolling: false });
-  console.log('false로만듬');
 };
 const handleRightMouseEnter = () => {
   model.setState({ rightRolling: false });
