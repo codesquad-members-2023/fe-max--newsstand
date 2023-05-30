@@ -1,0 +1,20 @@
+.grid-view-group {
+  width: 930px;
+  height: 388px;
+
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  justify-items: center;
+  align-items: center;
+
+  &__logo {
+    display: flex;
+
+    img {
+      width: 60%;
+      height: auto;
+      margin: auto;
+    }
+  }
+}

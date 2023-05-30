@@ -1,0 +1,59 @@
+@use "@style/common.scss";
+
+$rolling-news-bar-height: 46px;
+
+.rolling-news-bar-section {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.rolling-news-bar {
+  width: 100%;
+  height: $rolling-news-bar-height;
+  position: relative;
+  border: 1px solid common.$gray-100;
+  background-color: common.$off-white;
+  margin-bottom: 33px;
+  overflow: hidden;
+
+  &__container {
+    position: relative;
+    bottom: 0px;
+
+    &--active {
+      @extend .rolling-news-bar__container;
+
+      bottom: $rolling-news-bar-height;
+      transition: bottom 0.5s;
+    }
+  }
+
+  &__item {
+    padding: 16px;
+    white-space: nowrap;
+
+    display: flex;
+    gap: 16px;
+  }
+
+  &__press {
+    @include common.title-sm;
+
+    color: common.$black;
+  }
+
+  &__title {
+    @include common.body-sm;
+
+    text-decoration: none;
+    color: common.$gray-500;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

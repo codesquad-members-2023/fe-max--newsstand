@@ -1,0 +1,57 @@
+// Typography
+$pretendard: "Pretendard";
+
+@mixin display {
+  font-family: $pretendard;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+@mixin title-md {
+  font-family: $pretendard;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+@mixin title-sm {
+  font-family: $pretendard;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+@mixin title-xs {
+  font-family: $pretendard;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+@mixin body-md {
+  font-family: $pretendard;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 22px;
+}
+
+@mixin body-sm {
+  font-family: $pretendard;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+@mixin body-xs {
+  font-family: $pretendard;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+// Color
+$white-70: rgba(255, 255, 255, 0.7);
+$white: #ffffff;
+$off-white: #f5f7f9;
+$gray-100: #d2dae0;
+$gray-200: #879298;
+$gray-300: #6e8091;
+$gray-400: #5f6e76;
+$gray-500: #4b5966;
+$black: #14212b;
+$primary: #4362d0;

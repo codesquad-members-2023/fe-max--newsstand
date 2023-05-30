@@ -1,0 +1,39 @@
+@use "@style/common.scss";
+
+.header {
+  width: 100%;
+  margin-bottom: 40px;
+
+  display: flex;
+  justify-content: space-between;
+
+  &__title {
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__logo {
+    width: 24px;
+    height: 24px;
+
+    background-image: url(@assets/sprite_main.png);
+    background-size: 337.6px 324px;
+    background-position: -5px -173px;
+    background-repeat: no-repeat;
+  }
+
+  &__text {
+    @include common.display;
+
+    color: common.$black;
+  }
+
+  &__today-date {
+    @include common.body-md;
+
+    color: common.$gray-500;
+  }
+}
