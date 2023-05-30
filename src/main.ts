@@ -19,11 +19,10 @@ const state: {
 };
 
 const initGridImgs = async () => {
-  const images = shuffleArray(await getGridImgs());
   invoke({
     type: 'initGridImages',
     payload: {
-      images: images
+      images: shuffleArray(await getGridImgs())
     }
   });
 };

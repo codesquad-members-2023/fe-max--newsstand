@@ -143,7 +143,7 @@ export default class GridView {
       if (isHover && hoverIndex === i) {
         const mediaLogo = cell.querySelector(`.${style.media_logo}`);
         const textNode = this.subscriptionCover.querySelector('.subscribe-button')?.lastChild;
-        if (mediaLogo instanceof HTMLElement && textNode) {
+        if (mediaLogo instanceof HTMLElement && mediaLogo.dataset.id && textNode) {
           textNode.textContent = subscriptionInfo.includes(Number(mediaLogo.dataset.id))
             ? '해지하기'
             : '구독하기';
