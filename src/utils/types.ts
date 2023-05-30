@@ -13,7 +13,7 @@ export interface TextElementObj {
 export type ElementType = ElementObj | TextElementObj;
 
 export type Headline = {
-  media: string;
+  press: string;
   title: string;
 };
 

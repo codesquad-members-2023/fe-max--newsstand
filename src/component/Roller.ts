@@ -24,7 +24,7 @@ export class Roller extends Base {
         return `
             <div class="rollerContainer__roller__wrapper__item">
                 <div class="rollerContainer__roller__wrapper__item-press" data-components="press">
-                    ${item.media}
+                    ${item.press}
                 </div>
                 <div class="rollerContainer__roller__wrapper__item-title" data-components="title">
                     ${item.title}
@@ -42,7 +42,7 @@ export class Roller extends Base {
     component.style.transition = "transform 1s";
     currentList.forEach((prop, index) => {
       const isChanged =
-        prop.media !== newList[index].media ||
+        prop.press !== newList[index].press ||
         prop.title !== newList[index].title;
 
       if (isChanged) {
@@ -61,8 +61,7 @@ export class Roller extends Base {
 
       target.style.transition = "none";
       newList.forEach((_, index) => {
-        // TODO press, media 언론사명을 두가지 이름으로 사용중이다 press로 통일하기
-        pressElements[index].textContent = newList[index].media;
+        pressElements[index].textContent = newList[index].press;
         titleElements[index].textContent = newList[index].title;
       });
       target.style.transform = "translateY(0px)";
