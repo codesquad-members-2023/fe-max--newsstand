@@ -17,7 +17,7 @@ export type Headline = {
   title: string;
 };
 
-export type Roller = {
+export type RollerType = {
   headlineList: Headline[];
   headline: Headline[];
   index: number;
@@ -28,11 +28,23 @@ export type GridData = { src: string; alt: string }[];
 
 export type newsStandState = {
   date: Date;
-  leftRoller: Roller;
-  rightRoller: Roller;
+  leftRoller: RollerType;
+  rightRoller: RollerType;
   rollerTick: number;
   currentMode: "grid" | "list";
-  gird: {
+  grid: {
     gridData: GridData;
   };
 };
+
+export interface IncrementTick {
+  type: "INCREMENT_TICK";
+}
+
+export interface ToggleRollingState {
+  type: "TOGGLE_ROLLING_STATE";
+  target: "left" | "right";
+}
+
+export type Action = IncrementTick | ToggleRollingState;
+
