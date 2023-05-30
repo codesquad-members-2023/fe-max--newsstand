@@ -47,20 +47,6 @@ export default class HeadlinesContainer extends Component {
     this.rightHeadline.setHeadlineData(rightHeadlineProps);
   }
 
-  setHeadlinesData(newProps: THeadlinesProps) {
-    this.dataset.headlineContent = JSON.stringify(newProps);
-  }
-
-  static get observedAttributes() {
-    return ["left-headline-content", "right-headline-content"];
-  }
-
-  attributeChangedCallback(name: string, _oldVal: string, newVal: string) {
-    if (name === "left-headline-content" || name === "right-headline-content") {
-      this.update(JSON.parse(newVal));
-    }
-  }
-
   disconnectedCallback() {
     window.clearInterval(this.intervalId);
   }
