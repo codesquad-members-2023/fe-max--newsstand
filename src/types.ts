@@ -18,12 +18,17 @@ type Action =
         hoverOnGrid: boolean;
       };
     }
-    
-    | {
-      type: 'initGridImages',
+  | {
+      type: 'initGridImages';
       payload: {
-        images: GridImg[]
-      }
+        images: GridImg[];
+      };
+    }
+    | {
+      type: 'initHeadlineNews';
+      payload: {
+        news: HeadlineNews[];
+      };
     };
 
 type GridImg = {
@@ -37,4 +42,17 @@ type GridInfo = {
   page: number;
   isHover: boolean;
   hoverIndex: number;
+};
+
+type HeadlineNews = {
+  media: string;
+  mediaUrl: string;
+  news: string;
+  newsUrl: string;
+};
+
+type HeadlineInfo = {
+  news: HeadlineNews[];
+  leftIndex: number;
+  rightIndex: number;
 };

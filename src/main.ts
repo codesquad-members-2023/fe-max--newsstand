@@ -1,5 +1,5 @@
 import NewsStand from './components/NewsStand';
-import { getGridImgs } from './utils/dataFetch';
+import { getGridImgs, getHeadlineNews } from './utils/dataUtils';
 import { shuffleArray } from './utils/randomUtils';
 import './styles/main.css';
 
@@ -7,6 +7,7 @@ const state: {
   dateInfo: Date;
   gridInfo: GridInfo;
   subscribedMediaIds: number[];
+  headlineInfo: HeadlineInfo;
 } = {
   dateInfo: new Date(),
   gridInfo: {
@@ -15,7 +16,12 @@ const state: {
     isHover: false,
     hoverIndex: -1
   },
-  subscribedMediaIds: [56]
+  subscribedMediaIds: [56],
+  headlineInfo: {
+    news: [],
+    leftIndex: 0,
+    rightIndex: 1
+  }
 };
 
 const initGridImgs = async () => {
@@ -23,6 +29,15 @@ const initGridImgs = async () => {
     type: 'initGridImages',
     payload: {
       images: shuffleArray(await getGridImgs())
+    }
+  });
+};
+
+const initHeadlineNews = async () => {
+  invoke({
+    type: 'initHeadlineNews',
+    payload: {
+      news: await getHeadlineNews()
     }
   });
 };
@@ -46,6 +61,9 @@ export const invoke = (action: Action) => {
     case 'initGridImages':
       state.gridInfo.imgs = action.payload.images;
       break;
+    case 'initHeadlineNews':
+      state.headlineInfo.news = action.payload.news;
+      break;
   }
 
   onChangeState();
@@ -55,16 +73,19 @@ const app = document.querySelector('#app')!;
 const newsStand = new NewsStand({
   dateInfo: state.dateInfo,
   gridInfo: state.gridInfo,
-  subscriptionInfo: state.subscribedMediaIds
+  subscriptionInfo: state.subscribedMediaIds,
+  headlineInfo: state.headlineInfo
 });
 
 app.append(newsStand.element);
 initGridImgs();
+initHeadlineNews();
 
 const onChangeState = () => {
   newsStand.updateProps({
     dateInfo: state.dateInfo,
     gridInfo: state.gridInfo,
-    subscriptionInfo: state.subscribedMediaIds
+    subscriptionInfo: state.subscribedMediaIds,
+    headlineInfo: state.headlineInfo
   });
 };
