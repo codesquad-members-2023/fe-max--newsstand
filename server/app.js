@@ -36,6 +36,26 @@ app.get('/mediaBrands', cors(corsOptions), function (req, res) {
   }
 });
 
+app.get('/headlineNews', cors(corsOptions), function (req, res) {
+  const filePath = path.join(__dirname, 'data', 'headlineNews.json');
+  let headlineNews;
+
+  try {
+    headlineNews = require(filePath);
+  } catch (error) {
+    console.error('Failed to read JSON file: ', error);
+    next(createError(500, 'Failed to read JSON file'));
+    return;
+  }
+
+  try {
+    res.json(headlineNews);
+  } catch {
+    console.error('Failed to parse JSON data: ', error);
+    next(createError(500, 'Failed to parse JSON data'))
+  }
+});
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
