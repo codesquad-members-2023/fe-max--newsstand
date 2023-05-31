@@ -8,9 +8,6 @@ $col: 6;
 .main-view {
   position: relative;
 
-  display: flex;
-  gap: 8px;
-
   &__right-arrow {
     width: 26px;
     height: 40px;
@@ -20,6 +17,10 @@ $col: 6;
     transform: translate(100%, -50%);
     background-image: url(@assets/right-button.svg);
     cursor: pointer;
+
+    &--hidden {
+      display: hidden;
+    }
   }
 
   &__left-arrow {
@@ -27,6 +28,10 @@ $col: 6;
 
     left: -47px;
     transform: translate(-100%, -50%) rotate(180deg);
+
+    &--hidden {
+      display: hidden;
+    }
   }
 }
 
