@@ -1,8 +1,5 @@
 import { NewsStand } from './components/NewsStand.ts';
 import { OneLineNews, GridNewsData, ListNewsData } from './types.ts';
-import oneLineNewsData from './data/oneLineData.json';
-import gridData from './data/gridData.json';
-import newsStandData from './data/newsStandData.json';
 import './scss/main.scss';
 
 type State = {
@@ -12,14 +9,24 @@ type State = {
   listData: ListNewsData[];
 };
 
-const state: State = {
-  systemDate: new Date(),
-  oneLineNews: oneLineNewsData,
-  gridData: gridData,
-  listData: newsStandData,
-};
+async function fetchData(path) {
+  const data = await fetch(`http://localhost:3000/${path}`).then((res) => res.json());
 
-const newsStand = new NewsStand(state);
+  return data;
+}
+
+async function createState() {
+  const state: State = {
+    systemDate: new Date(),
+    oneLineNews: await fetchData('oneLineNews'),
+    gridData: await fetchData('gridData'),
+    listData: await fetchData('listData'),
+  };
+
+  return state;
+}
+
+const newsStand = new NewsStand(await createState());
 
 function App() {
   const app = document.querySelector('#app');
