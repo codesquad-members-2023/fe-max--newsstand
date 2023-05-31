@@ -9,7 +9,7 @@ export class NewsRoller {
   name: HTMLDivElement;
   titleBox: HTMLDivElement;
   currentTitle: HTMLDivElement;
-  timer;
+  timer: NodeJS.Timer;
 
   constructor(props: OneLineNews[], direction: string) {
     this.state = {
@@ -18,6 +18,7 @@ export class NewsRoller {
     this.props = props;
     this.element = document.createElement('div');
     this.element.classList.add('news-bar');
+    this.timer;
 
     const name = document.createElement('div');
     this.name = name;
