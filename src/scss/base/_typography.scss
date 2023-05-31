@@ -8,14 +8,14 @@ body {
   @include fontBodyMD();
 }
 // newsbar
-.press-name {
+.news-bar__name {
   @include fontTitleSM();
 }
-// main header
-.news-oneline {
+
+.news-bar__title-box {
   @include fontBodySM();
 }
-
+// main header
 .tab-btn__item.active {
   @include fontTitleMD();
 }

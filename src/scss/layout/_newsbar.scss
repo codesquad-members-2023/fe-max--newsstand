@@ -1,5 +1,15 @@
 @use '../abstracts' as *;
 
+@keyframes rolling {
+  0% {
+    transform: none;
+  }
+
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
 .auto-rolling__area {
   display: flex;
   gap: 0.5rem;
@@ -13,17 +23,38 @@
     background-color: $color-off-white;
     border: 1px solid $color-gray-100;
 
-    .press-name {
+    &__name {
       color: $color-black;
     }
 
-    .news-oneline {
+    &__title-box {
+      position: relative;
       cursor: pointer;
       flex-grow: 1;
       color: $color-gray-500;
+      overflow: hidden;
 
-      &:hover {
-        text-decoration: underline;
+      .title {
+        position: absolute;
+
+        // transition: transform 0.5s;
+
+        &.roll {
+          animation: rolling 0.5s;
+          animation-fill-mode: forwards;
+        }
+
+        &:hover {
+          text-decoration: underline;
+        }
+
+        // &.show {
+        //   transform: translateY(-1rem);
+        // }
+
+        // &.after {
+        //   transform: translateY(-1rem);
+        // }
       }
     }
   }
