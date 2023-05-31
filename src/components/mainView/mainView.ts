@@ -64,7 +64,7 @@ export class GridStore {
     this.logos = data;
   }
 
-  private setMaxPage(logosLength: number) {
+  private setLastPage(logosLength: number) {
     this.lastPage = Math.ceil(logosLength / this.ITEM_PER_PAGE);
   }
 
@@ -104,6 +104,6 @@ export class GridStore {
     const data = await response.json();
 
     this.setLogos(data);
-    this.setMaxPage(data.length);
+    this.setLastPage(data.length);
   }
 }
