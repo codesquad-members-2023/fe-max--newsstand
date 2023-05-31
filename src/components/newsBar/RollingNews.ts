@@ -30,9 +30,10 @@ export default class RollingNews {
       const newsData = props.news[props.index];
 
       this.press.textContent = newsData.media;
-      if (this.press instanceof HTMLAnchorElement) {
-        this.press.href = newsData.mediaUrl;
-      }
+      this.press.setAttribute('href', newsData.mediaUrl);
+      // if (this.press instanceof HTMLAnchorElement) {
+      //   this.press.href = newsData.mediaUrl;
+      // }
 
       this.title.textContent = newsData.news;
       if (this.title instanceof HTMLAnchorElement) {

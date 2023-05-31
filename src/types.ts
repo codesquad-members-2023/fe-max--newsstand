@@ -24,7 +24,7 @@ type Action =
         images: GridImg[];
       };
     }
-    | {
+  | {
       type: 'initHeadlineNews';
       payload: {
         news: HeadlineNews[];

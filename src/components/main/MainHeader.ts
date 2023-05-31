@@ -3,49 +3,106 @@ import style from './MainHeader.module.css';
 
 export default class MainHeader {
   public element;
-  private tabItems;
-  private viewerItems;
+  private tabs;
+  private viewers;
 
-  constructor() {
-    this.element = createElement('header', { class: style.header});
+  constructor(props: {
+    targetMedia: 'total' | 'subscribed';
+    viewerState: 'listView' | 'gridView';
+  }) {
+    this.element = createElement('header', { class: style.header });
+    this.tabs = this.createTabs();
+    this.viewers = this.createViewers();
 
-    const tabs = createElement('nav');
-    const tabList = createElement('ul', { class: style.tab_list});
+    const tabNav = this.createNavElement('tab');
+    const viewerNav = this.createNavElement('viewer');
 
-    this.tabItems = [{name: '전체 언론사', state: 'active'}, {name: '내가 구독한 언론사', state: 'inactive'}].map((tabInfo) => {
-      const listFont = tabInfo.state === 'active' ? 'font-title-md' : 'font-body-md';
-      const li = createElement('li', { class: listFont});
-      const anchor = createElement('a', {href: '#'});
-      anchor.textContent = tabInfo.name;
-      anchor.classList.toggle(style.dimmed, tabInfo.state !== 'active');
+    this.element.append(tabNav, viewerNav);
 
-      li.append(anchor);
-      return li;
+    this.render(props);
+    this.setEvent();
+  }
+
+  private createTabs() {
+    const tabInfo = [
+      { text: '전체 언론사', targetMedia: 'total' },
+      { text: '내가 구독한 언론사', targetMedia: 'subscribed' }
+    ];
+    return tabInfo.map((info) => {
+      const anchor = createElement('a', {
+        href: '#',
+        class: style.tab_item,
+        'data-target-media': info.targetMedia
+      });
+      anchor.textContent = info.text;
+
+      return anchor;
     });
+  }
 
-    const viewers = createElement('nav');
-    const viewerList = createElement('ul', { class: style.viewer_list});
+  private createViewers() {
+    const viewerInfo = [
+      { src: 'assets/icons/list-view.svg', alt: '리스트 보기', state: 'listView' },
+      { src: 'assets/icons/grid-view.svg', alt: '그리드 보기', state: 'gridView' }
+    ];
 
-    this.viewerItems = [
-      { src: 'assets/icons/list-view.svg', alt: '리스트 보기', state: 'inactive' },
-      { src: 'assets/icons/grid-view.svg', alt: '그리드 보기', state: 'active' }
-    ].map((icon) => {
-      const iconClassName = icon.state === 'active' ? style.active_icon : style.inactive_icon;
-
-      const li = createElement('li');
-      const anchor = createElement('a', { href: '#'});
-      const img = createElement('img', { src: icon.src, alt: icon.alt, class: iconClassName});
+    return viewerInfo.map((icon) => {
+      const anchor = createElement('a', {
+        href: '#',
+        class: style.viewer_item,
+        'data-state': icon.state
+      });
+      const img = createElement('img', {
+        src: icon.src,
+        alt: icon.alt
+      });
 
       anchor.append(img);
-      li.append(anchor);
+      return anchor;
+    });
+  }
+
+  private createNavElement(item: 'tab' | 'viewer') {
+    const className = style[`${item}_list`];
+    const targets = this[`${item}s`];
+    
+    const nav = createElement('nav');
+    const list = createElement('ul', { class: className });
+
+    const items = targets.map((tab) => {
+      const li = createElement('li');
+      li.append(tab);
+
       return li;
     });
 
-    tabList.append(...this.tabItems);
-    tabs.append(tabList);
-    viewerList.append(...this.viewerItems);
-    viewers.append(viewerList);
+    list.append(...items);
+    nav.append(list);
 
-    this.element.append(tabs, viewers);
+    return nav;
   }
+
+  private render(props: {
+    targetMedia: 'total' | 'subscribed';
+    viewerState: 'listView' | 'gridView';
+  }) {
+    this.updateTabs(props.targetMedia);
+    this.updateViewers(props.viewerState);
+  }
+
+  private updateTabs(targetMedia: 'total' | 'subscribed') {
+    for (const tab of this.tabs) {
+      const isActiveTab = tab.getAttribute('data-target-media') === targetMedia;
+      tab.classList.toggle(style.active_tab, isActiveTab);
+    }
+  }
+
+  private updateViewers(viewerState: 'listView' | 'gridView') {
+    for (const viewer of this.viewers) {
+      const isActiveViewer = viewer.getAttribute('data-state') === viewerState;
+      viewer.classList.toggle(style.active_viewer, isActiveViewer);
+    }
+  }
+
+  private setEvent() {}
 }

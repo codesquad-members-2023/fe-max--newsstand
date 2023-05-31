@@ -6,6 +6,10 @@ import { createElement } from '../../utils/domUtils';
 type MainProps = {
   gridInfo: GridInfo;
   subscriptionInfo: number[];
+  mainViewerInfo: {
+    targetMedia: 'total' | 'subscribed';
+    viewerState: 'listView' | 'gridView';
+  };
 };
 
 export default class Main {
@@ -15,15 +19,20 @@ export default class Main {
 
   constructor(props: MainProps) {
     this.element = createElement('main', { class: style.main });
-
-    this.header = new MainHeader();
-    this.content = new GridView({ gridInfo: props.gridInfo, subscriptionInfo: props.subscriptionInfo});
+    this.header = new MainHeader({
+      targetMedia: props.mainViewerInfo.targetMedia,
+      viewerState: props.mainViewerInfo.viewerState
+    });
+    this.content = new GridView({
+      gridInfo: props.gridInfo,
+      subscriptionInfo: props.subscriptionInfo
+    });
 
     this.element.append(this.header.element, this.content.element);
   }
 
-  updateProps(props: MainProps) {
-    this.content.updateProps({
+  updateView(props: MainProps) {
+    this.content.updateView({
       gridInfo: props.gridInfo,
       subscriptionInfo: props.subscriptionInfo
     });

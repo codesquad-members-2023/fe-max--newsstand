@@ -14,70 +14,95 @@ export default class GridView {
   private subscriptionCover;
   private leftArrow;
   private rightArrow;
-  private numberOfCells: number;
+  private numberOfCells = 24;
   private props;
 
   constructor(props: GridViewProps) {
     this.element = createElement('section', { class: style.grid_view });
-    this.table = createElement('table', { class: style.table });
-    const tbody = createElement('tbody');
-
-    const numberOfRows = 4;
-    const numberOfCellsInRow = 6;
-    this.numberOfCells = numberOfRows * numberOfCellsInRow;
-
-    const rows = [...Array(numberOfRows)].map((_) => createElement('tr'));
-    this.cells = [...Array(this.numberOfCells)].map((_) => {
-      const cell = createElement('td', { class: style.cell });
-      const anchor = createElement('a', { href: '#', class: style.media_thumb });
-      const img = createElement('img', {
-        class: style.media_logo,
-        src: '',
-        alt: '',
-        'data-id': ''
-      });
-
-      anchor.append(img);
-      cell.append(anchor);
-      return cell;
-    });
-
-    rows.forEach((row, index) => {
-      const startIndex = index * numberOfCellsInRow;
-      const limitIndex = (index + 1) * numberOfCellsInRow;
-      for (let i = startIndex; i < limitIndex; i++) {
-        row.append(this.cells[i]);
-      }
-    });
-
-    const leftArrowImg = createElement('img', { src: 'assets/icons/left_arrow.svg' });
-    this.leftArrow = createElement('a', { href: '#', class: style.left_arrow });
-    this.leftArrow.append(leftArrowImg);
-
-    const rightArrowImg = createElement('img', { src: 'assets/icons/right_arrow.svg' });
-    this.rightArrow = createElement('a', { href: '#', class: style.right_arrow });
-    this.rightArrow.append(rightArrowImg);
-
-    tbody.append(...rows);
-    this.table.append(tbody);
+    this.cells = this.createCells();
+    this.table = this.createTable();
+    this.leftArrow = this.createArrow('left');
+    this.rightArrow = this.createArrow('right');
+    this.subscriptionCover = this.createSubscriptionCover();
+    
     this.element.append(this.table, this.leftArrow, this.rightArrow);
 
-    this.renderCurrentPage(props.gridInfo.imgs, props.gridInfo.page);
+    this.props = this.updateProps(props);
+    this.updateView(props);
+    this.setEvent();
+  }
 
-    this.subscriptionCover = createElement('div', { class: style.subscription });
+  private createCells() {
+    return [...Array(this.numberOfCells)].map(() => {
+      const cell = createElement('td', { class: style.cell });
+      const anchor = createElement('a', { href: '#', class: style.media_thumb });
+      const img = createElement('img', { class: style.media_logo });
+  
+      anchor.append(img);
+      cell.append(anchor);
+  
+      return cell;
+    })
+  }
+
+  private createTable() {
+    const table = createElement('table', { class: style.table });
+    const tbody = this.createTableBody();
+
+    table.append(tbody);
+
+    return table;
+  }
+
+  private createTableBody() {
+    const numberOfRows = 4;
+    const numberOfCellsInRow = Math.floor(this.numberOfCells / numberOfRows);
+
+    const tbody = createElement('tbody');
+    const rows = [...Array(numberOfRows)].map((_, index) => {
+      const row = createElement('tr');
+      const startIndex = index * numberOfCellsInRow;
+      const limitIndex = (index + 1) * numberOfCellsInRow;
+
+      row.append(...this.cells.slice(startIndex, limitIndex));
+
+      return row;
+    });
+
+    tbody.append(...rows);
+
+    return tbody;
+  }
+
+  private createArrow(direction: string) {
+    const imagePath = `assets/icons/${direction}_arrow.svg`;
+    const arrow = createElement('a', { href: '#', class: style[`${direction}_arrow`] });
+    const arrowImg = createElement('img', { src: imagePath });
+
+    arrow.append(arrowImg);
+
+    return arrow;
+  }
+
+  private createSubscriptionCover() {
+    const cover = createElement('div', { class: style.subscription });
     const button = createElement('a', { href: '#', class: 'subscribe-button' });
     const plus = createElement('img', { src: 'assets/icons/plus-sm.svg', alt: '' });
     const text = document.createTextNode('');
-    button.append(plus, text);
-    this.subscriptionCover.append(button);
 
-    this.props = {
+    button.append(plus, text);
+    cover.append(button);
+
+    return cover;
+  }
+
+  private updateProps(props: GridViewProps) {
+    return {
       imgs: [...props.gridInfo.imgs],
       page: props.gridInfo.page,
       isHover: props.gridInfo.isHover,
       hoverIndex: props.gridInfo.hoverIndex
     };
-    this.setEvent();
   }
 
   private setEvent() {
@@ -115,7 +140,7 @@ export default class GridView {
     });
   }
 
-  updateProps(props: GridViewProps) {
+  updateView(props: GridViewProps) {
     const { imgs, page, isHover, hoverIndex } = props.gridInfo;
     if (this.props.isHover !== isHover || this.props.hoverIndex !== hoverIndex) {
       this.renderSubscriptionCover(isHover, hoverIndex, props.subscriptionInfo);
@@ -125,12 +150,7 @@ export default class GridView {
       this.renderCurrentPage(imgs, page);
     }
 
-    this.props = {
-      imgs: [...props.gridInfo.imgs],
-      page: props.gridInfo.page,
-      isHover: props.gridInfo.isHover,
-      hoverIndex: props.gridInfo.hoverIndex
-    };
+    this.props = this.updateProps(props);
   }
 
   private renderSubscriptionCover(

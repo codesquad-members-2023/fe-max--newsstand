@@ -20,7 +20,7 @@ export default class NewsBar {
     this.element.append(this.leftRollingNews.element, this.rightRollingNews.element);
   }
 
-  updateProps(props: NewsBarProps) {
+  updateView(props: NewsBarProps) {
     this.leftRollingNews.updateProps({ index: props.headlineInfo.leftIndex, news: props.headlineInfo.news });
     this.rightRollingNews.updateProps({ index: props.headlineInfo.rightIndex, news: props.headlineInfo.news });
   }
