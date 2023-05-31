@@ -142,6 +142,7 @@ createServer();
 백엔드 프레임워크: Express.js
 HTTP 요청 라이브러리: node-fetch
 HTML 파싱 라이브러리: node-html-parser
+템플릿 엔진: ejs
 로깅 라이브러리: morgan
 디버깅 라이브러리: debug
 에러 핸들링 라이브러리: http-errors
