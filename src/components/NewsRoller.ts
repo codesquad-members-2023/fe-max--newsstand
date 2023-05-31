@@ -9,8 +9,9 @@ export class NewsRoller {
   name: HTMLDivElement;
   titleBox: HTMLDivElement;
   currentTitle: HTMLDivElement;
+  timer;
 
-  constructor(props: OneLineNews[]) {
+  constructor(props: OneLineNews[], direction: string) {
     this.state = {
       titleIdx: 1,
     };
@@ -35,11 +36,21 @@ export class NewsRoller {
     this.titleBox.append(title);
 
     this.element.append(name, titleBox);
+
+    if (direction === 'right') {
+      setTimeout(() => {
+        this.startRoller();
+        this.setEvent();
+      }, 1000);
+      return;
+    }
+
     this.startRoller();
+    this.setEvent();
   }
 
   startRoller() {
-    setInterval(() => {
+    const timer = setInterval(() => {
       const nextTitle = document.createElement('div');
       nextTitle.classList.add('title');
       nextTitle.setAttribute('style', 'top: 1rem');
@@ -56,10 +67,20 @@ export class NewsRoller {
       setTimeout(() => {
         this.titleBox.removeChild(this.currentTitle);
         this.currentTitle = nextTitle;
-        console.log(this.currentTitle);
         nextTitle.removeAttribute('style');
         nextTitle.classList.remove('roll');
       }, 600);
-    }, 3000);
+    }, 5000);
+
+    this.timer = timer;
+  }
+
+  setEvent() {
+    this.titleBox.addEventListener('mouseenter', () => {
+      clearInterval(this.timer);
+    });
+    this.titleBox.addEventListener('mouseleave', () => {
+      this.startRoller();
+    });
   }
 }

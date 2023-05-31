@@ -13,8 +13,8 @@ export class RollingSection {
     const leftHeadLines = this.getHeadLineList(props, 'left');
     const rightHeadLines = this.getHeadLineList(props, 'right');
 
-    const newsRollerLeft = new NewsRoller(leftHeadLines);
-    const newsRollerRight = new NewsRoller(rightHeadLines);
+    const newsRollerLeft = new NewsRoller(leftHeadLines, 'left');
+    const newsRollerRight = new NewsRoller(rightHeadLines, 'right');
 
     this.element.append(newsRollerLeft.element, newsRollerRight.element);
   }

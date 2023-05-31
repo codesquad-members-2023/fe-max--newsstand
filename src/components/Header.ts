@@ -8,6 +8,7 @@ export class Header {
     this.element = document.createElement('header');
 
     const logo = document.createElement('a');
+    logo.setAttribute('href', '#');
     logo.classList.add('logo__area');
 
     const logoImg = document.createElement('img');
