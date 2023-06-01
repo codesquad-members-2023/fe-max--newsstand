@@ -51,7 +51,7 @@ export class GridView {
     box.className = "grid-view-group__box";
 
     const image = document.createElement("img");
-    box.className = "grid-view-group__logo";
+    box.className = "grid-view-group__press-box";
     image.src = logo.src;
     image.alt = logo.alt;
 
