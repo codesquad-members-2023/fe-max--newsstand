@@ -67,13 +67,16 @@ const handleRolling = (
   firstRightHeadline: HTMLElement,
   secondRightHeadline: HTMLElement,
 ) => {
+  const deltaTime = 1000;
+  const rollingPeriod = 1500;
+
   setInterval(() => {
     rolling(containerLeft, 'left', firstLeftHeadline, secondLeftHeadline);
 
     setTimeout(() => {
       rolling(containerRight, 'right', firstRightHeadline, secondRightHeadline);
-    }, 1000);
-  }, 1500);
+    }, deltaTime);
+  }, rollingPeriod);
 };
 
 const rolling = (
@@ -84,6 +87,8 @@ const rolling = (
 ) => {
   const isRolling = `${direction}Rolling`;
   const nextIndex = `${direction}NextIndex`;
+  const duration = 500;
+  const indexIncrement = 2;
 
   const state = model.getState();
   const isLeft = direction === 'left';
@@ -93,10 +98,10 @@ const rolling = (
     setTimeout(() => {
       resetContainerPosition(containerElem);
 
-      let [currentIndex, useNextIndex] = updateIndex(state[nextIndex] as number, state.indexIncrement);
+      let [currentIndex, useNextIndex] = updateIndex(state[nextIndex] as number, indexIncrement);
 
-      updateTextContent(firstHeadline, secondHeadline, state.headlines, currentIndex, useNextIndex, isLeft);
-    }, 500);
+      updateTextContent(firstHeadline, secondHeadline, state.headlines, currentIndex, useNextIndex);
+    }, duration);
     resetRollingSetting(isLeft, containerElem);
   }
 };
@@ -110,8 +115,8 @@ const resetContainerPosition = (element: HTMLElement) => {
 };
 
 const updateIndex = (baseIndex: number, increment: number) => {
-  const currentIndex: number = baseIndex;
-  const useNextIndex: number = baseIndex + increment;
+  const currentIndex: number = baseIndex % 10;
+  const useNextIndex: number = (baseIndex + increment) % 10;
 
   return [currentIndex, useNextIndex];
 };
@@ -122,22 +127,8 @@ const updateTextContent = (
   headlines: string[],
   currentIndex: number,
   useNextIndex: number,
-  isLeft: boolean,
 ) => {
   first.textContent = headlines[currentIndex];
-
-  if (isLeft) {
-    if (useNextIndex === 10) {
-      useNextIndex = 0;
-      intent.leftResetNextIndex();
-    }
-  } else {
-    if (useNextIndex === 11) {
-      useNextIndex = 1;
-      intent.rightResetNextIndex();
-    }
-  }
-
   second.textContent = headlines[useNextIndex];
 };
 

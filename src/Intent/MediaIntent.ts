@@ -16,6 +16,7 @@ const handlePrevButtonClick = () => {
 };
 
 const handleMouseEnter = (currentEnterGrid: HTMLElement) => {
+  
   model.setState({ currentEnterGrid: currentEnterGrid, isInsideGrid: true });
 };
 

@@ -2,22 +2,21 @@ import model from '../../Model/MediaModel';
 import intent from '../../Intent/MediaIntent';
 
 export const mediaInitialize = () => {
-  const gridView: HTMLElement | null = document.querySelector('.grid-view');
-  const nextButton: HTMLElement | null = document.querySelector('.next-button');
-  const prevButton: HTMLElement | null = document.querySelector('.prev-button');
+  const gridView = document.querySelector('.grid-view') as HTMLElement;
+  const nextButton = document.querySelector('.next-button') as HTMLElement;
+  const prevButton = document.querySelector('.prev-button') as HTMLElement;
 
-  if (gridView && nextButton && prevButton) {
-    createGridItems(gridView);
-    renderButton(nextButton, prevButton);
-    setEvent(nextButton, prevButton, gridView);
+  createGridItems(gridView);
+  renderButton(nextButton, prevButton);
+  
+  setEvent(nextButton, prevButton, gridView);
 
-    model.subscribe('currentPage', () => renderButton(nextButton, prevButton));
-    model.subscribe('gridStartPoint', () => renderGrid(gridView));
+  model.subscribe('currentPage', () => renderButton(nextButton, prevButton));
+  model.subscribe('gridStartPoint', () => renderGrid(gridView));
 
-    model.subscribe('isInsideGrid', () => renderOverlay());
-    model.subscribe('currentEnterGrid', () => renderOverlay());
-    //의존성이 있는 '상태'를 키로 두고, 그 상태가 변경될 때 실행해야할 함수를 모델의 리스너에 구독
-  }
+  model.subscribe('isInsideGrid', () => renderOverlay());
+  model.subscribe('currentEnterGrid', () => renderOverlay());
+  //의존성이 있는 '상태'를 키로 두고, 그 상태가 변경될 때 실행해야할 함수를 모델의 리스너에 구독
 };
 
 const setEvent = (nextButton: HTMLElement, prevButton: HTMLElement, gridView: HTMLElement) => {
@@ -31,7 +30,7 @@ const setEvent = (nextButton: HTMLElement, prevButton: HTMLElement, gridView: HT
     gridItems.forEach((gridItem) => {
       gridItem.addEventListener('mouseenter', (e) => {
         const target: EventTarget | null = e.target;
-        if (target instanceof HTMLElement && target.classList.contains('grid-item')) {
+        if (target instanceof HTMLElement) {
           intent.handleMouseEnter(target);
         }
       });
@@ -90,13 +89,11 @@ const renderOverlay = () => {
   if (state.currentOverlay) {
     state.currentOverlay.style.display = 'none';
   }
-  if (state.isInsideGrid) {
-    if (state.currentEnterGrid) {
-      const currentOverlay = state.currentEnterGrid.firstElementChild;
-      if (currentOverlay instanceof HTMLElement) {
-        currentOverlay.style.display = 'flex';
-        intent.handleHoverOverlay(currentOverlay);
-      }
+  if (state.isInsideGrid && state.currentEnterGrid) {
+    const currentOverlay = state.currentEnterGrid.firstElementChild;
+    if (currentOverlay instanceof HTMLElement) {
+      currentOverlay.style.display = 'flex';
+      intent.handleHoverOverlay(currentOverlay);
     }
   }
 };

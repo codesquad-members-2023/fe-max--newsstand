@@ -6,8 +6,6 @@ let state: RollerState = {
 
   leftNextIndex: 2,
   rightNextIndex: 3,
-
-  indexIncrement: 2,
 };
 
 const listeners: Record<keyof RollerState, Listener[]> = {};
@@ -48,7 +46,6 @@ export interface RollerState {
   [key: string]: string | number | boolean | object | [] | string[] | HTMLElement | null | undefined;
 
   headlines: string[];
-  indexIncrement: number;
 
   leftRolling: boolean;
   rightRolling: boolean;
