@@ -16,6 +16,7 @@ export class MainView {
   constructor() {
     this.initElement();
     this.setEvents();
+    this.initGridViewRender();
   }
 
   initElement() {
@@ -51,6 +52,12 @@ export class MainView {
     } else {
       this.$rightArrow.className = "main-view__right-arrow";
     }
+  }
+
+  async initGridViewRender() {
+    await this.gridStore.fetchPressLogos();
+    this.gridView.appendPressBoxes();
+    this.updateArrowVisibility();
   }
 }
 

@@ -10,11 +10,10 @@ export class GridView {
   constructor(gridStore: GridStore) {
     this.gridStore = gridStore;
 
-    this.initElement();
-    this.initRender();
+    this.frameRender();
   }
 
-  private initElement() {
+  private frameRender() {
     this.$gridView.className = "grid-view";
 
     this.$frame.className = "grid-view-frame";
@@ -33,12 +32,7 @@ export class GridView {
     this.$group.className = "grid-view-group";
   }
 
-  async initRender() {
-    await this.gridStore.fetchPressLogos();
-    this.appendPressBoxes();
-  }
-
-  private appendPressBoxes() {
+  appendPressBoxes() {
     const logos = this.gridStore.getPaginatedLogos();
     const fragment = document.createDocumentFragment();
 
