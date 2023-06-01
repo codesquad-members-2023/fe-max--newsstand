@@ -1,27 +1,39 @@
-import RollingNews from './RollingNews';
+import NewsRoller from './NewsRoller';
 import style from './NewsBar.module.css';
 import { createElement } from '../../utils/domUtils';
 
 type NewsBarProps = {
-  headlineInfo: HeadlineInfo
-}
+  headlineInfo: HeadlineInfo;
+};
 
 export default class NewsBar {
   public element;
-  private leftRollingNews: RollingNews;
-  private rightRollingNews: RollingNews;
+  private leftNewsRoller: NewsRoller;
+  private rightNewsRoller: NewsRoller;
 
   constructor(props: NewsBarProps) {
     this.element = createElement('section', { class: style.news_bar });
 
-    this.leftRollingNews = new RollingNews({ index: props.headlineInfo.leftIndex, news: props.headlineInfo.news });
-    this.rightRollingNews = new RollingNews({ index: props.headlineInfo.rightIndex, news: props.headlineInfo.news });
+    this.leftNewsRoller = new NewsRoller({
+      index: props.headlineInfo.leftIndex,
+      news: props.headlineInfo.news
+    });
+    this.rightNewsRoller = new NewsRoller({
+      index: props.headlineInfo.rightIndex,
+      news: props.headlineInfo.news
+    });
 
-    this.element.append(this.leftRollingNews.element, this.rightRollingNews.element);
+    this.element.append(this.leftNewsRoller.element, this.rightNewsRoller.element);
   }
 
   updateView(props: NewsBarProps) {
-    this.leftRollingNews.updateProps({ index: props.headlineInfo.leftIndex, news: props.headlineInfo.news });
-    this.rightRollingNews.updateProps({ index: props.headlineInfo.rightIndex, news: props.headlineInfo.news });
+    this.leftNewsRoller.updateView({
+      index: props.headlineInfo.leftIndex,
+      news: props.headlineInfo.news
+    });
+    this.rightNewsRoller.updateView({
+      index: props.headlineInfo.rightIndex,
+      news: props.headlineInfo.news
+    });
   }
 }
