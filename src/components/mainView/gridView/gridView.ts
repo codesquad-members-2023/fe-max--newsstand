@@ -48,10 +48,9 @@ export class GridView {
 
   private createPressBoxElement(logo: PressLogo) {
     const box = document.createElement("div");
-    box.className = "grid-view-group__box";
+    box.className = "grid-view-group__press-box";
 
     const image = document.createElement("img");
-    box.className = "grid-view-group__press-box";
     image.src = logo.src;
     image.alt = logo.alt;
 
