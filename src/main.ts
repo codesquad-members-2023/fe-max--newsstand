@@ -9,21 +9,25 @@ type State = {
   listData: ListNewsData[];
 };
 
-async function fetchData(path) {
-  const data = await fetch(`http://localhost:3000/${path}`).then((res) => res.json());
+async function fetchData(path: string) {
+  const data = await fetch(`${import.meta.env.VITE_SERVER_URL}/${path}`).then((res) => res.json());
 
   return data;
 }
 
 async function createState() {
-  const state: State = {
-    systemDate: new Date(),
-    oneLineNews: await fetchData('oneLineNews'),
-    gridData: await fetchData('gridData'),
-    listData: await fetchData('listData'),
-  };
+  const [oneLineNews, gridData, listData] = await Promise.all([
+    fetchData('oneLineNews'),
+    fetchData('gridData'),
+    fetchData('listData'),
+  ]);
 
-  return state;
+  return {
+    systemDate: new Date(),
+    oneLineNews,
+    gridData,
+    listData,
+  };
 }
 
 const newsStand = new NewsStand(await createState());
@@ -34,3 +38,5 @@ function App() {
 }
 
 App();
+
+console.log(import.meta.env.VITE_SERVER_URL);
