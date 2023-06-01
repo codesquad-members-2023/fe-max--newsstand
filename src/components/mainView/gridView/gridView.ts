@@ -17,15 +17,15 @@ export class GridView {
     this.$gridView.className = "grid-view";
 
     this.$frame.className = "grid-view-frame";
-    this.$frame.innerHTML = `
-      <i class="grid-view-frame__row-frame1"></i>
-      <i class="grid-view-frame__row-frame2"></i>
-      <i class="grid-view-frame__row-frame3"></i>
-      <i class="grid-view-frame__col-frame1"></i>
-      <i class="grid-view-frame__col-frame2"></i>
-      <i class="grid-view-frame__col-frame3"></i>
-      <i class="grid-view-frame__col-frame4"></i>
-      <i class="grid-view-frame__col-frame5"></i>`;
+    this.$frame.innerHTML =
+      Array(3)
+        .fill(null)
+        .map((_, index) => `<i class="grid-view-frame__row-frame${index + 1}"></i>`)
+        .join("") +
+      Array(5)
+        .fill(null)
+        .map((_, index) => `<i class="grid-view-frame__col-frame${index + 1}"></i>`)
+        .join("");
 
     this.$gridView.append(this.$frame);
 
