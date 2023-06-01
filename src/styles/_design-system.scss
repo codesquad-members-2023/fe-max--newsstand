@@ -32,3 +32,7 @@ $color-grey-400: #5f6e76;
 $color-grey-500: #4b5966;
 $color-black: #14212b;
 $color-primary: #4362d0;
+
+//- filters
+$filter-primary: brightness(0) saturate(100%) invert(37%) sepia(27%)
+  saturate(3711%) hue-rotate(210deg) brightness(86%) contrast(87%);

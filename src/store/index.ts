@@ -3,6 +3,7 @@ import { fetchData } from "@utils/index.ts";
 
 export enum EState {
   HeadlinesRollerTick = "headlinesRollerTick",
+  MainContentView = "mainContentView",
 }
 
 interface IStore {
@@ -13,8 +14,10 @@ interface IStore {
   leftHeadlineIdx: number;
   rightHeadlineIdx: number;
   headlinesRollerTick: number;
+  mainContentView: "list-view" | "grid-view";
 
   headlinesRollerTickObservers: Component[];
+  mainContentViewObservers: Component[];
 }
 
 const recentHeadlines = await fetchData("/data/recent-headlines.json");
@@ -29,8 +32,10 @@ const store: IStore = {
   leftHeadlineIdx: 0,
   rightHeadlineIdx: 1,
   headlinesRollerTick: 0,
+  mainContentView: "grid-view",
 
   headlinesRollerTickObservers: [],
+  mainContentViewObservers: [],
 };
 
 //- Register a component as an observer of the specified states.
@@ -71,8 +76,8 @@ function reducer(action: TAction) {
       }
 
       // Inform observers about the updated state (i.e. trigger a re-render of the relevant views).
-      store.headlinesRollerTickObservers.forEach((x) => {
-        x.update({
+      store.headlinesRollerTickObservers.forEach((observer) => {
+        observer.update({
           leftHeadlineProps: {
             pressName: store.recentHeadlines[store.leftHeadlineIdx].pressName,
             headline:
@@ -86,5 +91,17 @@ function reducer(action: TAction) {
         });
       });
       break;
+    case "mainContentView":
+      if (action.content === store.mainContentView) return;
+
+      if (action.content === "list-view") {
+        store.mainContentView = "list-view";
+      } else if (action.content === "grid-view") {
+        store.mainContentView = "grid-view";
+      }
+
+      store.mainContentViewObservers.forEach((observer) => {
+        observer.update({ mainContentView: store.mainContentView });
+      });
   }
 }

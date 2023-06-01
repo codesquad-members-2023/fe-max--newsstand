@@ -1,0 +1,83 @@
+@use "@styles/_design-system.scss" as *;
+
+:host {
+  display: block;
+}
+
+.news-container {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+
+  header {
+    width: 100%;
+    height: 24px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+
+    .press-view-btns-wrapper {
+      height: 100%;
+      @include f-body-md;
+
+      .press-view-btn {
+        color: $color-grey-200;
+
+        &:first-of-type {
+          margin-right: 24px;
+        }
+
+        &.is-active {
+          @include f-title-md;
+          color: $color-black;
+        }
+      }
+    }
+
+    .content-view-btns-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+
+      button {
+        width: 24px;
+        height: 24px;
+        background-color: transparent;
+        border: none;
+
+        &.list-view-btn {
+          &::before {
+            width: inherit;
+            height: inherit;
+            content: "";
+            display: block;
+            background-image: url("/src/assets/list-view.svg");
+            background-repeat: no-repeat;
+          }
+        }
+
+        &.grid-view-btn {
+          &::before {
+            width: inherit;
+            height: inherit;
+            content: "";
+            display: block;
+            background-image: url("/src/assets/grid-view.svg");
+            background-repeat: no-repeat;
+          }
+        }
+
+        &.is-active {
+          filter: $filter-primary;
+        }
+      }
+    }
+  }
+
+  main {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 6fr;
+  }
+}
