@@ -18,6 +18,7 @@
   gap: 16px;
 }
 
-.roll_up {
+.roll_up .news_wrapper {
+  transition: transform 1s ease;
   transform: translateY(-100%);
 }

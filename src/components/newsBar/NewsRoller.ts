@@ -1,3 +1,4 @@
+import { invoke } from '../../main';
 import { createElement } from '../../utils/domUtils';
 import style from './NewsRoller.module.css';
 
@@ -12,6 +13,7 @@ export default class NewsRoller {
   private currentNewsWrapper;
   private nextNewsWrapper;
   private props;
+  private intervalId;
 
   constructor(props: NewsRollerProps) {
     this.element = createElement('article', { class: style.rolling_news });
@@ -22,11 +24,15 @@ export default class NewsRoller {
     this.roller.append(this.currentNewsWrapper, this.nextNewsWrapper);
     this.element.append(this.roller);
 
+    this.setEvent();
     this.props = props;
+    this.intervalId = setInterval(() => {
+      this.roller.classList.add(style.roll_up)
+    }, 3000);
   }
 
   private createNewsWrapper() {
-    const newsWrapper = createElement('div', { class: style.news_wrapper});
+    const newsWrapper = createElement('div', { class: style.news_wrapper });
 
     const media = createElement('a', { class: 'font-title-sm', href: '#' });
     media.textContent = '';
@@ -39,7 +45,13 @@ export default class NewsRoller {
     return newsWrapper;
   }
 
-  updateView({index: currentIndex, news}: NewsRollerProps) {
+  private setEvent() {
+    this.roller.addEventListener('transitionend', (event) => {
+      invoke({ type: 'headlineRollerTick'});
+    })
+  }
+
+  updateView({ index: currentIndex, news }: NewsRollerProps) {
     const currentHeadlineTitle = this.getHeadlineNews(this.props.index, this.props.news);
     const newHeadlineTitle = this.getHeadlineNews(currentIndex, news);
 
@@ -51,6 +63,8 @@ export default class NewsRoller {
 
     this.setHeadlineNews(this.currentNewsWrapper, this.getHeadlineNews(currentIndex, news));
     this.setHeadlineNews(this.nextNewsWrapper, this.getHeadlineNews(nextIndex + 2, news));
+
+    this.roller.classList.remove(style.roll_up)
   }
 
   private setHeadlineNews(newsWrapper: HTMLElement, headlineNews: HeadlineNews) {

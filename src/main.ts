@@ -68,6 +68,10 @@ export const invoke = (action: Action) => {
     case 'initHeadlineNews':
       state.headlineInfo.news = action.payload.news;
       break;
+    case 'headlineRollerTick':
+      state.headlineInfo.leftIndex = state.headlineInfo.leftIndex + 2;
+      state.headlineInfo.rightIndex = state.headlineInfo.rightIndex + 2;
+      break;
   }
 
   onChangeState();
