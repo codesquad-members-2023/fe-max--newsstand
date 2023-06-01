@@ -1,3 +1,4 @@
+import { shuffleArray } from "@utils/shuffleArray";
 import { GridView } from "./gridView/gridView";
 
 export interface PressLogo {
@@ -56,6 +57,7 @@ export class MainView {
 
   async initGridViewRender() {
     await this.gridStore.fetchPressLogos();
+    this.gridStore.shufflePressLogos();
     this.gridView.appendPressBoxes();
     this.updateArrowVisibility();
   }
@@ -66,10 +68,6 @@ export class GridStore {
   private currentPage: number = 1;
   private lastPage: number = 1;
   private ITEM_PER_PAGE: number = 24;
-
-  setLogos(data: PressLogo[]) {
-    this.logos = data;
-  }
 
   private setLastPage(logosLength: number) {
     this.lastPage = Math.ceil(logosLength / this.ITEM_PER_PAGE);
@@ -110,7 +108,11 @@ export class GridStore {
     const response = await fetch("http://localhost:8080/press-logos");
     const data = await response.json();
 
-    this.setLogos(data);
+    this.logos = data;
     this.setLastPage(data.length);
+  }
+
+  shufflePressLogos() {
+    this.logos = shuffleArray(this.logos);
   }
 }
