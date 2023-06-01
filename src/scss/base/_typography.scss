@@ -19,3 +19,7 @@ body {
 .tab-btn__item.active {
   @include fontTitleMD();
 }
+// Grid View
+.sub-btn__label {
+  @include fontBodyXS();
+}

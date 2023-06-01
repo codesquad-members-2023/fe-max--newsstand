@@ -86,9 +86,37 @@
     border-bottom: 1px solid $color-gray-100;
     border-right: 1px solid $color-gray-100;
 
-    img {
+    &:hover {
+      background-color: $color-off-white;
+    }
+
+    .press-logo {
       height: 20px;
       @include pos-center();
+    }
+
+    .sub-btn {
+      width: 74px;
+      height: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2px;
+      border: 1px solid $color-gray-100;
+      border-radius: 50px;
+      background-color: $color-white;
+      @include pos-center();
+
+      &__icon {
+        width: 12px;
+        height: 12px;
+      }
+
+      &__label {
+        width: 42px;
+        height: 14px;
+        color: $color-gray-200;
+      }
     }
   }
 }

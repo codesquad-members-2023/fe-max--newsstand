@@ -1,10 +1,10 @@
 import { GridNewsData } from '../types';
 
 export class GridView {
-  state: {
+  private state: {
     currentPage: number;
   };
-  props: GridNewsData[];
+  readonly props: GridNewsData[];
   element: HTMLElement;
   leftBtn: HTMLButtonElement;
   rightBtn: HTMLButtonElement;
@@ -68,7 +68,7 @@ export class GridView {
     }
   }
 
-  renderLogo(startIdx) {
+  renderLogo(startIdx: number) {
     this.gridItems.forEach((item, idx) => {
       const itemImg = item.children[0] as HTMLImageElement;
       const imgIdx = idx + startIdx;
@@ -80,6 +80,12 @@ export class GridView {
   setEvent() {
     this.leftBtn.addEventListener('click', this.showPrevPage.bind(this));
     this.rightBtn.addEventListener('click', this.showNextPage.bind(this));
+    this.gridItems.forEach((item) => {
+      item.addEventListener('mouseenter', this.showSubBtn.bind(this));
+    });
+    this.gridItems.forEach((item) => {
+      item.addEventListener('mouseleave', this.hideSubBtn.bind(this));
+    });
   }
 
   showNextPage() {
@@ -102,5 +108,38 @@ export class GridView {
 
     this.state.currentPage -= 1;
     this.onStateChanged();
+  }
+
+  showSubBtn(e: Event) {
+    if (!e.target) {
+      return;
+    }
+    const gridCell = e.target as HTMLDivElement;
+
+    const subBtn = document.createElement('button');
+    subBtn.classList.add('sub-btn');
+
+    const subBtnIcon = document.createElement('img');
+    subBtnIcon.classList.add('sub-btn__icon');
+    subBtnIcon.setAttribute('src', '/src/assets/plus.svg');
+
+    const subBtnLabel = document.createElement('span');
+    subBtnLabel.classList.add('sub-btn__label');
+    subBtnLabel.textContent = '구독하기';
+
+    subBtn.append(subBtnIcon, subBtnLabel);
+
+    gridCell.children[0].classList.add('hide');
+    gridCell.append(subBtn);
+  }
+
+  hideSubBtn(e: Event) {
+    if (!e.target) {
+      return;
+    }
+    const gridCell = e.target as HTMLDivElement;
+    const subBtn = gridCell.querySelector('.sub-btn');
+    gridCell.removeChild(subBtn!);
+    gridCell.children[0].classList.remove('hide');
   }
 }
