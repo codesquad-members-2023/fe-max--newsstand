@@ -58,15 +58,17 @@ export class RollingNewsBar {
   }
 
   updateRender() {
-    this.item.updateData(this.newsData[this.rollingIndex]);
+    const itemData = this.newsData[this.rollingIndex];
+    const nextItemData =
+      this.rollingIndex === this.newsData.length - 1
+        ? this.newsData[0]
+        : this.newsData[this.rollingIndex + 1];
 
-    if (this.rollingIndex === this.newsData.length - 1) {
-      this.nextItem.updateData(this.newsData[0]);
+    if (itemData == null) throw Error("newsData is null(or undefined)");
+    if (nextItemData == null) throw Error("nextItemData is null(or undefined)");
 
-      return;
-    }
-
-    this.nextItem.updateData(this.newsData[this.rollingIndex + 1]);
+    this.item.updateData(itemData);
+    this.nextItem.updateData(nextItemData);
   }
 
   startRolling() {
