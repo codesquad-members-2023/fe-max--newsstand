@@ -7,18 +7,24 @@
   border: 1px solid var(--gray-100);
 }
 
-.roller {
+.news_display {
   width: 100%;
   height: 100%;
   overflow: hidden;
 }
 
+.roller {
+  width: 100%;
+  height: 100%;
+}
+
 .news_wrapper {
   display: flex;
   gap: 16px;
+  height: 100%;
 }
 
-.roll_up .news_wrapper {
+.roll_up {
   transition: transform 1s ease;
   transform: translateY(-100%);
 }

@@ -1,34 +1,27 @@
-import { invoke } from '../../main';
 import { createElement } from '../../utils/domUtils';
 import style from './NewsRoller.module.css';
-
-type NewsRollerProps = {
-  index: number;
-  news: HeadlineNews[];
-};
 
 export default class NewsRoller {
   public element;
   private roller;
   private currentNewsWrapper;
   private nextNewsWrapper;
-  private props;
-  private intervalId;
+  private index: number;
+  private newsList: HeadlineNews[] = [];
+  private intervalId: number | null = null;
 
-  constructor(props: NewsRollerProps) {
+  constructor({ index }: { index: number }) {
+    this.index = index;
+
     this.element = createElement('article', { class: style.rolling_news });
+    const newsDisplay = createElement('div', { class: style.news_display });
     this.roller = createElement('div', { class: style.roller });
     this.currentNewsWrapper = this.createNewsWrapper();
     this.nextNewsWrapper = this.createNewsWrapper();
 
     this.roller.append(this.currentNewsWrapper, this.nextNewsWrapper);
-    this.element.append(this.roller);
-
-    this.setEvent();
-    this.props = props;
-    this.intervalId = setInterval(() => {
-      this.roller.classList.add(style.roll_up)
-    }, 3000);
+    newsDisplay.append(this.roller);
+    this.element.append(newsDisplay);
   }
 
   private createNewsWrapper() {
@@ -45,29 +38,34 @@ export default class NewsRoller {
     return newsWrapper;
   }
 
-  private setEvent() {
-    this.roller.addEventListener('transitionend', (event) => {
-      invoke({ type: 'headlineRollerTick'});
-    })
+  setEvent() {
+    this.roller.addEventListener('transitionend', () => {
+      this.increaseIndex();
+      this.updateView();
+      this.inactivateRollup();
+    });
+    this.element.addEventListener('mouseenter', () => {
+      this.pauseRollup();
+    });
+    this.element.addEventListener('mouseleave', () => {
+      this.startRollup();
+    });
   }
 
-  updateView({ index: currentIndex, news }: NewsRollerProps) {
-    const currentHeadlineTitle = this.getHeadlineNews(this.props.index, this.props.news);
-    const newHeadlineTitle = this.getHeadlineNews(currentIndex, news);
-
-    if (currentHeadlineTitle === newHeadlineTitle) {
-      return;
-    }
-
-    const nextIndex = currentIndex + 2;
-
-    this.setHeadlineNews(this.currentNewsWrapper, this.getHeadlineNews(currentIndex, news));
-    this.setHeadlineNews(this.nextNewsWrapper, this.getHeadlineNews(nextIndex + 2, news));
-
-    this.roller.classList.remove(style.roll_up)
+  setNewsList(news: HeadlineNews[]) {
+    this.newsList = news;
+    this.updateView();
   }
 
-  private setHeadlineNews(newsWrapper: HTMLElement, headlineNews: HeadlineNews) {
+  private updateView() {
+    const currentIndex = this.index % this.newsList.length;
+    const nextIndex = (this.index + 2) % this.newsList.length;
+
+    this.updateNewsData(this.currentNewsWrapper, this.newsList[currentIndex]);
+    this.updateNewsData(this.nextNewsWrapper, this.newsList[nextIndex]);
+  }
+
+  private updateNewsData(newsWrapper: HTMLElement, headlineNews: HeadlineNews) {
     const media = newsWrapper.firstElementChild;
     const title = newsWrapper.lastElementChild;
 
@@ -81,10 +79,30 @@ export default class NewsRoller {
     title.setAttribute('href', headlineNews.newsUrl);
   }
 
-  private getHeadlineNews(index: number, news: HeadlineNews[]) {
-    const numberOfNews = news.length;
-    const newsIndex = index % numberOfNews;
+  startRollup() {
+    this.intervalId = setInterval(() => {
+      this.activateRollup();
+    }, 3000);
+  }
 
-    return news[newsIndex];
+  private pauseRollup() {
+    if (!this.intervalId) {
+      return;
+    }
+    this.inactivateRollup();
+    clearInterval(this.intervalId);
+    this.intervalId = null;
+  }
+
+  private increaseIndex() {
+    this.index = this.index + 2;
+  }
+
+  private inactivateRollup() {
+    this.roller.classList.remove(style.roll_up);
+  }
+
+  private activateRollup() {
+    this.roller.classList.add(style.roll_up);
   }
 }

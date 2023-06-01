@@ -29,9 +29,6 @@ type Action =
       payload: {
         news: HeadlineNews[];
       };
-    }
-  | {
-      type: 'headlineRollerTick';
     };
 
 type GridImg = {

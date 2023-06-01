@@ -1,39 +1,39 @@
 import NewsRoller from './NewsRoller';
 import style from './NewsBar.module.css';
 import { createElement } from '../../utils/domUtils';
+import { getHeadlineNews } from '../../utils/dataUtils';
 
-type NewsBarProps = {
-  headlineInfo: HeadlineInfo;
-};
 
 export default class NewsBar {
   public element;
   private leftNewsRoller: NewsRoller;
   private rightNewsRoller: NewsRoller;
 
-  constructor(props: NewsBarProps) {
+  constructor() {
     this.element = createElement('section', { class: style.news_bar });
 
-    this.leftNewsRoller = new NewsRoller({
-      index: props.headlineInfo.leftIndex,
-      news: props.headlineInfo.news
-    });
-    this.rightNewsRoller = new NewsRoller({
-      index: props.headlineInfo.rightIndex,
-      news: props.headlineInfo.news
-    });
+    const leftIndex = 0;
+    const rightIndex = leftIndex + 1;
+
+    this.leftNewsRoller = new NewsRoller({ index: leftIndex });
+    this.rightNewsRoller = new NewsRoller({ index: rightIndex });
 
     this.element.append(this.leftNewsRoller.element, this.rightNewsRoller.element);
+    this.initRender();
   }
 
-  updateView(props: NewsBarProps) {
-    this.leftNewsRoller.updateView({
-      index: props.headlineInfo.leftIndex,
-      news: props.headlineInfo.news
-    });
-    this.rightNewsRoller.updateView({
-      index: props.headlineInfo.rightIndex,
-      news: props.headlineInfo.news
-    });
+  async initRender() {
+    const headlineNews = await getHeadlineNews();
+
+    this.leftNewsRoller.setNewsList(headlineNews);
+    this.rightNewsRoller.setNewsList(headlineNews);
+  
+    this.leftNewsRoller.startRollup();
+    setTimeout(() => {
+      this.rightNewsRoller.startRollup();
+    }, 1000);
+  
+    this.leftNewsRoller.setEvent();
+    this.rightNewsRoller.setEvent();
   }
 }
