@@ -139,13 +139,12 @@ createServer();
 
 ## 기술스택(구현 과정 중 추가 삭제 예정)
 프로그래밍 언어: TypeScript, JavaScript (ES6+)
-백엔드 프레임워크: Express.js
-HTTP 요청 라이브러리: node-fetch
-HTML 파싱 라이브러리: node-html-parser
+웹 프레임워크: Express.js
 템플릿 엔진: ejs
-로깅 라이브러리: morgan
-디버깅 라이브러리: debug
-에러 핸들링 라이브러리: http-errors
-쿠키 파싱 라이브러리: cookie-parser
-빌드 및 변환 도구: Babel
-개발용 서버 도구: Nodemon, @babel/node
+번들러: Webpack
+타입스크립트 로더: ts-loader
+개발용 서버 도구: Nodemon, ts-node
+JavaScript/TypeScript 컴파일러: TypeScript
+TypeScript 지원: @types/node, @types/express, @types/ejs
+SSR 도구: Vite, vite-ssr
+Rollup 플러그인: @rollup/plugin-typescript
