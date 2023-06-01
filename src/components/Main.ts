@@ -1,9 +1,10 @@
+import { GridNewsData, ListNewsData } from '../types';
 import { GridView } from './GridView';
 
 export class Main {
   element: HTMLElement;
 
-  constructor(props) {
+  constructor(props: { gridData: GridNewsData[]; listData: ListNewsData[] }) {
     this.element = document.createElement('main');
 
     {
@@ -46,7 +47,7 @@ export class Main {
     const content = document.createElement('div');
     content.classList.add('content-area');
 
-    const gridView = new GridView(props);
+    const gridView = new GridView(props.gridData);
     content.append(gridView.leftBtn, gridView.rightBtn, gridView.element);
 
     this.element.append(content);
