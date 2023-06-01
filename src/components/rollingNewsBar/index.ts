@@ -11,11 +11,8 @@ export const initRollingNewsBar = async () => {
   const data = await fetchRollingNewsData();
   const halfDataLength = Math.floor(data.length / 2);
 
-  leftRollingNewsBar.setNewsData(data.slice(0, halfDataLength));
-  rightRollingNewsBar.setNewsData(data.slice(halfDataLength));
-
-  leftRollingNewsBar.updateRender();
-  rightRollingNewsBar.updateRender();
+  leftRollingNewsBar.initSetNewsData(data.slice(0, halfDataLength));
+  rightRollingNewsBar.initSetNewsData(data.slice(halfDataLength));
 
   leftRollingNewsBar.startRolling();
   window.setTimeout(() => {

@@ -49,6 +49,11 @@ export class RollingNewsBar {
     this.newsData = data;
   }
 
+  initSetNewsData(data: RollingNewsData[]) {
+    this.setNewsData(data);
+    this.updateRender();
+  }
+
   private increaseRollingIndex() {
     this.rollingIndex += 1;
 
