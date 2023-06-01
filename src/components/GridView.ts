@@ -1,16 +1,26 @@
+import { GridNewsData } from '../types';
+
 export class GridView {
+  state: {
+    currentPage: number;
+  };
+  props: GridNewsData[];
   element: HTMLElement;
   leftBtn: HTMLButtonElement;
   rightBtn: HTMLButtonElement;
   gridItems: HTMLElement[];
 
-  constructor(props) {
+  constructor(props: GridNewsData[]) {
+    this.state = {
+      currentPage: 1,
+    };
+    this.props = props;
     this.element = document.createElement('div');
     this.element.classList.add('grid-container');
 
     const leftBtn = document.createElement('button');
     this.leftBtn = leftBtn;
-    leftBtn.classList.add('btn', 'btn--left');
+    leftBtn.classList.add('btn', 'btn--left', 'hide');
 
     const rightBtn = document.createElement('button');
     this.rightBtn = rightBtn;
@@ -31,14 +41,66 @@ export class GridView {
       this.gridItems.push(gridItem);
     }
 
-    this.render(props);
+    this.onStateChanged();
+    this.setEvent();
   }
 
-  render(props) {
+  onStateChanged() {
+    switch (this.state.currentPage) {
+      case 1:
+        this.renderLogo(0);
+        this.leftBtn.classList.add('hide');
+        break;
+      case 2:
+        this.renderLogo(24);
+        this.leftBtn.classList.remove('hide');
+        break;
+      case 3:
+        this.renderLogo(48);
+        this.rightBtn.classList.remove('hide');
+        break;
+      case 4:
+        this.renderLogo(72);
+        this.rightBtn.classList.add('hide');
+        break;
+      default:
+        console.log('There is no page');
+    }
+  }
+
+  renderLogo(startIdx) {
     this.gridItems.forEach((item, idx) => {
       const itemImg = item.children[0] as HTMLImageElement;
-      itemImg.src = props.gridData[idx].logoURL;
-      itemImg.alt = props.gridData[idx].name;
+      const imgIdx = idx + startIdx;
+      itemImg.src = this.props[imgIdx] ? this.props[imgIdx].logoURL : '';
+      itemImg.alt = this.props[imgIdx] ? this.props[imgIdx].name : '';
     });
+  }
+
+  setEvent() {
+    this.leftBtn.addEventListener('click', this.showPrevPage.bind(this));
+    this.rightBtn.addEventListener('click', this.showNextPage.bind(this));
+  }
+
+  showNextPage() {
+    if (this.state.currentPage === 4) {
+      this.state.currentPage = 1;
+      this.onStateChanged();
+      return;
+    }
+
+    this.state.currentPage += 1;
+    this.onStateChanged();
+  }
+
+  showPrevPage() {
+    if (this.state.currentPage === 1) {
+      this.state.currentPage = 4;
+      this.onStateChanged();
+      return;
+    }
+
+    this.state.currentPage -= 1;
+    this.onStateChanged();
   }
 }
