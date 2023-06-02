@@ -1,4 +1,4 @@
-import { GridNewsData } from '../types';
+import { GridNewsData, HTMLElementEvent } from '../types';
 
 export class GridView {
   private state: {
@@ -110,11 +110,8 @@ export class GridView {
     this.onStateChanged();
   }
 
-  showSubBtn(e: Event) {
-    if (!e.target) {
-      return;
-    }
-    const gridCell = e.target as HTMLDivElement;
+  showSubBtn(e: HTMLElementEvent<HTMLDivElement>) {
+    const gridCell = e.target;
 
     const subBtn = document.createElement('button');
     subBtn.classList.add('sub-btn');
@@ -133,13 +130,10 @@ export class GridView {
     gridCell.append(subBtn);
   }
 
-  hideSubBtn(e: Event) {
-    if (!e.target) {
-      return;
-    }
-    const gridCell = e.target as HTMLDivElement;
+  hideSubBtn(e: HTMLElementEvent<HTMLDivElement>) {
+    const gridCell = e.target;
     const subBtn = gridCell.querySelector('.sub-btn');
-    gridCell.removeChild(subBtn!);
+    gridCell.removeChild(subBtn);
     gridCell.children[0].classList.remove('hide');
   }
 }

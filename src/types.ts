@@ -27,3 +27,7 @@ type ListMaterial = {
   imgURL: string | null;
   url: string;
 };
+
+export type HTMLElementEvent<T extends HTMLElement> = Event & {
+  target: T;
+};

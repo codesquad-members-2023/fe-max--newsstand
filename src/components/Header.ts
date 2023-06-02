@@ -1,6 +1,7 @@
 export class Header {
   props: Date;
   element: HTMLElement;
+  logo: HTMLAnchorElement;
   systemDate: HTMLDivElement;
 
   constructor(props: Date) {
@@ -8,6 +9,7 @@ export class Header {
     this.element = document.createElement('header');
 
     const logo = document.createElement('a');
+    this.logo = logo;
     logo.setAttribute('href', '#');
     logo.classList.add('logo__area');
 
@@ -25,6 +27,8 @@ export class Header {
 
     logo.append(logoImg, title);
     this.element.append(logo, systemDate);
+
+    this.setEvent();
   }
 
   getCurrentDate(systemDate: Date) {
@@ -34,5 +38,11 @@ export class Header {
     const day = systemDate.toLocaleDateString('ko-KR', { weekday: 'long' });
 
     return `${year}. ${month}. ${date}. ${day}`;
+  }
+
+  setEvent() {
+    this.logo.addEventListener('click', () => {
+      window.location.reload();
+    });
   }
 }
