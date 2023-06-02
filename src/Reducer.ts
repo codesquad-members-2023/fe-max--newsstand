@@ -85,4 +85,3 @@ export class Reducer {
     return newState;
   }
 }
-

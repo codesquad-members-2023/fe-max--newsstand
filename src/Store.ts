@@ -61,6 +61,7 @@ const createState = async () => {
 class Store {
   private state: newsStandState;
   private listeners: Function[] = [];
+
   constructor(initialState: newsStandState) {
     this.state = initialState;
   }
@@ -90,4 +91,3 @@ const reducer = new Reducer();
 const reduce = reducer.reduce.bind(reducer);
 
 export const store = new Store(await createState());
-

@@ -1,10 +1,12 @@
 import { HtmlParser } from "./../utils/HtmlParser";
 import { ElementObj, ElementType, TextElementObj } from "./../utils/types";
+
 export class Base {
   node: Element | null;
   htmlParser: HtmlParser;
   component: { [key: string]: HTMLElement } = {};
   components: { [key: string]: HTMLElement[] } = {};
+
   constructor() {
     this.htmlParser = new HtmlParser();
     this.node = null;
@@ -29,6 +31,7 @@ export class Base {
   setTemplate(template: string) {
     const elementData = this.htmlParser.getElements(template);
     const fragment = document.createDocumentFragment();
+
     if (elementData.length) {
       elementData.forEach((child) => {
         fragment.appendChild(this.createChild(child));
@@ -40,17 +43,21 @@ export class Base {
 
   createChild(child: ElementType) {
     const isElementObj = this.isElementObj(child);
+
     if (isElementObj) {
       const element = this.createElement(child);
       const children = child.children;
+
       if (children.length) {
         children.forEach((child) => {
           element.appendChild(this.createChild(child));
         });
       }
+
       return element;
     } else {
       const element = this.createTextElement(child.text);
+
       return element;
     }
   }
@@ -65,6 +72,7 @@ export class Base {
 
   createElement(data: ElementObj) {
     const element = document.createElement(data.tagName);
+
     data.attributes.forEach((attr) => {
       if (attr.name === "data-component") {
         this.component[attr.value] = element;
@@ -85,12 +93,13 @@ export class Base {
         this.setAttribute(attr.name, attr.value, element);
       }
     });
+
     return element;
   }
 
   createTextElement(text: string | null | undefined) {
     const element = document.createTextNode(text || "");
+
     return element;
   }
 }
-

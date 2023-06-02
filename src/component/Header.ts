@@ -27,6 +27,7 @@ export class Header extends Base {
       day: "2-digit",
       weekday: "long",
     }).format(date);
+
     return koreanDateFormat;
   }
 
@@ -44,4 +45,3 @@ export class Header extends Base {
     }
   }
 }
-

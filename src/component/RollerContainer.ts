@@ -1,6 +1,6 @@
 import { RollerType, newsStandState } from "../utils/types";
 import { Base } from "./Base";
-import { Roller } from "./Roller";
+import { Roller, rollerProps } from "./Roller";
 import { store } from "../Store";
 
 type RollerContainerState = {
@@ -12,16 +12,20 @@ export class RollerContainer extends Base {
   left: Roller;
   right: Roller;
   timer: Timer;
+
   constructor(private state: RollerContainerState) {
     super();
-    this.left = new Roller({
+    const leftRollerState: rollerProps = {
       headlineList: this.state.leftRoller.headline,
       position: "left",
-    });
-    this.right = new Roller({
+    };
+    const rightRollerState: rollerProps = {
       headlineList: this.state.rightRoller.headline,
       position: "right",
-    });
+    };
+
+    this.left = new Roller(leftRollerState);
+    this.right = new Roller(rightRollerState);
     this.timer = new Timer();
 
     this.render(`<div class="rollerContainer"></div>`);
@@ -37,6 +41,7 @@ export class RollerContainer extends Base {
       headlineList: state.leftRoller.headline,
       position: "left",
     });
+
     this.right.update({
       headlineList: state.rightRoller.headline,
       position: "right",
@@ -55,4 +60,3 @@ class Timer {
     }, 1000);
   }
 }
-

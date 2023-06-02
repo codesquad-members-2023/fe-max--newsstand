@@ -2,7 +2,7 @@ import { store } from "../Store";
 import { Headline } from "../utils/types";
 import { Base } from "./Base";
 
-type rollerProps = {
+export type rollerProps = {
   headlineList: Headline[];
   position: "left" | "right";
 };
@@ -40,6 +40,7 @@ export class Roller extends Base {
     const newList = props.headlineList;
 
     component.style.transition = "transform 1s";
+
     currentList.forEach((prop, index) => {
       const isChanged =
         prop.press !== newList[index].press ||
@@ -54,16 +55,18 @@ export class Roller extends Base {
 
   handleTransitionend(event: Event) {
     const target = event.target;
+
     if (target instanceof HTMLElement) {
       const newList = this.props.headlineList;
       const pressElements = this.components["press"];
       const titleElements = this.components["title"];
 
-      target.style.transition = "none";
       newList.forEach((_, index) => {
         pressElements[index].textContent = newList[index].press;
         titleElements[index].textContent = newList[index].title;
       });
+
+      target.style.transition = "none";
       target.style.transform = "translateY(0px)";
     }
   }
@@ -82,4 +85,3 @@ export class Roller extends Base {
     });
   }
 }
-

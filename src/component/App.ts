@@ -11,20 +11,22 @@ export class App extends Base {
 
   constructor(private state: newsStandState) {
     super();
-    this.header = new Header({ date: this.state.date });
-    this.main = new Main({
+    const headerState = { date: this.state.date };
+    const mainState = {
       currentMode: this.state.currentMode,
       currentPage: this.state.currentPage,
       grid: this.state.grid,
-    });
-    this.rollerContainer = new RollerContainer({
+    };
+    const rollerContainer = {
       leftRoller: this.state.leftRoller,
       rightRoller: this.state.rightRoller,
-    });
+    };
 
-    this.render(`
-        <div class="app"></div>
-    `);
+    this.header = new Header(headerState);
+    this.main = new Main(mainState);
+    this.rollerContainer = new RollerContainer(rollerContainer);
+
+    this.render(`<div class="app"></div>`);
     this.setChildren(this.header, this.rollerContainer, this.main);
   }
 
@@ -42,4 +44,3 @@ export class App extends Base {
     root.appendChild(this.node);
   }
 }
-

@@ -13,6 +13,7 @@ type MainState = {
 export class Main extends Base {
   ITEM_PER_PAGE: number = 24;
   itemLayerList: { element: Element; pressName: string }[] = [];
+
   constructor(private state: MainState) {
     super();
     this.render(`
@@ -88,6 +89,7 @@ export class Main extends Base {
   setGrid() {
     const currentGridList = this.state.grid.currentGridList;
     const gridElement = this.components["gridItem"];
+
     this.itemLayerList = [];
     currentGridList.forEach((data, index) => {
       const isSubscribe = localStorage.getItem(data.alt);
@@ -110,6 +112,7 @@ export class Main extends Base {
 
   clearGridItem() {
     const gridElement = this.components["gridItem"];
+
     gridElement.forEach((element) => {
       element.innerHTML = "";
     });
