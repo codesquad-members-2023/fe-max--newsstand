@@ -1,11 +1,22 @@
+import { GridNewsData, ListNewsData } from '../types';
 import { GridView } from './GridView';
 
 export class Main {
   element: HTMLElement;
+  state: {
+    viewMode: string;
+    viewTab: string;
+  };
+  children: object[];
+  showSubTabBtn: HTMLDivElement;
 
-  constructor(props) {
+  constructor(props: { gridData: GridNewsData[]; listData: ListNewsData[] }) {
     this.element = document.createElement('main');
-
+    this.state = {
+      viewMode: 'grid',
+      viewTab: 'all',
+    };
+    this.children = [];
     {
       const headerTab = document.createElement('header');
       headerTab.classList.add('header--main');
@@ -19,6 +30,7 @@ export class Main {
         showAllBtn.textContent = '전체 언론사';
 
         const showSubscribedBtn = document.createElement('div');
+        this.showSubTabBtn = showSubscribedBtn;
         showSubscribedBtn.classList.add('tab-btn__item');
         showSubscribedBtn.textContent = '내가 구독한 언론사';
 
@@ -46,7 +58,8 @@ export class Main {
     const content = document.createElement('div');
     content.classList.add('content-area');
 
-    const gridView = new GridView(props);
+    const gridView = new GridView(props.gridData);
+    this.children.push(gridView);
     content.append(gridView.leftBtn, gridView.rightBtn, gridView.element);
 
     this.element.append(content);
