@@ -18,6 +18,7 @@
     color: color.$gray500;
     height: 17px;
     overflow: hidden;
+    cursor: pointer;
 
     &-container-left,
     &-container-right {
@@ -31,7 +32,6 @@
         text-overflow: ellipsis;
         overflow: hidden;
       }
-      // animation: moveVertically 1s;
     }
 
     &-item {

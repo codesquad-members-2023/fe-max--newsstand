@@ -1,10 +1,10 @@
-@use "color.scss";
-@use "font.scss";
-@use "reset.scss";
+@use 'color.scss';
+@use 'font.scss';
+@use 'reset.scss';
 
-@use "header.scss";
-@use "roller.scss";
-@use "total.scss";
+@use 'header.scss';
+@use 'roller.scss';
+@use 'media.scss';
 
 #app {
   font-family: font.$Pretendard;

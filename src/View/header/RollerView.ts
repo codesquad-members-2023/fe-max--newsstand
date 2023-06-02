@@ -12,12 +12,31 @@ export const rollerInitialize = () => {
   const state = model.getState();
 
   if (containerLeft && containerRight) {
-    createInitialHeadline(containerLeft, containerRight, state);
-    handleRolling(containerLeft, containerRight);
+    const [firstLeftHeadline, secondLeftHeadline, firstRightHeadline, secondRightHeadline] = createInitialHeadline(
+      containerLeft,
+      containerRight,
+      state,
+    );
+
+    handleRolling(
+      containerLeft,
+      containerRight,
+      firstLeftHeadline,
+      secondLeftHeadline,
+      firstRightHeadline,
+      secondRightHeadline,
+    );
   }
   if (headlineLeft && headlineRight) {
     setEvent(headlineLeft, headlineRight);
   }
+};
+
+const setEvent = (headlineLeft: HTMLElement, headlineRight: HTMLElement) => {
+  headlineLeft.addEventListener('mouseenter', intent.handleLeftMouseEnter);
+  headlineRight.addEventListener('mouseenter', intent.handleRightMouseEnter);
+  headlineLeft.addEventListener('mouseout', intent.handleLeftMouseLeave);
+  headlineRight.addEventListener('mouseout', intent.handleRightMouseLeave);
 };
 
 const createInitialHeadline = (containerLeft: HTMLElement, containerRight: HTMLElement, state: RollerState) => {
@@ -36,130 +55,87 @@ const createInitialHeadline = (containerLeft: HTMLElement, containerRight: HTMLE
 
   containerLeft.appendChild(secondLeftHeadline);
   containerRight.appendChild(secondRightHeadline);
+
+  return [firstLeftHeadline, secondLeftHeadline, firstRightHeadline, secondRightHeadline];
 };
 
-const handleRolling = (containerLeft: HTMLElement, containerRight: HTMLElement) => {
-  containerLeft.style.transition = 'transform 0.5s';
+const handleRolling = (
+  containerLeft: HTMLElement,
+  containerRight: HTMLElement,
+  firstLeftHeadline: HTMLElement,
+  secondLeftHeadline: HTMLElement,
+  firstRightHeadline: HTMLElement,
+  secondRightHeadline: HTMLElement,
+) => {
+  const deltaTime = 1000;
+  const rollingPeriod = 1500;
+
   setInterval(() => {
-    const state = model.getState();
+    rolling(containerLeft, 'left', firstLeftHeadline, secondLeftHeadline);
 
-    if (!state.leftRolling) {
-      return;
-    }
-    if (state.leftRolling) {
-      if (state.leftRollingAmount === 0) {
-        containerLeft.style.transition = '';
-        containerLeft.firstElementChild?.remove();
-        const lastElem = document.createElement('div');
-        if (lastElem) {
-          state.leftNextIndex += 2;
-          lastElem.textContent = state.headlines[state.leftNextIndex];
-        }
-        containerLeft.appendChild(lastElem);
-
-        if (state.leftNextIndex === 8) {
-          state.leftNextIndex = -2;
-        }
-      }
-
-      containerLeft.style.transform = `translateY(${-37 * state.leftRollingAmount}px)`;
-      state.leftRollingAmount++;
-
-      if (state.leftRollingAmount === 2) {
-        intent.setLeftRollingAmount();
-        containerLeft.style.transition = 'transform 0.5s';
-      }
-    }
-  }, 2000);
-
-  setTimeout(() => {
-    containerRight.style.transition = 'transform 0.5s';
-    setInterval(() => {
-      const state = model.getState();
-
-      if (!state.rightRolling) {
-        return;
-      }
-      if (state.rightRolling) {
-        if (state.rightRollingAmount === 0) {
-          containerRight.style.transition = '';
-          containerRight.firstElementChild?.remove();
-          const lastElem = document.createElement('div');
-          if (lastElem) {
-            state.rightNextIndex += 2;
-            lastElem.textContent = state.headlines[state.rightNextIndex];
-          }
-          containerRight.appendChild(lastElem);
-
-          if (state.rightNextIndex === 9) {
-            state.rightNextIndex = -1;
-          }
-        }
-
-        containerRight.style.transform = `translateY(${-37 * state.rightRollingAmount}px)`;
-        state.rightRollingAmount++;
-
-        if (state.rightRollingAmount === 2) {
-          intent.setRightRollingAmount();
-          containerRight.style.transition = 'transform 0.5s';
-        }
-      }
-    }, 2000);
-  }, 1000);
+    setTimeout(() => {
+      rolling(containerRight, 'right', firstRightHeadline, secondRightHeadline);
+    }, deltaTime);
+  }, rollingPeriod);
 };
 
-const setEvent = (headlineLeft: HTMLElement, headlineRight: HTMLElement) => {
-  headlineLeft.addEventListener('mouseenter', intent.handleLeftMouseEnter);
-  headlineRight.addEventListener('mouseenter', intent.handleRightMouseEnter);
-  headlineLeft.addEventListener('mouseout', intent.handleLeftMouseLeave);
-  headlineRight.addEventListener('mouseout', intent.handleRightMouseLeave);
+const rolling = (
+  containerElem: HTMLElement,
+  direction: string,
+  firstHeadline: HTMLElement,
+  secondHeadline: HTMLElement,
+) => {
+  const isRolling = `${direction}Rolling`;
+  const nextIndex = `${direction}NextIndex`;
+  const duration = 500;
+  const indexIncrement = 2;
+
+  const state = model.getState();
+  const isLeft = direction === 'left';
+
+  if (state[isRolling]) {
+    moveContainerUp(containerElem);
+    setTimeout(() => {
+      resetContainerPosition(containerElem);
+
+      let [currentIndex, useNextIndex] = updateIndex(state[nextIndex] as number, indexIncrement);
+
+      updateTextContent(firstHeadline, secondHeadline, state.headlines, currentIndex, useNextIndex);
+    }, duration);
+    resetRollingSetting(isLeft, containerElem);
+  }
+};
+
+const moveContainerUp = (element: HTMLElement) => {
+  element.style.transform = 'translateY(-37px)';
+};
+const resetContainerPosition = (element: HTMLElement) => {
+  element.style.transition = '';
+  element.style.transform = 'translateY(0px)';
+};
+
+const updateIndex = (baseIndex: number, increment: number) => {
+  const currentIndex: number = baseIndex % 10;
+  const useNextIndex: number = (baseIndex + increment) % 10;
+
+  return [currentIndex, useNextIndex];
+};
+
+const updateTextContent = (
+  first: HTMLElement,
+  second: HTMLElement,
+  headlines: string[],
+  currentIndex: number,
+  useNextIndex: number,
+) => {
+  first.textContent = headlines[currentIndex];
+  second.textContent = headlines[useNextIndex];
+};
+
+const resetRollingSetting = (isLeft: boolean, element: HTMLElement) => {
+  isLeft ? intent.leftIncreaseNextIndex() : intent.rightIncreaseNextIndex();
+  element.style.transition = 'transform 0.5s';
 };
 
 // [속보] 쿤디, '돼지파스타 맛있어서 돼지된 것 같아...'
 //[단독] 쿤디, 청년다방 오징어 튀김 중독됐다 '이 맛 못끊어...'
-
-//GPT 코드
-// const handleRolling = (container: HTMLElement, stateKeys: {rolling: string, rollingAmount: string, nextIndex: string}) => {
-//   container.style.transition = 'transform 0.5s';
-//   setInterval(() => {
-//     const state = model.getState();
-
-//     if (!state[stateKeys.rolling]) {
-//       return;
-//     }
-
-//     if (state[stateKeys.rollingAmount] === 0) {
-//       container.style.transition = '';
-//       container.firstElementChild?.remove();
-//       const lastElem = document.createElement('div');
-//       if (lastElem) {
-//         state[stateKeys.nextIndex] += 2;
-//         lastElem.textContent = state.headlines[state[stateKeys.nextIndex]];
-//       }
-//       container.appendChild(lastElem);
-
-//       if (state[stateKeys.nextIndex] === (stateKeys.nextIndex === 'leftNextIndex' ? 8 : 9)) {
-//         state[stateKeys.nextIndex] = stateKeys.nextIndex === 'leftNextIndex' ? -2 : -1;
-//       }
-//     }
-
-//     container.style.transform = `translateY(${-37 * state[stateKeys.rollingAmount]}px)`;
-//     state[stateKeys.rollingAmount]++;
-
-//     if (state[stateKeys.rollingAmount] === 2) {
-//       if (stateKeys.rolling === 'leftRolling') {
-//         intent.setLeftRollingAmount();
-//       } else {
-//         intent.setRightRollingAmount();
-//       }
-//       container.style.transition = 'transform 0.5s';
-//     }
-//   }, 2000);
-// };
-
-// const handleRollingForBoth = (containerLeft: HTMLElement, containerRight: HTMLElement) => {
-//   handleRolling(containerLeft, {rolling: 'leftRolling', rollingAmount: 'leftRollingAmount', nextIndex: 'leftNextIndex'});
-//   setTimeout(() => {
-//     handleRolling(containerRight, {rolling: 'rightRolling', rollingAmount: 'rightRollingAmount', nextIndex: 'rightNextIndex'});
-//   }, 1000);
-// };
