@@ -26,8 +26,6 @@
           .then((html) => {
             const $ = load(html);
         
-            console.log(html);
-        
             // 크롤링할 내용을 선택자를 사용하여 추출
             const newsTitles = $("a.news_tit")
               .map((index, element) => {
@@ -86,8 +84,8 @@
 ## 2주차 비동기제어와 WAS 구현
 
 ## 목표
-- [ ] 기존의 vite를 사용하며 사용한 클라이언트 사이드 랜더링 방식을 서버 사이드 앤더링 방식으로 교체한다.
-- [ ] template engine을 활용하여 기존에 index.html을 재구성한다
+- [x] 기존의 vite를 사용하며 사용한 클라이언트 사이드 랜더링 방식을 서버 사이드 랜더링 방식으로 교체한다.
+- [x] template engine을 활용하여 기존에 index.html을 재구성한다
 - [ ] 그리드 UI을 구현한다
 - [ ] 좌우페이지 이동을 구현한다.
 - [ ] 세션을 활용하여 구독 및 해지정보들을 관리할 방법을 정하고 적용시킨다.
