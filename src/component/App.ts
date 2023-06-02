@@ -33,10 +33,6 @@ export class App extends Base {
   renderApp() {
     const root = document.body;
 
-    if (!root) {
-      throw new Error("Root not found");
-    }
-
     if (!this.node) {
       throw new Error("App node is not found");
     }
