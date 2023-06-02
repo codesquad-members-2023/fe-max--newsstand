@@ -16,9 +16,10 @@ const fisherYatesShuffle = (array: GridData) => {
 };
 
 const fetchData = async () => {
-  const rollingResponse = await fetch("http://localhost:8080/rolling");
+  const url = "http://localhost:8080";
+  const rollingResponse = await fetch(`${url}/rolling`);
   const headlineList = await rollingResponse.json();
-  const gridResponse = await fetch("http://localhost:8080/grid");
+  const gridResponse = await fetch(`${url}/grid`);
   const gridList = fisherYatesShuffle(await gridResponse.json());
 
   return { headlineList, gridList };
