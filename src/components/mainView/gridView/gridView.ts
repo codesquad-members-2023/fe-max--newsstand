@@ -1,4 +1,5 @@
-import { GridStore, PressLogo } from "../mainView";
+import { GridStore } from "../mainView";
+import { GridPressBox } from "./gridPressBox";
 
 export class GridView {
   private gridStore: GridStore;
@@ -11,6 +12,7 @@ export class GridView {
     this.gridStore = gridStore;
 
     this.frameRender();
+    this.$gridView.append(this.$group);
   }
 
   private frameRender() {
@@ -37,26 +39,13 @@ export class GridView {
     const fragment = document.createDocumentFragment();
 
     logos.forEach((logo) => {
-      const pressBox = this.createPressBoxElement(logo);
+      const gridPressBox = new GridPressBox(logo);
+      const pressBox = gridPressBox.getElement();
 
       fragment.append(pressBox);
     });
 
     this.$group.append(fragment);
-    this.$gridView.append(this.$group);
-  }
-
-  private createPressBoxElement(logo: PressLogo) {
-    const box = document.createElement("div");
-    box.className = "grid-view-group__press-box";
-
-    const image = document.createElement("img");
-    image.src = logo.src;
-    image.alt = logo.alt;
-
-    box.appendChild(image);
-
-    return box;
   }
 
   getElement() {
