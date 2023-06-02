@@ -44,7 +44,7 @@ export class GridPressBox {
     });
 
     this.$pressBox.addEventListener("mouseleave", () => {
-      this.deleteSubscribeBox();
+      this.removeSubscribeBox();
     });
   }
 
@@ -52,7 +52,7 @@ export class GridPressBox {
     this.$pressBox.append(this.$subscribeButtonBox);
   }
 
-  deleteSubscribeBox() {
+  removeSubscribeBox() {
     this.$subscribeButtonBox.remove();
   }
 
