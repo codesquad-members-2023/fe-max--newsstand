@@ -14,7 +14,8 @@ const subscribe = (key: keyof RollerState, listener: Listener) => {
   if (!listeners[key]) {
     listeners[key] = [];
   }
-  listeners[key].push(listener);
+
+  listeners[key]?.push(listener);
 };
 
 const getState = (): RollerState => {
@@ -24,8 +25,11 @@ const setState = (newState: Partial<RollerState>) => {
   for (let key in newState) {
     if (state[key] !== newState[key]) {
       state[key] = newState[key];
+      if (!listeners[key]) {
+        listeners[key] = [];
+      }
       if (listeners[key]) {
-        listeners[key].forEach((listener) => listener(state[key]));
+        listeners[key]?.forEach((listener) => listener(state[key]));
       }
     }
   }
@@ -33,7 +37,7 @@ const setState = (newState: Partial<RollerState>) => {
 
 async function initHeadlinesState() {
   // const response = await fetch('/src/services/db.json');
-  const response = await fetch('http://localhost:8080/headlines');
+  const response = await fetch("http://localhost:8080/headlines");
   const data = await response.json();
 
   return data.headlines;
