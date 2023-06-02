@@ -17,6 +17,7 @@ async function initRoller() {
 
     const roller = Roller(headlines);
     roller.render();
+    roller.setEvent();
     roller.startRolling();
   } catch (error) {
     console.error("헤드라인 정보를 가져오지 못했습니다.");
