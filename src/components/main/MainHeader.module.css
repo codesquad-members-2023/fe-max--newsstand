@@ -10,6 +10,15 @@
   gap: 24px;
 }
 
+.tab_item {
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 22px;
+  color: var(--gray-200);
+}
+
 .viewer_list {
   display: flex;
   justify-content: center;
@@ -17,14 +26,19 @@
   gap: 8px;
 }
 
-.dimmed {
-  color: var(--gray-200);
-}
-
-.inactive_icon {
+.viewer_item {
   filter: invert(91%) sepia(10%) saturate(162%) hue-rotate(163deg) brightness(98%) contrast(86%);
 }
 
-.active_icon {
+.active_tab {
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+  color: var(--black);
+}
+
+.active_viewer {
   filter: invert(31%) sepia(99%) saturate(972%) hue-rotate(206deg) brightness(91%) contrast(88%);
 }

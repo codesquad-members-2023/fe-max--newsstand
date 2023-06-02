@@ -17,6 +17,18 @@ type Action =
       payload: {
         hoverOnGrid: boolean;
       };
+    }
+  | {
+      type: 'initGridImages';
+      payload: {
+        images: GridImg[];
+      };
+    }
+  | {
+      type: 'initHeadlineNews';
+      payload: {
+        news: HeadlineNews[];
+      };
     };
 
 type GridImg = {
@@ -32,6 +44,15 @@ type GridInfo = {
   hoverIndex: number;
 };
 
-type Component = {
-  updateProps: Function;
-}
+type HeadlineNews = {
+  media: string;
+  mediaUrl: string;
+  news: string;
+  newsUrl: string;
+};
+
+type HeadlineInfo = {
+  news: HeadlineNews[];
+  leftIndex: number;
+  rightIndex: number;
+};
