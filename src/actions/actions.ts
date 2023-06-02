@@ -1,10 +1,10 @@
 // import { UPDATE_NAME } from "../constants/ActionTypes";
-import { dispatch } from "../dispatcher/dispatcher";
+// import { dispatch } from "../dispatcher/dispatcher";
 
 const actions = {
-  updateName: (name: string) => {
-    dispatch({ type: UPDATE_NAME, payload: name });
-  },
+  // updateName: (name: string) => {
+  //   dispatch({ type: UPDATE_NAME, payload: name });
+  // },
   // Other actions...
 };
 

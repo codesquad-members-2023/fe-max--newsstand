@@ -137,5 +137,4 @@ const resetRollingSetting = (isLeft: boolean, element: HTMLElement) => {
   element.style.transition = 'transform 0.5s';
 };
 
-// [속보] 쿤디, '돼지파스타 맛있어서 돼지된 것 같아...'
-//[단독] 쿤디, 청년다방 오징어 튀김 중독됐다 '이 맛 못끊어...'
+

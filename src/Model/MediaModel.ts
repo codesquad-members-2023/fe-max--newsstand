@@ -1,5 +1,5 @@
 let state: MediaState = {
-  mediaViewMode: 'grid',
+  mediaViewMode: "grid",
   //grid 모드 상태
   currentPage: 1,
   images: await initImagesState(),
@@ -17,7 +17,7 @@ const subscribe = (key: keyof MediaState, listener: Listener) => {
   if (!listeners[key]) {
     listeners[key] = [];
   }
-  listeners[key].push(listener);
+  listeners[key]?.push(listener);
 };
 
 const getState = (): MediaState => {
@@ -29,7 +29,7 @@ const setState = (newState: Partial<MediaState>) => {
     if (state[key] !== newState[key]) {
       state[key] = newState[key];
       if (listeners[key]) {
-        listeners[key].forEach((listener) => listener(state[key]));
+        listeners[key]?.forEach((listener) => listener(state[key]));
       }
     }
   }
@@ -44,7 +44,7 @@ interface imageData {
 
 async function initImagesState() {
   // const response = await fetch('/src/services/grid.json');
-  const response = await fetch('http://localhost:8080/images');
+  const response = await fetch("http://localhost:8080/images");
   const data = await response.json();
 
   const images = data.images.map((image: imageData) => image.src);
@@ -53,7 +53,7 @@ async function initImagesState() {
 
   return shuffledImages;
 }
-function shuffleArray(target: []) {
+function shuffleArray(target: any[]) {
   for (let i = target.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [target[i], target[j]] = [target[j], target[i]];

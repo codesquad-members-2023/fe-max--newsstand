@@ -1,25 +1,32 @@
-export type State = {
-  [key: string]: any;
+// store.ts
+type State = any;
+type Action = any;
+type Reducer = (state: State, action: Action) => State;
+type Listener = (state: State) => void;
+
+export const createStore = (reducer: Reducer, initialState: State) => {
+  let state: State = {
+    headlines: await initHeadlinesState(),
+  };
+  const listeners: Listener[] = [];
+
+  const getState = () => state;
+
+  const dispatch = (action: Action) => {
+    state = reducer(state, action);
+    listeners.forEach((listener) => listener(state));
+  };
+
+  const subscribe = (listener: Listener) => {
+    listeners.push(listener);
+  };
+
+  return { getState, dispatch, subscribe };
 };
 
-type ListenerCallback = (state: State) => void;
+async function initHeadlinesState() {
+  const response = await fetch("http://localhost:8080/headlines");
+  const data = await response.json();
 
-let state: State = {};
-
-const listeners: Set<ListenerCallback> = new Set();
-
-export function setState(newState: State) {
-  state = { ...state, ...newState };
-  for (const cb of listeners) {
-    cb(state);
-  }
-}
-
-export function getState(): State {
-  return state;
-}
-
-export function subscribe(callback: ListenerCallback): () => void {
-  listeners.add(callback);
-  return () => listeners.delete(callback);
+  return data.headlines;
 }

@@ -90,7 +90,7 @@ display:revert; revert to element instead of attribute */
   all: revert;
 }
 
-.banner {
+.header {
   position: relative;
   display: flex;
   align-items: flex-end;
@@ -98,7 +98,7 @@ display:revert; revert to element instead of attribute */
   height: 29px;
   margin-top: 58px;
 }
-.banner-left {
+.header-left {
   display: flex;
   align-items: center;
   width: 136px;
@@ -109,7 +109,7 @@ display:revert; revert to element instead of attribute */
   line-height: 28.64px;
   cursor: pointer;
 }
-.banner-right {
+.header-right {
   display: flex;
   position: absolute;
   right: 0;
@@ -151,6 +151,7 @@ display:revert; revert to element instead of attribute */
   display: flex;
   flex-direction: column;
   gap: 20px;
+  animation-duration: 0.5s;
 }
 .news-roller .headline-container-left > div, .news-roller .headline-container-right > div {
   width: 363px;
