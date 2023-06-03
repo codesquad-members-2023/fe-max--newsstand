@@ -12,10 +12,12 @@
     .grid__wrapper {
       width: 930px;
       height: 388px;
+      margin: 0 auto;
       display: grid;
       grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
 
       .grid__items {
+        height: 96px;
         background-color: $color-white;
         border: 1px solid $color-gray-100;
         display: flex;
@@ -32,7 +34,20 @@
 
     .grid__left,
     .grid__right {
+      position: absolute;
       cursor: pointer;
+    }
+
+    .grid__left {
+      transform: translateY(174px);
+    }
+
+    .grid__right {
+      transform: translate(1048px, 174px);
+    }
+
+    .hide {
+      display: none;
     }
   }
 }

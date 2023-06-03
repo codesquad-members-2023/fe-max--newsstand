@@ -17,6 +17,11 @@
     background-color: $color-off-white;
     border: 1px solid $color-gray-100;
 
+    .left__article__wrapper,
+    .right__article__wrapper {
+      overflow: hidden;
+    }
+
     span,
     a {
       text-decoration: none;
@@ -34,6 +39,7 @@
     .right__article {
       font: $body-sm;
       color: $color-gray-500;
+      transition: transform 1s;
 
       &:hover {
         cursor: pointer;
