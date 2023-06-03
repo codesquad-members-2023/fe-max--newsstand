@@ -1,4 +1,3 @@
-import rollingData from '../../../../../server/rolling.json';
 import { $ } from '../../../util/util';
 
 type rollingInfo = {
@@ -7,19 +6,25 @@ type rollingInfo = {
   link: string;
 };
 
-function getRollingArr() {
-  const arr: Array<rollingInfo> = [];
-  rollingData.forEach((value: rollingInfo) => arr.push(value));
-
-  const leftArr = [...arr].splice(0, arr.length / 2);
-  const rightArr = [...arr].splice(arr.length / 2);
-
-  return { leftArr, rightArr };
+async function fetchRollingData() {
+  const res = await fetch('http://localhost:8080/rolling');
+  const rollingData = await res.json();
+  return rollingData;
 }
 
-export function setRolling(count: number) {
-  const leftRollingArr = getRollingArr().leftArr;
-  const rightRollingArr = getRollingArr().rightArr;
+async function setRollingArr() {
+  const rollingData = await fetchRollingData();
+  const rollingArr: Array<rollingInfo> = [];
+  rollingData.forEach((value: rollingInfo) => rollingArr.push(value));
+
+  return rollingArr;
+}
+
+export async function setRolling(count: number) {
+  const rollingArr = await setRollingArr();
+
+  const leftRollingArr = [...rollingArr].splice(0, rollingArr.length / 2);
+  const rightRollingArr = [...rollingArr].splice(rollingArr.length / 2);
 
   const leftRollingWrapper = $('.left__article__wrapper');
   const rightRollingWrapper = $('.right__article__wrapper');

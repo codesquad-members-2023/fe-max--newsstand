@@ -1,4 +1,3 @@
-import gridData from '../../../../../server/grid.json';
 import { $, $$ } from '../../../util/util';
 
 type gridInfo = {
@@ -6,16 +5,24 @@ type gridInfo = {
   alt: string;
 };
 
+async function fetchGridData() {
+  const res = await fetch('http://localhost:8080/grid');
+  const gridData = await res.json();
+  return gridData;
+}
+
 const COUNT_PER_GRID = $$('.grid__items').length;
 
-export function addEvent() {
+export async function addEvent() {
+  const gridData = await fetchGridData();
+
   const leftBtn = $('.grid__left');
   const rightBtn = $('.grid__right');
   const arr: Array<gridInfo> = [];
-  const maxPage = setMaxPage();
+  const maxPage = await setMaxPage();
   let counter = 1;
 
-  gridData.forEach((item) => arr.push(item));
+  gridData.forEach((item: gridInfo) => arr.push(item));
   shuffle(arr);
   setGrid(arr, counter);
 
@@ -40,8 +47,8 @@ export function addEvent() {
   });
 }
 
-function hideArrow(leftBtn: HTMLElement, rightBtn: HTMLElement, counter: number) {
-  const maxPage = setMaxPage();
+async function hideArrow(leftBtn: HTMLElement, rightBtn: HTMLElement, counter: number) {
+  const maxPage = await setMaxPage();
 
   if (counter === 1) {
     leftBtn.classList.add('hide');
@@ -56,12 +63,14 @@ function hideArrow(leftBtn: HTMLElement, rightBtn: HTMLElement, counter: number)
   }
 }
 
-function setMaxPage() {
+async function setMaxPage() {
+  const gridData = await fetchGridData();
   return Math.ceil(gridData.length / COUNT_PER_GRID);
 }
 
-export function setGrid(arr: Array<gridInfo>, counter: number) {
+export async function setGrid(arr: Array<gridInfo>, counter: number) {
   const grid = $$('.grid__items');
+  const gridData = await fetchGridData();
 
   for (let i = 0; i < grid.length; i++) {
     const pressCount = i + COUNT_PER_GRID * (counter - 1);

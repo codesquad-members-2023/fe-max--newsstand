@@ -7,17 +7,17 @@ const port = 8080;
 
 app.use(cors());
 app.get('/rolling', (req, res) => {
-  const data = fs.readFileSync('server/data/rolling.json', 'utf8');
+  const data = fs.readFileSync('server/rolling.json', 'utf8');
   res.json(JSON.parse(data));
 });
 
 app.get('/grid', (req, res) => {
-  const data = fs.readFileSync('server/data/grid.json', 'utf8');
+  const data = fs.readFileSync('server/grid.json', 'utf8');
   res.json(JSON.parse(data));
 });
 
 app.get('/list', (req, res) => {
-  const data = fs.readFileSync('server/data/list.json', 'utf8');
+  const data = fs.readFileSync('server/list.json', 'utf8');
   res.json(JSON.parse(data));
 });
 
