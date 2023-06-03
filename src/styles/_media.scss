@@ -1,7 +1,8 @@
-@use 'color.scss';
-@use 'font.scss';
+@use "color.scss";
+@use "font.scss";
 
 .total-media {
+  position: relative;
   &__tab-bar {
     display: flex;
     justify-content: space-between;
@@ -88,10 +89,75 @@
       // background-color: black;
       width: 12px;
       height: 12px;
-      background-image: url('/public/images/plus-button.svg');
+      background-image: url("/public/images/plus-button.svg");
       background-repeat: no-repeat;
       background-position: center;
     }
+  }
+}
+
+.progress {
+  background-color: #7890e7;
+  position: relative;
+  display: flex;
+  @include font.TitleSM;
+  color: color.$white;
+  padding: 11.5px 16px;
+  width: 166px;
+  height: 40px;
+  overflow: hidden;
+
+  .text {
+    position: relative;
+  }
+}
+
+.fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  background-color: color.$primary;
+  animation: fillProgress 20s linear forwards;
+}
+
+.article {
+  display: flex;
+  @include font.BodySM;
+  color: color.$gray300;
+  padding: 11.5px 16px;
+}
+
+.list-view {
+  display: none;
+  flex-direction: column;
+  margin-top: 24px;
+  border: 1px solid color.$gray100;
+  width: 930px;
+  height: 388px;
+
+  &__field-tab {
+    display: flex;
+    width: 930px;
+    height: 40px;
+    background-color: color.$off-white;
+    border: 1px solid color.$gray100;
+  }
+
+  &__press-news {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px;
+    gap: 16px;
+
+    width: 930px;
+    height: 348px;
+
+    /* gray100 */
+
+    border: 1px solid color.$gray100;
   }
 }
 

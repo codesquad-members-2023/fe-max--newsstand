@@ -3,7 +3,8 @@ export type State = {
   currentLastPage: number;
   currentViewMode: string;
   gridStartPoint: number;
-  [key: string]: number | string;
+  subsPress: [];
+  [key: string]: number | string | [];
 };
 
 type Listener = () => void;
@@ -13,6 +14,8 @@ let state: State = {
   currentLastPage: 4,
   currentViewMode: "grid",
   gridStartPoint: 0,
+
+  subsPress: [],
 };
 
 const listeners: Set<Listener> = new Set();

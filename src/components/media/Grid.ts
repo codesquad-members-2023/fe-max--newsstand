@@ -1,8 +1,10 @@
+import { actions } from "../../actions/actions";
+import { dispatch } from "../../dispatcher/dispatcher";
 import { getState } from "../../store/store";
 
 const ITEM_PER_GRID = 24;
 
-type Images = string[];
+export type Images = { src: string; alt: string }[];
 
 export const Grid = (images: Images) => {
   let isInsideGrid = false;
@@ -15,13 +17,16 @@ export const Grid = (images: Images) => {
   createGridItems(images);
 
   const render = () => {
-    const { gridStartPoint } = getState();
+    const { gridStartPoint, currentViewMode } = getState();
 
-    const gridItems = gridView.children;
-    for (let i = 0; i < ITEM_PER_GRID; i++) {
-      const gridImage: HTMLElement | null = gridItems[i]!.querySelector("img");
-      if (gridImage) {
-        gridImage.setAttribute("src", images[i + gridStartPoint]!);
+    if (currentViewMode === "grid") {
+      const gridItems = gridView.children;
+      for (let i = 0; i < ITEM_PER_GRID; i++) {
+        const gridImage: HTMLElement | null = gridItems[i]!.querySelector("img");
+        if (gridImage) {
+          gridImage.setAttribute("src", images[i + gridStartPoint]!.src);
+          gridImage.setAttribute("alt", images[i + gridStartPoint]!.alt);
+        }
       }
     }
   };
@@ -50,6 +55,7 @@ export const Grid = (images: Images) => {
       if (isButtonClicked(target)) {
         toggleSubs(target);
         renderButton();
+        actions.updateSubs(subsPress);
       }
     });
   };
@@ -75,20 +81,20 @@ export const Grid = (images: Images) => {
   }
   function toggleSubs(target: HTMLElement) {
     const gridItem = target.closest(".grid-item");
-    const imageSRC = gridItem!.querySelector("img")!.getAttribute("src")!;
+    const pressName = gridItem!.querySelector("img")!.getAttribute("alt")!;
 
-    if (subsPress.includes(imageSRC)) {
-      subsPress = subsPress.filter((press) => press !== imageSRC);
+    if (subsPress.includes(pressName)) {
+      subsPress = subsPress.filter((press) => press !== pressName);
     } else {
-      subsPress.push(imageSRC);
+      subsPress.push(pressName);
     }
   }
   function renderButton() {
     const gridItems = gridView.querySelectorAll(".grid-item");
 
     gridItems.forEach((gridItem) => {
-      const imageSRC = gridItem!.querySelector("img")!.getAttribute("src")!;
-      if (subsPress.includes(imageSRC)) {
+      const pressName = gridItem!.querySelector("img")!.getAttribute("alt")!;
+      if (subsPress.includes(pressName)) {
         gridItem.querySelector(".text")!.textContent = "해지하기";
       } else {
         gridItem.querySelector(".text")!.textContent = "구독하기";
@@ -104,7 +110,8 @@ export const Grid = (images: Images) => {
       gridItem.classList.add("grid-item");
 
       const gridImage = document.createElement("img");
-      gridImage.setAttribute("src", images[i]!);
+      gridImage.setAttribute("src", images[i]!.src!);
+      gridImage.setAttribute("alt", images[i]!.alt!);
 
       gridItem.appendChild(gridOverlay);
       gridItem.appendChild(gridImage);

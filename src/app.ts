@@ -4,7 +4,7 @@ import { Header, NewsDate } from "./components/header/Header";
 import { Roller } from "./components/roller/Roller";
 import { subscribe } from "./store/store";
 import { Media } from "./components/media/Media";
-import { Grid } from "./components/media/Grid";
+import { Grid, Images } from "./components/media/Grid";
 
 const header = Header();
 header.setEvent();
@@ -55,22 +55,19 @@ async function initHeadlinesData() {
 async function initImages() {
   const response = await fetch("http://localhost:8080/images");
   const data = await response.json();
-  const images = data.images.map((image: imageData) => image.src);
+  const images = data.images.map((image: Images) => image);
+
   const shuffledImages = shuffleArray(images);
+
   return shuffledImages;
 }
-function shuffleArray(target: string[]) {
+function shuffleArray(target: Images) {
   for (let i = target.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [target[i], target[j]] = [target[j]!, target[i]!];
   }
   return target;
 }
-
-type imageData = {
-  src: string;
-  alt: string;
-};
 
 // "[속보] 쿤디, \"돼지파스타 맛있어서 돼지된 것 같아...\"",
 // "[단독] 쿤디, 청년다방 오징어 튀김 중독됐다 \"이 맛 못끊어...\"",
