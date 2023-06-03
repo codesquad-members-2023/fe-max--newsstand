@@ -79,6 +79,7 @@ export const Roller = (headlines: string[]) => {
     index[direction] += INDEX_STEP;
     index[direction] %= total;
   }
+
   function changeText(container: HTMLElement, direction: Direction) {
     const currentIndex = index[direction];
     container.firstChild!.textContent = headlines[currentIndex!]!;

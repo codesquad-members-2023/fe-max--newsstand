@@ -7,13 +7,13 @@ export const Media = () => {
 
   const render = () => {
     const { currentPage, currentLastPage } = getState();
-    console.log(currentPage);
+
     if (currentPage === 1) {
       prevButton.style.display = "none";
     } else {
       prevButton.style.display = "block";
     }
-    if (currentPage! < currentLastPage!) {
+    if (currentPage < currentLastPage) {
       nextButton.style.display = "block";
     } else {
       nextButton.style.display = "none";
@@ -21,8 +21,8 @@ export const Media = () => {
   };
 
   const setEvent = () => {
-    prevButton!.addEventListener("click", actions.goPrevPage);
-    nextButton!.addEventListener("click", actions.goNextPage);
+    prevButton.addEventListener("click", actions.goPrevPage);
+    nextButton.addEventListener("click", actions.goNextPage);
   };
 
   return { setEvent, render };

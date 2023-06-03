@@ -23,6 +23,7 @@ const initRoller = async () => {
     console.error("헤드라인 정보를 가져오지 못했습니다.");
   }
 };
+
 initRoller();
 
 const media = Media();
@@ -42,6 +43,7 @@ const initGrid = async () => {
     console.error("이미지들을 가져오지 못했습니다.");
   }
 };
+
 initGrid();
 
 async function initHeadlinesData() {

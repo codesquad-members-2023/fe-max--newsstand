@@ -5,14 +5,14 @@ const ITEM_PER_GRID = 24;
 type Images = string[];
 
 export const Grid = (images: Images) => {
-  const gridView = document.querySelector(".grid-view") as HTMLElement;
-
-  createGridItems(images);
-
   let isInsideGrid = false;
   let currentOverlay: HTMLElement | null = null;
   let currentEnterGrid: HTMLElement | null = null;
   let subsPress: string[] = [];
+
+  const gridView = document.querySelector(".grid-view") as HTMLElement;
+
+  createGridItems(images);
 
   const render = () => {
     const { gridStartPoint } = getState();
@@ -54,34 +54,6 @@ export const Grid = (images: Images) => {
     });
   };
 
-  function renderButton() {
-    const gridItems = gridView.querySelectorAll(".grid-item");
-
-    gridItems.forEach((gridItem) => {
-      const imageSRC = gridItem!.querySelector("img")!.getAttribute("src")!;
-      if (subsPress.includes(imageSRC)) {
-        gridItem.querySelector(".text")!.textContent = "해지하기";
-      } else {
-        gridItem.querySelector(".text")!.textContent = "구독하기";
-      }
-    });
-  }
-
-  function toggleSubs(target: HTMLElement) {
-    const gridItem = target.closest(".grid-item");
-    const imageSRC = gridItem!.querySelector("img")!.getAttribute("src")!;
-
-    if (subsPress.includes(imageSRC)) {
-      subsPress = subsPress.filter((press) => press !== imageSRC);
-    } else {
-      subsPress.push(imageSRC);
-    }
-  }
-
-  function isButtonClicked(target: HTMLElement) {
-    return target.closest(".grid-overlay__button");
-  }
-
   function renderOverlay() {
     if (currentOverlay) {
       currentOverlay.style.display = "none";
@@ -93,10 +65,35 @@ export const Grid = (images: Images) => {
       currentOverlay.style.display = "flex";
     }
   }
-
   function resetOverlay() {
     currentOverlay = null;
     currentEnterGrid = null;
+  }
+
+  function isButtonClicked(target: HTMLElement) {
+    return target.closest(".grid-overlay__button");
+  }
+  function toggleSubs(target: HTMLElement) {
+    const gridItem = target.closest(".grid-item");
+    const imageSRC = gridItem!.querySelector("img")!.getAttribute("src")!;
+
+    if (subsPress.includes(imageSRC)) {
+      subsPress = subsPress.filter((press) => press !== imageSRC);
+    } else {
+      subsPress.push(imageSRC);
+    }
+  }
+  function renderButton() {
+    const gridItems = gridView.querySelectorAll(".grid-item");
+
+    gridItems.forEach((gridItem) => {
+      const imageSRC = gridItem!.querySelector("img")!.getAttribute("src")!;
+      if (subsPress.includes(imageSRC)) {
+        gridItem.querySelector(".text")!.textContent = "해지하기";
+      } else {
+        gridItem.querySelector(".text")!.textContent = "구독하기";
+      }
+    });
   }
 
   function createGridItems(images: Images) {
@@ -114,7 +111,6 @@ export const Grid = (images: Images) => {
       gridView.appendChild(gridItem);
     }
   }
-
   function createGridOverlay() {
     const gridOverlay = document.createElement("div");
     gridOverlay.classList.add("grid-overlay");

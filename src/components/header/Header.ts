@@ -15,7 +15,6 @@ export const NewsDate = () => {
     if (!newsDate) return;
     newsDate.innerHTML = getCurrentDate();
   };
-
   return { render };
 };
 
