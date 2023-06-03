@@ -1,32 +1,34 @@
-// store.ts
-type State = any;
-type Action = any;
-type Reducer = (state: State, action: Action) => State;
-type Listener = (state: State) => void;
-
-export const createStore = (reducer: Reducer, initialState: State) => {
-  let state: State = {
-    headlines: await initHeadlinesState(),
-  };
-  const listeners: Listener[] = [];
-
-  const getState = () => state;
-
-  const dispatch = (action: Action) => {
-    state = reducer(state, action);
-    listeners.forEach((listener) => listener(state));
-  };
-
-  const subscribe = (listener: Listener) => {
-    listeners.push(listener);
-  };
-
-  return { getState, dispatch, subscribe };
+export type State = {
+  currentPage: number;
+  currentLastPage: number;
+  currentViewMode: string;
+  gridStartPoint: number;
+  [key: string]: number | string;
 };
 
-async function initHeadlinesState() {
-  const response = await fetch("http://localhost:8080/headlines");
-  const data = await response.json();
+type Listener = () => void;
 
-  return data.headlines;
+let state: State = {
+  currentPage: 1,
+  currentLastPage: 4,
+  currentViewMode: "grid",
+  gridStartPoint: 0,
+};
+
+const listeners: Set<Listener> = new Set();
+
+export function setState(newState: State) {
+  state = { ...state, ...newState };
+  for (const callback of listeners) {
+    callback();
+  }
+}
+
+export function getState(): State {
+  return state;
+}
+
+export function subscribe(callback: Listener) {
+  listeners.add(callback);
+  return () => listeners.delete(callback);
 }
