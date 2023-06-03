@@ -16,8 +16,8 @@ $grid-view-group-rows: 4;
   align-items: center;
 
   &__press-box {
-    width: ($grid-view-group-width / $grid-view-group-columns);
-    height: ($grid-view-group-height / $grid-view-group-rows);
+    width: calc($grid-view-group-width / $grid-view-group-columns);
+    height: calc($grid-view-group-height / $grid-view-group-rows);
     position: relative;
     top: 1px;
     left: 1px;
