@@ -4,3 +4,4 @@
 *.css
 
 dist
+*.DS_store
