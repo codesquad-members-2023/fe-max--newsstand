@@ -39,7 +39,8 @@ export class GridView {
     const fragment = document.createDocumentFragment();
 
     logos.forEach((logo) => {
-      const gridPressBox = new GridPressBox(logo);
+      const pressName = logo.alt;
+      const gridPressBox = new GridPressBox(logo, this.gridStore);
       const pressBox = gridPressBox.getElement();
 
       fragment.append(pressBox);

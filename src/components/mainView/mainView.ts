@@ -65,9 +65,32 @@ export class MainView {
 
 export class GridStore {
   private logos: PressLogo[] = [];
+  private subscribedPressList: string[] = [];
   private currentPage: number = 1;
   private lastPage: number = 1;
   private ITEM_PER_PAGE: number = 24;
+
+  constructor() {
+    this.updateSubscribedPressList();
+  }
+
+  updateSubscribedPressList() {
+    const subscribedPressList = localStorage.getItem("subscribed-press-list");
+
+    this.subscribedPressList = subscribedPressList ? JSON.parse(subscribedPressList) : [];
+  }
+
+  getSubscribedPressList() {
+    return this.subscribedPressList;
+  }
+
+  setSubscribedPressList(subscribedPressList: string[]) {
+    this.subscribedPressList = subscribedPressList;
+  }
+
+  isSubscribedPress(pressName: string) {
+    return this.subscribedPressList.includes(pressName);
+  }
 
   private setLastPage(logosLength: number) {
     this.lastPage = Math.ceil(logosLength / this.ITEM_PER_PAGE);
