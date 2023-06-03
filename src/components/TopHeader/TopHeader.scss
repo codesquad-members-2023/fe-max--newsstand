@@ -1,0 +1,27 @@
+@use "@styles/_design-system.scss" as *;
+
+:host {
+  display: block;
+}
+
+.header-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.title-container {
+  display: flex;
+  gap: 8px;
+
+  h1 {
+    @include f-display;
+    color: $color-black;
+  }
+}
+
+.date-container {
+  @include f-body-md;
+  color: $color-grey-500;
+}
