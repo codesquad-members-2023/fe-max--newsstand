@@ -2,14 +2,16 @@ import Component from "@components/common/Component.ts";
 import { fetchData } from "@utils/index.ts";
 
 export enum EState {
+  GridViewData = "gridViewData",
+
   HeadlinesRollerTick = "headlinesRollerTick",
   MainContentView = "mainContentView",
 }
 
 interface IStore {
-  recentHeadlines: { pressName: string; headlineTitle: string }[];
-  gridView: [];
-  listView: [];
+  recentHeadlinesData: { pressName: string; headlineTitle: string }[];
+  gridViewData: { src: string; alt: string }[];
+  listViewData: [];
 
   leftHeadlineIdx: number;
   rightHeadlineIdx: number;
@@ -18,16 +20,17 @@ interface IStore {
 
   headlinesRollerTickObservers: Component[];
   mainContentViewObservers: Component[];
+  gridViewDataObservers: Component[];
 }
 
-const recentHeadlines = await fetchData("/data/recent-headlines.json");
-const gridView = await fetchData("/data/grid-view.json");
-const listView = await fetchData("/data/list-view.json");
+const recentHeadlinesData = await fetchData("/data/recent-headlines.json");
+const gridViewData = await fetchData("/data/grid-view.json");
+const listViewData = await fetchData("/data/list-view.json");
 
 const store: IStore = {
-  recentHeadlines,
-  gridView,
-  listView,
+  recentHeadlinesData,
+  gridViewData,
+  listViewData,
 
   leftHeadlineIdx: 0,
   rightHeadlineIdx: 1,
@@ -36,6 +39,7 @@ const store: IStore = {
 
   headlinesRollerTickObservers: [],
   mainContentViewObservers: [],
+  gridViewDataObservers: [],
 };
 
 //- Register a component as an observer of the specified states.
@@ -44,8 +48,21 @@ export function observeStates(observer: Component, ...targetStates: EState[]) {
     store[`${targetState}Observers`].push(observer);
 
     console.log(
-      `${observer.constructor.name} is observing "${targetState}" state.`
+      `${observer.constructor.name} is observing "${targetState}".`
     );
+  });
+}
+
+export function unobserveStates(
+  observer: Component,
+  ...targetStates: EState[]
+) {
+  targetStates.forEach((targetState) => {
+    store[`${targetState}Observers`] = store[`${targetState}Observers`].filter(
+      (x) => x !== observer
+    );
+
+    console.log(`${observer.constructor.name} is unobserving "${targetState}."`);
   });
 }
 
@@ -69,24 +86,26 @@ function reducer(action: TAction) {
 
       if (store.headlinesRollerTick % 5 === 0) {
         store.leftHeadlineIdx += 2;
-        store.leftHeadlineIdx %= store.recentHeadlines.length;
+        store.leftHeadlineIdx %= store.recentHeadlinesData.length;
       } else if (store.headlinesRollerTick % 5 === 1) {
         store.rightHeadlineIdx += 2;
-        store.rightHeadlineIdx %= store.recentHeadlines.length;
+        store.rightHeadlineIdx %= store.recentHeadlinesData.length;
       }
 
       // Inform observers about the updated state (i.e. trigger a re-render of the relevant views).
       store.headlinesRollerTickObservers.forEach((observer) => {
         observer.update({
           leftHeadlineProps: {
-            pressName: store.recentHeadlines[store.leftHeadlineIdx].pressName,
+            pressName:
+              store.recentHeadlinesData[store.leftHeadlineIdx].pressName,
             headline:
-              store.recentHeadlines[store.leftHeadlineIdx].headlineTitle,
+              store.recentHeadlinesData[store.leftHeadlineIdx].headlineTitle,
           },
           rightHeadlineProps: {
-            pressName: store.recentHeadlines[store.rightHeadlineIdx].pressName,
+            pressName:
+              store.recentHeadlinesData[store.rightHeadlineIdx].pressName,
             headline:
-              store.recentHeadlines[store.rightHeadlineIdx].headlineTitle,
+              store.recentHeadlinesData[store.rightHeadlineIdx].headlineTitle,
           },
         });
       });
@@ -103,5 +122,11 @@ function reducer(action: TAction) {
       store.mainContentViewObservers.forEach((observer) => {
         observer.update({ mainContentView: store.mainContentView });
       });
+      break;
+    case "gridViewData":
+      store.gridViewDataObservers.forEach((observer) => {
+        observer.update({ gridViewData });
+      });
+      break;
   }
 }

@@ -36,6 +36,8 @@ class MainNews extends Component {
     header.append(pressViewBtnsWrapper, contentViewBtnsWrapper);
 
     const main = document.createElement("main");
+    const gridView = document.createElement("grid-view");
+    main.append(gridView); // initialize content to grid view
 
     const stylesheetLink = Component.createStylesheetLink(
       "src/components/MainNews/MainNews.scss"
@@ -53,10 +55,8 @@ class MainNews extends Component {
   update({ mainContentView }: { mainContentView: string }) {
     this.main.innerHTML = "";
     if (mainContentView === "grid-view") {
-      console.log("render grid view inside main");
-      // this.main.appendChild(document.createElement("grid-view"));
+      this.main.appendChild(document.createElement("grid-view"));
     } else if (mainContentView === "list-view") {
-      console.log("render list view in main");
       // this.main.appendChild(document.createElement("list-view"));
     }
   }
