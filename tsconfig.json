@@ -6,6 +6,7 @@
     "moduleResolution": "Node",
     "strict": true,
     "allowSyntheticDefaultImports": true,
+    "noUncheckedIndexedAccess": true,
     "baseUrl": ".",
     "paths": {
       "@components/*": ["src/components/*"],

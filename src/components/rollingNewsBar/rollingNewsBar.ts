@@ -2,19 +2,20 @@ import { RollingNewsBarItem, RollingNewsData } from "./rollingNewsBarItem";
 
 export class RollingNewsBar {
   private newsData: RollingNewsData[] = [];
-  private item: RollingNewsBarItem = new RollingNewsBarItem();
-  private nextItem: RollingNewsBarItem = new RollingNewsBarItem();
   private rollingIndex: number = 0;
-  private rollingNewsBar: HTMLDivElement = document.createElement("div");
-  private container: HTMLDivElement = document.createElement("div");
   private intervalId: number | null = null;
 
+  private item: RollingNewsBarItem = new RollingNewsBarItem();
+  private nextItem: RollingNewsBarItem = new RollingNewsBarItem();
+  private rollingNewsBar: HTMLDivElement = document.createElement("div");
+  private container: HTMLDivElement = document.createElement("div");
+
   constructor() {
-    this.initRollingNewsBarElement();
-    this.setMouseEvent();
+    this.initElement();
+    this.setEvents();
   }
 
-  private initRollingNewsBarElement() {
+  private initElement() {
     this.rollingNewsBar.className = "rolling-news-bar";
     this.container.className = "rolling-news-bar__container";
 
@@ -22,18 +23,21 @@ export class RollingNewsBar {
     this.rollingNewsBar.append(this.container);
   }
 
-  private setMouseEvent() {
+  private setEvents() {
     const titleElement = this.item.getTitleElement();
 
     titleElement.addEventListener("mouseenter", () => {
-      if (this.intervalId) {
-        window.clearInterval(this.intervalId);
-        this.intervalId = null;
-      }
+      this.pauseRolling();
     });
 
     titleElement.addEventListener("mouseleave", () => {
       this.startRolling();
+    });
+
+    this.container.addEventListener("transitionend", () => {
+      this.increaseRollingIndex();
+      this.updateRender();
+      this.inactivateAnimation();
     });
   }
 
@@ -45,40 +49,44 @@ export class RollingNewsBar {
     this.newsData = data;
   }
 
+  initSetNewsData(data: RollingNewsData[]) {
+    this.setNewsData(data);
+    this.updateRender();
+  }
+
   private increaseRollingIndex() {
     this.rollingIndex += 1;
 
-    if (this.newsData && this.newsData.length === this.rollingIndex) {
+    if (this.rollingIndex >= this.newsData.length) {
       this.rollingIndex = 0;
     }
   }
 
   updateRender() {
-    this.item.updateData(this.newsData[this.rollingIndex]);
+    const itemData = this.newsData[this.rollingIndex];
+    const nextItemData =
+      this.rollingIndex === this.newsData.length - 1
+        ? this.newsData[0]
+        : this.newsData[this.rollingIndex + 1];
 
-    if (this.rollingIndex === this.newsData.length - 1) {
-      this.nextItem.updateData(this.newsData[0]);
+    if (itemData == null) throw Error("newsData is null(or undefined)");
+    if (nextItemData == null) throw Error("nextItemData is null(or undefined)");
 
-      return;
-    }
-
-    this.nextItem.updateData(this.newsData[this.rollingIndex + 1]);
+    this.item.updateData(itemData);
+    this.nextItem.updateData(nextItemData);
   }
 
   startRolling() {
     this.intervalId = window.setInterval(() => {
       this.activateAnimation();
-
-      this.container.addEventListener(
-        "transitionend",
-        () => {
-          this.increaseRollingIndex();
-          this.updateRender();
-          this.inactivateAnimation();
-        },
-        { once: true }
-      );
     }, 5000);
+  }
+
+  pauseRolling() {
+    if (this.intervalId) {
+      window.clearInterval(this.intervalId);
+      this.intervalId = null;
+    }
   }
 
   private activateAnimation() {
