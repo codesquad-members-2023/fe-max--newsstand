@@ -26,8 +26,6 @@
           .then((html) => {
             const $ = load(html);
         
-            console.log(html);
-        
             // 크롤링할 내용을 선택자를 사용하여 추출
             const newsTitles = $("a.news_tit")
               .map((index, element) => {
@@ -86,8 +84,8 @@
 ## 2주차 비동기제어와 WAS 구현
 
 ## 목표
-- [ ] 기존의 vite를 사용하며 사용한 클라이언트 사이드 랜더링 방식을 서버 사이드 앤더링 방식으로 교체한다.
-- [ ] template engine을 활용하여 기존에 index.html을 재구성한다
+- [x] 기존의 vite를 사용하며 사용한 클라이언트 사이드 랜더링 방식을 서버 사이드 랜더링 방식으로 교체한다.
+- [x] template engine을 활용하여 기존에 index.html을 재구성한다
 - [ ] 그리드 UI을 구현한다
 - [ ] 좌우페이지 이동을 구현한다.
 - [ ] 세션을 활용하여 구독 및 해지정보들을 관리할 방법을 정하고 적용시킨다.
@@ -139,12 +137,12 @@ createServer();
 
 ## 기술스택(구현 과정 중 추가 삭제 예정)
 프로그래밍 언어: TypeScript, JavaScript (ES6+)
-백엔드 프레임워크: Express.js
-HTTP 요청 라이브러리: node-fetch
-HTML 파싱 라이브러리: node-html-parser
-로깅 라이브러리: morgan
-디버깅 라이브러리: debug
-에러 핸들링 라이브러리: http-errors
-쿠키 파싱 라이브러리: cookie-parser
-빌드 및 변환 도구: Babel
-개발용 서버 도구: Nodemon, @babel/node
+웹 프레임워크: Express.js
+템플릿 엔진: ejs
+번들러: Webpack
+타입스크립트 로더: ts-loader
+개발용 서버 도구: Nodemon, ts-node
+JavaScript/TypeScript 컴파일러: TypeScript
+TypeScript 지원: @types/node, @types/express, @types/ejs
+SSR 도구: Vite, vite-ssr
+Rollup 플러그인: @rollup/plugin-typescript
