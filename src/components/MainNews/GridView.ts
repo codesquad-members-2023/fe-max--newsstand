@@ -49,7 +49,7 @@ class GridView extends Component {
     dispatch({ type: EState.GridViewData });
   }
 
-  update({ gridViewData }: { gridViewData: TGridViewData[] }) {
+  setProps({ gridViewData }: { gridViewData: TGridViewData[] }) {
     this.tableChunks = this.chunkIntoTables(gridViewData);
     this.updateTable(this.tableChunks[this.currentTableChunkIdx]);
   }

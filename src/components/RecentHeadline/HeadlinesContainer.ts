@@ -42,7 +42,7 @@ export default class HeadlinesContainer extends Component {
     }, 1000);
   }
 
-  update({ leftHeadlineProps, rightHeadlineProps }: THeadlinesProps) {
+  setProps({ leftHeadlineProps, rightHeadlineProps }: THeadlinesProps) {
     this.leftHeadline.setHeadlineData(leftHeadlineProps);
     this.rightHeadline.setHeadlineData(rightHeadlineProps);
   }

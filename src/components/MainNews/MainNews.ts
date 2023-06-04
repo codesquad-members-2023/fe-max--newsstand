@@ -52,7 +52,7 @@ class MainNews extends Component {
     observeStates(this, EState.MainContentView);
   }
 
-  update({ mainContentView }: { mainContentView: string }) {
+  setProps({ mainContentView }: { mainContentView: string }) {
     this.main.innerHTML = "";
     if (mainContentView === "grid-view") {
       this.main.appendChild(document.createElement("grid-view"));

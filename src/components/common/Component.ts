@@ -15,5 +15,5 @@ export default class Component extends HTMLElement {
     return link;
   }
 
-  public update(_newState: {}) {}
+  public setProps(_newState: {}) {}
 }

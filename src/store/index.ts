@@ -47,9 +47,7 @@ export function observeStates(observer: Component, ...targetStates: EState[]) {
   targetStates.forEach((targetState) => {
     store[`${targetState}Observers`].push(observer);
 
-    console.log(
-      `${observer.constructor.name} is observing "${targetState}".`
-    );
+    console.log(`${observer.constructor.name} is observing "${targetState}".`);
   });
 }
 
@@ -62,7 +60,9 @@ export function unobserveStates(
       (x) => x !== observer
     );
 
-    console.log(`${observer.constructor.name} is unobserving "${targetState}."`);
+    console.log(
+      `${observer.constructor.name} is unobserving "${targetState}."`
+    );
   });
 }
 
@@ -94,7 +94,7 @@ function reducer(action: TAction) {
 
       // Inform observers about the updated state (i.e. trigger a re-render of the relevant views).
       store.headlinesRollerTickObservers.forEach((observer) => {
-        observer.update({
+        observer.setProps({
           leftHeadlineProps: {
             pressName:
               store.recentHeadlinesData[store.leftHeadlineIdx].pressName,
@@ -120,12 +120,12 @@ function reducer(action: TAction) {
       }
 
       store.mainContentViewObservers.forEach((observer) => {
-        observer.update({ mainContentView: store.mainContentView });
+        observer.setProps({ mainContentView: store.mainContentView });
       });
       break;
     case "gridViewData":
       store.gridViewDataObservers.forEach((observer) => {
-        observer.update({ gridViewData });
+        observer.setProps({ gridViewData });
       });
       break;
   }
