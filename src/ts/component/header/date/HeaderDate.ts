@@ -6,17 +6,22 @@ export class HeaderDate {
   getToday(): string {
     const newDate = new Date();
     const thisYear = newDate.getFullYear();
-    const thisMonth = newDate.getMonth() + 1;
-    const thisDate = newDate.getDate();
+    let thisMonth = `${newDate.getMonth() + 1}`;
+    let thisDate = `${newDate.getDate()}`;
     const thisDay = newDate.getDay();
     const dayList = ['일', '월', '화', '수', '목', '금', '토'];
-    const isAfterOctober = thisMonth >= 10;
+    const isBeforeOctober = +thisMonth < 10;
+    const isDigitDate = +thisDate < 10;
 
-    if (isAfterOctober) {
-      return `${thisYear}. ${thisMonth}. ${thisDate}. ${dayList[thisDay]}요일`;
+    if (isBeforeOctober) {
+      thisMonth = `0${thisMonth}`;
     }
 
-    return `${thisYear}. 0${thisMonth}. ${thisDate}. ${dayList[thisDay]}요일`;
+    if (isDigitDate) {
+      thisDate = `0${thisDate}`;
+    }
+
+    return `${thisYear}. ${thisMonth}. ${thisDate}. ${dayList[thisDay]}요일`;
   }
 
   render(): void {
