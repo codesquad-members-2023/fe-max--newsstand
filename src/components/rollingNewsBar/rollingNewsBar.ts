@@ -5,10 +5,10 @@ export class RollingNewsBar {
   private rollingIndex: number = 0;
   private intervalId: number | null = null;
 
+  private rollingNewsBar: HTMLElement = document.createElement("div");
+  private container: HTMLElement = document.createElement("div");
   private item: RollingNewsBarItem = new RollingNewsBarItem();
   private nextItem: RollingNewsBarItem = new RollingNewsBarItem();
-  private rollingNewsBar: HTMLDivElement = document.createElement("div");
-  private container: HTMLDivElement = document.createElement("div");
 
   constructor(initRollingDelay?: number) {
     this.initElement();
@@ -46,13 +46,32 @@ export class RollingNewsBar {
     return this.rollingNewsBar;
   }
 
-  setNewsData(data: RollingNewsData[]) {
-    this.newsData = data;
-  }
-
   initSetNewsData(data: RollingNewsData[]) {
     this.setNewsData(data);
     this.updateRender();
+  }
+
+  private setNewsData(data: RollingNewsData[]) {
+    this.newsData = data;
+  }
+
+  private updateRender() {
+    const itemData = this.newsData[this.rollingIndex];
+    const nextItemData =
+      this.rollingIndex === this.newsData.length - 1
+        ? this.newsData[0]
+        : this.newsData[this.rollingIndex + 1];
+
+    if (itemData == null) {
+      throw Error("newsData is null(or undefined)");
+    }
+
+    if (nextItemData == null) {
+      throw Error("nextItemData is null(or undefined)");
+    }
+
+    this.item.updateData(itemData);
+    this.nextItem.updateData(nextItemData);
   }
 
   private increaseRollingIndex() {
@@ -61,20 +80,6 @@ export class RollingNewsBar {
     if (this.rollingIndex >= this.newsData.length) {
       this.rollingIndex = 0;
     }
-  }
-
-  updateRender() {
-    const itemData = this.newsData[this.rollingIndex];
-    const nextItemData =
-      this.rollingIndex === this.newsData.length - 1
-        ? this.newsData[0]
-        : this.newsData[this.rollingIndex + 1];
-
-    if (itemData == null) throw Error("newsData is null(or undefined)");
-    if (nextItemData == null) throw Error("nextItemData is null(or undefined)");
-
-    this.item.updateData(itemData);
-    this.nextItem.updateData(nextItemData);
   }
 
   rolling() {
@@ -98,10 +103,12 @@ export class RollingNewsBar {
   }
 
   stopRolling() {
-    if (this.intervalId) {
-      window.clearInterval(this.intervalId);
-      this.intervalId = null;
+    if (!this.intervalId) {
+      return;
     }
+
+    window.clearInterval(this.intervalId);
+    this.intervalId = null;
   }
 
   private activateAnimation() {
