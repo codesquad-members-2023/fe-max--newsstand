@@ -13,7 +13,8 @@ export class App extends Base {
     super();
     const headerState = { date: this.state.date };
     const mainState = {
-      currentMode: this.state.currentMode,
+      currentContent: this.state.currentContent,
+      currentType: this.state.currentType,
       currentPage: this.state.currentPage,
       grid: this.state.grid,
     };

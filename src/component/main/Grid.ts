@@ -1,13 +1,14 @@
-import { GridData } from "../../utils/types";
+import { currentTypeList } from "../../utils/types";
 import { Base } from "../Base";
 
 const ITEM_PER_PAGE = 24;
 
 type GridProps = {
   currentPage: number;
+  currentType: "all" | "sub";
   grid: {
-    gridData: GridData;
-    currentGridList: GridData;
+    currentTypeList: currentTypeList;
+    currentViewList: currentTypeList;
   };
 };
 
@@ -29,12 +30,20 @@ export class Grid extends Base {
   }
 
   setGrid() {
-    const currentGridList = this.props.grid.currentGridList;
+    this.clearGridItem();
+
+    // if (this.props.currentType === "sub") {
+    //   this.setSubscribePress();
+    //   return;
+    // }
+
+    const currentViewList = this.props.grid.currentViewList;
     const gridElement = this.components["gridItem"];
 
     this.itemLayerList = [];
-    currentGridList.forEach((data, index) => {
-      const isSubscribe = localStorage.getItem(data.alt);
+    currentViewList.forEach((data, index) => {
+      const subscribeList = this.getSubscribeList();
+      const isSubscribe = subscribeList.includes(data.alt);
       const element = this.setTemplate(
         `<img src="${data.src}" alt="${data.alt}">`
       );
@@ -43,13 +52,49 @@ export class Grid extends Base {
         `<div class="main__grid__item__layer">
           <button class="main__grid__item__layer-btn" addClick="handleSubscribeBtnClick">
             <img src="./src/assets/plus.svg">
-            <span>${isSubscribe === null ? `구독하기` : `해지하기`}</span>
+            <span>${isSubscribe ? `해지하기` : `구독하기`}</span>
           </button>
         </div>`
       );
 
       gridElement[index].appendChild(element);
       this.itemLayerList.push({ element: layer, pressName: data.alt });
+    });
+  }
+
+  setSubscribePress() {
+    this.clearGridItem();
+    this.itemLayerList = [];
+
+    const gridList = this.props.grid.currentTypeList;
+    const gridElement = this.components["gridItem"];
+    const elementList: Element[] = [];
+
+    gridList.forEach((data) => {
+      const subscribeList = this.getSubscribeList();
+      const isSubscribe = subscribeList.includes(data.alt);
+
+      if (isSubscribe) {
+        const element = this.setTemplate(
+          `<img src="${data.src}" alt="${data.alt}">`
+        );
+
+        const layer = this.setTemplate(
+          `<div class="main__grid__item__layer">
+              <button class="main__grid__item__layer-btn" addClick="handleSubscribeBtnClick">
+                <img src="./src/assets/plus.svg">
+                <span>${isSubscribe ? `해지하기` : `구독하기`}</span>
+              </button>
+            </div>`
+        );
+
+        this.itemLayerList.push({ element: layer, pressName: data.alt });
+        elementList.push(element);
+      }
+    });
+
+    elementList.forEach((element, index) => {
+      gridElement[index].appendChild(element);
     });
   }
 
@@ -82,25 +127,39 @@ export class Grid extends Base {
   handleSubscribeBtnClick(event: Event) {
     const target = event.currentTarget;
     const currentIndex = this.itemLayerList.findIndex(
-      (element) => element.element.firstElementChild === target
+      ({ element }) => element.firstElementChild === target
     );
-    const pressName = this.props.grid.currentGridList[currentIndex].alt;
+    const pressName = this.props.grid.currentViewList[currentIndex].alt;
     const isSubscribe = localStorage.getItem(pressName);
+    const subscribeList = this.getSubscribeList();
 
-    if (target instanceof HTMLElement) {
-      if (isSubscribe) {
-        localStorage.removeItem(pressName);
-      } else {
-        localStorage.setItem(pressName, pressName);
-      }
-      this.clearGridItem();
-      this.setGrid();
+    if (!Array.isArray(subscribeList)) {
+      localStorage.setItem("subscribe", JSON.stringify([]));
+    } else if (subscribeList.includes(pressName)) {
+      const newSubscribeList = subscribeList.filter(
+        (data) => data !== pressName
+      );
+      localStorage.setItem("subscribe", JSON.stringify(newSubscribeList));
+    } else {
+      subscribeList.push(pressName);
+      const newSubscribeList = subscribeList;
+      localStorage.setItem("subscribe", JSON.stringify(newSubscribeList));
     }
+
+    this.setGrid();
+  }
+
+  getSubscribeList() {
+    const subscribeList = localStorage.getItem("subscribe");
+    if (subscribeList) {
+      return JSON.parse(subscribeList);
+    }
+    localStorage.setItem("subscribe", JSON.stringify([]));
+    return [];
   }
 
   update(props: GridProps) {
     this.props = props;
-    this.clearGridItem();
     this.setGrid();
   }
 }

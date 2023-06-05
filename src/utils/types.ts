@@ -24,18 +24,21 @@ export type RollerType = {
   isMove: boolean;
 };
 
-export type GridData = { src: string; alt: string }[];
+export type currentTypeList = { src: string; alt: string }[];
 
 export type newsStandState = {
   date: Date;
   leftRoller: RollerType;
   rightRoller: RollerType;
   rollerTick: number;
-  currentMode: "grid" | "list";
+  currentContent: "grid" | "list";
+  currentType: "all" | "sub";
   currentPage: number;
+  subscribedPress: string[];
   grid: {
-    gridData: GridData;
-    currentGridList: GridData;
+    gridAllList: currentTypeList;
+    currentTypeList: currentTypeList;
+    currentViewList: currentTypeList;
   };
 };
 
@@ -56,9 +59,19 @@ export interface DecrementPage {
   type: "DECREMENT_PAGE";
 }
 
+export interface SelectAllContent {
+  type: "SELECT_ALL_CONTENT";
+}
+
+export interface SelectSubContent {
+  type: "SELECT_SUB_CONTENT";
+  list: [];
+}
+
 export type Action =
   | IncrementTick
   | ToggleRollingState
   | IncrementPage
-  | DecrementPage;
-
+  | DecrementPage
+  | SelectAllContent
+  | SelectSubContent;

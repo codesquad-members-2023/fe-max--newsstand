@@ -36,12 +36,12 @@ export class Roller extends Base {
 
   update(props: rollerProps) {
     const component = this.component["rollerWrapper"];
-    const currentList = this.props.headlineList;
+    const currentViewList = this.props.headlineList;
     const newList = props.headlineList;
 
     component.style.transition = "transform 1s";
 
-    currentList.forEach((prop, index) => {
+    currentViewList.forEach((prop, index) => {
       const isChanged =
         prop.press !== newList[index].press ||
         prop.title !== newList[index].title;

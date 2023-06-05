@@ -1,13 +1,14 @@
-import { GridData } from "../../utils/types";
+import { currentTypeList } from "../../utils/types";
 import { Base } from "../Base";
 import { Grid } from "./Grid";
 
 type ContentProps = {
-  currentMode: "grid" | "list";
+  currentContent: "grid" | "list";
+  currentType: "all" | "sub";
   currentPage: number;
   grid: {
-    gridData: GridData;
-    currentGridList: GridData;
+    currentTypeList: currentTypeList;
+    currentViewList: currentTypeList;
   };
 };
 
@@ -18,6 +19,7 @@ export class Content extends Base {
     super();
     const gridProps = {
       currentPage: this.props.currentPage,
+      currentType: this.props.currentType,
       grid: this.props.grid,
     };
 
@@ -30,23 +32,18 @@ export class Content extends Base {
 
   init() {
     this.node?.replaceChildren();
-    if (this.props.currentMode === "grid") {
+    if (this.props.currentContent === "grid") {
       this.setChildren(this.grid);
     }
   }
 
   update(props: ContentProps) {
-    const isChangedProps =
-      props.currentPage !== this.props.currentPage ||
-      props.currentMode !== this.props.currentMode;
+    this.props = props;
 
-    if (isChangedProps) {
-      this.props = props;
-    }
-
-    if (this.props.currentMode === "grid") {
+    if (this.props.currentContent === "grid") {
       const gridProps = {
         currentPage: this.props.currentPage,
+        currentType: this.props.currentType,
         grid: this.props.grid,
       };
 

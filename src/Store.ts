@@ -1,7 +1,9 @@
 import { Reducer } from "./Reducer";
-import { Action, GridData, newsStandState } from "./utils/types";
+import { Action, currentTypeList, newsStandState } from "./utils/types";
 
-const fisherYatesShuffle = (array: GridData) => {
+const ITEM_PER_PAGE = 24;
+
+const fisherYatesShuffle = (array: currentTypeList) => {
   let count = array.length;
 
   while (count) {
@@ -25,13 +27,28 @@ const fetchData = async () => {
   return { headlineList, gridList };
 };
 
+const getSubscribedPress = (): string[] => {
+  const localStorageData = localStorage.getItem("subscribe");
+
+  if (localStorageData === null) {
+    localStorage.setItem("subscribe", JSON.stringify([]));
+
+    return [];
+  }
+
+  return JSON.parse(localStorageData);
+};
+
 const createState = async () => {
-  const ITEM_PER_PAGE = 24;
   const { headlineList, gridList } = await fetchData();
+  const subscribedPress = getSubscribedPress();
+
   const leftHeadlineList = headlineList.slice(0, headlineList.length / 2);
   const rightHeadlineList = headlineList.slice(headlineList.length / 2);
-  const currentGridList = gridList.slice(0, ITEM_PER_PAGE);
-  const gridMode: "grid" | "list" = "grid";
+  const currentViewGridList = gridList.slice(0, ITEM_PER_PAGE);
+
+  const contentType: "grid" | "list" = "grid";
+  const currentType: "all" | "sub" = "all";
 
   const state = {
     date: new Date(),
@@ -48,11 +65,14 @@ const createState = async () => {
       isMove: true,
     },
     rollerTick: 0,
-    currentMode: gridMode,
+    currentContent: contentType,
+    currentType: currentType,
     currentPage: 0,
+    subscribedPress: subscribedPress,
     grid: {
-      gridData: gridList,
-      currentGridList: currentGridList,
+      gridAllList: gridList,
+      currentTypeList: gridList,
+      currentViewList: currentViewGridList,
     },
   };
 

@@ -18,17 +18,47 @@ export class Reducer {
         return this.changePage(state, 1);
       case "DECREMENT_PAGE":
         return this.changePage(state, -1);
+      case "SELECT_ALL_CONTENT": {
+        const newState = this.changeCurrentType(state);
+
+        return this.changeCurrentList(newState);
+      }
+      case "SELECT_SUB_CONTENT": {
+        const newState = this.changeCurrentType(state);
+
+        return this.changeCurrentList(newState);
+      }
       default:
         return state;
     }
+  }
+
+  private changeCurrentList(newState: newsStandState) {
+    newState.currentPage = 0;
+    newState.grid.currentViewList = this.getUpdatedGridList(newState);
+
+    return newState;
   }
 
   private changePage(state: newsStandState, direction: number): newsStandState {
     const newState = { ...state };
     newState.currentPage += direction;
 
-    if (newState.currentMode === "grid") {
-      newState.grid.currentGridList = this.getUpdatedGridList(newState);
+    if (newState.currentContent === "grid") {
+      newState.grid.currentViewList = this.getUpdatedGridList(newState);
+    }
+
+    return newState;
+  }
+
+  private changeCurrentType(state: newsStandState) {
+    const newState = { ...state };
+    newState.currentPage = 0;
+
+    if (newState.currentType === "all") {
+      newState.currentType = "sub";
+    } else {
+      newState.currentType = "all";
     }
 
     return newState;
@@ -39,7 +69,17 @@ export class Reducer {
     const startIndex = currentPage * this.ITEM_PER_PAGE;
     const endIndex = startIndex + this.ITEM_PER_PAGE;
 
-    return state.grid.gridData.slice(startIndex, endIndex);
+    if (state.currentType === "all") {
+      state.grid.currentTypeList = state.grid.gridAllList;
+      return state.grid.gridAllList.slice(startIndex, endIndex);
+    }
+
+    const subList = state.grid.gridAllList.filter((grid) =>
+      state.subscribedPress.includes(grid.alt)
+    );
+    state.grid.currentTypeList = subList;
+
+    return subList.slice(startIndex, endIndex);
   }
 
   private incrementTick(state: newsStandState): newsStandState {

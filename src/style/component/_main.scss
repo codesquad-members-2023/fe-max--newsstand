@@ -37,7 +37,7 @@
       &-subscribed {
         width: 120px;
         height: 22px;
-        @include body-md;
+        @include title-md;
         cursor: pointer;
       }
     }
@@ -134,4 +134,3 @@
     }
   }
 }
-

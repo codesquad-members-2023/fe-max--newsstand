@@ -1,16 +1,17 @@
 import { store } from "../../Store";
-import { GridData, newsStandState } from "../../utils/types";
+import { currentTypeList, newsStandState } from "../../utils/types";
 import { Base } from "../Base";
 import { Content } from "./Content";
 
 const ITEM_PER_PAGE = 24;
 
 type MainState = {
-  currentMode: "grid" | "list";
+  currentContent: "grid" | "list";
+  currentType: "all" | "sub";
   currentPage: number;
   grid: {
-    gridData: GridData;
-    currentGridList: GridData;
+    currentTypeList: currentTypeList;
+    currentViewList: currentTypeList;
   };
 };
 
@@ -20,7 +21,8 @@ export class Main extends Base {
   constructor(private state: MainState) {
     super();
     const contentProps = {
-      currentMode: this.state.currentMode,
+      currentContent: this.state.currentContent,
+      currentType: this.state.currentType,
       currentPage: this.state.currentPage,
       grid: this.state.grid,
     };
@@ -47,8 +49,8 @@ export class Main extends Base {
     return `
         <div class="main__tab">
             <div class="main__tab__press">
-                <div class="main__tab__press-all select">전체 언론사</div>
-                <div class="main__tab__press-subscribed">내가 구독한 언론사</div>
+                <div class="main__tab__press-all select" data-component="pressAllBtn" addClick="handleClickAllContent">전체 언론사</div>
+                <div class="main__tab__press-subscribed" data-component="pressSubBtn" addClick="handleClickSubContent">내가 구독한 언론사</div>
             </div>
             <div class="main__tab__buttons">
                 <img class="main__tab__buttons-list" src="./src/assets/list.svg">
@@ -70,10 +72,12 @@ export class Main extends Base {
   }
 
   updateButtonDisplay() {
+    if (this.state.currentType === "sub") {
+    }
     const currentPage = this.state.currentPage;
     const isFirstPage = currentPage === 0;
     const isLastPage =
-      Math.floor(this.state.grid.gridData.length / ITEM_PER_PAGE) ===
+      Math.ceil(this.state.grid.currentTypeList.length / ITEM_PER_PAGE) ===
       currentPage + 1;
     const { prevBtn, nextBtn, buttonsDiv } = this.component;
 
@@ -98,8 +102,36 @@ export class Main extends Base {
     store.dispatch({ type: "DECREMENT_PAGE" });
   }
 
+  handleClickAllContent() {
+    this.component["pressAllBtn"].classList.add("select");
+    this.component["pressSubBtn"].classList.remove("select");
+    if (this.state.currentType !== "all") {
+      store.dispatch({ type: "SELECT_ALL_CONTENT" });
+    }
+  }
+
+  handleClickSubContent() {
+    this.component["pressSubBtn"].classList.add("select");
+    this.component["pressAllBtn"].classList.remove("select");
+
+    const list =
+      localStorage.getItem("subscribe") === null
+        ? []
+        : JSON.parse(localStorage.getItem("subscribe")!);
+
+    if (this.state.currentType !== "sub") {
+      store.dispatch({
+        type: "SELECT_SUB_CONTENT",
+        list: list,
+      });
+    }
+  }
+
   update(state: MainState) {
-    if (this.state.currentPage !== state.currentPage) {
+    const isChangedCurrentPage = this.state.currentPage !== state.currentPage;
+    const isChangedCurrentType = this.state.currentType !== state.currentType;
+
+    if (isChangedCurrentPage || isChangedCurrentType) {
       this.state = state;
       this.updateButtonDisplay();
       this.content.update(state);
