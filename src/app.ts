@@ -5,6 +5,7 @@ import { Roller } from "./components/roller/Roller";
 import { subscribe } from "./store/store";
 import { Media } from "./components/media/Media";
 import { Grid, Images } from "./components/media/Grid";
+import { List } from "./components/media/List";
 
 const header = Header();
 header.setEvent();
@@ -29,15 +30,15 @@ initRoller();
 const media = Media();
 media.render();
 media.setEvent();
-subscribe(() => media.render());
+subscribe(media.render);
 
-const initGrid = async () => {
+export const initGrid = async () => {
   try {
     const images = await initImages();
     const grid = Grid(images);
 
-    subscribe(() => grid.render());
-    subscribe(() => grid.renderButton());
+    subscribe(grid.render);
+    subscribe(grid.renderButton);
     grid.setEvent();
   } catch (error) {
     console.error("이미지들을 가져오지 못했습니다.");
@@ -45,6 +46,15 @@ const initGrid = async () => {
 };
 
 initGrid();
+
+const listNews = await initListNews();
+
+const list = List(listNews);
+export const renderFieldTab = list.renderFieldTab;
+export const loadNextPress = list.loadNextPress;
+export const stopInterval = list.stopInterval;
+export const startInterval = list.startInterval;
+export const setArt = list.setArt
 
 async function initHeadlinesData() {
   const response = await fetch("http://localhost:8080/headlines");
@@ -67,6 +77,13 @@ function shuffleArray(target: Images) {
     [target[i], target[j]] = [target[j]!, target[i]!];
   }
   return target;
+}
+
+async function initListNews() {
+  const response = await fetch("http://localhost:8080/list");
+  const data = await response.json();
+
+  return data;
 }
 
 // "[속보] 쿤디, \"돼지파스타 맛있어서 돼지된 것 같아...\"",
