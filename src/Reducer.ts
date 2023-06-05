@@ -33,7 +33,9 @@ export class Reducer {
     }
   }
 
-  private changeCurrentList(newState: newsStandState) {
+  private changeCurrentList(state: newsStandState) {
+    const newState = { ...state };
+
     newState.currentPage = 0;
     newState.grid.currentViewList = this.getUpdatedGridList(newState);
 
@@ -65,19 +67,20 @@ export class Reducer {
   }
 
   private getUpdatedGridList(state: newsStandState): any[] {
-    const currentPage = state.currentPage;
+    const newState = { ...state };
+    const currentPage = newState.currentPage;
     const startIndex = currentPage * this.ITEM_PER_PAGE;
     const endIndex = startIndex + this.ITEM_PER_PAGE;
 
-    if (state.currentType === "all") {
-      state.grid.currentTypeList = state.grid.gridAllList;
-      return state.grid.gridAllList.slice(startIndex, endIndex);
+    if (newState.currentType === "all") {
+      newState.grid.currentTypeList = newState.grid.gridAllList;
+      return newState.grid.gridAllList.slice(startIndex, endIndex);
     }
 
-    const subList = state.grid.gridAllList.filter((grid) =>
-      state.subscribedPress.includes(grid.alt)
+    const subList = newState.grid.gridAllList.filter((grid) =>
+      newState.subscribedPress.includes(grid.alt)
     );
-    state.grid.currentTypeList = subList;
+    newState.grid.currentTypeList = subList;
 
     return subList.slice(startIndex, endIndex);
   }
@@ -125,3 +128,4 @@ export class Reducer {
     return newState;
   }
 }
+

@@ -72,8 +72,6 @@ export class Main extends Base {
   }
 
   updateButtonDisplay() {
-    if (this.state.currentType === "sub") {
-    }
     const currentPage = this.state.currentPage;
     const isFirstPage = currentPage === 0;
     const isLastPage =
@@ -138,3 +136,4 @@ export class Main extends Base {
     }
   }
 }
+
