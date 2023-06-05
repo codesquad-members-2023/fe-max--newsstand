@@ -1,4 +1,5 @@
 .main {
+  position: relative;
   &__tab {
     display: flex;
     flex-direction: row;
@@ -18,9 +19,13 @@
       flex-direction: row;
       align-items: center;
       padding: 0px;
-
+      color: $gray200;
       width: 216px;
       height: 22px;
+
+      .select {
+        color: $black;
+      }
 
       &-all {
         width: 75px;
@@ -32,7 +37,7 @@
       &-subscribed {
         width: 120px;
         height: 22px;
-        @include body-md;
+        @include title-md;
         cursor: pointer;
       }
     }
@@ -58,8 +63,6 @@
     grid-template-columns: repeat(6, 153.95px);
     grid-template-rows: repeat(4, 96.25px);
     grid-gap: 1px;
-    background-color: $black;
-    border: 1px solid black;
 
     &__item {
       display: flex;
@@ -67,11 +70,67 @@
       align-items: center;
       background: $white;
       box-sizing: border-box;
+      outline: 1px solid $black;
+      position: relative;
 
-      img {
-        width: 52px;
+      > img {
+        height: 20px;
+      }
+
+      &__layer {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: $off-white;
+        position: absolute;
+        // display: none;
+
+        &-btn {
+          cursor: pointer;
+          box-sizing: border-box;
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          gap: 2px;
+          width: 74px;
+          height: 24px;
+          background: $white;
+          border: 1px solid $gray100;
+          border-radius: 50px;
+
+          span {
+            width: 42px;
+            height: 14px;
+            @include body-xs;
+
+            color: $gray200;
+          }
+        }
       }
     }
   }
-}
 
+  &__buttons {
+    width: 930px;
+
+    &-prev,
+    &-next {
+      background: none;
+      border: none;
+      position: absolute;
+      top: 50%;
+      cursor: pointer;
+    }
+
+    &-prev {
+      left: -83px;
+    }
+
+    &-next {
+      right: -83px;
+    }
+  }
+}

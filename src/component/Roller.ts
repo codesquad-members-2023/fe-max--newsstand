@@ -1,8 +1,8 @@
-import { dispatcher } from "..";
+import { store } from "../Store";
 import { Headline } from "../utils/types";
 import { Base } from "./Base";
 
-type rollerProps = {
+export type rollerProps = {
   headlineList: Headline[];
   position: "left" | "right";
 };
@@ -11,11 +11,11 @@ export class Roller extends Base {
   constructor(private props: rollerProps) {
     super();
     this.render(`
-            <div class="rollerContainer__roller" addMouseenter="handleMouseOver" addMouseleave="handleMouseleave">
-                <div class="rollerContainer__roller__wrapper" addTransitionend="handleTransitionend" data-component="rollerWrapper">
-                    ${this.setRoller(props.headlineList)}
-                </div>
-            </div>`);
+        <div class="rollerContainer__roller" addMouseenter="handleMouseOver" addMouseleave="handleMouseleave">
+            <div class="rollerContainer__roller__wrapper" addTransitionend="handleTransitionend" data-component="rollerWrapper">
+                ${this.setRoller(props.headlineList)}
+            </div>
+        </div>`);
   }
 
   setRoller(headlineList: Headline[]) {
@@ -24,7 +24,7 @@ export class Roller extends Base {
         return `
             <div class="rollerContainer__roller__wrapper__item">
                 <div class="rollerContainer__roller__wrapper__item-press" data-components="press">
-                    ${item.media}
+                    ${item.press}
                 </div>
                 <div class="rollerContainer__roller__wrapper__item-title" data-components="title">
                     ${item.title}
@@ -36,13 +36,14 @@ export class Roller extends Base {
 
   update(props: rollerProps) {
     const component = this.component["rollerWrapper"];
-    const currentList = this.props.headlineList;
+    const currentViewList = this.props.headlineList;
     const newList = props.headlineList;
 
     component.style.transition = "transform 1s";
-    currentList.forEach((prop, index) => {
+
+    currentViewList.forEach((prop, index) => {
       const isChanged =
-        prop.media !== newList[index].media ||
+        prop.press !== newList[index].press ||
         prop.title !== newList[index].title;
 
       if (isChanged) {
@@ -54,30 +55,31 @@ export class Roller extends Base {
 
   handleTransitionend(event: Event) {
     const target = event.target;
+
     if (target instanceof HTMLElement) {
       const newList = this.props.headlineList;
       const pressElements = this.components["press"];
       const titleElements = this.components["title"];
 
-      target.style.transition = "none";
       newList.forEach((_, index) => {
-        // TODO press, media 언론사명을 두가지 이름으로 사용중이다 press로 통일하기
-        pressElements[index].textContent = newList[index].media;
+        pressElements[index].textContent = newList[index].press;
         titleElements[index].textContent = newList[index].title;
       });
+
+      target.style.transition = "none";
       target.style.transform = "translateY(0px)";
     }
   }
 
   handleMouseOver() {
-    dispatcher({
+    store.dispatch({
       type: "TOGGLE_ROLLING_STATE",
       target: this.props.position,
     });
   }
 
   handleMouseleave() {
-    dispatcher({
+    store.dispatch({
       type: "TOGGLE_ROLLING_STATE",
       target: this.props.position,
     });

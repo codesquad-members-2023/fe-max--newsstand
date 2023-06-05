@@ -1,51 +1,60 @@
-import { dispatcher } from "./../index";
-import { Headline } from "../utils/types";
+import { RollerType, newsStandState } from "../utils/types";
 import { Base } from "./Base";
-import { Roller } from "./Roller";
+import { Roller, rollerProps } from "./Roller";
+import { store } from "../Store";
 
-type RollerContainerProps = {
-  leftRollerHeadline: Headline[];
-  rightRollerHeadline: Headline[];
+type RollerContainerState = {
+  leftRoller: RollerType;
+  rightRoller: RollerType;
 };
 
 export class RollerContainer extends Base {
   left: Roller;
   right: Roller;
   timer: Timer;
-  constructor(private props: RollerContainerProps) {
+
+  constructor(private state: RollerContainerState) {
     super();
-    this.left = new Roller({
-      headlineList: props.leftRollerHeadline,
+    const leftRollerState: rollerProps = {
+      headlineList: this.state.leftRoller.headline,
       position: "left",
-    });
-    this.right = new Roller({
-      headlineList: props.rightRollerHeadline,
+    };
+    const rightRollerState: rollerProps = {
+      headlineList: this.state.rightRoller.headline,
       position: "right",
-    });
+    };
+
+    this.left = new Roller(leftRollerState);
+    this.right = new Roller(rightRollerState);
+    this.timer = new Timer();
 
     this.render(`<div class="rollerContainer"></div>`);
     this.setChildren(this.left, this.right);
-    this.timer = new Timer();
+
+    store.subscribe((newState: newsStandState) => {
+      this.update(newState);
+    });
   }
 
-  update(props: RollerContainerProps) {
+  update(state: RollerContainerState) {
     this.left.update({
-      headlineList: props.leftRollerHeadline,
+      headlineList: state.leftRoller.headline,
       position: "left",
     });
+
     this.right.update({
-      headlineList: props.rightRollerHeadline,
+      headlineList: state.rightRoller.headline,
       position: "right",
     });
 
-    this.props = props;
+    this.state = state;
   }
 }
 
 class Timer {
   constructor() {
     window.setInterval(() => {
-      dispatcher({
+      store.dispatch({
         type: "INCREMENT_TICK",
       });
     }, 1000);
