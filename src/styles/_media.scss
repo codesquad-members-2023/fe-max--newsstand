@@ -107,9 +107,25 @@
   height: 40px;
   overflow: hidden;
 
-  .text {
+  .content-wrapper {
+    display: flex;
     position: relative;
+    gap: 8px;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+    .press-number {
+      display: flex;
+      @include font.TitleXS;
+      color: color.$white70;
+      .current {
+        color: color.$white;
+      }
+    }
   }
+  // .text {
+  //   position: relative;
+  // }
 }
 
 .fill {
@@ -127,6 +143,124 @@
   @include font.BodySM;
   color: color.$gray300;
   padding: 11.5px 16px;
+
+  .text:hover {
+    border-bottom: 1px solid color.$gray300;
+    cursor: pointer;
+  }
+}
+
+.press {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  gap: 16px;
+  &-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 16px;
+
+    width: 882px;
+    height: 24px;
+
+    &__image {
+      width: 52.5px;
+      height: 20px;
+    }
+
+    &__edit-date {
+      @include font.BodyXS;
+      color: color.$gray400;
+
+      height: 14px;
+    }
+  }
+  &-subs-button {
+    @include font.BodyXS;
+    color: color.$gray200;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 74px;
+    height: 24px;
+    background-color: color.$white;
+    // margin: 0 auto;
+
+    gap: 2px;
+    border: 1px solid color.$gray100;
+    border-radius: 50px;
+
+    // .text {
+    //   width: 42px;
+    //   height: 14px;
+    // }
+
+    .plus-shape {
+      // background-color: black;
+      width: 12px;
+      height: 12px;
+      background-image: url("/public/images/plus-button.svg");
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  }
+}
+
+.news {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 32px;
+
+  width: 882px;
+  height: 260px;
+  &-main {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 16px;
+
+    width: 320px;
+    height: 260px;
+
+    .thumbnail {
+      width: 320px;
+      height: 200px;
+    }
+    &__headline {
+      @include font.BodyMD;
+      color: color.$black;
+    }
+  }
+
+  &-sub {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 16px;
+
+    width: 530px;
+    height: 245px;
+
+    @include font.BodyMD;
+    color: color.$gray500;
+
+    .title {
+      width: 530px;
+      height: 22px;
+      overflow: hidden;
+    }
+
+    &__caption {
+      @include font.BodySM;
+      color: color.$gray200;
+    }
+  }
 }
 
 .list-view {

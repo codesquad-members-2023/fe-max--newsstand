@@ -10,6 +10,21 @@ type News = {
   title: string;
   pressList: [];
 };
+
+type Press = {
+  pressLogoSrc: string;
+  pressLogoAlt: string;
+  lastEditted: string;
+  mainArticle: mainArticle;
+  subArticles: [];
+};
+
+type mainArticle = {
+  thumbnailSrc: string;
+  thumbnailAlt: string;
+  mainArticleTitle: string;
+};
+
 export const List = (news: []) => {
   const { currentPage, currentLastPage, currentArticleIndex, currentViewMode } = getState();
   let intervalID: NodeJS.Timeout | null = null;
@@ -49,7 +64,7 @@ export const List = (news: []) => {
         actions.autoNextPage();
         loadNextPress();
       }
-    }, 1000);
+    }, 5000);
   }
 
   function stopInterval() {
@@ -106,7 +121,9 @@ export const List = (news: []) => {
 
   function FieldTab() {
     const { currentPage, currentArticleIndex } = getState();
-
+    console.log(currentArticle);
+    const currentPress: Press = currentArticle.pressList[currentPage - 1]!;
+    console.log(currentPress);
     return `
     <div class="list-view__field-tab">
       ${news
@@ -115,18 +132,56 @@ export const List = (news: []) => {
           return `
           <div class="${isProgress ? "progress" : "article"}">
             ${isProgress ? Fill() : ""}
-            <div class="text">${article.title}</div>
-            ${isProgress ? PressNumber(currentPage) : ""}
+            <div class="content-wrapper">
+              <div class="text">${article.title}</div>
+              ${isProgress ? PressNumber(currentPage) : ""}
+            </div>
           </div>
         `;
         })
         .join("")}
     </div>
+    <div class="press">
+      <div class="press-info">
+        <img class="press-info__image" src="${currentPress.pressLogoSrc}"><img>
+        <div class="press-info__edit-date">${currentPress.lastEditted}</div>
+        <button class="press-subs-button">
+          <div class="plus-shape"></div>
+          <div class="text">구독하기</div>
+        </div>
+        <div class="news">
+          <div class="news-main">
+            <img class="thumbnail" src="${currentPress.mainArticle.thumbnailSrc}"></img>
+            <div class="news-main__headline">${currentPress.mainArticle.mainArticleTitle}</div>
+          </div>
+          <div class="news-sub">
+            ${Title(currentPress)}
+            <div class="news-sub__caption">${currentPress.pressLogoAlt} 언론사에서 직접 편집한 뉴스입니다.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
               `;
+  }
+  function Title(currentPress: Press) {
+    console.log(currentPress.subArticles);
+    const titles = currentPress.subArticles;
+    return `
+    ${titles
+      .map(
+        (title) => `
+    <div class="title">${title}</div>
+    `
+      )
+      .join("")}
+    `;
   }
   function PressNumber(currentPage: number) {
     return `
-    <div class="pressNumber">${currentPage}/${pressLastIndex}</div>
+    <div class="press-number">
+      <div class="current">${currentPage}</div>/<div class="total">${pressLastIndex}</div>
+    </div>
     `;
   }
   function Fill() {

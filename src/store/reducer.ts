@@ -9,7 +9,7 @@ import {
   SWITCH_LIST_MODE,
   UPDATE_SUBS,
 } from "../constants/ActionTypes";
-import { GRID_MAX_PAGE, ITEM_PER_GRID } from "../constants/constant";
+import { GRID_MAX_PAGE, ITEM_PER_GRID, LIST_INIT_MAX_PAGE } from "../constants/constant";
 import { Action } from "../dispatcher/dispatcher";
 import { State } from "../store/store";
 
@@ -26,8 +26,8 @@ export const reducer = (state: State, action: Action) => {
         ...state,
         currentViewMode: "list",
         currentPage: 1,
-        currentLastPage: 6,
-        currentArticleIndex: 3,
+        currentLastPage: LIST_INIT_MAX_PAGE,
+        currentArticleIndex: 0,
       };
     case UPDATE_SUBS:
       return { ...state, subsPress: action.payload };

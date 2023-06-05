@@ -8,11 +8,11 @@ export type State = {
 
   gridStartPoint: number;
 
-  subsPress: [];
+  subsPress: string[];
 
   currentArticleIndex: number;
 
-  [key: string]: number | string | [];
+  [key: string]: number | string | string[];
 };
 
 type Listener = () => void;
@@ -27,7 +27,7 @@ let state: State = {
 
   subsPress: [],
 
-  currentArticleIndex: 3,
+  currentArticleIndex: 0,
 };
 
 const listeners: Set<Listener> = new Set();
