@@ -26,7 +26,7 @@ type mainArticle = {
 };
 
 export const List = (news: []) => {
-  const { currentPage, currentLastPage, currentArticleIndex, currentViewMode } = getState();
+  const { currentArticleIndex, currentViewMode } = getState();
   let intervalID: NodeJS.Timeout | null = null;
   let currentArticle: Article = news[currentArticleIndex]!;
   let pressLastIndex = currentArticle.pressList.length;
@@ -113,16 +113,18 @@ export const List = (news: []) => {
   }
 
   function renderFieldTab() {
-    const { currentViewMode } = getState();
+    const { currentViewMode, subsPress } = getState();
+    console.log(subsPress);
     if (currentViewMode === "list") {
       listView.innerHTML = FieldTab();
     }
   }
 
   function FieldTab() {
-    const { currentPage, currentArticleIndex } = getState();
+    const { currentPage, currentArticleIndex, subsPress } = getState();
     console.log(currentArticle);
     const currentPress: Press = currentArticle.pressList[currentPage - 1]!;
+
     console.log(currentPress);
     return `
     <div class="list-view__field-tab">
@@ -147,7 +149,7 @@ export const List = (news: []) => {
         <div class="press-info__edit-date">${currentPress.lastEditted}</div>
         <button class="press-subs-button">
           <div class="plus-shape"></div>
-          <div class="text">구독하기</div>
+          <div class="text">${subsPress.includes(currentPress.pressLogoAlt)? "해지하기" : "구독하기"}</div>
         </div>
         <div class="news">
           <div class="news-main">
