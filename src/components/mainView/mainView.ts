@@ -71,10 +71,10 @@ export class GridStore {
   private ITEM_PER_PAGE: number = 24;
 
   constructor() {
-    this.updateSubscribedPressList();
+    this.initSubscribedPressList();
   }
 
-  updateSubscribedPressList() {
+  initSubscribedPressList() {
     const subscribedPressList = localStorage.getItem("subscribed-press-list");
 
     this.subscribedPressList = subscribedPressList ? JSON.parse(subscribedPressList) : [];
