@@ -1,8 +1,6 @@
 import { actions } from "../../actions/actions";
-import { dispatch } from "../../dispatcher/dispatcher";
+import { ITEM_PER_GRID } from "../../constants/constant";
 import { getState } from "../../store/store";
-
-const ITEM_PER_GRID = 24;
 
 export type Images = { src: string; alt: string }[];
 
@@ -18,7 +16,6 @@ export const Grid = (images: Images) => {
 
   const render = () => {
     const { gridStartPoint, currentViewMode } = getState();
-
     if (currentViewMode === "grid") {
       const gridItems = gridView.children;
       for (let i = 0; i < ITEM_PER_GRID; i++) {
@@ -90,16 +87,19 @@ export const Grid = (images: Images) => {
     }
   }
   function renderButton() {
-    const gridItems = gridView.querySelectorAll(".grid-item");
+    const { currentViewMode } = getState();
+    if (currentViewMode === "grid") {
+      const gridItems = gridView.querySelectorAll(".grid-item");
 
-    gridItems.forEach((gridItem) => {
-      const pressName = gridItem!.querySelector("img")!.getAttribute("alt")!;
-      if (subsPress.includes(pressName)) {
-        gridItem.querySelector(".text")!.textContent = "해지하기";
-      } else {
-        gridItem.querySelector(".text")!.textContent = "구독하기";
-      }
-    });
+      gridItems.forEach((gridItem) => {
+        const pressName = gridItem!.querySelector("img")!.getAttribute("alt")!;
+        if (subsPress.includes(pressName)) {
+          gridItem.querySelector(".text")!.textContent = "해지하기";
+        } else {
+          gridItem.querySelector(".text")!.textContent = "구독하기";
+        }
+      });
+    }
   }
 
   function createGridItems(images: Images) {
