@@ -1,5 +1,5 @@
 import { store } from "../../Store";
-import { currentTypeList, newsStandState } from "../../utils/types";
+import { currentTypeList } from "../../utils/types";
 import { Base } from "../Base";
 import { Content } from "./Content";
 
@@ -18,13 +18,13 @@ type MainState = {
 export class Main extends Base {
   content: Content;
 
-  constructor(private state: MainState) {
+  constructor(private props: MainState) {
     super();
     const contentProps = {
-      currentContent: this.state.currentContent,
-      currentType: this.state.currentType,
-      currentPage: this.state.currentPage,
-      grid: this.state.grid,
+      currentContent: this.props.currentContent,
+      currentType: this.props.currentType,
+      currentPage: this.props.currentPage,
+      grid: this.props.grid,
     };
 
     this.content = new Content(contentProps);
@@ -39,10 +39,6 @@ export class Main extends Base {
 
     this.setChildren(this.content);
     this.updateButtonDisplay();
-
-    store.subscribe((newState: newsStandState) => {
-      this.update(newState);
-    });
   }
 
   setTab() {
@@ -72,10 +68,10 @@ export class Main extends Base {
   }
 
   updateButtonDisplay() {
-    const currentPage = this.state.currentPage;
+    const currentPage = this.props.currentPage;
     const isFirstPage = currentPage === 0;
     const isLastPage =
-      Math.ceil(this.state.grid.currentTypeList.length / ITEM_PER_PAGE) ===
+      Math.ceil(this.props.grid.currentTypeList.length / ITEM_PER_PAGE) ===
       currentPage + 1;
     const { prevBtn, nextBtn, buttonsDiv } = this.component;
 
@@ -103,7 +99,8 @@ export class Main extends Base {
   handleClickAllContent() {
     this.component["pressAllBtn"].classList.add("select");
     this.component["pressSubBtn"].classList.remove("select");
-    if (this.state.currentType !== "all") {
+
+    if (this.props.currentType !== "all") {
       store.dispatch({ type: "SELECT_ALL_CONTENT" });
     }
   }
@@ -112,28 +109,29 @@ export class Main extends Base {
     this.component["pressSubBtn"].classList.add("select");
     this.component["pressAllBtn"].classList.remove("select");
 
-    const list =
-      localStorage.getItem("subscribe") === null
-        ? []
-        : JSON.parse(localStorage.getItem("subscribe")!);
-
-    if (this.state.currentType !== "sub") {
-      store.dispatch({
-        type: "SELECT_SUB_CONTENT",
-        list: list,
-      });
+    if (this.props.currentType !== "sub") {
+      store.dispatch({ type: "SELECT_SUB_CONTENT" });
     }
   }
 
-  update(state: MainState) {
-    const isChangedCurrentPage = this.state.currentPage !== state.currentPage;
-    const isChangedCurrentType = this.state.currentType !== state.currentType;
+  update(props: MainState) {
+    const isChangedCurrentPage = this.props.currentPage !== props.currentPage;
+    const isChangedCurrentType = this.props.currentType !== props.currentType;
+    const isChangedCurrentContent =
+      this.props.currentContent !== props.currentContent;
+    const isChangedCurrentViewList =
+      this.props.grid.currentViewList.length !==
+      props.grid.currentViewList.length;
 
-    if (isChangedCurrentPage || isChangedCurrentType) {
-      this.state = state;
+    if (
+      isChangedCurrentPage ||
+      isChangedCurrentType ||
+      isChangedCurrentContent ||
+      isChangedCurrentViewList
+    ) {
+      this.props = props;
+      this.content.update(props);
       this.updateButtonDisplay();
-      this.content.update(state);
     }
   }
 }
-

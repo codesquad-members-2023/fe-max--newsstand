@@ -1,3 +1,4 @@
+import { store } from "../../Store";
 import { currentTypeList } from "../../utils/types";
 import { Base } from "../Base";
 
@@ -22,7 +23,11 @@ export class Grid extends Base {
         ${Array.from(
           { length: ITEM_PER_PAGE },
           () =>
-            '<div class="main__grid__item" addMouseleave="handleGridItemBlur" addMouseEnter="handleGridItemHover" data-components="gridItem"></div>'
+            `<div class="main__grid__item" 
+              addMouseleave="handleGridItemBlur" 
+              addMouseEnter="handleGridItemHover" 
+              data-components="gridItem">
+            </div>`
         ).join("")}
       </div>`
     );
@@ -31,11 +36,6 @@ export class Grid extends Base {
 
   setGrid() {
     this.clearGridItem();
-
-    // if (this.props.currentType === "sub") {
-    //   this.setSubscribePress();
-    //   return;
-    // }
 
     const currentViewList = this.props.grid.currentViewList;
     const gridElement = this.components["gridItem"];
@@ -136,21 +136,27 @@ export class Grid extends Base {
       ({ element }) => element.firstElementChild === target
     );
     const pressName = this.props.grid.currentViewList[currentIndex].alt;
-    const isSubscribe = localStorage.getItem(pressName);
-    const subscribeList = this.getSubscribeList();
+    const subscribePress = this.getSubscribeList();
 
-    if (!Array.isArray(subscribeList)) {
+    if (!Array.isArray(subscribePress)) {
       localStorage.setItem("subscribe", JSON.stringify([]));
-    } else if (subscribeList.includes(pressName)) {
-      const newSubscribeList = subscribeList.filter(
+    } else if (subscribePress.includes(pressName)) {
+      const newSubscribePress = subscribePress.filter(
         (data) => data !== pressName
       );
-      localStorage.setItem("subscribe", JSON.stringify(newSubscribeList));
+
+      localStorage.setItem("subscribe", JSON.stringify(newSubscribePress));
     } else {
-      subscribeList.push(pressName);
-      const newSubscribeList = subscribeList;
+      subscribePress.push(pressName);
+      const newSubscribeList = subscribePress;
+
       localStorage.setItem("subscribe", JSON.stringify(newSubscribeList));
     }
+
+    store.dispatch({
+      type: "UPDATE_SUBSCRIBE",
+      subscribedPress: this.getSubscribeList(),
+    });
 
     this.setGrid();
   }
@@ -161,6 +167,7 @@ export class Grid extends Base {
       return JSON.parse(subscribeList);
     }
     localStorage.setItem("subscribe", JSON.stringify([]));
+
     return [];
   }
 

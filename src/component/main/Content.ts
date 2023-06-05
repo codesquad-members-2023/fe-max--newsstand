@@ -38,16 +38,12 @@ export class Content extends Base {
   }
 
   update(props: ContentProps) {
-    this.props = props;
-
-    if (this.props.currentContent === "grid") {
-      const gridProps = {
-        currentPage: this.props.currentPage,
-        currentType: this.props.currentType,
-        grid: this.props.grid,
-      };
-
-      this.grid.update(gridProps);
+    if (
+      props.currentType !== this.props.currentType ||
+      props.grid.currentViewList !== this.props.grid.currentViewList
+    ) {
+      this.grid.update(props);
+      this.props = props;
     }
   }
 }

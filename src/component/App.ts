@@ -1,4 +1,4 @@
-import { newsStandState } from "../utils/types";
+import { newsStandState } from "./../utils/types";
 import { Base } from "./Base";
 import { Header } from "./Header";
 import { RollerContainer } from "./RollerContainer";
@@ -9,18 +9,18 @@ export class App extends Base {
   rollerContainer: RollerContainer;
   main: Main;
 
-  constructor(private state: newsStandState) {
+  constructor(private props: newsStandState) {
     super();
-    const headerState = { date: this.state.date };
+    const headerState = { date: this.props.date };
     const mainState = {
-      currentContent: this.state.currentContent,
-      currentType: this.state.currentType,
-      currentPage: this.state.currentPage,
-      grid: this.state.grid,
+      currentContent: this.props.currentContent,
+      currentType: this.props.currentType,
+      currentPage: this.props.currentPage,
+      grid: this.props.grid,
     };
     const rollerContainer = {
-      leftRoller: this.state.leftRoller,
-      rightRoller: this.state.rightRoller,
+      leftRoller: this.props.leftRoller,
+      rightRoller: this.props.rightRoller,
     };
 
     this.header = new Header(headerState);
@@ -29,6 +29,15 @@ export class App extends Base {
 
     this.render(`<div class="app"></div>`);
     this.setChildren(this.header, this.rollerContainer, this.main);
+  }
+
+  update(props: newsStandState) {
+    this.header.update(props);
+    this.main.update(props);
+    this.rollerContainer.update({
+      leftRoller: props.leftRoller,
+      rightRoller: props.rightRoller,
+    });
   }
 
   renderApp() {

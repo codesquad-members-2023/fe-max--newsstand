@@ -65,7 +65,11 @@ export interface SelectAllContent {
 
 export interface SelectSubContent {
   type: "SELECT_SUB_CONTENT";
-  list: [];
+}
+
+export interface UpdateSubscribe {
+  type: "UPDATE_SUBSCRIBE";
+  subscribedPress: string[];
 }
 
 export type Action =
@@ -74,4 +78,6 @@ export type Action =
   | IncrementPage
   | DecrementPage
   | SelectAllContent
-  | SelectSubContent;
+  | SelectSubContent
+  | UpdateSubscribe;
+

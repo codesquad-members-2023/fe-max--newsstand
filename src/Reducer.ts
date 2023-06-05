@@ -28,33 +28,42 @@ export class Reducer {
 
         return this.changeCurrentList(newState);
       }
+      case "UPDATE_SUBSCRIBE":
+        return this.updateSubscribe(state, action.subscribedPress);
+
       default:
         return state;
     }
   }
 
+  private updateSubscribe(state: newsStandState, subscribedPress: string[]) {
+    const newState = this.deepCopy(state);
+    newState.subscribedPress = subscribedPress;
+
+    return this.changeCurrentList(newState);
+  }
+
   private changeCurrentList(state: newsStandState) {
-    const newState = { ...state };
+    const newState = this.deepCopy(state);
 
     newState.currentPage = 0;
-    newState.grid.currentViewList = this.getUpdatedGridList(newState);
 
-    return newState;
+    return this.getUpdatedGridList(newState);
   }
 
   private changePage(state: newsStandState, direction: number): newsStandState {
-    const newState = { ...state };
+    const newState = this.deepCopy(state);
     newState.currentPage += direction;
 
     if (newState.currentContent === "grid") {
-      newState.grid.currentViewList = this.getUpdatedGridList(newState);
+      return this.getUpdatedGridList(newState);
     }
 
     return newState;
   }
 
   private changeCurrentType(state: newsStandState) {
-    const newState = { ...state };
+    const newState = this.deepCopy(state);
     newState.currentPage = 0;
 
     if (newState.currentType === "all") {
@@ -66,27 +75,34 @@ export class Reducer {
     return newState;
   }
 
-  private getUpdatedGridList(state: newsStandState): any[] {
-    const newState = { ...state };
+  private getUpdatedGridList(state: newsStandState) {
+    const newState = this.deepCopy(state);
     const currentPage = newState.currentPage;
     const startIndex = currentPage * this.ITEM_PER_PAGE;
     const endIndex = startIndex + this.ITEM_PER_PAGE;
 
     if (newState.currentType === "all") {
       newState.grid.currentTypeList = newState.grid.gridAllList;
-      return newState.grid.gridAllList.slice(startIndex, endIndex);
+      newState.grid.currentViewList = newState.grid.gridAllList.slice(
+        startIndex,
+        endIndex
+      );
+
+      return newState;
     }
 
     const subList = newState.grid.gridAllList.filter((grid) =>
       newState.subscribedPress.includes(grid.alt)
     );
-    newState.grid.currentTypeList = subList;
 
-    return subList.slice(startIndex, endIndex);
+    newState.grid.currentTypeList = subList;
+    newState.grid.currentViewList = subList.slice(startIndex, endIndex);
+
+    return newState;
   }
 
   private incrementTick(state: newsStandState): newsStandState {
-    const newState = { ...state };
+    const newState = this.deepCopy(state);
     newState.rollerTick++;
 
     if (newState.rollerTick % 5 === 0 && newState.leftRoller.isMove) {
@@ -120,12 +136,15 @@ export class Reducer {
     state: newsStandState,
     action: ToggleRollingState
   ): newsStandState {
-    const newState = { ...state };
+    const newState = this.deepCopy(state);
     const targetRoller = action.target;
     const roller = newState[`${targetRoller}Roller`];
     roller.isMove = !roller.isMove;
 
     return newState;
   }
-}
 
+  private deepCopy(state: newsStandState): newsStandState {
+    return JSON.parse(JSON.stringify(state));
+  }
+}
