@@ -8,7 +8,6 @@ export const Grid = (images: Images) => {
   let isInsideGrid = false;
   let currentOverlay: HTMLElement | null = null;
   let currentEnterGrid: HTMLElement | null = null;
-  let subsPress: string[] = [];
 
   const gridView = document.querySelector(".grid-view") as HTMLElement;
 
@@ -52,7 +51,6 @@ export const Grid = (images: Images) => {
       if (isButtonClicked(target)) {
         toggleSubs(target);
         renderButton();
-        actions.updateSubs(subsPress);
       }
     });
   };
@@ -77,17 +75,18 @@ export const Grid = (images: Images) => {
     return target.closest(".grid-overlay__button");
   }
   function toggleSubs(target: HTMLElement) {
+    const { subsPress } = getState();
     const gridItem = target.closest(".grid-item");
     const pressName = gridItem!.querySelector("img")!.getAttribute("alt")!;
 
     if (subsPress.includes(pressName)) {
-      subsPress = subsPress.filter((press) => press !== pressName);
+      actions.popSubs(pressName);
     } else {
-      subsPress.push(pressName);
+      actions.pushSubs(pressName);
     }
   }
   function renderButton() {
-    const { currentViewMode } = getState();
+    const { currentViewMode, subsPress } = getState();
     if (currentViewMode === "grid") {
       const gridItems = gridView.querySelectorAll(".grid-item");
 

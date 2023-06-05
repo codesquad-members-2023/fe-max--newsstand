@@ -3,7 +3,10 @@ import {
   AUTO_NEXT_PAGE,
   GO_NEXT_PAGE,
   GO_PREV_PAGE,
+  POP_SUBS,
+  PUSH_SUBS,
   RESET_ARTICLE_INDEX,
+  SET_ARTICLE_INDEX,
   SET_LIST_LAST_PAGE,
   SWITCH_GRID_MODE,
   SWITCH_LIST_MODE,
@@ -35,5 +38,14 @@ export const actions = {
   },
   resetArticleIndex: () => {
     dispatch({ type: RESET_ARTICLE_INDEX });
+  },
+  setArticleIndex: (index: number) => {
+    dispatch({ type: SET_ARTICLE_INDEX, payload: index });
+  },
+  pushSubs: (pressName: string) => {
+    dispatch({ type: PUSH_SUBS, payload: pressName });
+  },
+  popSubs: (pressName: string) => {
+    dispatch({ type: POP_SUBS, payload: pressName });
   },
 };

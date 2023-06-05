@@ -27,6 +27,8 @@ type mainArticle = {
 
 export const List = (news: []) => {
   const { currentArticleIndex, currentViewMode } = getState();
+  const listView = document.querySelector(".list-view") as HTMLElement;
+  const articleArray = news.map((article: News) => article.title);
   let intervalID: NodeJS.Timeout | null = null;
   let currentArticle: Article = news[currentArticleIndex]!;
   let pressLastIndex = currentArticle.pressList.length;
@@ -36,6 +38,45 @@ export const List = (news: []) => {
     setArt();
     renderFieldTab();
   }
+
+  const setEvent = () => {
+    listView.addEventListener("click", (e) => handleClickListView(e));
+  };
+  function handleClickListView(e: Event) {
+    const target = e.target as HTMLElement;
+    const { subsPress } = getState();
+    if (target.closest(".article")) {
+      const clickArticle = target.closest(".article");
+      const articleText = clickArticle?.querySelector(".text");
+      const index = articleArray.findIndex((item: any) => item === articleText?.textContent);
+      actions.setArticleIndex(index);
+      setArt();
+      loadNextPress();
+    }
+
+    if (target.closest(".press-subs-button")) {
+      const pressInfo = target.closest(".press-info");
+      const pressImage = pressInfo?.querySelector(".press-info__image");
+      const pressName = pressImage!.getAttribute("alt")!;
+      if (subsPress.includes(pressName)) {
+        actions.popSubs(pressName);
+      } else {
+        actions.pushSubs(pressName);
+      }
+
+      loadNextPress();
+    }
+  }
+  function toggleSubs(target: HTMLElement) {
+    const gridItem = target.closest(".grid-item");
+    const pressName = gridItem!.querySelector("img")!.getAttribute("alt")!;
+
+    // if (subsPress.includes(pressName)) {
+    //   subsPress = subsPress.filter((press) => press !== pressName);
+    // } else {
+    //   subsPress.push(pressName);
+    // }
+  }
   function setArt() {
     const { currentArticleIndex } = getState();
     currentArticle = news[currentArticleIndex]!;
@@ -44,9 +85,6 @@ export const List = (news: []) => {
 
     renderFieldTab();
   }
-  const articleArray = news.map((article: News) => article.title);
-
-  const listView = document.querySelector(".list-view") as HTMLElement;
 
   // setInterval(() => {
   //   loadNextPress();
@@ -64,7 +102,7 @@ export const List = (news: []) => {
         actions.autoNextPage();
         loadNextPress();
       }
-    }, 5000);
+    }, 20000);
   }
 
   function stopInterval() {
@@ -75,7 +113,7 @@ export const List = (news: []) => {
   }
   function loadNextPress() {
     const { currentPage, currentLastPage, currentArticleIndex } = getState();
-    console.log(currentArticleIndex);
+
     if (currentArticleIndex === 6 && currentPage > currentLastPage) {
       getState().currentArticleIndex = 0;
       getState().currentPage = 1;
@@ -113,8 +151,8 @@ export const List = (news: []) => {
   }
 
   function renderFieldTab() {
-    const { currentViewMode, subsPress } = getState();
-    console.log(subsPress);
+    const { currentViewMode } = getState();
+
     if (currentViewMode === "list") {
       listView.innerHTML = FieldTab();
     }
@@ -122,10 +160,9 @@ export const List = (news: []) => {
 
   function FieldTab() {
     const { currentPage, currentArticleIndex, subsPress } = getState();
-    console.log(currentArticle);
+
     const currentPress: Press = currentArticle.pressList[currentPage - 1]!;
 
-    console.log(currentPress);
     return `
     <div class="list-view__field-tab">
       ${news
@@ -145,11 +182,11 @@ export const List = (news: []) => {
     </div>
     <div class="press">
       <div class="press-info">
-        <img class="press-info__image" src="${currentPress.pressLogoSrc}"><img>
+        <img class="press-info__image" src="${currentPress.pressLogoSrc}" alt="${currentPress.pressLogoAlt}"><img>
         <div class="press-info__edit-date">${currentPress.lastEditted}</div>
         <button class="press-subs-button">
           <div class="plus-shape"></div>
-          <div class="text">${subsPress.includes(currentPress.pressLogoAlt)? "해지하기" : "구독하기"}</div>
+          <div class="text">${subsPress.includes(currentPress.pressLogoAlt) ? "해지하기" : "구독하기"}</div>
         </div>
         <div class="news">
           <div class="news-main">
@@ -167,7 +204,6 @@ export const List = (news: []) => {
               `;
   }
   function Title(currentPress: Press) {
-    console.log(currentPress.subArticles);
     const titles = currentPress.subArticles;
     return `
     ${titles
@@ -192,5 +228,5 @@ export const List = (news: []) => {
     `;
   }
 
-  return { renderFieldTab, setArt, loadNextPress, stopInterval, startInterval };
+  return { setEvent, renderFieldTab, setArt, loadNextPress, stopInterval, startInterval };
 };

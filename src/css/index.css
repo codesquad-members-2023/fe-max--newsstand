@@ -319,10 +319,10 @@ display:revert; revert to element instead of attribute */
   line-height: 16.71px;
   color: #6e8091;
   padding: 11.5px 16px;
+  cursor: pointer;
 }
 .article .text:hover {
   border-bottom: 1px solid #6e8091;
-  cursor: pointer;
 }
 
 .press {
@@ -365,6 +365,7 @@ display:revert; revert to element instead of attribute */
   gap: 2px;
   border: 1px solid #d2dae0;
   border-radius: 50px;
+  cursor: pointer;
 }
 .press-subs-button .plus-shape {
   width: 12px;

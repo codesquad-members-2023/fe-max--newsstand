@@ -50,11 +50,12 @@ initGrid();
 const listNews = await initListNews();
 
 const list = List(listNews);
+list.setEvent();
 export const renderFieldTab = list.renderFieldTab;
 export const loadNextPress = list.loadNextPress;
 export const stopInterval = list.stopInterval;
 export const startInterval = list.startInterval;
-export const setArt = list.setArt
+export const setArt = list.setArt;
 
 async function initHeadlinesData() {
   const response = await fetch("http://localhost:8080/headlines");
