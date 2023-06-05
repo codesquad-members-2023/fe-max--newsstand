@@ -110,8 +110,11 @@ export class Grid extends Base {
     const target = event.currentTarget;
     const gridItems = this.components["gridItem"];
     const targetIndex = gridItems.findIndex((element) => element === target);
+    const isAppendAble =
+      target instanceof HTMLElement &&
+      this.itemLayerList.hasOwnProperty(targetIndex);
 
-    if (target instanceof HTMLElement) {
+    if (isAppendAble) {
       target.appendChild(this.itemLayerList[targetIndex].element);
     }
   }
@@ -120,8 +123,11 @@ export class Grid extends Base {
     const target = event.currentTarget;
     const gridItems = this.components["gridItem"];
     const targetIndex = gridItems.findIndex((element) => element === target);
+    const isRemoveAble = this.itemLayerList.hasOwnProperty(targetIndex);
 
-    this.itemLayerList[targetIndex].element.remove();
+    if (isRemoveAble) {
+      this.itemLayerList[targetIndex].element.remove();
+    }
   }
 
   handleSubscribeBtnClick(event: Event) {
