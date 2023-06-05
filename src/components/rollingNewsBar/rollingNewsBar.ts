@@ -10,9 +10,10 @@ export class RollingNewsBar {
   private rollingNewsBar: HTMLDivElement = document.createElement("div");
   private container: HTMLDivElement = document.createElement("div");
 
-  constructor() {
+  constructor(initRollingDelay?: number) {
     this.initElement();
     this.setEvents();
+    this.startRolling(initRollingDelay);
   }
 
   private initElement() {
@@ -27,7 +28,7 @@ export class RollingNewsBar {
     const titleElement = this.item.getTitleElement();
 
     titleElement.addEventListener("mouseenter", () => {
-      this.pauseRolling();
+      this.stopRolling();
     });
 
     titleElement.addEventListener("mouseleave", () => {
@@ -76,13 +77,27 @@ export class RollingNewsBar {
     this.nextItem.updateData(nextItemData);
   }
 
-  startRolling() {
+  rolling() {
+    const ROLLING_INTERVAL_TIME = 5000;
+
     this.intervalId = window.setInterval(() => {
       this.activateAnimation();
-    }, 5000);
+    }, ROLLING_INTERVAL_TIME);
   }
 
-  pauseRolling() {
+  startRolling(initRollingDelay?: number) {
+    if (initRollingDelay) {
+      window.setTimeout(() => {
+        this.rolling();
+      }, initRollingDelay);
+
+      return;
+    }
+
+    this.rolling();
+  }
+
+  stopRolling() {
     if (this.intervalId) {
       window.clearInterval(this.intervalId);
       this.intervalId = null;

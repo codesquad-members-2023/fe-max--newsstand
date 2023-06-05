@@ -2,8 +2,9 @@ import { $ } from "@utils/domUtils";
 import { RollingNewsBar } from "./rollingNewsBar";
 
 export const initRollingNewsBar = async () => {
+  const INIT_ROLLING_DELAY = 1000;
   const leftRollingNewsBar = new RollingNewsBar();
-  const rightRollingNewsBar = new RollingNewsBar();
+  const rightRollingNewsBar = new RollingNewsBar(INIT_ROLLING_DELAY);
 
   const $rollingNewsBarSection = $(".rolling-news-bar-section");
   $rollingNewsBarSection.append(leftRollingNewsBar.getElement(), rightRollingNewsBar.getElement());
@@ -13,11 +14,6 @@ export const initRollingNewsBar = async () => {
 
   leftRollingNewsBar.initSetNewsData(data.slice(0, halfDataLength));
   rightRollingNewsBar.initSetNewsData(data.slice(halfDataLength));
-
-  leftRollingNewsBar.startRolling();
-  window.setTimeout(() => {
-    rightRollingNewsBar.startRolling();
-  }, 1000);
 };
 
 const fetchRollingNewsData = async () => {
