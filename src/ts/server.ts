@@ -4,8 +4,19 @@ import ejs from "ejs";
 import { createServer as createViteServer } from "vite";
 import fetch from "node-fetch";
 import { parse } from "node-html-parser";
+import { getNewsData } from "./utils/getNewsData";
 
 async function createServer() {
+  let time = 0;
+  let loading = "로딩중 현재 소요시간 ";
+  console.log("좀 만 참아줘용.. 5분정도 걸려요..");
+  const loadingKey = setInterval(() => {
+    time += 1;
+    console.log(loading + time + "분");
+  }, 60000);
+  const newsData = await getNewsData();
+  clearInterval(loadingKey);
+
   const port = 5173;
   const app = express();
 
@@ -17,7 +28,7 @@ async function createServer() {
     appType: "custom",
   });
 
-  app.get("/api/rolling-news", async (req, res) => {
+  app.get("/api/rolling", async (req, res) => {
     try {
       const response = await fetch(
         "https://www.yna.co.kr/news?site=navi_latest_depth01"
@@ -41,6 +52,10 @@ async function createServer() {
     } catch (error) {
       console.error("Error:", error);
     }
+  });
+
+  app.get("/api/news", async (req, res) => {
+    res.json(newsData);
   });
 
   app.use(vite.middlewares);
