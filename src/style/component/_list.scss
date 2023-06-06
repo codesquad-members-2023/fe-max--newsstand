@@ -1,10 +1,116 @@
 .main__list {
-  //   display: flex;
-  //   flex-direction: column;
-  //   align-items: flex-start;
   padding: 0px;
   width: 930px;
   height: 388px;
   background: $white;
+
+  &__fieldTab {
+    display: flex;
+    background: $off-white;
+    border: 1px solid $gray100;
+    @include title-xs;
+
+    &__textButton {
+      display: flex;
+      align-items: center;
+      padding: 0px 16px;
+      gap: 8px;
+      height: 40px;
+      color: $gray300;
+    }
+
+    .currentTextButton {
+      background-color: #7890e7;
+      color: $white;
+    }
+
+    .count {
+      margin-left: 15px;
+    }
+  }
+
+  &__pressNews {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px;
+    gap: 16px;
+    width: 930px;
+    height: 348px;
+    border: 1px solid $gray100;
+
+    &__pressInfo {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 0px;
+      gap: 16px;
+
+      > img {
+        height: 20px;
+      }
+
+      .pressInfo__editDate {
+        height: 14px;
+        @include body-xs;
+        color: $gray500;
+      }
+    }
+
+    &__news {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      padding: 0px;
+      gap: 32px;
+
+      width: 882px;
+      height: 260px;
+
+      .news__main {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0px;
+        gap: 16px;
+        width: 320px;
+        height: 260px;
+
+        > img {
+          box-sizing: border-box;
+          width: 320px;
+          height: 200px;
+        }
+
+        &__title {
+          width: 320px;
+          height: 44px;
+          @include body-md;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          word-break: break-all;
+          color: $black;
+        }
+      }
+      .news__sub {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0px;
+        gap: 16px;
+        width: 530px;
+        height: 245px;
+
+        &__title {
+          width: 530px;
+          height: 22px;
+          @include body-md;
+          color: $gray500;
+        }
+      }
+    }
+  }
 }
 

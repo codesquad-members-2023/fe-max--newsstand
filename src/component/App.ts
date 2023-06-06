@@ -17,6 +17,7 @@ export class App extends Base {
       currentType: this.props.currentType,
       currentPage: this.props.currentPage,
       grid: this.props.grid,
+      list: this.props.list,
     };
     const rollerContainer = {
       leftRoller: this.props.leftRoller,
@@ -50,3 +51,4 @@ export class App extends Base {
     root.appendChild(this.node);
   }
 }
+

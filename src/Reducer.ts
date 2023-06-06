@@ -34,8 +34,12 @@ export class Reducer {
   private toggleCurrentContent(state: newsStandState) {
     const newState = this.deepCopy(state);
     newState.currentPage = 0;
-    newState.currentContent =
-      newState.currentContent === "grid" ? "list" : "grid";
+
+    if (newState.currentContent === "grid") {
+      newState.currentContent = "list";
+    } else {
+      newState.currentContent = "grid";
+    }
 
     return newState;
   }
@@ -52,7 +56,7 @@ export class Reducer {
 
     newState.currentPage = 0;
 
-    return this.getUpdatedGridList(newState);
+    return this.getUpdatedGridData(newState);
   }
 
   private changePage(state: newsStandState, direction: number): newsStandState {
@@ -60,7 +64,7 @@ export class Reducer {
     newState.currentPage += direction;
 
     if (newState.currentContent === "grid") {
-      return this.getUpdatedGridList(newState);
+      return this.getUpdatedGridData(newState);
     }
 
     return newState;
@@ -79,7 +83,7 @@ export class Reducer {
     return newState;
   }
 
-  private getUpdatedGridList(state: newsStandState) {
+  private getUpdatedGridData(state: newsStandState) {
     const newState = this.deepCopy(state);
     const currentPage = newState.currentPage;
     const startIndex = currentPage * this.ITEM_PER_PAGE;
@@ -154,3 +158,4 @@ export class Reducer {
     return JSON.parse(JSON.stringify(state));
   }
 }
+

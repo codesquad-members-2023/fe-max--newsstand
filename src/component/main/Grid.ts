@@ -31,10 +31,10 @@ export class Grid extends Base {
         ).join("")}
       </div>`
     );
-    this.setGrid();
+    this.setGridView();
   }
 
-  setGrid() {
+  setGridView() {
     this.clearGridItem();
 
     const currentViewList = this.props.grid.currentViewList;
@@ -66,11 +66,11 @@ export class Grid extends Base {
     this.clearGridItem();
     this.itemLayerList = [];
 
-    const gridList = this.props.grid.currentTypeList;
+    const gridData = this.props.grid.currentTypeList;
     const gridElement = this.components["gridItem"];
     const elementList: Element[] = [];
 
-    gridList.forEach((data) => {
+    gridData.forEach((data) => {
       const subscribeList = this.getSubscribeList();
       const isSubscribe = subscribeList.includes(data.alt);
 
@@ -155,7 +155,7 @@ export class Grid extends Base {
       subscribedPress: this.getSubscribeList(),
     });
 
-    this.setGrid();
+    this.setGridView();
   }
 
   getSubscribeList() {
@@ -172,6 +172,7 @@ export class Grid extends Base {
 
   update(props: GridProps) {
     this.props = props;
-    this.setGrid();
+    this.setGridView();
   }
 }
+

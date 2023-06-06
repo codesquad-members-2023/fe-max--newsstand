@@ -1,4 +1,4 @@
-import { currentTypeList } from "../../utils/types";
+import { ListDataType, currentTypeList } from "../../utils/types";
 import { Base } from "../Base";
 import { Grid } from "./Grid";
 import { List } from "./LIst";
@@ -10,6 +10,12 @@ type ContentProps = {
   grid: {
     currentTypeList: currentTypeList;
     currentViewList: currentTypeList;
+  };
+  list: {
+    listAllList: ListDataType[];
+    currentViewIndex: number;
+    currentTypeList: ListDataType;
+    currentViewList: ListDataType;
   };
 };
 
@@ -24,9 +30,14 @@ export class Content extends Base {
       currentType: this.props.currentType,
       grid: this.props.grid,
     };
+    const listProps = {
+      currentPage: this.props.currentPage,
+      currentType: this.props.currentType,
+      list: this.props.list,
+    };
 
     this.grid = new Grid(gridProps);
-    this.list = new List();
+    this.list = new List(listProps);
     this.render(`
         <div class="main__content"></div>
     `);
@@ -62,6 +73,8 @@ export class Content extends Base {
 
     if (isChangedCurrentContent) {
       this.init();
+      this.list.update(this.props);
     }
   }
 }
+

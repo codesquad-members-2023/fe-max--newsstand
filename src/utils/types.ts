@@ -26,6 +26,23 @@ export type RollerType = {
 
 export type currentTypeList = { src: string; alt: string }[];
 
+type PressListType = {
+  pressLogoSrc: string;
+  pressLogoAlt: string;
+  lastEditted: string;
+  mainArticle: {
+    thumbnailSrc: string;
+    thumbnailAlt: string;
+    mainArticleTitle: string;
+  };
+  subArticles: String[];
+};
+
+export interface ListDataType {
+  title: string;
+  pressList: PressListType[];
+}
+
 export type newsStandState = {
   date: Date;
   leftRoller: RollerType;
@@ -39,6 +56,12 @@ export type newsStandState = {
     gridAllList: currentTypeList;
     currentTypeList: currentTypeList;
     currentViewList: currentTypeList;
+  };
+  list: {
+    currentViewIndex: number;
+    listAllList: ListDataType[];
+    currentTypeList: ListDataType;
+    currentViewList: ListDataType;
   };
 };
 

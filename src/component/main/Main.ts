@@ -1,4 +1,4 @@
-import { currentTypeList } from "../../utils/types";
+import { ListDataType, currentTypeList } from "../../utils/types";
 import { Content } from "./Content";
 import { store } from "../../Store";
 import { Base } from "../Base";
@@ -13,6 +13,12 @@ type MainState = {
     currentTypeList: currentTypeList;
     currentViewList: currentTypeList;
   };
+  list: {
+    listAllList: ListDataType[];
+    currentViewIndex: number;
+    currentTypeList: ListDataType;
+    currentViewList: ListDataType;
+  };
 };
 
 export class Main extends Base {
@@ -25,6 +31,7 @@ export class Main extends Base {
       currentType: this.props.currentType,
       currentPage: this.props.currentPage,
       grid: this.props.grid,
+      list: this.props.list,
     };
 
     this.content = new Content(contentProps);
@@ -173,3 +180,4 @@ export class Main extends Base {
     }
   }
 }
+
