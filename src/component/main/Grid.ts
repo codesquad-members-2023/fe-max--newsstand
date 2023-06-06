@@ -1,5 +1,5 @@
-import { store } from "../../Store";
 import { currentTypeList } from "../../utils/types";
+import { store } from "../../Store";
 import { Base } from "../Base";
 
 const ITEM_PER_PAGE = 24;
@@ -81,11 +81,11 @@ export class Grid extends Base {
 
         const layer = this.setTemplate(
           `<div class="main__grid__item__layer">
-              <button class="main__grid__item__layer-btn" addClick="handleSubscribeBtnClick">
-                <img src="./src/assets/plus.svg">
-                <span>${isSubscribe ? `해지하기` : `구독하기`}</span>
-              </button>
-            </div>`
+            <button class="main__grid__item__layer-btn" addClick="handleSubscribeBtnClick">
+              <img src="./src/assets/plus.svg">
+              <span>${isSubscribe ? `해지하기` : `구독하기`}</span>
+            </button>
+          </div>`
         );
 
         this.itemLayerList.push({ element: layer, pressName: data.alt });
@@ -131,26 +131,23 @@ export class Grid extends Base {
   }
 
   handleSubscribeBtnClick(event: Event) {
-    const target = event.currentTarget;
+    const clickedButton = event.currentTarget;
     const currentIndex = this.itemLayerList.findIndex(
-      ({ element }) => element.firstElementChild === target
+      ({ element }) => element.firstElementChild === clickedButton
     );
     const pressName = this.props.grid.currentViewList[currentIndex].alt;
-    const subscribePress = this.getSubscribeList();
+    const currentSubscribedList = this.getSubscribeList() || [];
 
-    if (!Array.isArray(subscribePress)) {
-      localStorage.setItem("subscribe", JSON.stringify([]));
-    } else if (subscribePress.includes(pressName)) {
-      const newSubscribePress = subscribePress.filter(
-        (data) => data !== pressName
+    if (currentSubscribedList.includes(pressName)) {
+      const newSubscribedList = currentSubscribedList.filter(
+        (pressNameItem: string) => pressNameItem !== pressName
       );
 
-      localStorage.setItem("subscribe", JSON.stringify(newSubscribePress));
+      localStorage.setItem("subscribe", JSON.stringify(newSubscribedList));
     } else {
-      subscribePress.push(pressName);
-      const newSubscribeList = subscribePress;
+      currentSubscribedList.push(pressName);
 
-      localStorage.setItem("subscribe", JSON.stringify(newSubscribeList));
+      localStorage.setItem("subscribe", JSON.stringify(currentSubscribedList));
     }
 
     store.dispatch({
@@ -163,10 +160,11 @@ export class Grid extends Base {
 
   getSubscribeList() {
     const subscribeList = localStorage.getItem("subscribe");
+    localStorage.setItem("subscribe", JSON.stringify([]));
+
     if (subscribeList) {
       return JSON.parse(subscribeList);
     }
-    localStorage.setItem("subscribe", JSON.stringify([]));
 
     return [];
   }

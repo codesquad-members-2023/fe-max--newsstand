@@ -1,7 +1,7 @@
-import { RollerType, newsStandState } from "../utils/types";
-import { Base } from "./Base";
 import { Roller, rollerProps } from "./Roller";
+import { RollerType } from "../utils/types";
 import { store } from "../Store";
+import { Base } from "./Base";
 
 type RollerContainerState = {
   leftRoller: RollerType;

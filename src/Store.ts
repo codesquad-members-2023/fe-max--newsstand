@@ -1,5 +1,5 @@
-import { Reducer } from "./Reducer";
 import { Action, currentTypeList, newsStandState } from "./utils/types";
+import { Reducer } from "./Reducer";
 
 const ITEM_PER_PAGE = 24;
 
@@ -94,6 +94,7 @@ class Store {
   dispatch(action: Action) {
     const newState = reduce(this.state, action);
     this.state = newState;
+
     this.notify();
   }
 

@@ -1,9 +1,4 @@
-import {
-  Action,
-  RollerType,
-  ToggleRollingState,
-  newsStandState,
-} from "./utils/types";
+import { Action, RollerType, newsStandState } from "./utils/types";
 
 export class Reducer {
   ITEM_PER_PAGE: number = 24;
@@ -13,7 +8,7 @@ export class Reducer {
       case "INCREMENT_TICK":
         return this.incrementTick(state);
       case "TOGGLE_ROLLING_STATE":
-        return this.toggleRollingState(state, action);
+        return this.toggleRollingState(state, action.target);
       case "INCREMENT_PAGE":
         return this.changePage(state, 1);
       case "DECREMENT_PAGE":
@@ -105,13 +100,16 @@ export class Reducer {
     const newState = this.deepCopy(state);
     newState.rollerTick++;
 
-    if (newState.rollerTick % 5 === 0 && newState.leftRoller.isMove) {
-      newState.leftRoller = this.incrementRoller(newState.leftRoller);
-    } else if (
-      newState.rollerTick > 5 &&
+    const isIncrementLeftRoller =
+      newState.rollerTick % 5 === 0 && newState.leftRoller.isMove;
+    const isIncrementRightRoller =
       newState.rollerTick % 5 === 1 &&
-      newState.rightRoller.isMove
-    ) {
+      newState.rightRoller.isMove &&
+      newState.rollerTick > 5;
+
+    if (isIncrementLeftRoller) {
+      newState.leftRoller = this.incrementRoller(newState.leftRoller);
+    } else if (isIncrementRightRoller) {
       newState.rightRoller = this.incrementRoller(newState.rightRoller);
     }
 
@@ -134,11 +132,10 @@ export class Reducer {
 
   private toggleRollingState(
     state: newsStandState,
-    action: ToggleRollingState
+    target: "left" | "right"
   ): newsStandState {
     const newState = this.deepCopy(state);
-    const targetRoller = action.target;
-    const roller = newState[`${targetRoller}Roller`];
+    const roller = newState[`${target}Roller`];
     roller.isMove = !roller.isMove;
 
     return newState;

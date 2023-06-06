@@ -32,16 +32,18 @@ export class Content extends Base {
 
   init() {
     this.node?.replaceChildren();
+
     if (this.props.currentContent === "grid") {
       this.setChildren(this.grid);
     }
   }
 
   update(props: ContentProps) {
-    if (
+    const isChanged =
       props.currentType !== this.props.currentType ||
-      props.grid.currentViewList !== this.props.grid.currentViewList
-    ) {
+      props.grid.currentViewList !== this.props.grid.currentViewList;
+
+    if (isChanged) {
       this.grid.update(props);
       this.props = props;
     }

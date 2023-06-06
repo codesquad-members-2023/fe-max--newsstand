@@ -1,7 +1,7 @@
-import { store } from "../../Store";
 import { currentTypeList } from "../../utils/types";
-import { Base } from "../Base";
 import { Content } from "./Content";
+import { store } from "../../Store";
+import { Base } from "../Base";
 
 const ITEM_PER_PAGE = 24;
 
@@ -68,22 +68,25 @@ export class Main extends Base {
   }
 
   updateButtonDisplay() {
-    const currentPage = this.props.currentPage;
-    const isFirstPage = currentPage === 0;
-    const isLastPage =
-      Math.ceil(this.props.grid.currentTypeList.length / ITEM_PER_PAGE) ===
-      currentPage + 1;
+    const { currentPage, grid } = this.props;
     const { prevBtn, nextBtn, buttonsDiv } = this.component;
 
-    if (isFirstPage) {
-      buttonsDiv.contains(prevBtn) && buttonsDiv.removeChild(prevBtn);
-    } else if (!buttonsDiv.contains(prevBtn)) {
+    const totalPages = Math.ceil(grid.currentTypeList.length / ITEM_PER_PAGE);
+    const isFirstPage = currentPage === 0;
+    const isLastPage = totalPages === currentPage + 1;
+
+    const prevButtonExists = buttonsDiv.contains(prevBtn);
+    const nextButtonExists = buttonsDiv.contains(nextBtn);
+
+    if (isFirstPage && prevButtonExists) {
+      buttonsDiv.removeChild(prevBtn);
+    } else if (!isFirstPage && !prevButtonExists) {
       buttonsDiv.prepend(prevBtn);
     }
 
-    if (isLastPage) {
-      buttonsDiv.contains(nextBtn) && buttonsDiv.removeChild(nextBtn);
-    } else if (!buttonsDiv.contains(nextBtn)) {
+    if (isLastPage && nextButtonExists) {
+      buttonsDiv.removeChild(nextBtn);
+    } else if (!isLastPage && !nextButtonExists) {
       buttonsDiv.appendChild(nextBtn);
     }
   }
@@ -135,3 +138,4 @@ export class Main extends Base {
     }
   }
 }
+

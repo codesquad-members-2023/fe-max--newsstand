@@ -1,8 +1,8 @@
-import { newsStandState } from "./../utils/types";
-import { Base } from "./Base";
-import { Header } from "./Header";
 import { RollerContainer } from "./RollerContainer";
+import { newsStandState } from "./../utils/types";
+import { Header } from "./Header";
 import { Main } from "./main/Main";
+import { Base } from "./Base";
 
 export class App extends Base {
   header: Header;
