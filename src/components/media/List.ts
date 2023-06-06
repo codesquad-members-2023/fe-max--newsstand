@@ -36,19 +36,20 @@ export const List = (news: []) => {
   if (currentViewMode === "list") {
     actions.setListLastPage(pressLastIndex);
     setArt();
-    renderFieldTab();
+    render();
   }
 
   const setEvent = () => {
     listView.addEventListener("click", (e) => handleClickListView(e));
   };
+
   function handleClickListView(e: Event) {
     const target = e.target as HTMLElement;
     const { subsPress } = getState();
     if (target.closest(".article")) {
       const clickArticle = target.closest(".article");
       const articleText = clickArticle?.querySelector(".text");
-      const index = articleArray.findIndex((item: any) => item === articleText?.textContent);
+      const index = articleArray.findIndex((item: string) => item === articleText?.textContent);
       actions.setArticleIndex(index);
       setArt();
       loadNextPress();
@@ -58,37 +59,36 @@ export const List = (news: []) => {
       const pressInfo = target.closest(".press-info");
       const pressImage = pressInfo?.querySelector(".press-info__image");
       const pressName = pressImage!.getAttribute("alt")!;
+      const snack = document.querySelector(".snack") as HTMLElement;
+
       if (subsPress.includes(pressName)) {
         actions.popSubs(pressName);
       } else {
         actions.pushSubs(pressName);
+        console.log(snack);
+        showSnack(snack);
       }
 
       loadNextPress();
     }
   }
-  function toggleSubs(target: HTMLElement) {
-    const gridItem = target.closest(".grid-item");
-    const pressName = gridItem!.querySelector("img")!.getAttribute("alt")!;
 
-    // if (subsPress.includes(pressName)) {
-    //   subsPress = subsPress.filter((press) => press !== pressName);
-    // } else {
-    //   subsPress.push(pressName);
-    // }
+  function showSnack(snack: HTMLElement) {
+    snack.style.display = "block";
+    setTimeout(() => {
+      snack.style.display = "none";
+    }, 5000);
   }
+
   function setArt() {
     const { currentArticleIndex } = getState();
     currentArticle = news[currentArticleIndex]!;
     pressLastIndex = currentArticle.pressList.length;
     // pressLastIndex = 3;
 
-    renderFieldTab();
+    render();
   }
 
-  // setInterval(() => {
-  //   loadNextPress();
-  // }, 1000);
   startInterval();
 
   function startInterval() {
@@ -121,8 +121,8 @@ export const List = (news: []) => {
 
       setArt();
       actions.setListLastPage(pressLastIndex);
-      renderFieldTab();
-      return;
+      render();
+      // return;
     }
     if (currentArticleIndex === 0 && currentPage < 1) {
       getState().currentArticleIndex = 6;
@@ -131,8 +131,8 @@ export const List = (news: []) => {
 
       setArt();
       actions.setListLastPage(pressLastIndex);
-      renderFieldTab();
-      return;
+      render();
+      // return;
     }
     if (currentPage > currentLastPage) {
       getState().currentArticleIndex = getState().currentArticleIndex + 1;
@@ -143,22 +143,25 @@ export const List = (news: []) => {
     }
     if (currentPage < 1) {
       getState().currentArticleIndex = getState().currentArticleIndex - 1;
-      getState().currentPage = 1;
+      const prevArticle: News = news[currentArticleIndex - 1]!;
+      console.log(prevArticle);
+      getState().currentPage = prevArticle.pressList.length;
       setArt();
+      console.log(currentArticle.pressList.length);
     }
     actions.setListLastPage(pressLastIndex);
-    renderFieldTab();
+    render();
   }
 
-  function renderFieldTab() {
+  function render() {
     const { currentViewMode } = getState();
 
     if (currentViewMode === "list") {
-      listView.innerHTML = FieldTab();
+      listView.innerHTML = ListTemplate();
     }
   }
 
-  function FieldTab() {
+  function ListTemplate() {
     const { currentPage, currentArticleIndex, subsPress } = getState();
 
     const currentPress: Press = currentArticle.pressList[currentPage - 1]!;
@@ -199,10 +202,12 @@ export const List = (news: []) => {
           </div>
         </div>
       </div>
+      
     </div>
     
               `;
   }
+
   function Title(currentPress: Press) {
     const titles = currentPress.subArticles;
     return `
@@ -228,5 +233,5 @@ export const List = (news: []) => {
     `;
   }
 
-  return { setEvent, renderFieldTab, setArt, loadNextPress, stopInterval, startInterval };
+  return { setEvent, render, setArt, loadNextPress, stopInterval, startInterval };
 };
