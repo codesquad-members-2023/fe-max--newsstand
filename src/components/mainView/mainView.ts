@@ -1,5 +1,6 @@
 import { shuffleArray } from "@utils/shuffleArray";
 import { GridView } from "./gridView/gridView";
+import { TabAndViewer } from "./tabAndViewer";
 
 export interface PressLogo {
   src: string;
@@ -8,6 +9,7 @@ export interface PressLogo {
 
 export class MainView {
   $mainView: HTMLElement = document.createElement("section");
+  private tabAndViewer: TabAndViewer = new TabAndViewer();
   private $leftArrow: HTMLElement = document.createElement("div");
   private $rightArrow: HTMLElement = document.createElement("div");
 
@@ -21,6 +23,8 @@ export class MainView {
   }
 
   initElement() {
+    this.$mainView.append(this.tabAndViewer.getElement());
+
     this.$mainView.className = "main-view";
     this.$leftArrow.className = "main-view__left-arrow";
     this.$rightArrow.className = "main-view__right-arrow";
