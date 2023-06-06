@@ -98,7 +98,7 @@ display:revert; revert to element instead of attribute */
   height: 29px;
   margin-top: 58px;
 }
-.header-left {
+.header__logo {
   display: flex;
   align-items: center;
   width: 136px;
@@ -109,7 +109,7 @@ display:revert; revert to element instead of attribute */
   line-height: 28.64px;
   cursor: pointer;
 }
-.header-right {
+.header__news-date {
   display: flex;
   position: absolute;
   right: 0;
@@ -135,44 +135,14 @@ display:revert; revert to element instead of attribute */
     width: 100%;
   }
 }
-.news-roller {
+.roller {
   display: flex;
   gap: 8px;
   margin-top: 40px;
+  width: 930px;
   height: 49px;
 }
-.news-roller .press-name {
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 16.71px;
-}
-.news-roller .headline {
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 16.71px;
-  color: #4b5966;
-  height: 17px;
-  overflow: hidden;
-  cursor: pointer;
-}
-.news-roller .headline-container-left, .news-roller .headline-container-right {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  animation-duration: 0.5s;
-}
-.news-roller .headline-container-left > div, .news-roller .headline-container-right > div {
-  width: 363px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-.news-roller .headline-item {
-  display: flex;
-  align-items: center;
-  height: 17px;
-}
-.news-roller-left, .news-roller-right {
+.roller__bar {
   display: flex;
   align-items: flex-start;
   padding: 16px;
@@ -181,6 +151,32 @@ display:revert; revert to element instead of attribute */
   height: 49px;
   border: 1px solid #d2dae0;
   background-color: #f5f7f9;
+}
+.roller .press-name {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 16.71px;
+}
+.roller .news__bar {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16.71px;
+  color: #4b5966;
+  height: 17px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.roller .news__container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation-duration: 0.5s;
+}
+.roller .news__container > div {
+  width: 363px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .total-media {
@@ -494,7 +490,7 @@ display:revert; revert to element instead of attribute */
   cursor: pointer;
 }
 
-#app {
+#root {
   font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   padding: 0 175px;
   display: flex;
