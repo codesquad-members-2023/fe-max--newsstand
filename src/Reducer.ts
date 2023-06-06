@@ -13,15 +13,15 @@ export class Reducer {
         return this.changePage(state, 1);
       case "DECREMENT_PAGE":
         return this.changePage(state, -1);
-      case "SELECT_ALL_CONTENT": {
-        const newState = this.changeCurrentType(state);
-
-        return this.changeCurrentList(newState);
-      }
+      case "SELECT_ALL_CONTENT":
       case "SELECT_SUB_CONTENT": {
         const newState = this.changeCurrentType(state);
 
         return this.changeCurrentList(newState);
+      }
+      case "SELECT_GRID_TAB":
+      case "SELECT_LIST_TAB": {
+        return this.toggleCurrentContent(state);
       }
       case "UPDATE_SUBSCRIBE":
         return this.updateSubscribe(state, action.subscribedPress);
@@ -29,6 +29,15 @@ export class Reducer {
       default:
         return state;
     }
+  }
+
+  private toggleCurrentContent(state: newsStandState) {
+    const newState = this.deepCopy(state);
+    newState.currentPage = 0;
+    newState.currentContent =
+      newState.currentContent === "grid" ? "list" : "grid";
+
+    return newState;
   }
 
   private updateSubscribe(state: newsStandState, subscribedPress: string[]) {

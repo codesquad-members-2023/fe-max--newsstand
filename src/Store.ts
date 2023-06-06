@@ -47,7 +47,7 @@ const createState = async () => {
   const rightHeadlineList = headlineList.slice(headlineList.length / 2);
   const currentViewGridList = gridList.slice(0, ITEM_PER_PAGE);
 
-  const contentType: "grid" | "list" = "grid";
+  const contentType: "grid" | "list" = "list";
   const currentType: "all" | "sub" = "all";
 
   const state = {

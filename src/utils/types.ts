@@ -42,34 +42,42 @@ export type newsStandState = {
   };
 };
 
-export interface IncrementTick {
+interface IncrementTick {
   type: "INCREMENT_TICK";
 }
 
-export interface ToggleRollingState {
+interface ToggleRollingState {
   type: "TOGGLE_ROLLING_STATE";
   target: "left" | "right";
 }
 
-export interface IncrementPage {
+interface IncrementPage {
   type: "INCREMENT_PAGE";
 }
 
-export interface DecrementPage {
+interface DecrementPage {
   type: "DECREMENT_PAGE";
 }
 
-export interface SelectAllContent {
+interface SelectAllContent {
   type: "SELECT_ALL_CONTENT";
 }
 
-export interface SelectSubContent {
+interface SelectSubContent {
   type: "SELECT_SUB_CONTENT";
 }
 
-export interface UpdateSubscribe {
+interface UpdateSubscribe {
   type: "UPDATE_SUBSCRIBE";
   subscribedPress: string[];
+}
+
+interface SelectGridTab {
+  type: "SELECT_GRID_TAB";
+}
+
+interface SelectListTab {
+  type: "SELECT_LIST_TAB";
 }
 
 export type Action =
@@ -79,5 +87,7 @@ export type Action =
   | DecrementPage
   | SelectAllContent
   | SelectSubContent
-  | UpdateSubscribe;
+  | UpdateSubscribe
+  | SelectGridTab
+  | SelectListTab;
 

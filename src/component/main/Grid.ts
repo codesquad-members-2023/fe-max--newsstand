@@ -160,11 +160,12 @@ export class Grid extends Base {
 
   getSubscribeList() {
     const subscribeList = localStorage.getItem("subscribe");
-    localStorage.setItem("subscribe", JSON.stringify([]));
 
     if (subscribeList) {
       return JSON.parse(subscribeList);
     }
+
+    localStorage.setItem("subscribe", JSON.stringify([]));
 
     return [];
   }

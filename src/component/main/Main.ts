@@ -45,12 +45,24 @@ export class Main extends Base {
     return `
         <div class="main__tab">
             <div class="main__tab__press">
-                <div class="main__tab__press-all select" data-component="pressAllBtn" addClick="handleClickAllContent">전체 언론사</div>
-                <div class="main__tab__press-subscribed" data-component="pressSubBtn" addClick="handleClickSubContent">내가 구독한 언론사</div>
+                <div class="main__tab__press-all select" 
+                  data-component="pressAllBtn" 
+                  addClick="handleClickAllContent">
+                    전체 언론사
+                </div>
+                <div class="main__tab__press-subscribed" 
+                  data-component="pressSubBtn" 
+                  addClick="handleClickSubContent">
+                  내가 구독한 언론사
+                </div>
             </div>
             <div class="main__tab__buttons">
-                <img class="main__tab__buttons-list" src="./src/assets/list.svg">
-                <img class="main__tab__buttons-grid" src="./src/assets/grid-select.svg">
+                <img class="main__tab__buttons-list" src="./src/assets/list${
+                  this.props.currentContent === "list" ? `-select` : ``
+                }.svg" data-component="listTab" addClick="handleClickListTab">
+                <img class="main__tab__buttons-grid" src="./src/assets/grid${
+                  this.props.currentContent === "grid" ? `-select` : ``
+                }.svg" data-component="gridTab" addClick="handleClickGridTab">
             </div>
         </div>
     `;
@@ -117,6 +129,30 @@ export class Main extends Base {
     }
   }
 
+  handleClickGridTab() {
+    this.component["gridTab"].setAttribute(
+      "src",
+      "./src/assets/grid-select.svg"
+    );
+    this.component["listTab"].setAttribute("src", "./src/assets/list.svg");
+
+    if (this.props.currentContent !== "grid") {
+      store.dispatch({ type: "SELECT_GRID_TAB" });
+    }
+  }
+
+  handleClickListTab() {
+    this.component["listTab"].setAttribute(
+      "src",
+      "./src/assets/list-select.svg"
+    );
+    this.component["gridTab"].setAttribute("src", "./src/assets/grid.svg");
+
+    if (this.props.currentContent !== "list") {
+      store.dispatch({ type: "SELECT_LIST_TAB" });
+    }
+  }
+
   update(props: MainState) {
     const isChangedCurrentPage = this.props.currentPage !== props.currentPage;
     const isChangedCurrentType = this.props.currentType !== props.currentType;
@@ -125,7 +161,6 @@ export class Main extends Base {
     const isChangedCurrentViewList =
       this.props.grid.currentViewList.length !==
       props.grid.currentViewList.length;
-
     if (
       isChangedCurrentPage ||
       isChangedCurrentType ||
@@ -138,4 +173,3 @@ export class Main extends Base {
     }
   }
 }
-

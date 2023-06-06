@@ -1,6 +1,7 @@
 import { currentTypeList } from "../../utils/types";
 import { Base } from "../Base";
 import { Grid } from "./Grid";
+import { List } from "./LIst";
 
 type ContentProps = {
   currentContent: "grid" | "list";
@@ -14,6 +15,7 @@ type ContentProps = {
 
 export class Content extends Base {
   grid: Grid;
+  list: List;
 
   constructor(private props: ContentProps) {
     super();
@@ -24,6 +26,7 @@ export class Content extends Base {
     };
 
     this.grid = new Grid(gridProps);
+    this.list = new List();
     this.render(`
         <div class="main__content"></div>
     `);
@@ -35,6 +38,8 @@ export class Content extends Base {
 
     if (this.props.currentContent === "grid") {
       this.setChildren(this.grid);
+    } else {
+      this.setChildren(this.list);
     }
   }
 
@@ -42,10 +47,21 @@ export class Content extends Base {
     const isChanged =
       props.currentType !== this.props.currentType ||
       props.grid.currentViewList !== this.props.grid.currentViewList;
+    const isChangedCurrentContent =
+      this.props.currentContent !== props.currentContent;
+
+    this.props = props;
 
     if (isChanged) {
-      this.grid.update(props);
-      this.props = props;
+      const currentContent = this.props.currentContent;
+      if (currentContent === "grid") {
+        this.grid.update(this.props);
+      } else {
+      }
+    }
+
+    if (isChangedCurrentContent) {
+      this.init();
     }
   }
 }
