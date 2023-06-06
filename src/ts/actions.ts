@@ -1,0 +1,5 @@
+export const ACTION = {
+  INCREASE_TICK: 'INCREASE_TICK',
+  GO_TO_NEXT: 'GO_TO_NEXT',
+  GO_TO_PREV: 'GO_TO_PREV',
+};
