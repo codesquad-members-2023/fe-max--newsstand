@@ -1,0 +1,37 @@
+body {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app {
+  width: 930px;
+}
+
+.header {
+  width: 930px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-title {
+  display: flex;
+  gap: 8px;
+  text-decoration: none;
+  &__img {
+    width: 24px;
+    height: 24px;
+  }
+  &__text {
+    @include typo(display);
+    color: $color-black;
+  }
+}
+
+.header-date {
+  @include typo(bodyMD);
+  color: $color-gray500;
+}

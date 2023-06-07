@@ -1,0 +1,82 @@
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.list-tap {
+  box-sizing: border-box;
+  width: 930px;
+  height: 40px;
+  background-color: $color-offWhite;
+  border: 1px solid $color-gray100;
+  &__category {
+    @include typo('bodySM');
+    height: 40px;
+    color: $color-gray300;
+    background-color: transparent;
+    border: none;
+    padding: 0px 16px;
+  }
+}
+
+.list-main {
+  box-sizing: border-box;
+  width: 930px;
+  display: flex;
+  gap: 18px;
+  flex-direction: column;
+  padding: 24px;
+  border-top: none;
+  border-left: 1px solid $color-gray100;
+  border-right: 1px solid $color-gray100;
+  border-bottom: 1px solid $color-gray100;
+}
+
+.list-contents {
+  display: flex;
+  gap: 32px;
+  &__left {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    > p {
+      height: 44px;
+    }
+  }
+  &__right {
+    @include typo('bodySM');
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    color: $color-gray200;
+    > ul {
+      @include typo('bodyMD');
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      color: $color-gray500;
+    }
+  }
+}
+
+.list-header {
+  @include typo('bodyXS');
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: $color-gray400;
+}
+
+.subscribe-btn {
+  @include typo('bodyXS');
+  display: flex;
+  gap: 2px;
+  justify-content: center;
+  align-items: center;
+  width: 74px;
+  height: 24px;
+  color: $color-gray200;
+  background-color: $color-offWhite;
+  border: 1px solid $color-gray100;
+  border-radius: 50px;
+}

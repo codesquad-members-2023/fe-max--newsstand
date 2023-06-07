@@ -1,0 +1,38 @@
+@mixin typo($type) {
+  @if $type == 'display' {
+    font-family: $font-family;
+    font-size: 24px;
+    font-weight: $weight-bold;
+    line-height: auto;
+  } @else if $type == 'titleMD' {
+    font-family: $font-family;
+    font-size: 16px;
+    font-weight: $weight-bold;
+    line-height: auto;
+  } @else if $type == 'titleSM' {
+    font-family: $font-family;
+    font-size: 14px;
+    font-weight: $weight-bold;
+    line-height: auto;
+  } @else if $type == 'titleXS' {
+    font-family: $font-family;
+    font-size: 12px;
+    font-weight: $weight-bold;
+    line-height: auto;
+  } @else if $type == 'bodyMD' {
+    font-family: $font-family;
+    font-size: 16px;
+    font-weight: $weight-medium;
+    line-height: 22px;
+  } @else if $type == 'bodySM' {
+    font-family: $font-family;
+    font-size: 14px;
+    font-weight: $weight-medium;
+    line-height: auto;
+  } @else if $type == 'bodyXS' {
+    font-family: $font-family;
+    font-size: 12px;
+    font-weight: $weight-medium;
+    line-height: auto;
+  }
+}

@@ -1,0 +1,32 @@
+.rolling-news {
+  margin-top: 40px;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.news-bar {
+  padding: 16px;
+  width: 429px;
+  height: 17px;
+  display: flex;
+  gap: 16px;
+  background: $color-offWhite;
+  border: 1px solid $color-gray100;
+  &__press {
+    @include typo(titleSM);
+    color: $color-black;
+    text-decoration: none;
+  }
+  &__press:hover {
+    text-decoration: underline;
+  }
+  &__article {
+    @include typo(bodySM);
+    color: $color-gray500;
+    text-decoration: none;
+  }
+  &__article:hover {
+    text-decoration: underline;
+  }
+}
