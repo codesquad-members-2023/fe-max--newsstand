@@ -83,7 +83,7 @@ export class GridPressBox {
     const newSubscribedPressList = [...subscribedPressList, pressName];
 
     localStorage.setItem("subscribed-press-list", JSON.stringify(newSubscribedPressList));
-    this.gridStore.updateSubscribedPressList();
+    this.gridStore.initSubscribedPressList();
     this.toggleSubscribeState();
     this.updateButtonText();
   }
@@ -94,7 +94,7 @@ export class GridPressBox {
     const newSubscribedPressList = subscribedPressList.filter((press) => press !== pressName);
 
     localStorage.setItem("subscribed-press-list", JSON.stringify(newSubscribedPressList));
-    this.gridStore.updateSubscribedPressList();
+    this.gridStore.initSubscribedPressList();
     this.toggleSubscribeState();
     this.updateButtonText();
   }

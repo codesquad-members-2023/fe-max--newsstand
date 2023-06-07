@@ -1,18 +1,22 @@
 import { RollingNewsBarItem, RollingNewsData } from "./rollingNewsBarItem";
+import { RollingNewsProps } from "./rollingNewsBarObservable";
+import { RollingNewsBarStore } from "./rollingNewsBarStore";
 
 export class RollingNewsBar {
-  private newsData: RollingNewsData[] = [];
-  private rollingIndex: number = 0;
-  private intervalId: number | null = null;
+  private store: RollingNewsBarStore = new RollingNewsBarStore();
 
+  private rollingNewsBar: HTMLElement = document.createElement("div");
+  private container: HTMLElement = document.createElement("div");
   private item: RollingNewsBarItem = new RollingNewsBarItem();
   private nextItem: RollingNewsBarItem = new RollingNewsBarItem();
-  private rollingNewsBar: HTMLDivElement = document.createElement("div");
-  private container: HTMLDivElement = document.createElement("div");
 
-  constructor() {
+  private startRolling: () => void;
+
+  constructor(initRollingDelay?: number) {
     this.initElement();
     this.setEvents();
+    this.startRolling = this.startRollingFn.bind(this, initRollingDelay);
+    this.subscribeStore();
   }
 
   private initElement() {
@@ -27,7 +31,7 @@ export class RollingNewsBar {
     const titleElement = this.item.getTitleElement();
 
     titleElement.addEventListener("mouseenter", () => {
-      this.pauseRolling();
+      this.stopRolling();
     });
 
     titleElement.addEventListener("mouseleave", () => {
@@ -35,58 +39,71 @@ export class RollingNewsBar {
     });
 
     this.container.addEventListener("transitionend", () => {
-      this.increaseRollingIndex();
-      this.updateRender();
-      this.inactivateAnimation();
+      this.store.increaseRollingIndex();
     });
+  }
+
+  private startRollingFn(initRollingDelay?: number) {
+    this.store.unsubscribe(this.startRolling);
+
+    if (initRollingDelay) {
+      window.setTimeout(() => {
+        this.rolling();
+      }, initRollingDelay);
+
+      return;
+    }
+
+    this.rolling();
+  }
+
+  private subscribeStore() {
+    this.store.subscribe((props: RollingNewsProps) => this.updateRender(props));
+    this.store.subscribe(() => this.inactivateAnimation());
+    this.store.subscribe(this.startRolling);
   }
 
   getElement() {
     return this.rollingNewsBar;
   }
 
-  setNewsData(data: RollingNewsData[]) {
-    this.newsData = data;
-  }
-
   initSetNewsData(data: RollingNewsData[]) {
-    this.setNewsData(data);
-    this.updateRender();
+    this.store.setNewsData(data);
   }
 
-  private increaseRollingIndex() {
-    this.rollingIndex += 1;
-
-    if (this.rollingIndex >= this.newsData.length) {
-      this.rollingIndex = 0;
-    }
-  }
-
-  updateRender() {
-    const itemData = this.newsData[this.rollingIndex];
+  private updateRender(props: RollingNewsProps) {
+    const { newsData, rollingIndex } = props;
+    const itemData = newsData[rollingIndex];
     const nextItemData =
-      this.rollingIndex === this.newsData.length - 1
-        ? this.newsData[0]
-        : this.newsData[this.rollingIndex + 1];
+      rollingIndex === newsData.length - 1 ? newsData[0] : newsData[rollingIndex + 1];
 
-    if (itemData == null) throw Error("newsData is null(or undefined)");
-    if (nextItemData == null) throw Error("nextItemData is null(or undefined)");
+    if (!itemData) {
+      throw new Error("newsData is null(or undefined)");
+    }
+
+    if (!nextItemData) {
+      throw new Error("nextItemData is null(or undefined)");
+    }
 
     this.item.updateData(itemData);
     this.nextItem.updateData(nextItemData);
   }
 
-  startRolling() {
-    this.intervalId = window.setInterval(() => {
+  private rolling() {
+    const ROLLING_INTERVAL_TIME = 5000;
+
+    this.store.intervalId = window.setInterval(() => {
       this.activateAnimation();
-    }, 5000);
+    }, ROLLING_INTERVAL_TIME);
   }
 
-  pauseRolling() {
-    if (this.intervalId) {
-      window.clearInterval(this.intervalId);
-      this.intervalId = null;
+  stopRolling() {
+    if (!this.store.intervalId) {
+      return;
     }
+
+    window.clearInterval(this.store.intervalId);
+    this.store.intervalId = null;
   }
 
   private activateAnimation() {
