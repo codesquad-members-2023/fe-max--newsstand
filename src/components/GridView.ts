@@ -1,4 +1,5 @@
 import { GridNewsData, HTMLElementEvent } from '../types';
+import { Actions } from '../Actions';
 
 export class GridView {
   private state: {
@@ -41,26 +42,26 @@ export class GridView {
       this.gridItems.push(gridItem);
     }
 
-    this.onStateChanged();
+    this.render(0);
     this.setEvent();
   }
 
-  onStateChanged() {
-    switch (this.state.currentPage) {
+  update(state) {
+    switch (state.currentPage) {
       case 1:
-        this.renderLogo(0);
+        this.render(0);
         this.leftBtn.classList.add('hide');
         break;
       case 2:
-        this.renderLogo(24);
+        this.render(24);
         this.leftBtn.classList.remove('hide');
         break;
       case 3:
-        this.renderLogo(48);
+        this.render(48);
         this.rightBtn.classList.remove('hide');
         break;
       case 4:
-        this.renderLogo(72);
+        this.render(72);
         this.rightBtn.classList.add('hide');
         break;
       default:
@@ -68,7 +69,7 @@ export class GridView {
     }
   }
 
-  renderLogo(startIdx: number) {
+  render(startIdx: number) {
     this.gridItems.forEach((item, idx) => {
       const itemImg = item.children[0] as HTMLImageElement;
       const imgIdx = idx + startIdx;
@@ -78,8 +79,12 @@ export class GridView {
   }
 
   setEvent() {
-    this.leftBtn.addEventListener('click', this.showPrevPage.bind(this));
-    this.rightBtn.addEventListener('click', this.showNextPage.bind(this));
+    this.rightBtn.addEventListener('click', () => {
+      Actions.clickArrowBtn('right');
+    });
+    this.leftBtn.addEventListener('click', () => {
+      Actions.clickArrowBtn('left');
+    });
     this.gridItems.forEach((item) => {
       item.addEventListener('mouseenter', this.showSubBtn.bind(this));
     });

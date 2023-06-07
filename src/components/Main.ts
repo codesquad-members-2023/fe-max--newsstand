@@ -1,4 +1,5 @@
 import { GridStore } from '../GridStore';
+import NewsStandDispatcher from '../NewsStandDispatcher';
 import { GridNewsData, ListNewsData } from '../types';
 import { GridView } from './GridView';
 
@@ -59,8 +60,10 @@ export class Main {
     const content = document.createElement('div');
     content.classList.add('content-area');
 
-    const gridStore = new GridStore(props.gridData);
+    const gridStore = new GridStore(NewsStandDispatcher);
     const gridView = new GridView(props.gridData);
+    gridStore.subscribe(gridView);
+
     this.children.push(gridView);
     content.append(gridView.leftBtn, gridView.rightBtn, gridView.element);
 
