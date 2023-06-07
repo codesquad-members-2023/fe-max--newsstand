@@ -42,34 +42,35 @@ export class GridView {
       this.gridItems.push(gridItem);
     }
 
-    this.render(0);
+    this.firstRender(0);
     this.setEvent();
   }
 
   update(state) {
-    switch (state.currentPage) {
-      case 1:
-        this.render(0);
-        this.leftBtn.classList.add('hide');
-        break;
-      case 2:
-        this.render(24);
-        this.leftBtn.classList.remove('hide');
-        break;
-      case 3:
-        this.render(48);
-        this.rightBtn.classList.remove('hide');
-        break;
-      case 4:
-        this.render(72);
-        this.rightBtn.classList.add('hide');
-        break;
-      default:
-        console.log('There is no page');
+    if (state.currentPage === 1) {
+      this.render(state);
+      this.leftBtn.classList.add('hide');
+    } else if (state.currentPage === 4) {
+      this.render(state);
+      this.rightBtn.classList.add('hide');
+    } else {
+      this.render(state);
+      this.leftBtn.classList.remove('hide');
+      this.rightBtn.classList.remove('hide');
     }
   }
 
-  render(startIdx: number) {
+  render(state) {
+    console.log(state);
+    this.gridItems.forEach((item, idx) => {
+      const itemImg = item.children[0] as HTMLImageElement;
+      const imgIdx = idx + (state.currentPage - 1) * 24;
+      itemImg.src = state.newsData[imgIdx] ? state.newsData[imgIdx].logoURL : '';
+      itemImg.alt = state.newsData[imgIdx] ? state.newsData[imgIdx].name : '';
+    });
+  }
+
+  firstRender(startIdx: number) {
     this.gridItems.forEach((item, idx) => {
       const itemImg = item.children[0] as HTMLImageElement;
       const imgIdx = idx + startIdx;

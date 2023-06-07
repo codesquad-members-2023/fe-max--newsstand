@@ -1,4 +1,5 @@
 import Dispatcher from './flux/Dispatcher';
+import { fetchData, shuffleArray } from './utils';
 
 export class GridStore<TState> {
   private dispatcher: Dispatcher<any>;
@@ -7,14 +8,19 @@ export class GridStore<TState> {
 
   constructor(dispatcher: Dispatcher<object>) {
     this.dispatcher = dispatcher;
-    this.state = this.getInitialState();
+    this.state = {};
     this.observers = [];
 
+    this.getInitialState();
     this.registerOnDispatcher();
   }
 
-  getInitialState() {
-    return { currentPage: 1 };
+  async getInitialState() {
+    const gridDataRaw = await fetchData('gridData');
+    const gridData = shuffleArray(gridDataRaw);
+
+    this.state = { newsData: gridData, currentPage: 1 };
+    console.log(this.state);
   }
 
   registerOnDispatcher() {
