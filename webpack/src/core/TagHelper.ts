@@ -1,4 +1,5 @@
-import { $ } from "./domdom";
+import { getHtmlTags } from "../utils/getHtmlTags";
+import { $ } from "./dom";
 import {
   Attrs,
   ElementRenderingTree,
@@ -6,25 +7,14 @@ import {
   RenderingTree,
 } from "./types";
 
+export const htmlTags = getHtmlTags();
+
+type HtmlTags = (typeof htmlTags)[number];
+type HtmlTagFunctions = {
+  [K in HtmlTags]: HtmlTagFunction;
+};
+
 export function generateTagHelper() {
-  const htmlTags = [
-    "div",
-    "span",
-    "h1",
-    "h2",
-    "p",
-    "a",
-    "img",
-    "button",
-    "ul",
-    "li",
-    "input",
-    "form",
-  ] as const;
-  type HtmlTags = (typeof htmlTags)[number];
-  type HtmlTagFunctions = {
-    [K in HtmlTags]: HtmlTagFunction;
-  };
   const helper: Partial<HtmlTagFunctions> = {};
 
   htmlTags.forEach((tag) => {
@@ -43,7 +33,8 @@ export function generateTagHelper() {
       }
     };
   });
-  return helper;
+
+  return helper as HtmlTagFunctions;
 }
 
-export const tagHelper = generateTagHelper();
+export const TagHelper = generateTagHelper();

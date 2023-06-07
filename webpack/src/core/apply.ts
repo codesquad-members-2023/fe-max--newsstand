@@ -1,16 +1,23 @@
-import { getTypeOfRenderingTree } from "./domdom";
-import { ElementRenderingTree, RenderingTree, SyncOptions, UseRenderingTree } from "./types";
+import { getTypeOfRenderingTree } from "./dom";
+import {
+  ElementRenderingTree,
+  RenderingTree,
+  SyncOptions,
+  UseRenderingTree,
+} from "./types";
 
 export function applyRenderingTreeToDom(
   root: HTMLElement,
   renderingTree: RenderingTree,
   prevRenderingTree: RenderingTree | undefined
 ) {
+  const replace = (newNode: Node) => {
+    root.replaceChildren(newNode);
+  };
+
   sync({
     target: root.firstChild,
-    replace: (newNode) => {
-      root.replaceChildren(newNode);
-    },
+    replace,
     renderingTree,
     prevRenderingTree,
   });
@@ -27,7 +34,6 @@ function dispose(renderingTree: RenderingTree) {
     renderingTree.children.forEach(dispose);
   }
 }
-
 
 function sync({
   target,

@@ -1,6 +1,7 @@
-import { HelloWorld } from "./src/components/HelloWorld";
-import { setUp } from "./src/core/domdom";
+import { App } from "./App";
+import { setUp } from "./src/core/dom";
 import { Action } from "./src/core/types";
+import "./style.css";
 
 (() => {
   const root = document.getElementById("root");
@@ -14,10 +15,12 @@ import { Action } from "./src/core/types";
 
   setUp<State, Action>(
     root,
-    { date: new Date() },
+    {
+      date: new Date(),
+    },
     (state) => {
-      const helloWorldRenderingTree = HelloWorld({ date: state.date });
-      return helloWorldRenderingTree;
+      const AppRenderingTree = App({ date: state.date });
+      return AppRenderingTree;
     },
     (state, action: Action) => {}
   );
