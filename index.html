@@ -15,24 +15,31 @@
   <body>
     <div id="app">
       <header>
-        <div class="banner">
-          <div class="banner-left">
+        <div class="header">
+          <div class="header-left">
             <img src="/public/images/logo.svg" />
             <div class="">뉴스스탠드</div>
           </div>
+          <div class="header-right"></div>
         </div>
         <!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
         <div class="news-roller">
           <div class="news-roller-left">
             <div class="press-name">연합뉴스</div>
             <div class="headline left">
-              <div class="headline-container-left"></div>
+              <div class="headline-container-left">
+                <div class="headline"></div>
+                <div class="headline"></div>
+              </div>
             </div>
           </div>
           <div class="news-roller-right">
             <div class="press-name">연합뉴스</div>
             <div class="headline right">
-              <div class="headline-container-right"></div>
+              <div class="headline-container-right">
+                <div class="headline"></div>
+                <div class="headline"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -74,14 +81,41 @@
               </svg>
             </div>
           </div>
-          <div class="grid">
+          <img class="prev-button" src="/public/images/prev-button.svg"></img>
+          <img class="next-button" src="/public/images/next-button.svg"></img>
+          <div class="media">
             <div class="grid-view">
-              <!-- 채워야해 -->
-              <!-- <div class="grid-item">언론사이미지</div> -->
-              <!-- 채워야함 -->
             </div>
-            <img class="prev-button" src="/public/images/prev-button.svg"></img>
-            <img class="next-button" src="/public/images/next-button.svg"></img>
+            <div class="list-view">
+              <!-- 리스트뷰테스트중 -->
+              <!-- <div class="list-view__field-tab">
+                <div class="progress">
+                  <div class="fill"></div>
+                  <div class="text">종합/경제</div>
+                </div>
+                <div class="article">
+                  <div class="text">방송/통신</div>
+                </div>
+                <div class="article">
+                <div class="text">IT</div>
+                </div>
+                <div class="article">
+                <div class="text">영자지</div>
+                </div>
+                <div class="article">
+                  <div class="text">스포츠/연예</div>
+                </div>
+                <div class="article">
+                  <div class="text">매거진/전문지</div>
+                </div>
+                <div class="article">
+                  <div class="text">지역</div>
+                </div>
+              </div> -->
+              <!-- 아직테스트중 -->
+              <div class="list-view__press-news"></div>
+            </div>
+            <div class="snack">내가 구독한 언론사에 추가되었습니다.</div>
           </div>
         </div>
       </main>
