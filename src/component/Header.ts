@@ -5,7 +5,7 @@ type HeaderState = {
 };
 
 export class Header extends Base {
-  constructor(private state: HeaderState) {
+  constructor(private props: HeaderState) {
     super();
 
     this.render(`
@@ -15,7 +15,7 @@ export class Header extends Base {
             <span class="header__title-text">뉴스스탠드</span>
         </div>
         <div class="header__date" data-component="headerDate">
-          ${this.getDate(this.state.date)}
+          ${this.getDate(this.props.date)}
         </div>
       </header>`);
   }
@@ -35,13 +35,13 @@ export class Header extends Base {
     location.reload();
   }
 
-  update(newState: HeaderState) {
-    const date = this.component["headerDate"].innerText;
-    const newDate = this.getDate(newState.date);
+  update(props: HeaderState) {
+    const date = this.getDate(this.props.date);
+    const newDate = this.getDate(new Date(props.date));
 
     if (date !== newDate) {
       this.component["headerDate"].innerText = newDate;
-      this.state = newState;
+      this.props = props;
     }
   }
 }

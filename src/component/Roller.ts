@@ -1,5 +1,5 @@
-import { store } from "../Store";
 import { Headline } from "../utils/types";
+import { store } from "../Store";
 import { Base } from "./Base";
 
 export type rollerProps = {

@@ -1,7 +1,7 @@
-import { store } from "../../Store";
-import { currentTypeList, newsStandState } from "../../utils/types";
-import { Base } from "../Base";
+import { ListDataType, currentTypeList } from "../../utils/types";
 import { Content } from "./Content";
+import { store } from "../../Store";
+import { Base } from "../Base";
 
 const ITEM_PER_PAGE = 24;
 
@@ -13,18 +13,25 @@ type MainState = {
     currentTypeList: currentTypeList;
     currentViewList: currentTypeList;
   };
+  list: {
+    listAllList: ListDataType[];
+    currentViewIndex: number;
+    currentTypeList: ListDataType;
+    currentViewList: ListDataType;
+  };
 };
 
 export class Main extends Base {
   content: Content;
 
-  constructor(private state: MainState) {
+  constructor(private props: MainState) {
     super();
     const contentProps = {
-      currentContent: this.state.currentContent,
-      currentType: this.state.currentType,
-      currentPage: this.state.currentPage,
-      grid: this.state.grid,
+      currentContent: this.props.currentContent,
+      currentType: this.props.currentType,
+      currentPage: this.props.currentPage,
+      grid: this.props.grid,
+      list: this.props.list,
     };
 
     this.content = new Content(contentProps);
@@ -39,22 +46,30 @@ export class Main extends Base {
 
     this.setChildren(this.content);
     this.updateButtonDisplay();
-
-    store.subscribe((newState: newsStandState) => {
-      this.update(newState);
-    });
   }
 
   setTab() {
     return `
         <div class="main__tab">
             <div class="main__tab__press">
-                <div class="main__tab__press-all select" data-component="pressAllBtn" addClick="handleClickAllContent">전체 언론사</div>
-                <div class="main__tab__press-subscribed" data-component="pressSubBtn" addClick="handleClickSubContent">내가 구독한 언론사</div>
+                <div class="main__tab__press-all select" 
+                  data-component="pressAllBtn" 
+                  addClick="handleClickAllContent">
+                    전체 언론사
+                </div>
+                <div class="main__tab__press-subscribed" 
+                  data-component="pressSubBtn" 
+                  addClick="handleClickSubContent">
+                  내가 구독한 언론사
+                </div>
             </div>
             <div class="main__tab__buttons">
-                <img class="main__tab__buttons-list" src="./src/assets/list.svg">
-                <img class="main__tab__buttons-grid" src="./src/assets/grid-select.svg">
+                <img class="main__tab__buttons-list" src="./src/assets/list${
+                  this.props.currentContent === "list" ? `-select` : ``
+                }.svg" data-component="listTab" addClick="handleClickListTab">
+                <img class="main__tab__buttons-grid" src="./src/assets/grid${
+                  this.props.currentContent === "grid" ? `-select` : ``
+                }.svg" data-component="gridTab" addClick="handleClickGridTab">
             </div>
         </div>
     `;
@@ -72,22 +87,25 @@ export class Main extends Base {
   }
 
   updateButtonDisplay() {
-    const currentPage = this.state.currentPage;
-    const isFirstPage = currentPage === 0;
-    const isLastPage =
-      Math.ceil(this.state.grid.currentTypeList.length / ITEM_PER_PAGE) ===
-      currentPage + 1;
+    const { currentPage, grid } = this.props;
     const { prevBtn, nextBtn, buttonsDiv } = this.component;
 
-    if (isFirstPage) {
-      buttonsDiv.contains(prevBtn) && buttonsDiv.removeChild(prevBtn);
-    } else if (!buttonsDiv.contains(prevBtn)) {
+    const totalPages = Math.ceil(grid.currentTypeList.length / ITEM_PER_PAGE);
+    const isFirstPage = currentPage === 0;
+    const isLastPage = totalPages === currentPage + 1;
+
+    const prevButtonExists = buttonsDiv.contains(prevBtn);
+    const nextButtonExists = buttonsDiv.contains(nextBtn);
+
+    if (isFirstPage && prevButtonExists) {
+      buttonsDiv.removeChild(prevBtn);
+    } else if (!isFirstPage && !prevButtonExists) {
       buttonsDiv.prepend(prevBtn);
     }
 
-    if (isLastPage) {
-      buttonsDiv.contains(nextBtn) && buttonsDiv.removeChild(nextBtn);
-    } else if (!buttonsDiv.contains(nextBtn)) {
+    if (isLastPage && nextButtonExists) {
+      buttonsDiv.removeChild(nextBtn);
+    } else if (!isLastPage && !nextButtonExists) {
       buttonsDiv.appendChild(nextBtn);
     }
   }
@@ -103,7 +121,8 @@ export class Main extends Base {
   handleClickAllContent() {
     this.component["pressAllBtn"].classList.add("select");
     this.component["pressSubBtn"].classList.remove("select");
-    if (this.state.currentType !== "all") {
+
+    if (this.props.currentType !== "all") {
       store.dispatch({ type: "SELECT_ALL_CONTENT" });
     }
   }
@@ -112,27 +131,52 @@ export class Main extends Base {
     this.component["pressSubBtn"].classList.add("select");
     this.component["pressAllBtn"].classList.remove("select");
 
-    const list =
-      localStorage.getItem("subscribe") === null
-        ? []
-        : JSON.parse(localStorage.getItem("subscribe")!);
-
-    if (this.state.currentType !== "sub") {
-      store.dispatch({
-        type: "SELECT_SUB_CONTENT",
-        list: list,
-      });
+    if (this.props.currentType !== "sub") {
+      store.dispatch({ type: "SELECT_SUB_CONTENT" });
     }
   }
 
-  update(state: MainState) {
-    const isChangedCurrentPage = this.state.currentPage !== state.currentPage;
-    const isChangedCurrentType = this.state.currentType !== state.currentType;
+  handleClickGridTab() {
+    this.component["gridTab"].setAttribute(
+      "src",
+      "./src/assets/grid-select.svg"
+    );
+    this.component["listTab"].setAttribute("src", "./src/assets/list.svg");
 
-    if (isChangedCurrentPage || isChangedCurrentType) {
-      this.state = state;
+    if (this.props.currentContent !== "grid") {
+      store.dispatch({ type: "SELECT_GRID_TAB" });
+    }
+  }
+
+  handleClickListTab() {
+    this.component["listTab"].setAttribute(
+      "src",
+      "./src/assets/list-select.svg"
+    );
+    this.component["gridTab"].setAttribute("src", "./src/assets/grid.svg");
+
+    if (this.props.currentContent !== "list") {
+      store.dispatch({ type: "SELECT_LIST_TAB" });
+    }
+  }
+
+  update(props: MainState) {
+    const isChangedCurrentPage = this.props.currentPage !== props.currentPage;
+    const isChangedCurrentType = this.props.currentType !== props.currentType;
+    const isChangedCurrentContent =
+      this.props.currentContent !== props.currentContent;
+    const isChangedCurrentViewList =
+      this.props.grid.currentViewList.length !==
+      props.grid.currentViewList.length;
+    if (
+      isChangedCurrentPage ||
+      isChangedCurrentType ||
+      isChangedCurrentContent ||
+      isChangedCurrentViewList
+    ) {
+      this.props = props;
+      this.content.update(props);
       this.updateButtonDisplay();
-      this.content.update(state);
     }
   }
 }

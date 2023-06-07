@@ -1,5 +1,5 @@
-import { HtmlParser } from "./../utils/HtmlParser";
 import { ElementObj, ElementType, TextElementObj } from "./../utils/types";
+import { HtmlParser } from "./../utils/HtmlParser";
 
 export class Base {
   node: Element | null;

@@ -1,9 +1,9 @@
-import { Reducer } from "./Reducer";
 import { Action, currentTypeList, newsStandState } from "./utils/types";
+import { Reducer } from "./Reducer";
 
 const ITEM_PER_PAGE = 24;
 
-const fisherYatesShuffle = (array: currentTypeList) => {
+const fisherYatesShuffle = (array: any[]) => {
   let count = array.length;
 
   while (count) {
@@ -20,11 +20,14 @@ const fisherYatesShuffle = (array: currentTypeList) => {
 const fetchData = async () => {
   const url = "http://localhost:8080";
   const rollingResponse = await fetch(`${url}/rolling`);
-  const headlineList = await rollingResponse.json();
   const gridResponse = await fetch(`${url}/grid`);
-  const gridList = fisherYatesShuffle(await gridResponse.json());
+  const listResponse = await fetch(`${url}/list`);
 
-  return { headlineList, gridList };
+  const headlineList = await rollingResponse.json();
+  const gridData = fisherYatesShuffle(await gridResponse.json());
+  const listData = await listResponse.json();
+
+  return { headlineList, gridData, listData };
 };
 
 const getSubscribedPress = (): string[] => {
@@ -40,17 +43,17 @@ const getSubscribedPress = (): string[] => {
 };
 
 const createState = async () => {
-  const { headlineList, gridList } = await fetchData();
+  const { headlineList, gridData, listData } = await fetchData();
   const subscribedPress = getSubscribedPress();
 
   const leftHeadlineList = headlineList.slice(0, headlineList.length / 2);
   const rightHeadlineList = headlineList.slice(headlineList.length / 2);
-  const currentViewGridList = gridList.slice(0, ITEM_PER_PAGE);
+  const currentViewGridData = gridData.slice(0, ITEM_PER_PAGE);
 
-  const contentType: "grid" | "list" = "grid";
+  const contentType: "grid" | "list" = "list";
   const currentType: "all" | "sub" = "all";
 
-  const state = {
+  const state: newsStandState = {
     date: new Date(),
     leftRoller: {
       headlineList: leftHeadlineList,
@@ -70,9 +73,15 @@ const createState = async () => {
     currentPage: 0,
     subscribedPress: subscribedPress,
     grid: {
-      gridAllList: gridList,
-      currentTypeList: gridList,
-      currentViewList: currentViewGridList,
+      gridAllList: gridData,
+      currentTypeList: gridData,
+      currentViewList: currentViewGridData,
+    },
+    list: {
+      currentViewIndex: 0,
+      listAllList: listData,
+      currentTypeList: listData,
+      currentViewList: listData[0],
     },
   };
 
@@ -94,6 +103,7 @@ class Store {
   dispatch(action: Action) {
     const newState = reduce(this.state, action);
     this.state = newState;
+
     this.notify();
   }
 
@@ -112,3 +122,4 @@ const reducer = new Reducer();
 const reduce = reducer.reduce.bind(reducer);
 
 export const store = new Store(await createState());
+

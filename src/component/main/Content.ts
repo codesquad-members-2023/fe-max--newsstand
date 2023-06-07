@@ -1,6 +1,7 @@
-import { currentTypeList } from "../../utils/types";
+import { ListDataType, currentTypeList } from "../../utils/types";
 import { Base } from "../Base";
 import { Grid } from "./Grid";
+import { List } from "./LIst";
 
 type ContentProps = {
   currentContent: "grid" | "list";
@@ -10,10 +11,17 @@ type ContentProps = {
     currentTypeList: currentTypeList;
     currentViewList: currentTypeList;
   };
+  list: {
+    listAllList: ListDataType[];
+    currentViewIndex: number;
+    currentTypeList: ListDataType;
+    currentViewList: ListDataType;
+  };
 };
 
 export class Content extends Base {
   grid: Grid;
+  list: List;
 
   constructor(private props: ContentProps) {
     super();
@@ -22,8 +30,14 @@ export class Content extends Base {
       currentType: this.props.currentType,
       grid: this.props.grid,
     };
+    const listProps = {
+      currentPage: this.props.currentPage,
+      currentType: this.props.currentType,
+      list: this.props.list,
+    };
 
     this.grid = new Grid(gridProps);
+    this.list = new List(listProps);
     this.render(`
         <div class="main__content"></div>
     `);
@@ -32,22 +46,35 @@ export class Content extends Base {
 
   init() {
     this.node?.replaceChildren();
+
     if (this.props.currentContent === "grid") {
       this.setChildren(this.grid);
+    } else {
+      this.setChildren(this.list);
     }
   }
 
   update(props: ContentProps) {
+    const isChanged =
+      props.currentType !== this.props.currentType ||
+      props.grid.currentViewList !== this.props.grid.currentViewList;
+    const isChangedCurrentContent =
+      this.props.currentContent !== props.currentContent;
+
     this.props = props;
 
-    if (this.props.currentContent === "grid") {
-      const gridProps = {
-        currentPage: this.props.currentPage,
-        currentType: this.props.currentType,
-        grid: this.props.grid,
-      };
+    if (isChanged) {
+      const currentContent = this.props.currentContent;
+      if (currentContent === "grid") {
+        this.grid.update(this.props);
+      } else {
+      }
+    }
 
-      this.grid.update(gridProps);
+    if (isChangedCurrentContent) {
+      this.init();
+      this.list.update(this.props);
     }
   }
 }
+

@@ -26,6 +26,23 @@ export type RollerType = {
 
 export type currentTypeList = { src: string; alt: string }[];
 
+type PressListType = {
+  pressLogoSrc: string;
+  pressLogoAlt: string;
+  lastEditted: string;
+  mainArticle: {
+    thumbnailSrc: string;
+    thumbnailAlt: string;
+    mainArticleTitle: string;
+  };
+  subArticles: String[];
+};
+
+export interface ListDataType {
+  title: string;
+  pressList: PressListType[];
+}
+
 export type newsStandState = {
   date: Date;
   leftRoller: RollerType;
@@ -40,32 +57,50 @@ export type newsStandState = {
     currentTypeList: currentTypeList;
     currentViewList: currentTypeList;
   };
+  list: {
+    currentViewIndex: number;
+    listAllList: ListDataType[];
+    currentTypeList: ListDataType;
+    currentViewList: ListDataType;
+  };
 };
 
-export interface IncrementTick {
+interface IncrementTick {
   type: "INCREMENT_TICK";
 }
 
-export interface ToggleRollingState {
+interface ToggleRollingState {
   type: "TOGGLE_ROLLING_STATE";
   target: "left" | "right";
 }
 
-export interface IncrementPage {
+interface IncrementPage {
   type: "INCREMENT_PAGE";
 }
 
-export interface DecrementPage {
+interface DecrementPage {
   type: "DECREMENT_PAGE";
 }
 
-export interface SelectAllContent {
+interface SelectAllContent {
   type: "SELECT_ALL_CONTENT";
 }
 
-export interface SelectSubContent {
+interface SelectSubContent {
   type: "SELECT_SUB_CONTENT";
-  list: [];
+}
+
+interface UpdateSubscribe {
+  type: "UPDATE_SUBSCRIBE";
+  subscribedPress: string[];
+}
+
+interface SelectGridTab {
+  type: "SELECT_GRID_TAB";
+}
+
+interface SelectListTab {
+  type: "SELECT_LIST_TAB";
 }
 
 export type Action =
@@ -74,4 +109,8 @@ export type Action =
   | IncrementPage
   | DecrementPage
   | SelectAllContent
-  | SelectSubContent;
+  | SelectSubContent
+  | UpdateSubscribe
+  | SelectGridTab
+  | SelectListTab;
+

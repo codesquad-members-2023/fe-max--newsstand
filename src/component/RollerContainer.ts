@@ -1,7 +1,7 @@
-import { RollerType, newsStandState } from "../utils/types";
-import { Base } from "./Base";
 import { Roller, rollerProps } from "./Roller";
+import { RollerType } from "../utils/types";
 import { store } from "../Store";
+import { Base } from "./Base";
 
 type RollerContainerState = {
   leftRoller: RollerType;
@@ -13,14 +13,14 @@ export class RollerContainer extends Base {
   right: Roller;
   timer: Timer;
 
-  constructor(private state: RollerContainerState) {
+  constructor(private props: RollerContainerState) {
     super();
     const leftRollerState: rollerProps = {
-      headlineList: this.state.leftRoller.headline,
+      headlineList: this.props.leftRoller.headline,
       position: "left",
     };
     const rightRollerState: rollerProps = {
-      headlineList: this.state.rightRoller.headline,
+      headlineList: this.props.rightRoller.headline,
       position: "right",
     };
 
@@ -30,24 +30,20 @@ export class RollerContainer extends Base {
 
     this.render(`<div class="rollerContainer"></div>`);
     this.setChildren(this.left, this.right);
-
-    store.subscribe((newState: newsStandState) => {
-      this.update(newState);
-    });
   }
 
-  update(state: RollerContainerState) {
+  update(props: RollerContainerState) {
     this.left.update({
-      headlineList: state.leftRoller.headline,
+      headlineList: props.leftRoller.headline,
       position: "left",
     });
 
     this.right.update({
-      headlineList: state.rightRoller.headline,
+      headlineList: props.rightRoller.headline,
       position: "right",
     });
 
-    this.state = state;
+    this.props = props;
   }
 }
 
