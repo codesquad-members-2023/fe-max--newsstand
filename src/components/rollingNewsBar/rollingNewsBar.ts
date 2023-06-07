@@ -77,11 +77,11 @@ export class RollingNewsBar {
     const nextItemData =
       rollingIndex === newsData.length - 1 ? newsData[0] : newsData[rollingIndex + 1];
 
-    if (itemData == null) {
+    if (!itemData) {
       throw new Error("newsData is null(or undefined)");
     }
 
-    if (nextItemData == null) {
+    if (!nextItemData) {
       throw new Error("nextItemData is null(or undefined)");
     }
 

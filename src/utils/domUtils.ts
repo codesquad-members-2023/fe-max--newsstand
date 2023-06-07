@@ -1,7 +1,7 @@
 export const $ = (selector: string, context: Element | Document = document) => {
   const $element = context.querySelector(selector);
 
-  if ($element == null) {
+  if (!$element) {
     throw new Error(`no element found with ${selector}`);
   }
 
@@ -11,7 +11,7 @@ export const $ = (selector: string, context: Element | Document = document) => {
 export const $$ = (selector: string, context: Element | Document = document) => {
   const $elements = context.querySelectorAll(selector);
 
-  if ($elements.length === 0) {
+  if (!$elements.length) {
     throw new Error(`no element found with ${selector}`);
   }
 
