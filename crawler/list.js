@@ -18,7 +18,7 @@ const fs = require('fs');
       
       const mainNews = document.querySelector('.MediaNewsView-module__desc_left___UbO08');
       const mainImg = mainNews.querySelector('img');
-      const mainText = mainNews.querySelector('.MediaNewsView-module__desc_title___s0li5')
+      const mainText = mainNews.querySelector('.MediaNewsView-module__desc_title___s0li5');
 
       const subNews = document.querySelector('.MediaNewsView-module__desc_right___xDQVv');
       const subTitles = subNews.querySelectorAll('.MediaNewsView-module__link_item___XI2W1');
@@ -34,7 +34,8 @@ const fs = require('fs');
         mainContent: {
           imgSrc: mainImg.src,
           imgAlt: mainImg.alt,
-          mainTitle: mainText.textcontent
+          mainTitle: mainText.textcontent,
+          url: mainText.href
         },
         subContent: {
           subNewsList: Array.from(subTitles).map((title) => {
