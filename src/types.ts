@@ -29,6 +29,13 @@ type Action =
       payload: {
         news: HeadlineNews[];
       };
+    }
+  | {
+      type: 'updateSubscribedMedia';
+      payload: {
+        id: number;
+        mode: 'add' | 'remove'
+      };
     };
 
 type GridImg = {

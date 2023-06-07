@@ -27,7 +27,6 @@ export default class Main {
       gridInfo: props.gridInfo,
       subscriptionInfo: props.subscriptionInfo
     });
-
     this.element.append(this.header.element, this.content.element);
   }
 

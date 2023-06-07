@@ -3,7 +3,6 @@ import style from './NewsBar.module.css';
 import { createElement } from '../../utils/domUtils';
 import { getHeadlineNews } from '../../utils/dataUtils';
 
-
 export default class NewsBar {
   public element;
   private leftNewsRoller: NewsRoller;
@@ -27,12 +26,12 @@ export default class NewsBar {
 
     this.leftNewsRoller.setNewsList(headlineNews);
     this.rightNewsRoller.setNewsList(headlineNews);
-  
+
     this.leftNewsRoller.startRollup();
     setTimeout(() => {
       this.rightNewsRoller.startRollup();
     }, 1000);
-  
+
     this.leftNewsRoller.setEvent();
     this.rightNewsRoller.setEvent();
   }

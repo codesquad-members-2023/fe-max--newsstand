@@ -41,6 +41,10 @@
   color: var(--gray-200);
 }
 
+.subscription a:hover {
+  text-decoration: none;
+}
+
 .left_arrow {
   position: absolute;
   left: -48px;

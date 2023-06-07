@@ -1,5 +1,5 @@
 import NewsStand from './components/NewsStand';
-import { getGridImgs } from './utils/dataUtils';
+import { getGridImgs, getSubscribedIds, setSubscribedIds } from './utils/dataUtils';
 import { shuffleArray } from './utils/randomUtils';
 import './styles/main.css';
 
@@ -17,7 +17,7 @@ const state: {
     isHover: false,
     hoverIndex: -1
   },
-  subscribedMediaIds: [56],
+  subscribedMediaIds: getSubscribedIds(),
   targetMedia: 'total',
   viewerState: 'gridView'
 };
@@ -49,6 +49,17 @@ export const invoke = (action: Action) => {
       break;
     case 'initGridImages':
       state.gridInfo.imgs = action.payload.images;
+      break;
+    case 'updateSubscribedMedia':
+      if (action.payload.mode === 'add') {
+        state.subscribedMediaIds.push(action.payload.id);
+      } else {
+        state.subscribedMediaIds = state.subscribedMediaIds.filter(
+          (id) => id !== action.payload.id
+        );
+      }
+      setSubscribedIds(state.subscribedMediaIds);
+      state.subscribedMediaIds = getSubscribedIds();
       break;
   }
 
