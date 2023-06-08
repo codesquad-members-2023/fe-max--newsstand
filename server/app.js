@@ -18,7 +18,7 @@ app.use(cors(corsOptions));
 
 app.get('/mediaBrands', (req, res) => {
   const filePath = path.join(__dirname, 'data', 'mediaBrands.json');
-  const mediaBrands = fs.readFileSync(filePath, {encoding: 'utf8'});
+  const mediaBrands = fs.readFileSync(filePath, { encoding: 'utf8' });
   return res.json(JSON.parse(mediaBrands));
 });
 
@@ -34,8 +34,8 @@ app.get('/newsList', (req, res) => {
   const newsList = JSON.parse(data);
 
   const index = req.query.index;
-  if (index === null) {
-    return res.json(newsList)
+  if (!index && index !== 0) {
+    return res.json(null);
   }
   const news = newsList[index];
   const categoryList = [...newsList].filter((item) => item.category === news.category);
@@ -44,7 +44,7 @@ app.get('/newsList', (req, res) => {
     order: categoryList.indexOf(news) + 1,
     categoryCount: categoryList.length
   });
-})
+});
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);

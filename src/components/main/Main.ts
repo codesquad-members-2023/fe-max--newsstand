@@ -11,6 +11,7 @@ type MainProps = {
     targetMedia: 'total' | 'subscribed';
     viewerState: 'listView' | 'gridView';
   };
+  news: NewsData | null
 };
 
 export default class Main {
@@ -28,7 +29,7 @@ export default class Main {
     //   gridInfo: props.gridInfo,
     //   subscriptionInfo: props.subscriptionInfo
     // });
-    this.content = new ListView();
+    this.content = new ListView({ news: props.news});
     this.element.append(this.header.element, this.content.element);
   }
 
@@ -37,5 +38,6 @@ export default class Main {
     //   gridInfo: props.gridInfo,
     //   subscriptionInfo: props.subscriptionInfo
     // });
+    this.content.updateView(props);
   }
 }

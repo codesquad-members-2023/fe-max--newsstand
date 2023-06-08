@@ -17,12 +17,27 @@
   height: 100%;
 }
 
-.field_tab__item a {
+.field_tab__item {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   padding: 0 16px;
   height: 100%;
+}
+
+.field_tab__item[data-active='true'] {
+  width: 166px;
+  background-color: var(--primary);
+}
+
+.field_tab__item[data-active='true'] a,
+.field_tab__item[data-active='true'] span {
+  color: var(--white);
+}
+
+.field_tab__item a,
+.field_tab__item span {
   color: var(--gray-300);
 }
 

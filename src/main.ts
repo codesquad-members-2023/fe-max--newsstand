@@ -9,6 +9,7 @@ const state: {
   subscribedMediaIds: number[];
   targetMedia: 'total' | 'subscribed';
   viewerState: 'listView' | 'gridView';
+  news: NewsData | null
 } = {
   dateInfo: new Date(),
   gridInfo: {
@@ -19,7 +20,8 @@ const state: {
   },
   subscribedMediaIds: getSubscribedIds(),
   targetMedia: 'total',
-  viewerState: 'gridView'
+  viewerState: 'gridView',
+  news: null
 };
 
 const initGridImgs = async () => {
@@ -61,6 +63,13 @@ export const invoke = (action: Action) => {
       setSubscribedIds(state.subscribedMediaIds);
       state.subscribedMediaIds = getSubscribedIds();
       break;
+    case 'initNewsData':
+      const news = action.payload.news;
+      if (!news) {
+        return;
+      }
+      state.news = news;
+      break;
   }
 
   onChangeState();
@@ -74,7 +83,8 @@ const newsStand = new NewsStand({
   mainViewerInfo: {
     targetMedia: state.targetMedia,
     viewerState: state.viewerState
-  }
+  },
+  news: state.news
 });
 
 app.append(newsStand.element);
@@ -88,6 +98,7 @@ const onChangeState = () => {
     mainViewerInfo: {
       targetMedia: state.targetMedia,
       viewerState: state.viewerState
-    }
+    },
+    news: state.news
   });
 };
