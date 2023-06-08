@@ -1,14 +1,12 @@
-import { createElement } from '../../utils/domUtils';
+import { createElement } from '../../../utils/domUtils';
 import style from './ListView.module.css';
 
 export class FieldTab {
-  public readonly element;
-  private fields;
+  public readonly element = createElement('nav', { class: style.field_tab });;
+  private fields  = this.createFields();
 
   constructor() {
-    this.element = createElement('nav', { class: style.field_tab });
     const container = createElement('ul', { class: style.field_tab__container });
-    this.fields = this.createFields();
 
     container.append(...this.fields);
     this.element.append(container);

@@ -71,11 +71,7 @@ type HeadlineInfo = {
 };
 
 type NewsData = {
-  mediaInfo: {
-    imgSrc: string;
-    imgAlt: string;
-    editInfo: string;
-  };
+  mediaInfo: MediaInfo;
   mainContent: {
     imgSrc: string;
     imgAlt: string;
@@ -89,3 +85,10 @@ type NewsData = {
   order: number;
   categoryCount: number;
 };
+
+type MediaInfo = {
+  url: string;
+  imgSrc: string;
+  imgAlt: string;
+  editInfo: string;
+}

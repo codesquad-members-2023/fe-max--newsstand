@@ -1,7 +1,7 @@
-import { invoke } from '../../main';
-import { createElement } from '../../utils/domUtils';
+import { invoke } from '../../../main';
+import { createElement } from '../../../utils/domUtils';
 import style from './GridView.module.css';
-import { SubscribeButton } from './SubscribeButton';
+import { SubscribeButton } from '../SubscribeButton';
 
 export class SubscriptionCover {
   public readonly element;

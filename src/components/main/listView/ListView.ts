@@ -1,20 +1,16 @@
-import { invoke } from '../../main';
-import { getNewsList } from '../../utils/dataUtils';
-import { createElement } from '../../utils/domUtils';
+import { invoke } from '../../../main';
+import { getNewsList } from '../../../utils/dataUtils';
+import { createElement } from '../../../utils/domUtils';
 import { FieldTab } from './FieldTab';
 import style from './ListView.module.css';
-import { PressNews } from './PressNews';
+import { PressNews } from './pressNews/PressNews';
 
 export class ListView {
-  public readonly element;
-  private fieldTab;
-  private pressNews;
+  public readonly element = createElement('section', { class: style.list_view });
+  private fieldTab = new FieldTab();
+  private pressNews = new PressNews();
 
-  constructor(props: { news: NewsData | null}) {
-    this.element = createElement('section', { class: style.list_view });
-    this.fieldTab = new FieldTab();
-    this.pressNews = new PressNews();
-
+  constructor(props: { news: NewsData | null }) {
     this.element.append(this.fieldTab.element, this.pressNews.element);
 
     this.initNewsData();

@@ -1,8 +1,8 @@
-import GridView from './GridView';
+import GridView from './gridView/GridView';
 import MainHeader from './MainHeader';
 import style from './Main.module.css';
 import { createElement } from '../../utils/domUtils';
-import { ListView } from './ListView';
+import { ListView } from './listView/ListView';
 
 type MainProps = {
   gridInfo: GridInfo;
