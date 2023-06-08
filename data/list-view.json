@@ -1,6 +1,6 @@
 [
   {
-    "title": "종합/경제",
+    "categoryName": "종합/경제",
     "pressList": [
       {
         "pressLogoSrc": "https://s.pstatic.net/static/newsstand/2020/logo/light/0604/366.png",
@@ -1481,7 +1481,7 @@
     ]
   },
   {
-    "title": "방송/통신",
+    "categoryName": "방송/통신",
     "pressList": [
       {
         "pressLogoSrc": "https://s.pstatic.net/static/newsstand/2020/logo/light/0604/422.png",
@@ -1918,7 +1918,7 @@
     ]
   },
   {
-    "title": "IT",
+    "categoryName": "IT",
     "pressList": [
       {
         "pressLogoSrc": "https://s.pstatic.net/static/newsstand/up/2022/0905/nsd131925414.png",
@@ -2139,7 +2139,7 @@
     ]
   },
   {
-    "title": "영자지",
+    "categoryName": "영자지",
     "pressList": [
       {
         "pressLogoSrc": "https://s.pstatic.net/static/newsstand/up/2022/0615/nsd7251644.png",
@@ -2252,7 +2252,7 @@
     ]
   },
   {
-    "title": "스포츠/연예",
+    "categoryName": "스포츠/연예",
     "pressList": [
       {
         "pressLogoSrc": "https://s.pstatic.net/static/newsstand/up/2021/0211/nsd02321523.png",
@@ -2689,7 +2689,7 @@
     ]
   },
   {
-    "title": "매거진/전문지",
+    "categoryName": "매거진/전문지",
     "pressList": [
       {
         "pressLogoSrc": "https://s.pstatic.net/static/newsstand/up/2021/0728/nsd1110888.png",
@@ -3810,7 +3810,7 @@
     ]
   },
   {
-    "title": "지역",
+    "categoryName": "지역",
     "pressList": [
       {
         "pressLogoSrc": "https://s.pstatic.net/static/newsstand/2020/logo/light/0604/332.png",
