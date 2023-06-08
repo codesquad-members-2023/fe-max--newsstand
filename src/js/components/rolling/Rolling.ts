@@ -1,21 +1,16 @@
-import { createElement } from '../utils/dom';
-import { splitItems } from '../utils/helpers';
-import { createStore } from '../utils/createStore';
-import { Dispatcher } from '../utils/dispatcher';
-import { createAction } from '../utils/createAction';
-
-const initialState = {
-	leftIndex: 0,
-	rightIndex: 0,
-	leftItems: [],
-	rightItems: [],
-};
+import { createElement } from '../../utils/dom';
+import { splitItems } from '../../utils/helpers';
+import { createStore } from '../../utils/createStore';
+import { Dispatcher } from '../../utils/dispatcher';
+import { createAction } from '../../utils/createAction';
+import { Action, RollingType, RollingItem } from '../../types/types';
+import { initialRollingState } from '../../store/store';
 
 export const Rolling = {
 	init() {
 		ActionCreator.fetchData();
 
-		store.subscribe(this.updateView.bind(this));
+		rollingStore.subscribe(this.updateView.bind(this));
 
 		setInterval(() => {
 			ActionCreator.rollLeftRollor();
@@ -24,7 +19,8 @@ export const Rolling = {
 	},
 
 	updateView() {
-		const { leftItems, rightIndex, rightItems, leftIndex } = store.getState();
+		const { leftItems, rightIndex, rightItems, leftIndex } =
+			rollingStore.getState();
 
 		RollingForm.renderLeft('.rolling__left', leftItems[leftIndex]);
 		RollingForm.renderRight('.rolling__right', rightItems[rightIndex]);
@@ -51,7 +47,7 @@ const ActionCreator = {
 	},
 };
 
-const updateStateFunc = (state, action) => {
+const updateStateFunc = (state: RollingType, action: Action): RollingType => {
 	switch (action.type) {
 		case 'FETCH_ROLLING_DATA':
 			const { leftItems, rightItems } = splitItems(action.payload);
@@ -75,11 +71,14 @@ const updateStateFunc = (state, action) => {
 	}
 };
 
-const store = createStore(initialState, updateStateFunc);
-Dispatcher.register((action) => store.updateState(action));
+const rollingStore = createStore<RollingType>(
+	initialRollingState,
+	updateStateFunc,
+);
+Dispatcher.register((action: Action) => rollingStore.updateState(action));
 
 const RollingForm = {
-	renderItem(container, activeItem) {
+	renderItem(container: HTMLElement, activeItem: RollingItem) {
 		const { press, title, link } = activeItem;
 
 		const pressDiv = createElement('div', { class: 'press' });
@@ -94,19 +93,19 @@ const RollingForm = {
 		container.appendChild(anchor);
 	},
 
-	renderLeft(selector, activeItem) {
-		const container = document.querySelector(selector);
+	renderLeft(selector: string, activeItem: RollingItem) {
+		const container = document.querySelector(selector) as HTMLElement;
 		this.renderItem(container, activeItem);
 	},
 
-	renderRight(selector, activeItem) {
-		const container = document.querySelector(selector);
+	renderRight(selector: string, activeItem: RollingItem) {
+		const container = document.querySelector(selector) as HTMLElement;
 		this.renderItem(container, activeItem);
 	},
 };
 
-const fetchRollingData = async () => {
-	const response = await fetch('http://localhost:3001/data');
+const fetchRollingData = async (): Promise<{ autoRolling: RollingItem[] }> => {
+	const response = await fetch('http://localhost:3001/autoRolling');
 	const data = await response.json();
-	return data.autoRolling;
+	return data;
 };
