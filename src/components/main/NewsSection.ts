@@ -2,7 +2,7 @@ import { createElement } from '../../utils/domUtils';
 import style from './ListView.module.css';
 
 export class NewsSection {
-  public element;
+  public readonly element;
   private thumbnailWrapper;
   private thumbnail;
   private subNewsItems;
@@ -42,7 +42,5 @@ export class NewsSection {
     this.caption = caption;
   }
 
-  updateView(props: NewsData) {
-    
-  }
+  updateView(props: NewsData) {}
 }

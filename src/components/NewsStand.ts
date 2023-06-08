@@ -16,7 +16,7 @@ type NewsStandProps = {
 };
 
 export default class NewsStand {
-  public element;
+  public readonly element;
   private newsBar: NewsBar;
   private main: Main;
 

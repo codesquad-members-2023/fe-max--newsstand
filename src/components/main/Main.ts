@@ -11,11 +11,11 @@ type MainProps = {
     targetMedia: 'total' | 'subscribed';
     viewerState: 'listView' | 'gridView';
   };
-  news: NewsData | null
+  news: NewsData | null;
 };
 
 export default class Main {
-  public element;
+  public readonly element;
   private header: MainHeader;
   private content: GridView | ListView;
 
@@ -29,7 +29,7 @@ export default class Main {
     //   gridInfo: props.gridInfo,
     //   subscriptionInfo: props.subscriptionInfo
     // });
-    this.content = new ListView({ news: props.news});
+    this.content = new ListView({ news: props.news });
     this.element.append(this.header.element, this.content.element);
   }
 

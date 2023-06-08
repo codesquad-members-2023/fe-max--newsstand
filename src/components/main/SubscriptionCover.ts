@@ -4,7 +4,7 @@ import style from './GridView.module.css';
 import { SubscribeButton } from './SubscribeButton';
 
 export class SubscriptionCover {
-  private element;
+  public readonly element;
   private button;
 
   constructor() {
@@ -12,10 +12,6 @@ export class SubscriptionCover {
     this.button = new SubscribeButton();
 
     this.element.append(this.button.element);
-  }
-
-  getElement() {
-    return this.element;
   }
 
   updateState({ mediaId, isSubscribed }: { mediaId: number; isSubscribed: boolean }) {

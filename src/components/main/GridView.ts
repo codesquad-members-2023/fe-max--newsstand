@@ -9,8 +9,8 @@ type GridViewProps = {
 };
 
 export default class GridView {
-  public element;
-  private table;
+  public readonly element;
+  private table = this.createTable();
   private cells;
   private subscriptionCover;
   private leftArrow;
@@ -21,7 +21,6 @@ export default class GridView {
   constructor(props: GridViewProps) {
     this.element = createElement('section', { class: style.grid_view });
     this.cells = this.createCells();
-    this.table = this.createTable();
     this.leftArrow = this.createArrow('left');
     this.rightArrow = this.createArrow('right');
     this.subscriptionCover = new SubscriptionCover();
@@ -144,7 +143,11 @@ export default class GridView {
 
   updateView(props: GridViewProps) {
     const { imgs, page, isHover, hoverIndex } = props.gridInfo;
-    if (this.props.isHover !== isHover || this.props.hoverIndex !== hoverIndex || this.props.subscribedIds !== props.subscriptionInfo) {
+    if (
+      this.props.isHover !== isHover ||
+      this.props.hoverIndex !== hoverIndex ||
+      this.props.subscribedIds !== props.subscriptionInfo
+    ) {
       this.renderSubscriptionCover(isHover, hoverIndex, props.subscriptionInfo);
     }
 
@@ -175,12 +178,12 @@ export default class GridView {
         const isSubscribed = subscriptionInfo.includes(mediaId);
 
         this.subscriptionCover.updateState({ mediaId, isSubscribed });
-        cell.append(this.subscriptionCover.getElement());
+        cell.append(this.subscriptionCover.element);
 
         continue;
       }
       if (cell.childElementCount > 1) {
-        this.subscriptionCover.getElement().remove();
+        this.subscriptionCover.element.remove();
       }
     }
   }

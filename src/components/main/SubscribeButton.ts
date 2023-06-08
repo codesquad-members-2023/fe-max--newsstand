@@ -1,8 +1,8 @@
-import { invoke } from "../../main";
-import { createElement } from "../../utils/domUtils";
+import { invoke } from '../../main';
+import { createElement } from '../../utils/domUtils';
 
 export class SubscribeButton {
-  public element;
+  public readonly element;
   private buttonText;
   private mediaId: number = -1;
   private mode: 'add' | 'remove' = 'add';
@@ -43,11 +43,11 @@ export class SubscribeButton {
   private updateMode(isSubscribed: boolean) {
     if (isSubscribed) {
       this.mode = 'remove';
-      this.setText('해지하기')
+      this.setText('해지하기');
       return;
     }
     this.mode = 'add';
-    this.setText('구독하기')
+    this.setText('구독하기');
   }
 
   updateState({ mediaId, isSubscribed }: { mediaId: number; isSubscribed: boolean }) {

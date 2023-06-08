@@ -6,7 +6,7 @@ import style from './ListView.module.css';
 import { PressNews } from './PressNews';
 
 export class ListView {
-  public element;
+  public readonly element;
   private fieldTab;
   private pressNews;
 

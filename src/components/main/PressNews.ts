@@ -4,7 +4,7 @@ import style from './ListView.module.css';
 import { NewsSection } from './NewsSection';
 
 export class PressNews {
-  public element;
+  public readonly element;
   private pressInfo;
   private newsSection;
 
@@ -16,8 +16,8 @@ export class PressNews {
     this.element.append(this.pressInfo.element, this.newsSection.element);
   }
 
-  updateView({ news }: {news: NewsData | null}) {
-    if (!news){
+  updateView({ news }: { news: NewsData | null }) {
+    if (!news) {
       return;
     }
     this.pressInfo.updateView(news.mediaInfo);

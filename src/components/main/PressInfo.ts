@@ -3,7 +3,7 @@ import { SubscribeButton } from './SubscribeButton';
 import style from './ListView.module.css';
 
 export class PressInfo {
-  public element;
+  public readonly element;
   private brandMark;
   private brandMarkImage;
   private editDate;
@@ -21,7 +21,7 @@ export class PressInfo {
     this.element.append(this.brandMark, this.editDate, this.subscribeButton.element);
   }
 
-  updateView({imgSrc, imgAlt, editInfo}: { imgSrc: string; imgAlt: string; editInfo: string }) {
+  updateView({ imgSrc, imgAlt, editInfo }: { imgSrc: string; imgAlt: string; editInfo: string }) {
     this.brandMarkImage.setAttribute('src', imgSrc);
     this.brandMarkImage.setAttribute('alt', imgAlt);
     this.editDate.textContent = editInfo;

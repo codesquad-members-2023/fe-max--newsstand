@@ -2,7 +2,7 @@ import { createElement } from '../../utils/domUtils';
 import style from './ListView.module.css';
 
 export class FieldTab {
-  public element;
+  public readonly element;
   private fields;
 
   constructor() {
@@ -47,10 +47,10 @@ export class FieldTab {
     for (const field of this.fields) {
       const activeField = field.dataset.field === news.category;
       if (activeField) {
-        field.dataset.active = 'true'
+        field.dataset.active = 'true';
         this.setFieldCount(field, `${news.order}/${news.categoryCount}`);
       } else {
-        field.dataset.active = 'false'
+        field.dataset.active = 'false';
         this.setFieldCount(field, '');
       }
     }

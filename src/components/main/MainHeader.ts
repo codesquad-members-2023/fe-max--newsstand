@@ -2,7 +2,7 @@ import { createElement } from '../../utils/domUtils';
 import style from './MainHeader.module.css';
 
 export default class MainHeader {
-  public element;
+  public readonly element;
   private tabs;
   private viewers;
 
@@ -65,7 +65,7 @@ export default class MainHeader {
   private createNavElement(item: 'tab' | 'viewer') {
     const className = style[`${item}_list`];
     const targets = this[`${item}s`];
-    
+
     const nav = createElement('nav');
     const list = createElement('ul', { class: className });
 
