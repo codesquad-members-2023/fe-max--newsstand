@@ -1,5 +1,6 @@
 import Component from "@components/common/Component.ts";
 import { fetchData } from "@utils/index.ts";
+import { TGridViewData, TListViewData } from "@customTypes/index.ts";
 
 export enum EState {
   GridViewData = "gridViewData",
@@ -18,8 +19,8 @@ interface IStore {
   recentHeadlinesData: StateItem<
     { pressName: string; headlineTitle: string }[]
   >;
-  gridViewData: StateItem<{ src: string; alt: string }[]>;
-  listViewData: StateItem<[]>; // TODO: specify array item type
+  gridViewData: StateItem<TGridViewData[]>;
+  listViewData: StateItem<TListViewData[]>;
 
   leftHeadlineIdx: StateItem<number>;
   rightHeadlineIdx: StateItem<number>;
@@ -42,14 +43,9 @@ const store: IStore = {
   mainContentView: { value: "grid-view", observers: [] },
 };
 
-//- Register a component as an observer of the specified states.
 export function observeStates(observer: Component, ...targetStates: EState[]) {
   targetStates.forEach((targetState) => {
     store[targetState].observers.push(observer);
-
-    // dispatch each target state to initialize? (remove dispatch in components' constructor).
-
-    console.log(`${observer.constructor.name} is observing "${targetState}".`);
   });
 }
 
@@ -61,14 +57,8 @@ export function unobserveStates(
     store[targetState].observers = store[targetState].observers.filter(
       (obs) => obs !== observer
     );
-
-    console.log(
-      `${observer.constructor.name} is unobserving "${targetState}".`
-    );
   });
 }
-
-// ---------- //
 
 type TAction = {
   type: string;

@@ -1,14 +1,15 @@
 import Component from "@components/common/Component.ts";
-import { EState, observeStates, unobserveStates, dispatch } from "@store/index";
-
-export type TGridViewData = {
-  src: string;
-  alt: string;
-};
+import {
+  EState,
+  observeStates,
+  unobserveStates,
+  dispatch,
+} from "@store/index.ts";
+import { TGridViewData } from "@customTypes/index.ts";
 
 class GridView extends Component {
   private tableChunks: TGridViewData[][] = [];
-  private currentTableChunkIdx: number = 0; // keep track of current chunk to display.
+  private currentTableChunkIdx: number = 0;
   private numPressBoxesPerTableChunk: number = 24;
 
   private leftBtn: HTMLButtonElement;
@@ -75,7 +76,6 @@ class GridView extends Component {
       this.rightBtn.classList.remove("is-inactive");
     }
 
-    // Loop through `pressBoxes` and update each `pressBox`'s content with the given `tableChunk`.
     this.pressBoxes.forEach((pressBox, idx) => {
       const { src, alt } = tableChunk[idx];
       pressBox.innerHTML = `
