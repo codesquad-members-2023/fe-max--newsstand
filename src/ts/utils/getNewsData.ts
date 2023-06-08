@@ -1,7 +1,7 @@
 import puppeteer, { Page } from "puppeteer";
 import { parse } from "node-html-parser";
 import { HTMLElement } from "node-html-parser";
-import { BrandData } from "../interface/BrandData";
+import { PressData } from "../interface/PressData";
 import { ArticleData } from "../interface/ArticleData";
 
 async function getSnbTabQueries(page: Page): Promise<string[]> {
@@ -23,27 +23,27 @@ async function getSnbTabQueries(page: Page): Promise<string[]> {
   return snbTabQueries;
 }
 
-function panelElementToBrandData(elem: HTMLElement): BrandData {
+function panelElementToBrandData(elem: HTMLElement): PressData {
   const $panelInner = elem.querySelector(".panel_inner")!;
   const $h3 = $panelInner.querySelector("h3")!;
   const $a = $h3.querySelector("a")!;
   const $img = $h3.querySelector("img")!;
   const href = $a.getAttribute("href")!;
   const src = $img.getAttribute("src")!;
-  const brandData: BrandData = {
+  const pressData: PressData = {
     mark: src,
     name: $img.getAttribute("alt")!,
     link: href,
   };
 
-  return brandData;
+  return pressData;
 }
 
-async function getCategoryBrandData(
+async function getCategoryPressData(
   page: Page,
   $: HTMLElement
-): Promise<BrandData[]> {
-  const categoryBrandData: BrandData[] = [];
+): Promise<PressData[]> {
+  const categoryBrandData: PressData[] = [];
   const $spot = $.querySelector(".spot")!;
   const clickCount = parseInt(
     $spot.querySelector(".nav_count")!.textContent.match(/\d+/)![0]
@@ -53,7 +53,7 @@ async function getCategoryBrandData(
     const content = await page.content();
     const $ = parse(content);
     const $panel = $.getElementById("focusPanelCenter")!;
-    const brandData = panelElementToBrandData($panel);
+    const pressData = panelElementToBrandData($panel);
     const frameElement = await page.$("#focusPanelCenter .ifr_arc");
 
     if (!frameElement) continue;
@@ -83,9 +83,9 @@ async function getCategoryBrandData(
       };
       articles.push(data);
     });
-    brandData.articles = articles;
+    pressData.articles = articles;
 
-    categoryBrandData.push(brandData);
+    categoryBrandData.push(pressData);
 
     if (i !== clickCount) {
       await Promise.all([page.click("._btn_nxt"), page.waitForTimeout(1000)]);
@@ -94,13 +94,13 @@ async function getCategoryBrandData(
   return categoryBrandData;
 }
 
-export async function getNewsData(): Promise<{ [key: string]: BrandData[] }> {
+export async function getNewsData(): Promise<{ [key: string]: PressData[] }> {
   const browser = await puppeteer.launch({ headless: "new" });
   const page = await browser.newPage();
   page.setDefaultNavigationTimeout(600000);
 
   const snbTabQueries = await getSnbTabQueries(page);
-  const newsData: { [key: string]: BrandData[] } = {};
+  const newsData: { [key: string]: PressData[] } = {};
 
   for (let snbTabQuery of snbTabQueries) {
     try {
@@ -113,7 +113,7 @@ export async function getNewsData(): Promise<{ [key: string]: BrandData[] }> {
       const $ = parse(content);
       const category = $.querySelector("#snb strong")!.textContent;
 
-      newsData[category] = await getCategoryBrandData(page, $);
+      newsData[category] = await getCategoryPressData(page, $);
     } catch (err) {
       console.error(`Failed to click on ${snbTabQuery}: ${err}`);
     }
@@ -122,4 +122,3 @@ export async function getNewsData(): Promise<{ [key: string]: BrandData[] }> {
   await browser.close();
   return newsData;
 }
-

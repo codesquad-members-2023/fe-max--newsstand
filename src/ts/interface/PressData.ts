@@ -1,6 +1,6 @@
 import { ArticleData } from "./ArticleData";
 
-export interface BrandData {
+export interface PressData {
   mark: string;
   name: string;
   link: string;

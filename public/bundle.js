@@ -50,6 +50,46 @@ eval("\n\nmodule.exports = function (i) {\n  return i[1];\n};\n\n//# sourceURL=w
 
 /***/ }),
 
+/***/ "./src/images/icon/grid-blur.svg":
+/*!***************************************!*\
+  !*** ./src/images/icon/grid-blur.svg ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + \"images/grid-blur.svg\");\n\n//# sourceURL=webpack://webpack/./src/images/icon/grid-blur.svg?");
+
+/***/ }),
+
+/***/ "./src/images/icon/grid.svg":
+/*!**********************************!*\
+  !*** ./src/images/icon/grid.svg ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + \"images/grid.svg\");\n\n//# sourceURL=webpack://webpack/./src/images/icon/grid.svg?");
+
+/***/ }),
+
+/***/ "./src/images/icon/list-blur.svg":
+/*!***************************************!*\
+  !*** ./src/images/icon/list-blur.svg ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + \"images/list-blur.svg\");\n\n//# sourceURL=webpack://webpack/./src/images/icon/list-blur.svg?");
+
+/***/ }),
+
+/***/ "./src/images/icon/list.svg":
+/*!**********************************!*\
+  !*** ./src/images/icon/list.svg ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + \"images/list.svg\");\n\n//# sourceURL=webpack://webpack/./src/images/icon/list.svg?");
+
+/***/ }),
+
 /***/ "./src/images/icon/logo.svg":
 /*!**********************************!*\
   !*** ./src/images/icon/logo.svg ***!
@@ -136,7 +176,7 @@ eval("\n\n/* istanbul ignore next  */\nfunction styleTagTransform(css, styleElem
   \****************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   App: () => (/* binding */ App)\n/* harmony export */ });\n/* harmony import */ var _src_components_Header__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./src/components/Header */ \"./src/components/Header.ts\");\n/* harmony import */ var _src_core_TagHelper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./src/core/TagHelper */ \"./src/core/TagHelper.ts\");\n\n\nconst App = ({ date }) => {\n    const { div } = _src_core_TagHelper__WEBPACK_IMPORTED_MODULE_1__.TagHelper;\n    return div({ class: \"container\" }, [(0,_src_components_Header__WEBPACK_IMPORTED_MODULE_0__.Header)({ date })]);\n};\n\n\n//# sourceURL=webpack://webpack/./App.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   App: () => (/* binding */ App)\n/* harmony export */ });\n/* harmony import */ var _src_components_Header__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./src/components/Header */ \"./src/components/Header.ts\");\n/* harmony import */ var _src_components_Main__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./src/components/Main */ \"./src/components/Main.ts\");\n/* harmony import */ var _src_core_TagHelper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./src/core/TagHelper */ \"./src/core/TagHelper.ts\");\n\n\n\nconst App = ({ date }) => {\n    const { div } = _src_core_TagHelper__WEBPACK_IMPORTED_MODULE_2__.TagHelper;\n    return div({ class: \"container\" }, [(0,_src_components_Header__WEBPACK_IMPORTED_MODULE_0__.Header)({ date }), (0,_src_components_Main__WEBPACK_IMPORTED_MODULE_1__.Main)()]);\n};\n\n\n//# sourceURL=webpack://webpack/./App.ts?");
 
 /***/ }),
 
@@ -150,6 +190,16 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _App
 
 /***/ }),
 
+/***/ "./src/components/Grid.ts":
+/*!********************************!*\
+  !*** ./src/components/Grid.ts ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   Grid: () => (/* binding */ Grid)\n/* harmony export */ });\n/* harmony import */ var _core_TagHelper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../core/TagHelper */ \"./src/core/TagHelper.ts\");\n\nconst Grid = () => {\n    const { div } = _core_TagHelper__WEBPACK_IMPORTED_MODULE_0__.TagHelper;\n    return div({ id: \"grid\" }, [\n        div({ class: \"row\" }, [\n            div({ class: \"col\" }),\n            div({ class: \"col\" }),\n            div({ class: \"col\" }),\n            div({ class: \"col\" }),\n            div({ class: \"col\" }),\n            div({ class: \"col\" }),\n        ]),\n        div({ class: \"row\" }, [\n            div({ class: \"col\" }),\n            div({ class: \"col\" }),\n            div({ class: \"col\" }),\n            div({ class: \"col\" }),\n            div({ class: \"col\" }),\n            div({ class: \"col\" }),\n        ]),\n        div({ class: \"row\" }, [\n            div({ class: \"col\" }),\n            div({ class: \"col\" }),\n            div({ class: \"col\" }),\n            div({ class: \"col\" }),\n            div({ class: \"col\" }),\n            div({ class: \"col\" }),\n        ]),\n        div({ class: \"row\" }, [\n            div({ class: \"col\" }),\n            div({ class: \"col\" }),\n            div({ class: \"col\" }),\n            div({ class: \"col\" }),\n            div({ class: \"col\" }),\n            div({ class: \"col\" }),\n        ]),\n    ]);\n};\n\n\n//# sourceURL=webpack://webpack/./src/components/Grid.ts?");
+
+/***/ }),
+
 /***/ "./src/components/Header.ts":
 /*!**********************************!*\
   !*** ./src/components/Header.ts ***!
@@ -157,6 +207,16 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _App
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   Header: () => (/* binding */ Header)\n/* harmony export */ });\n/* harmony import */ var _core_TagHelper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../core/TagHelper */ \"./src/core/TagHelper.ts\");\n/* harmony import */ var _images_icon_logo_svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../images/icon/logo.svg */ \"./src/images/icon/logo.svg\");\n/* harmony import */ var _Rolling__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Rolling */ \"./src/components/Rolling.ts\");\n\n\n\nconst Header = ({ date }) => {\n    const { header, div, h1, h2, img, span, p, ul, li, a } = _core_TagHelper__WEBPACK_IMPORTED_MODULE_0__.TagHelper;\n    const options = {\n        year: \"numeric\",\n        month: \"2-digit\",\n        day: \"2-digit\",\n        weekday: \"long\",\n    };\n    return header([\n        div({ class: \"inner\" }, [\n            h1({ class: \"logo\" }, [\n                img({ src: _images_icon_logo_svg__WEBPACK_IMPORTED_MODULE_1__[\"default\"], alt: \"뉴스스탠드 아이콘\" }),\n                span([\"뉴스스탠드\"]),\n            ]),\n            p({ class: \"date\" }, [date.toLocaleDateString(\"ko-KR\", options)]),\n        ]),\n        ul({ class: \"rolling-bar\" }, [\n            li([h2({ class: \"blind\" }, [\"연합뉴스 헤드라인\"]), (0,_Rolling__WEBPACK_IMPORTED_MODULE_2__.Rolling)()]),\n            li([h2({ class: \"blind\" }, [\"연합뉴스 헤드라인\"]), (0,_Rolling__WEBPACK_IMPORTED_MODULE_2__.Rolling)()]),\n        ]),\n    ]);\n};\n\n\n//# sourceURL=webpack://webpack/./src/components/Header.ts?");
+
+/***/ }),
+
+/***/ "./src/components/Main.ts":
+/*!********************************!*\
+  !*** ./src/components/Main.ts ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   Main: () => (/* binding */ Main)\n/* harmony export */ });\n/* harmony import */ var _core_TagHelper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../core/TagHelper */ \"./src/core/TagHelper.ts\");\n/* harmony import */ var _images_icon_list_svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../images/icon/list.svg */ \"./src/images/icon/list.svg\");\n/* harmony import */ var _images_icon_list_blur_svg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../images/icon/list-blur.svg */ \"./src/images/icon/list-blur.svg\");\n/* harmony import */ var _images_icon_grid_svg__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../images/icon/grid.svg */ \"./src/images/icon/grid.svg\");\n/* harmony import */ var _images_icon_grid_blur_svg__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../images/icon/grid-blur.svg */ \"./src/images/icon/grid-blur.svg\");\n/* harmony import */ var _Grid__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Grid */ \"./src/components/Grid.ts\");\n\n\n\n\n\n\nconst Main = () => {\n    const { main, h2, div, ul, li, a, button, img } = _core_TagHelper__WEBPACK_IMPORTED_MODULE_0__.TagHelper;\n    return main([\n        h2({ class: \"blind\" }, [\"메인\"]),\n        div({ class: \"tabs-bar\" }, [\n            ul({ class: \"article\" }, [\n                li([\n                    button({ class: \"article\" }, [\"전체 언론사\"]),\n                    button({ class: \"article\" }, [\"내가 구독한 언론사\"]),\n                ]),\n            ]),\n            ul({ class: \"view-type\" }, [\n                li([\n                    button({ class: \"article\" }, [\n                        img({ src: _images_icon_list_svg__WEBPACK_IMPORTED_MODULE_1__[\"default\"], alt: \"목록 아이콘\" }),\n                        img({ src: _images_icon_list_blur_svg__WEBPACK_IMPORTED_MODULE_2__[\"default\"], alt: \"흐린 목록 아이콘\" }),\n                    ]),\n                    button({ class: \"article\" }, [\n                        img({ src: _images_icon_grid_svg__WEBPACK_IMPORTED_MODULE_3__[\"default\"], alt: \"격자 아이콘\" }),\n                        img({ src: _images_icon_grid_blur_svg__WEBPACK_IMPORTED_MODULE_4__[\"default\"], alt: \"흐린 격자 아이콘\" }),\n                    ]),\n                ]),\n            ]),\n        ]),\n        (0,_Grid__WEBPACK_IMPORTED_MODULE_5__.Grid)(),\n    ]);\n};\n\n\n//# sourceURL=webpack://webpack/./src/components/Main.ts?");
 
 /***/ }),
 
