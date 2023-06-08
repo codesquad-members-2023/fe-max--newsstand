@@ -3,6 +3,7 @@ import { fetchData } from "@utils/index.ts";
 
 export enum EState {
   GridViewData = "gridViewData",
+  ListViewData = "listViewData",
 
   HeadlinesRollerTick = "headlinesRollerTick",
   MainContentView = "mainContentView",
@@ -21,6 +22,7 @@ interface IStore {
   headlinesRollerTickObservers: Component[];
   mainContentViewObservers: Component[];
   gridViewDataObservers: Component[];
+  listViewDataObservers: Component[];
 }
 
 const recentHeadlinesData = await fetchData("/data/recent-headlines.json");
@@ -40,6 +42,7 @@ const store: IStore = {
   headlinesRollerTickObservers: [],
   mainContentViewObservers: [],
   gridViewDataObservers: [],
+  listViewDataObservers: [],
 };
 
 //- Register a component as an observer of the specified states.
@@ -128,5 +131,9 @@ function reducer(action: TAction) {
         observer.setProps({ gridViewData });
       });
       break;
+    case "listViewData":
+      store.listViewDataObservers.forEach((observer) => {
+        observer.setProps({ listViewData });
+      });
   }
 }
