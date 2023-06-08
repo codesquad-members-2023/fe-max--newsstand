@@ -1,7 +1,7 @@
 import { Header } from './Header';
 import { RollingSection } from './RollingSection';
 import { Main } from './Main';
-import { OneLineNews, GridNewsData, ListNewsData } from '../types.ts';
+import { OneLineNews, GridNewsData, ListNewsData } from '../utils/types.ts';
 
 export class NewsStand {
   element: HTMLElement;

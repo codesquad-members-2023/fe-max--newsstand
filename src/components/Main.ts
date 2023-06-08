@@ -1,6 +1,6 @@
-import { GridStore } from '../GridStore';
-import NewsStandDispatcher from '../NewsStandDispatcher';
-import { GridNewsData, ListNewsData } from '../types';
+import { GridStore } from '../store/GridStore';
+import Dispatcher from '../flux/Dispatcher';
+import { GridNewsData, ListNewsData } from '../utils/types';
 import { GridView } from './GridView';
 
 export class Main {
@@ -60,7 +60,7 @@ export class Main {
     const content = document.createElement('div');
     content.classList.add('content-area');
 
-    const gridStore = new GridStore(NewsStandDispatcher);
+    const gridStore = new GridStore(Dispatcher);
     const gridView = new GridView(props.gridData);
     gridStore.subscribe(gridView);
 

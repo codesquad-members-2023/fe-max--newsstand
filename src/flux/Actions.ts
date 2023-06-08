@@ -1,8 +1,8 @@
-import NewsStandDispatcher from './NewsStandDispatcher';
+import Dispatcher from './Dispatcher';
 
 export const Actions = {
   clickArrowBtn(direction: string) {
-    NewsStandDispatcher.dispatch({
+    Dispatcher.dispatch({
       type: 'Click_Arrow_Btn',
       direction: direction,
     });

@@ -1,4 +1,4 @@
-import { OneLineNews } from '../types';
+import { OneLineNews } from '../utils/types';
 import { NewsRoller } from './NewsRoller';
 
 export class RollingSection {

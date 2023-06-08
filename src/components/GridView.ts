@@ -1,5 +1,5 @@
-import { GridNewsData, HTMLElementEvent } from '../types';
-import { Actions } from '../Actions';
+import { GridNewsData, HTMLElementEvent } from '../utils/types';
+import { Actions } from '../flux/Actions';
 
 export class GridView {
   private state: {

@@ -1,11 +1,11 @@
-export default class Dispatcher<TPayload> {
+class Dispatcher<TPayload> {
   private callbacks: ((payload: TPayload) => void)[];
 
   constructor() {
     this.callbacks = [];
   }
 
-  register(callback: (payload: TPayload) => void) {
+  register(callback: (payload: TPayload) => TState) {
     this.callbacks.push(callback);
   }
 
@@ -15,3 +15,5 @@ export default class Dispatcher<TPayload> {
     });
   }
 }
+
+export default new Dispatcher();

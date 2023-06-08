@@ -1,5 +1,5 @@
-import Dispatcher from './flux/Dispatcher';
-import { fetchData, shuffleArray } from './utils';
+import Dispatcher from '../flux/Dispatcher';
+import { fetchData, shuffleArray } from '../utils/utils';
 
 export class GridStore<TState> {
   private dispatcher: Dispatcher<any>;
@@ -24,20 +24,24 @@ export class GridStore<TState> {
   }
 
   registerOnDispatcher() {
-    this.dispatcher.register(this.reduce);
+    this.dispatcher.register((action) => {
+      const newState = this.reduce(this.state, action);
+      console.log('dispatch!');
+      console.log(this.state);
+      return newState;
+    });
   }
 
-  reduce = (action) => {
-    // console.log(action);
+  reduce = (state, action) => {
     switch (action.type) {
       case 'Click_Arrow_Btn':
         if (action.direction === 'right') {
-          this.state.currentPage += 1;
+          state.currentPage += 1;
           this.emitChange();
           break;
         }
         if (action.direction === 'left') {
-          this.state.currentPage -= 1;
+          state.currentPage -= 1;
           this.emitChange();
           break;
         }

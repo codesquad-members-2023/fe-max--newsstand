@@ -1,4 +1,4 @@
-import { OneLineNews } from '../types';
+import { OneLineNews } from '../utils/types';
 
 export class NewsRoller {
   private state: {

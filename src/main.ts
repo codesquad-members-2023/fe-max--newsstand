@@ -1,5 +1,5 @@
 import { NewsStand } from './components/NewsStand.ts';
-import { OneLineNews, GridNewsData, ListNewsData } from './types.ts';
+import { OneLineNews, GridNewsData, ListNewsData } from './utils/types.ts';
 import './scss/main.scss';
 
 type State = {
