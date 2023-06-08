@@ -51,11 +51,11 @@ const listNews = await initListNews();
 
 const list = List(listNews);
 list.setEvent();
-export const renderFieldTab = list.renderFieldTab;
-export const loadNextPress = list.loadNextPress;
+list.startInterval();
+subscribe(list.render);
+
 export const stopInterval = list.stopInterval;
 export const startInterval = list.startInterval;
-export const setArt = list.setArt;
 
 async function initHeadlinesData() {
   const response = await fetch("http://localhost:8080/headlines");
@@ -66,9 +66,11 @@ async function initHeadlinesData() {
 async function initImages() {
   const response = await fetch("http://localhost:8080/images");
   const data = await response.json();
-  const images = data.images.map((image: Images) => image);
 
-  const shuffledImages = shuffleArray(images);
+  // const images = data.images.map((image: Images) => image);
+
+  const shuffledImages = shuffleArray(data.images);
+  // const shuffledImages = shuffleArray(images);
 
   return shuffledImages;
 }

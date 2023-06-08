@@ -1,5 +1,5 @@
 import { actions } from "../../actions/actions";
-import { loadNextPress, stopInterval, startInterval, setArt } from "../../app";
+import { stopInterval, startInterval } from "../../app";
 import { getState } from "../../store/store";
 
 export const Media = () => {
@@ -36,44 +36,45 @@ export const Media = () => {
 
   const setEvent = () => {
     prevButton.addEventListener("click", handleClickPrev);
-    // prevButton.addEventListener("click", actions.goPrevPage);
     nextButton.addEventListener("click", handleClickNext);
-    // nextButton.addEventListener("click", actions.goNextPage);
-    gridModeTab.addEventListener("click", () => {
-      actions.switchGridMode();
-    });
-    listModeTab.addEventListener("click", () => {
-      actions.switchListMode();
-      setArt();
-    });
+    gridModeTab.addEventListener("click", handleClickGridMode);
+    listModeTab.addEventListener("click", handleClickListMode);
   };
+
+  function handleClickGridMode() {
+    actions.switchGridMode();
+  }
+
+  function handleClickListMode() {
+    actions.switchListMode();
+    // setArticle();
+  }
 
   function handleClickPrev() {
     const { currentViewMode } = getState();
-    actions.goPrevPage();
     currentViewMode === "grid" ? clickPrevGrid() : clickPrevList();
   }
   function clickPrevGrid() {
-    console.log("비어있어서 그리드인거 알려줌");
+    actions.gridPrevPage();
   }
   function clickPrevList() {
-    loadNextPress();
+    stopInterval();
+    actions.listPrevPage();
+    startInterval();
   }
 
   function handleClickNext() {
-    stopInterval();
     const { currentViewMode } = getState();
-    actions.goNextPage();
     currentViewMode === "grid" ? clickNextGrid() : clickNextList();
-    startInterval();
   }
   function clickNextGrid() {
-    console.log("비어있어서 그리드인거 알려줌");
+    actions.gridNextPage();
   }
 
   function clickNextList() {
-    loadNextPress();
-    // renderFieldTab();
+    stopInterval();
+    actions.listNextPage();
+    startInterval();
   }
 
   return { setEvent, render };
