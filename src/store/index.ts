@@ -9,20 +9,22 @@ export enum EState {
   MainContentView = "mainContentView",
 }
 
+type StateItem<T> = {
+  value: T;
+  observers: Component[];
+};
+
 interface IStore {
-  recentHeadlinesData: { pressName: string; headlineTitle: string }[];
-  gridViewData: { src: string; alt: string }[];
-  listViewData: [];
+  recentHeadlinesData: StateItem<
+    { pressName: string; headlineTitle: string }[]
+  >;
+  gridViewData: StateItem<{ src: string; alt: string }[]>;
+  listViewData: StateItem<[]>; // TODO: specify array item type
 
-  leftHeadlineIdx: number;
-  rightHeadlineIdx: number;
-  headlinesRollerTick: number;
-  mainContentView: "list-view" | "grid-view";
-
-  headlinesRollerTickObservers: Component[];
-  mainContentViewObservers: Component[];
-  gridViewDataObservers: Component[];
-  listViewDataObservers: Component[];
+  leftHeadlineIdx: StateItem<number>;
+  rightHeadlineIdx: StateItem<number>;
+  headlinesRollerTick: StateItem<number>;
+  mainContentView: StateItem<"list-view" | "grid-view">;
 }
 
 const recentHeadlinesData = await fetchData("/data/recent-headlines.json");
@@ -30,25 +32,22 @@ const gridViewData = await fetchData("/data/grid-view.json");
 const listViewData = await fetchData("/data/list-view.json");
 
 const store: IStore = {
-  recentHeadlinesData,
-  gridViewData,
-  listViewData,
+  recentHeadlinesData: { value: recentHeadlinesData, observers: [] },
+  gridViewData: { value: gridViewData, observers: [] },
+  listViewData: { value: listViewData, observers: [] },
 
-  leftHeadlineIdx: 0,
-  rightHeadlineIdx: 1,
-  headlinesRollerTick: 0,
-  mainContentView: "grid-view",
-
-  headlinesRollerTickObservers: [],
-  mainContentViewObservers: [],
-  gridViewDataObservers: [],
-  listViewDataObservers: [],
+  leftHeadlineIdx: { value: 0, observers: [] },
+  rightHeadlineIdx: { value: 1, observers: [] },
+  headlinesRollerTick: { value: 0, observers: [] },
+  mainContentView: { value: "grid-view", observers: [] },
 };
 
 //- Register a component as an observer of the specified states.
 export function observeStates(observer: Component, ...targetStates: EState[]) {
   targetStates.forEach((targetState) => {
-    store[`${targetState}Observers`].push(observer);
+    store[targetState].observers.push(observer);
+
+    // dispatch each target state to initialize? (remove dispatch in components' constructor).
 
     console.log(`${observer.constructor.name} is observing "${targetState}".`);
   });
@@ -59,12 +58,12 @@ export function unobserveStates(
   ...targetStates: EState[]
 ) {
   targetStates.forEach((targetState) => {
-    store[`${targetState}Observers`] = store[`${targetState}Observers`].filter(
-      (x) => x !== observer
+    store[targetState].observers = store[targetState].observers.filter(
+      (obs) => obs !== observer
     );
 
     console.log(
-      `${observer.constructor.name} is unobserving "${targetState}."`
+      `${observer.constructor.name} is unobserving "${targetState}".`
     );
   });
 }
@@ -76,64 +75,66 @@ type TAction = {
   content?: any;
 };
 
-// Pass on the `action` from a view to the `reducer` (informing the store).
 export function dispatch(action: TAction) {
   reducer(action);
 }
 
-// Receive the `action` from the dispatcher, update the state accordingly, and then update the views.
 function reducer(action: TAction) {
   switch (action.type) {
     case "headlinesRollerTick":
-      store.headlinesRollerTick += 1;
+      store.headlinesRollerTick.value += 1;
 
-      if (store.headlinesRollerTick % 5 === 0) {
-        store.leftHeadlineIdx += 2;
-        store.leftHeadlineIdx %= store.recentHeadlinesData.length;
-      } else if (store.headlinesRollerTick % 5 === 1) {
-        store.rightHeadlineIdx += 2;
-        store.rightHeadlineIdx %= store.recentHeadlinesData.length;
+      if (store.headlinesRollerTick.value % 5 === 0) {
+        store.leftHeadlineIdx.value += 2;
+        store.leftHeadlineIdx.value %= store.recentHeadlinesData.value.length;
+      } else if (store.headlinesRollerTick.value % 5 === 1) {
+        store.rightHeadlineIdx.value += 2;
+        store.rightHeadlineIdx.value %= store.recentHeadlinesData.value.length;
       }
 
-      // Inform observers about the updated state (i.e. trigger a re-render of the relevant views).
-      store.headlinesRollerTickObservers.forEach((observer) => {
+      store.headlinesRollerTick.observers.forEach((observer) => {
         observer.setProps({
           leftHeadlineProps: {
             pressName:
-              store.recentHeadlinesData[store.leftHeadlineIdx].pressName,
+              store.recentHeadlinesData.value[store.leftHeadlineIdx.value]
+                .pressName,
             headline:
-              store.recentHeadlinesData[store.leftHeadlineIdx].headlineTitle,
+              store.recentHeadlinesData.value[store.leftHeadlineIdx.value]
+                .headlineTitle,
           },
           rightHeadlineProps: {
             pressName:
-              store.recentHeadlinesData[store.rightHeadlineIdx].pressName,
+              store.recentHeadlinesData.value[store.rightHeadlineIdx.value]
+                .pressName,
             headline:
-              store.recentHeadlinesData[store.rightHeadlineIdx].headlineTitle,
+              store.recentHeadlinesData.value[store.rightHeadlineIdx.value]
+                .headlineTitle,
           },
         });
       });
       break;
     case "mainContentView":
-      if (action.content === store.mainContentView) return;
+      if (action.content === store.mainContentView.value) return;
 
       if (action.content === "list-view") {
-        store.mainContentView = "list-view";
+        store.mainContentView.value = "list-view";
       } else if (action.content === "grid-view") {
-        store.mainContentView = "grid-view";
+        store.mainContentView.value = "grid-view";
       }
 
-      store.mainContentViewObservers.forEach((observer) => {
-        observer.setProps({ mainContentView: store.mainContentView });
+      store.mainContentView.observers.forEach((observer) => {
+        observer.setProps({ mainContentView: store.mainContentView.value });
       });
       break;
     case "gridViewData":
-      store.gridViewDataObservers.forEach((observer) => {
+      store.gridViewData.observers.forEach((observer) => {
         observer.setProps({ gridViewData });
       });
       break;
     case "listViewData":
-      store.listViewDataObservers.forEach((observer) => {
+      store.listViewData.observers.forEach((observer) => {
         observer.setProps({ listViewData });
       });
+      break;
   }
 }
