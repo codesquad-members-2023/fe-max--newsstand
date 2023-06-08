@@ -1,13 +1,13 @@
 import { createElement } from '../../utils/dom';
 
-export function createSubscribeButton() {
+const createButton = (className, buttonText) => {
 	const btnBox = createElement('div', {
 		class: 'btn-grid-box',
 		style: 'display: none',
 	});
 
 	const btn = createElement('div', {
-		class: 'btn-grid-unsubscribe',
+		class: className,
 	});
 
 	const img = createElement('img', {
@@ -16,11 +16,19 @@ export function createSubscribeButton() {
 	});
 
 	const span = createElement('span');
-	span.textContent = '구독하기';
+	span.textContent = buttonText;
 
 	btn.appendChild(img);
 	btn.appendChild(span);
 	btnBox.appendChild(btn);
 
 	return btnBox;
-}
+};
+
+export const createSubscribeButton = () => {
+	return createButton('btn-grid-subscribe', '구독하기');
+};
+
+export const createUnsubscribeButton = () => {
+	return createButton('btn-grid-unsubscribe', '해지하기');
+};

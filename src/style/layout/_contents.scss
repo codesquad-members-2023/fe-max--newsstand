@@ -205,7 +205,9 @@
 	z-index: 10;
 	width: 100%;
 	cursor: pointer;
-	.btn-grid-unsubscribe {
+
+	.btn-grid-unsubscribe,
+	.btn-grid-subscribe {
 		margin: 0 auto;
 		width: 74px;
 		padding: 5px 10px 5px 8px;
