@@ -28,6 +28,24 @@ app.get('/headlineNews', (req, res) => {
   return res.json(JSON.parse(headlineNews));
 });
 
+app.get('/newsList', (req, res) => {
+  const filePath = path.join(__dirname, 'data', 'newsList.json');
+  const data = fs.readFileSync(filePath, { encoding: 'utf8' });
+  const newsList = JSON.parse(data);
+
+  const index = req.query.index;
+  if (index === null) {
+    return res.json(newsList)
+  }
+  const news = newsList[index];
+  const categoryList = [...newsList].filter((item) => item.category === news.category);
+  return res.json({
+    ...news,
+    order: categoryList.indexOf(news) + 1,
+    categoryCount: categoryList.length
+  });
+})
+
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
 });
