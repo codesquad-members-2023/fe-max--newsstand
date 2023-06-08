@@ -105,10 +105,15 @@
 	height: 388px;
 	gap: 1px;
 }
+
 .grid-item {
 	position: relative;
 	@include flex-center;
 	outline: 1px solid $GRAY100;
+
+	img {
+		height: 20px;
+	}
 
 	&:hover {
 		background-color: $OFF_WHITE;
