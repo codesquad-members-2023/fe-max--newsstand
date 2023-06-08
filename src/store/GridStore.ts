@@ -1,38 +1,40 @@
-import Dispatcher from '../flux/Dispatcher';
+import dispatcher from '../flux/Dispatcher';
+import type { Dispatcher } from '../flux/Dispatcher';
+import type { GridView } from '../components/GridView';
 import { fetchData, shuffleArray } from '../utils/utils';
+import { Action, GridNewsData } from '../utils/types';
 
-export class GridStore<TState> {
+export type GridState = {
+  newsData: GridNewsData[];
+  currentPage: number;
+};
+
+const setInitialData = async () => {
+  const gridDataRaw = await fetchData('gridData');
+  const gridData = shuffleArray(gridDataRaw);
+
+  return { newsData: gridData, currentPage: 1 };
+};
+class GridStore<TState> {
   private dispatcher: Dispatcher<any>;
   private state: TState;
-  private observers: [];
+  private observers: GridView[];
 
-  constructor(dispatcher: Dispatcher<object>) {
+  constructor(state: TState, dispatcher: Dispatcher<object>) {
     this.dispatcher = dispatcher;
-    this.state = {};
+    this.state = state;
     this.observers = [];
 
-    this.getInitialState();
     this.registerOnDispatcher();
   }
 
-  async getInitialState() {
-    const gridDataRaw = await fetchData('gridData');
-    const gridData = shuffleArray(gridDataRaw);
-
-    this.state = { newsData: gridData, currentPage: 1 };
-    console.log(this.state);
-  }
-
   registerOnDispatcher() {
-    this.dispatcher.register((action) => {
-      const newState = this.reduce(this.state, action);
-      console.log('dispatch!');
-      console.log(this.state);
-      return newState;
+    this.dispatcher.register((action: Action) => {
+      this.reduce(this.state, action);
     });
   }
 
-  reduce = (state, action) => {
+  reduce = (state: TState, action: Action) => {
     switch (action.type) {
       case 'Click_Arrow_Btn':
         if (action.direction === 'right') {
@@ -40,15 +42,21 @@ export class GridStore<TState> {
           this.emitChange();
           break;
         }
+
         if (action.direction === 'left') {
           state.currentPage -= 1;
           this.emitChange();
           break;
         }
+
+        break;
+
+      default:
+        return;
     }
   };
 
-  subscribe(observer) {
+  subscribe(observer: GridView) {
     this.observers.push(observer);
   }
 
@@ -58,3 +66,7 @@ export class GridStore<TState> {
     });
   }
 }
+
+const initialState = await setInitialData();
+const gridStore = new GridStore<GridState>(initialState, dispatcher);
+export default gridStore;

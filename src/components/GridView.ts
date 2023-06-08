@@ -1,21 +1,14 @@
 import { GridNewsData, HTMLElementEvent } from '../utils/types';
+import { GridState } from '../store/GridStore';
 import { Actions } from '../flux/Actions';
 
 export class GridView {
-  private state: {
-    currentPage: number;
-  };
-  readonly props: GridNewsData[];
   element: HTMLElement;
   leftBtn: HTMLButtonElement;
   rightBtn: HTMLButtonElement;
   gridItems: HTMLElement[];
 
-  constructor(props: GridNewsData[]) {
-    this.state = {
-      currentPage: 1,
-    };
-    this.props = props;
+  constructor(props: GridState) {
     this.element = document.createElement('div');
     this.element.classList.add('grid-container');
 
@@ -42,11 +35,11 @@ export class GridView {
       this.gridItems.push(gridItem);
     }
 
-    this.firstRender(0);
+    this.render(props);
     this.setEvent();
   }
 
-  update(state) {
+  update(state: GridState) {
     if (state.currentPage === 1) {
       this.render(state);
       this.leftBtn.classList.add('hide');
@@ -60,8 +53,7 @@ export class GridView {
     }
   }
 
-  render(state) {
-    // console.log(state);
+  render(state: GridState) {
     this.gridItems.forEach((item, idx) => {
       const itemImg = item.children[0] as HTMLImageElement;
       const imgIdx = idx + (state.currentPage - 1) * 24;
@@ -70,14 +62,14 @@ export class GridView {
     });
   }
 
-  firstRender(startIdx: number) {
-    this.gridItems.forEach((item, idx) => {
-      const itemImg = item.children[0] as HTMLImageElement;
-      const imgIdx = idx + startIdx;
-      itemImg.src = this.props[imgIdx] ? this.props[imgIdx].logoURL : '';
-      itemImg.alt = this.props[imgIdx] ? this.props[imgIdx].name : '';
-    });
-  }
+  // firstRender(startIdx: number) {
+  //   this.gridItems.forEach((item, idx) => {
+  //     const itemImg = item.children[0] as HTMLImageElement;
+  //     const imgIdx = idx + startIdx;
+  //     itemImg.src = this.props[imgIdx] ? this.props[imgIdx].logoURL : '';
+  //     itemImg.alt = this.props[imgIdx] ? this.props[imgIdx].name : '';
+  //   });
+  // }
 
   setEvent() {
     this.rightBtn.addEventListener('click', () => {
