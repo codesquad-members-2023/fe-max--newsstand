@@ -2,7 +2,7 @@ import Component from "@components/common/Component.ts";
 import { EState, dispatch, observeStates } from "@store/index.ts";
 
 class MainNews extends Component {
-  private contentViewBtnsWrapper: HTMLElement;
+  private contentViewBtns: HTMLButtonElement[] = [];
   private main: HTMLElement;
 
   constructor() {
@@ -26,10 +26,11 @@ class MainNews extends Component {
     const contentViewBtnsWrapper = document.createElement("div");
     contentViewBtnsWrapper.className = "content-view-btns-wrapper";
     const listViewBtn = document.createElement("button");
-    listViewBtn.className = "list-view-btn";
+    listViewBtn.id = "list-view";
     listViewBtn.type = "button";
     const gridViewBtn = document.createElement("button");
-    gridViewBtn.className = "grid-view-btn is-active";
+    gridViewBtn.className = "is-active";
+    gridViewBtn.id = "grid-view";
     gridViewBtn.type = "button";
     contentViewBtnsWrapper.append(listViewBtn, gridViewBtn);
 
@@ -46,7 +47,7 @@ class MainNews extends Component {
     topElement.append(stylesheetLink, header, main);
 
     super(topElement);
-    this.contentViewBtnsWrapper = contentViewBtnsWrapper;
+    this.contentViewBtns = [listViewBtn, gridViewBtn];
     this.main = main;
 
     observeStates(this, EState.MainContentView);
@@ -57,26 +58,25 @@ class MainNews extends Component {
     if (mainContentView === "grid-view") {
       this.main.appendChild(document.createElement("grid-view"));
     } else if (mainContentView === "list-view") {
-      // this.main.appendChild(document.createElement("list-view"));
+      this.main.appendChild(document.createElement("list-view"));
     }
   }
 
   connectedCallback() {
-    this.contentViewBtnsWrapper.addEventListener(
-      "click",
-      this.contentViewBtnClickHandler
-    );
-  }
+    this.contentViewBtns.forEach((btn, idx) => {
+      btn.addEventListener("click", () => {
+        btn.classList.add("is-active");
 
-  contentViewBtnClickHandler(evt: MouseEvent) {
-    if (evt.target instanceof HTMLButtonElement) {
-      const isListViewBtn = evt.target.classList.contains("list-view-btn");
+        this.contentViewBtns[
+          (idx + 1) % this.contentViewBtns.length
+        ].classList.remove("is-active");
 
-      dispatch({
-        type: EState.MainContentView,
-        content: `${isListViewBtn ? "list-view" : "grid-view"}`,
+        dispatch({
+          type: EState.MainContentView,
+          content: btn.id,
+        });
       });
-    }
+    });
   }
 }
 

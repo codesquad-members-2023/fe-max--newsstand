@@ -46,7 +46,7 @@
         border: none;
         filter: $filter-grey-100;
 
-        &.list-view-btn {
+        &#list-view {
           &::before {
             width: inherit;
             height: inherit;
@@ -57,7 +57,7 @@
           }
         }
 
-        &.grid-view-btn {
+        &#grid-view {
           &::before {
             width: inherit;
             height: inherit;
