@@ -38,7 +38,7 @@ app.get('/newsList', (req, res) => {
     return res.json(null);
   }
   const news = newsList[index];
-  const categoryList = [...newsList].filter((item) => item.category === news.category);
+  const categoryList = newsList.filter((item) => item.category === news.category);
   return res.json({
     ...news,
     order: categoryList.indexOf(news) + 1,
