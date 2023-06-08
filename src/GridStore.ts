@@ -28,7 +28,7 @@ export class GridStore<TState> {
   }
 
   reduce = (action) => {
-    console.log(action);
+    // console.log(action);
     switch (action.type) {
       case 'Click_Arrow_Btn':
         if (action.direction === 'right') {

@@ -61,7 +61,7 @@ export class GridView {
   }
 
   render(state) {
-    console.log(state);
+    // console.log(state);
     this.gridItems.forEach((item, idx) => {
       const itemImg = item.children[0] as HTMLImageElement;
       const imgIdx = idx + (state.currentPage - 1) * 24;
@@ -92,28 +92,6 @@ export class GridView {
     this.gridItems.forEach((item) => {
       item.addEventListener('mouseleave', this.hideSubBtn.bind(this));
     });
-  }
-
-  showNextPage() {
-    if (this.state.currentPage === 4) {
-      this.state.currentPage = 1;
-      this.onStateChanged();
-      return;
-    }
-
-    this.state.currentPage += 1;
-    this.onStateChanged();
-  }
-
-  showPrevPage() {
-    if (this.state.currentPage === 1) {
-      this.state.currentPage = 4;
-      this.onStateChanged();
-      return;
-    }
-
-    this.state.currentPage -= 1;
-    this.onStateChanged();
   }
 
   showSubBtn(e: HTMLElementEvent<HTMLDivElement>) {
