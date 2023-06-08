@@ -13,6 +13,7 @@ const fs = require('fs');
   for (let i = 0; i < 246; i++) {
     const data = await page.evaluate(() => {
       const top = document.querySelector('.MediaNewsView-module__news_top___YCAPy');
+      const mediaLink = top.querySelector('.MediaNewsView-module__news_logo___MQbz7');
       const mediaLogo = top.querySelector('.MediaNewsView-module__news_logo___MQbz7 > img');
       const editInfo = top.querySelector('.MediaNewsView-module__time___zS8dM');
 
@@ -27,6 +28,7 @@ const fs = require('fs');
 
       return {
         mediaInfo: {
+          url: mediaLink.href,
           imgSrc: mediaLogo.src,
           imgAlt: mediaLogo.alt,
           editInfo: editInfo.textContent
