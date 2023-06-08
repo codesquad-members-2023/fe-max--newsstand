@@ -6,6 +6,7 @@
 .btn-move {
 	position: absolute;
 	top: 50%;
+	transform: translateY(-50%);
 
 	&.prev {
 		left: -83px;
@@ -202,6 +203,17 @@
 	position: absolute;
 	background-color: $OFF_WHITE;
 	z-index: 10;
+	width: 100%;
+	cursor: pointer;
+	.btn-grid-unsubscribe {
+		margin: 0 auto;
+		width: 74px;
+		padding: 5px 10px 5px 8px;
+		img {
+			width: 12px;
+			height: 12px;
+		}
+	}
 }
 
 .btn-grid-subscribe {

@@ -3,6 +3,7 @@ import { createStore } from '../../utils/createStore';
 import { Dispatcher } from '../../utils/dispatcher';
 import { createAction } from '../../utils/createAction';
 import { Action } from '../../types/types';
+import { createSubscribeButton } from './button.js';
 
 let initialState = {
 	mode: 'GRID',
@@ -16,13 +17,11 @@ let initialState = {
 
 export const Media = {
 	async init() {
-		await ActionCreator.fetchData();
+		await ActionCreator.loadData();
 		mediaStore.subscribe(this.updateView.bind(this));
 		this.updateView();
+		this.renderButton();
 		console.log(mediaStore.getState());
-
-		const viewModeBtn = document.querySelector('.btn__viewer');
-		viewModeBtn.addEventListener('click', this.handleViewMode);
 	},
 
 	updateView() {
@@ -34,8 +33,6 @@ export const Media = {
 		} else if (mode === 'LIST') {
 			ViewForm.renderList();
 		}
-
-		// console.log(mediaStore.getState());
 	},
 
 	handleViewMode(e) {
@@ -63,15 +60,35 @@ export const Media = {
 			}
 		}
 	},
+
+	renderButton() {
+		const viewModeBtn = document.querySelector('.btn__viewer');
+		viewModeBtn.addEventListener('click', this.handleViewMode);
+
+		const gridItems = document.querySelectorAll('.grid-item');
+		gridItems.forEach((item) => {
+			const btnBox = createSubscribeButton();
+
+			item.appendChild(btnBox);
+
+			item.addEventListener('mouseover', () => {
+				btnBox.style.display = 'block';
+			});
+
+			item.addEventListener('mouseout', () => {
+				btnBox.style.display = 'none';
+			});
+		});
+	},
 };
 
 const ActionCreator = {
-	async fetchData() {
+	async loadData() {
 		try {
 			const data = await fetchGridData();
 			console.log(data);
 
-			const action = createAction('FETCH_GRID_DATA', data);
+			const action = createAction('LOAD_GRID_DATA', data);
 			Dispatcher.dispatch(action);
 		} catch (error) {
 			console.error('Error occurred while fetching data: ', error);
@@ -86,11 +103,13 @@ const ActionCreator = {
 
 const updateStateFunc = (state, action) => {
 	switch (action.type) {
-		case 'FETCH_GRID_DATA':
+		case 'LOAD_GRID_DATA':
+			let totalPage = Math.ceil(action.payload.length / 24);
 			return {
 				...state,
 				allGridData: action.payload,
 				currentGridData: action.payload.slice(0, 24),
+				totalPage: totalPage,
 			};
 		// case 'FETCH_GRID_DATA':
 		// 	return {
