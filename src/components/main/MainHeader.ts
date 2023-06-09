@@ -1,15 +1,19 @@
 import { createElement } from '../../utils/domUtils';
 import style from './MainHeader.module.css';
 
+type MainHeaderProps = {
+  mainViewerInfo: {
+    targetMedia: 'total' | 'subscribed';
+    viewerState: 'listView' | 'gridView';
+  };
+};
+
 export default class MainHeader {
   public readonly element;
   private tabs;
   private viewers;
 
-  constructor(props: {
-    targetMedia: 'total' | 'subscribed';
-    viewerState: 'listView' | 'gridView';
-  }) {
+  constructor(props:MainHeaderProps) {
     this.element = createElement('header', { class: style.header });
     this.tabs = this.createTabs();
     this.viewers = this.createViewers();
@@ -82,25 +86,22 @@ export default class MainHeader {
     return nav;
   }
 
-  private render(props: {
-    targetMedia: 'total' | 'subscribed';
-    viewerState: 'listView' | 'gridView';
-  }) {
-    this.updateTabs(props.targetMedia);
-    this.updateViewers(props.viewerState);
+  private render(props: MainHeaderProps) {
+    this.updateTabs(props.mainViewerInfo.targetMedia);
+    this.updateViewers(props.mainViewerInfo.viewerState);
   }
 
   private updateTabs(targetMedia: 'total' | 'subscribed') {
     for (const tab of this.tabs) {
       const isActiveTab = tab.getAttribute('data-target-media') === targetMedia;
-      tab.classList.toggle(style.active_tab, isActiveTab);
+      tab.classList.toggle(style.active_tab!, isActiveTab);
     }
   }
 
   private updateViewers(viewerState: 'listView' | 'gridView') {
     for (const viewer of this.viewers) {
       const isActiveViewer = viewer.getAttribute('data-state') === viewerState;
-      viewer.classList.toggle(style.active_viewer, isActiveViewer);
+      viewer.classList.toggle(style.active_viewer!, isActiveViewer);
     }
   }
 

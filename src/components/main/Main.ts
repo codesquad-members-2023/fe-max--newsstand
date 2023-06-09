@@ -12,6 +12,7 @@ type MainProps = {
     viewerState: 'listView' | 'gridView';
   };
   news: NewsData | null;
+  fields: FieldData[];
 };
 
 export default class Main {
@@ -21,15 +22,12 @@ export default class Main {
 
   constructor(props: MainProps) {
     this.element = createElement('main', { class: style.main });
-    this.header = new MainHeader({
-      targetMedia: props.mainViewerInfo.targetMedia,
-      viewerState: props.mainViewerInfo.viewerState
-    });
+    this.header = new MainHeader(props);
     // this.content = new GridView({
     //   gridInfo: props.gridInfo,
     //   subscriptionInfo: props.subscriptionInfo
     // });
-    this.content = new ListView({ news: props.news });
+    this.content = new ListView(props);
     this.element.append(this.header.element, this.content.element);
   }
 

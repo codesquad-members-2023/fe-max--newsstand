@@ -1,62 +1,39 @@
+import { invoke } from '../../../main';
+import { getNewsFields } from '../../../utils/dataUtils';
 import { createElement } from '../../../utils/domUtils';
+import { Field } from './Field';
 import style from './ListView.module.css';
 
 export class FieldTab {
-  public readonly element = createElement('nav', { class: style.field_tab });;
-  private fields  = this.createFields();
+  public readonly element = createElement('nav', { class: style.field_tab });
+  private container = createElement('ul', { class: style.field_tab__container });
+  private fields;
 
-  constructor() {
-    const container = createElement('ul', { class: style.field_tab__container });
+  constructor(props: { fields: FieldData[] }) {
+    this.fields = props.fields.map((field) => new Field(field));
 
-    container.append(...this.fields);
-    this.element.append(container);
+    this.fields.forEach((field) => this.container.append(field.element));
+    this.element.append(this.container);
+
+    this.initFieldData();
   }
 
-  private createFields() {
-    const titles = [
-      '종합/경제',
-      '방송/통신',
-      'IT',
-      '영자지',
-      '스포츠/연예',
-      '매거진/전문지',
-      '지역'
-    ];
-    return titles.map((title) => {
-      const item = createElement('li', {
-        class: [style.field_tab__item, 'font-body-sm'],
-        'data-field': title
-      });
-      const anchor = createElement('a', { href: '#' });
-      anchor.textContent = title;
-
-      const counter = createElement('span');
-
-      item.append(anchor, counter);
-
-      return item;
+  private async initFieldData() {
+    invoke({
+      type: 'initFieldData',
+      payload: {
+        fields: await getNewsFields()
+      }
     });
   }
 
-  updateView({ news }: { news: NewsData | null }) {
-    if (!news) {
-      return;
+  updateView({ news, fields }: { news: NewsData | null; fields: FieldData[] }) {
+    if (this.fields.length !== fields.length) {
+      this.fields = fields.map((field) => new Field(field));
+      this.fields.forEach((field) => this.container.append(field.element));
     }
-    for (const field of this.fields) {
-      const activeField = field.dataset.field === news.category;
-      if (activeField) {
-        field.dataset.active = 'true';
-        this.setFieldCount(field, `${news.order}/${news.categoryCount}`);
-      } else {
-        field.dataset.active = 'false';
-        this.setFieldCount(field, '');
-      }
+    if (news) {
+      this.fields.forEach((field, index) => field.updateView(fields[index]!, news));
     }
-  }
-
-  setFieldCount(field: HTMLElement, count: string) {
-    const fieldCounter = field?.lastElementChild;
-    if (!fieldCounter) return;
-    fieldCounter.textContent = count;
   }
 }

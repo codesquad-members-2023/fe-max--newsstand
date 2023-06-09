@@ -13,6 +13,7 @@ type NewsStandProps = {
     viewerState: 'listView' | 'gridView';
   };
   news: NewsData | null;
+  fields: FieldData[]
 };
 
 export default class NewsStand {
@@ -25,22 +26,12 @@ export default class NewsStand {
 
     const header = new Header({ dateInfo: props.dateInfo });
     this.newsBar = new NewsBar();
-    this.main = new Main({
-      gridInfo: props.gridInfo,
-      subscriptionInfo: props.subscriptionInfo,
-      mainViewerInfo: props.mainViewerInfo,
-      news: props.news
-    });
+    this.main = new Main(props);
 
     this.element.append(header.element, this.newsBar.element, this.main.element);
   }
 
   updateView(props: NewsStandProps) {
-    this.main.updateView({
-      gridInfo: props.gridInfo,
-      subscriptionInfo: props.subscriptionInfo,
-      mainViewerInfo: props.mainViewerInfo,
-      news: props.news
-    });
+    this.main.updateView(props);
   }
 }

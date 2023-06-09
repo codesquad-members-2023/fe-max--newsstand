@@ -15,6 +15,11 @@ export const getNewsList = async (index:number) => {
   return await response.json();
 }
 
+export const getNewsFields = async () => {
+  const response = await fetch(`${serverUrl}/newsList/fields`);
+  return await response.json();
+}
+
 export const getSubscribedIds = () => {
   const subscribedIdsInStorage = localStorage.getItem('subscribedIds');
   if (subscribedIdsInStorage === null) {

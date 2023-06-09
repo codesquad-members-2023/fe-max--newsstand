@@ -42,6 +42,12 @@ type Action =
       payload: {
         news: NewsData | null;
       };
+    }
+    | {
+      type: 'initFieldData';
+      payload: {
+        fields: string[];
+      };
     };
 
 type GridImg = {
@@ -91,4 +97,9 @@ type MediaInfo = {
   imgSrc: string;
   imgAlt: string;
   editInfo: string;
+}
+
+type FieldData = {
+  name: string;
+  active: boolean;
 }

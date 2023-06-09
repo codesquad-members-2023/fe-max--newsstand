@@ -5,27 +5,36 @@ import { FieldTab } from './FieldTab';
 import style from './ListView.module.css';
 import { PressNews } from './pressNews/PressNews';
 
+type ListViewProps = {
+  news: NewsData | null;
+  subscriptionInfo: number[];
+  fields: FieldData[];
+};
+
 export class ListView {
   public readonly element = createElement('section', { class: style.list_view });
-  private fieldTab = new FieldTab();
-  private pressNews = new PressNews();
+  private fieldTab;
+  private pressNews;
 
-  constructor(props: { news: NewsData | null }) {
+  constructor(props: ListViewProps) {
+    this.fieldTab = new FieldTab(props);
+    this.pressNews = new PressNews();
     this.element.append(this.fieldTab.element, this.pressNews.element);
 
     this.initNewsData();
   }
 
   private async initNewsData() {
+    const START_INDEX = 0;
     invoke({
       type: 'initNewsData',
       payload: {
-        news: await getNewsList(0)
+        news: await getNewsList(START_INDEX)
       }
     });
   }
 
-  updateView(props: { news: NewsData | null }) {
+  updateView(props: ListViewProps) {
     this.fieldTab.updateView(props);
     this.pressNews.updateView(props);
   }

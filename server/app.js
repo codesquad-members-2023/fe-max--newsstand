@@ -46,6 +46,17 @@ app.get('/newsList', (req, res) => {
   });
 });
 
+app.get('/newsList/fields', (req, res) => {
+  const filePath = path.join(__dirname, 'data', 'newsList.json');
+  const data = fs.readFileSync(filePath, { encoding: 'utf8' });
+  const newsList = JSON.parse(data);
+
+  const fields = new Set();
+  newsList.forEach(({category}) => fields.add(category));
+
+  return res.json([...fields]);
+});
+
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
 });
