@@ -21,7 +21,9 @@ export class Reducer {
       }
       case "SELECT_GRID_TAB":
       case "SELECT_LIST_TAB": {
-        return this.toggleCurrentContent(state);
+        const newState = this.toggleCurrentContent(state);
+
+        return this.changeCurrentList(newState);
       }
       case "UPDATE_SUBSCRIBE":
         return this.updateSubscribe(state, action.subscribedPress);
@@ -143,7 +145,6 @@ export class Reducer {
 
     newState.grid.currentTypeList = subList;
     newState.grid.currentViewList = subList.slice(startIndex, endIndex);
-
     return newState;
   }
 
