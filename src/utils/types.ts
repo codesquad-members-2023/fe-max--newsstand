@@ -60,7 +60,7 @@ export type newsStandState = {
   list: {
     currentViewIndex: number;
     listAllList: ListDataType[];
-    currentTypeList: ListDataType;
+    currentTypeList: ListDataType[];
     currentViewList: ListDataType;
   };
 };
@@ -103,6 +103,13 @@ interface SelectListTab {
   type: "SELECT_LIST_TAB";
 }
 
+interface IncrementIndex {
+  type: "INCREMENT_INDEX";
+}
+
+interface DecrementIndex {
+  type: "DECREMENT_INDEX";
+}
 export type Action =
   | IncrementTick
   | ToggleRollingState
@@ -112,5 +119,7 @@ export type Action =
   | SelectSubContent
   | UpdateSubscribe
   | SelectGridTab
-  | SelectListTab;
+  | SelectListTab
+  | IncrementIndex
+  | DecrementIndex;
 

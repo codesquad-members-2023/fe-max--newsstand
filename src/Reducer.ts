@@ -25,15 +25,49 @@ export class Reducer {
       }
       case "UPDATE_SUBSCRIBE":
         return this.updateSubscribe(state, action.subscribedPress);
-
+      case "INCREMENT_INDEX":
+        return this.changeIndex(state, 1);
+      case "DECREMENT_INDEX":
+        return this.changeIndex(state, -1);
       default:
         return state;
+    }
+  }
+
+  private changeIndex(state: newsStandState, direction: number) {
+    const newState = this.deepCopy(state);
+    const list = newState.list;
+    const currentPage = newState.currentPage;
+
+    list.currentViewIndex += direction;
+    if (list.currentViewIndex === list.currentViewList.pressList.length) {
+      if (currentPage === list.currentTypeList.length - 1) {
+        list.currentViewIndex = 0;
+        newState.currentPage = 0;
+
+        return this.getUpdatedListData(newState);
+      }
+      list.currentViewIndex = 0;
+      newState.currentPage += 1;
+
+      return this.getUpdatedListData(newState);
+    } else {
+      if (newState.currentPage === 0 && list.currentViewIndex === -1) {
+        newState.currentPage = list.listAllList.length - 1;
+        list.currentViewIndex =
+          list.listAllList[newState.currentPage].pressList.length - 1;
+
+        return this.getUpdatedListData(newState);
+      }
+
+      return this.getUpdatedListData(newState);
     }
   }
 
   private toggleCurrentContent(state: newsStandState) {
     const newState = this.deepCopy(state);
     newState.currentPage = 0;
+    newState.list.currentViewIndex = 0;
 
     if (newState.currentContent === "grid") {
       newState.currentContent = "list";
@@ -55,8 +89,11 @@ export class Reducer {
     const newState = this.deepCopy(state);
 
     newState.currentPage = 0;
-
-    return this.getUpdatedGridData(newState);
+    if (newState.currentContent === "grid") {
+      return this.getUpdatedGridData(newState);
+    } else {
+      return this.getUpdatedListData(newState);
+    }
   }
 
   private changePage(state: newsStandState, direction: number): newsStandState {
@@ -65,6 +102,7 @@ export class Reducer {
 
     if (newState.currentContent === "grid") {
       return this.getUpdatedGridData(newState);
+    } else {
     }
 
     return newState;
@@ -107,6 +145,48 @@ export class Reducer {
     newState.grid.currentViewList = subList.slice(startIndex, endIndex);
 
     return newState;
+  }
+
+  private getUpdatedListData(state: newsStandState) {
+    const newState = this.deepCopy(state);
+    const list = newState.list;
+    const currentPage = newState.currentPage;
+
+    if (newState.currentType === "all") {
+      newState.list.currentTypeList = list.listAllList;
+      newState.list.currentViewList = list.listAllList[currentPage];
+
+      if (newState.currentPage === list.listAllList.length) {
+        newState.currentPage = 0;
+        list.currentViewIndex = 0;
+      }
+
+      newState.list.currentViewList =
+        newState.list.listAllList[newState.currentPage];
+
+      return newState;
+    } else {
+      const listData = list.listAllList
+        .map((data) => {
+          const list = data.pressList
+            .filter((pressData) =>
+              newState.subscribedPress.includes(pressData.pressLogoAlt)
+            )
+            .map((pressData) => ({
+              title: pressData.pressLogoAlt,
+              pressList: [pressData],
+            }));
+
+          return list;
+        })
+        .flat();
+
+      list.currentViewIndex = 0;
+      newState.list.currentTypeList = listData;
+      newState.list.currentViewList = listData[currentPage];
+
+      return newState;
+    }
   }
 
   private incrementTick(state: newsStandState): newsStandState {

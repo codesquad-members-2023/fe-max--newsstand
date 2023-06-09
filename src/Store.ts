@@ -1,4 +1,4 @@
-import { Action, currentTypeList, newsStandState } from "./utils/types";
+import { Action, newsStandState } from "./utils/types";
 import { Reducer } from "./Reducer";
 
 const ITEM_PER_PAGE = 24;
