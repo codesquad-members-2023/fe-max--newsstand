@@ -3,7 +3,7 @@ import { Attrs } from "../interfaces/Attrs";
 import { ElementRenderingTree } from "../interfaces/ElementRenderingTree";
 import { HtmlTagFunctions } from "../interfaces/HtmlTagFunctions";
 import { RenderingTree } from "../interfaces/RenderingTree";
-import { $ } from "./nDom";
+import { $ } from "./dom/index";
 
 export function generateTagHelper() {
   const helper: Partial<HtmlTagFunctions> = {};
@@ -13,15 +13,13 @@ export function generateTagHelper() {
       first?: Attrs | RenderingTree[],
       second?: RenderingTree[]
     ): ElementRenderingTree => {
-      if (!first) {
-        return $(tag);
-      } else if (Array.isArray(first)) {
-        return $(tag, first);
-      } else if (second) {
-        return $(tag, first, second);
-      } else {
-        return $(tag, first);
-      }
+      return !first
+        ? $(tag)
+        : Array.isArray(first)
+        ? $(tag, first)
+        : second
+        ? $(tag, first, second)
+        : $(tag, first);
     };
   });
 

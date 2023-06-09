@@ -1,9 +1,9 @@
 import { TagHelper } from "../core/TagHelper";
+import { use } from "../core/dom/use";
 import { invoke } from "../core/invoke";
-import { use } from "../core/nDom";
 import { DateTimeFormatOptions } from "../interfaces/DateTimeFormatOptions";
 
-export const DateIndicator = ({date}: {date: Date}) => {
+export const DateIndicator = ({ date }: { date: Date }) => {
   const options: DateTimeFormatOptions = {
     year: "numeric",
     month: "2-digit",
@@ -23,6 +23,7 @@ export const DateIndicator = ({date}: {date: Date}) => {
     return () => {
       window.clearInterval(intervalId);
     };
-  }, []).render(p({class: "date"}, [date.toLocaleDateString("ko-KR", options)]));
+  }, []).render(
+    p({ class: "date" }, [date.toLocaleDateString("ko-KR", options)])
+  );
 };
-

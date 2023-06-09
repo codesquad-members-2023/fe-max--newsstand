@@ -2,7 +2,7 @@ import { ElementRenderingTree } from "../interfaces/ElementRenderingTree";
 import { RenderingTree } from "../interfaces/RenderingTree";
 import { SyncOptions } from "../interfaces/SyncOptions";
 import { UseRenderingTree } from "../interfaces/UseRenderingTree";
-import { getTypeOfRenderingTree } from "./nDom";
+import { getTypeOfRenderingTree } from "./dom/getTypeOfRenderingTree";
 
 export function applyRenderingTreeToDom(
   root: HTMLElement,

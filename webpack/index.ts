@@ -1,6 +1,6 @@
 import { App } from "./App";
 import { Store } from "./src/core/Store";
-import { setUp } from "./src/core/nDom";
+import { setUp } from "./src/core/dom/setUp";
 import { Action } from "./src/interfaces/Action";
 import { RenderingTree } from "./src/interfaces/RenderingTree";
 import { State } from "./src/interfaces/State";
