@@ -1,5 +1,5 @@
-import { invoke } from '../../main';
-import { createElement } from '../../utils/domUtils';
+import { invoke } from '../../../main';
+import { createElement } from '../../../utils/domUtils';
 import { SubscriptionCover } from './SubscriptionCover';
 import style from './GridView.module.css';
 

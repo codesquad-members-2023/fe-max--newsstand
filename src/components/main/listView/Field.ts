@@ -6,7 +6,7 @@ export class Field {
   private link = createElement('a', { href: '#' });
   private counter = createElement('span');
 
-  constructor(field: FieldData) {
+  constructor() {
     this.element.append(this.link, this.counter);
   }
 

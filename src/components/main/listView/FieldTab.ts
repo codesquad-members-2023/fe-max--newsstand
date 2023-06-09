@@ -10,7 +10,7 @@ export class FieldTab {
   private fields;
 
   constructor(props: { fields: FieldData[] }) {
-    this.fields = props.fields.map((field) => new Field(field));
+    this.fields = props.fields.map(() => new Field());
 
     this.fields.forEach((field) => this.container.append(field.element));
     this.element.append(this.container);
@@ -29,7 +29,7 @@ export class FieldTab {
 
   updateView({ news, fields }: { news: NewsData | null; fields: FieldData[] }) {
     if (this.fields.length !== fields.length) {
-      this.fields = fields.map((field) => new Field(field));
+      this.fields = fields.map(() => new Field());
       this.fields.forEach((field) => this.container.append(field.element));
     }
     if (news) {

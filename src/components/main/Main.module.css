@@ -1,5 +1,18 @@
 .main {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 27px;
+}
+
+.left_arrow {
+  position: absolute;
+  left: -48px;
+  top: 50%;
+}
+
+.right_arrow {
+  position: absolute;
+  right: -48px;
+  top: 50%;
 }
