@@ -4,6 +4,8 @@
 
 - [Dev Log](#dev-log)
   - [Moving Away from `HTMLTemplateElement`](#moving-away-from-htmltemplateelement)
+  - [`static` Methods on Custom Components](#static-methods-on-custom-components)
+  - [Props/State Mechanism](#propsstate-mechanism)
 
 ## Dev Log
 
@@ -97,3 +99,15 @@ customElements.define("my-element", MyElement);
 - Create the DOM first, then pass it on to `super()` (`Component`).
   - Cannot call `this.createDOM()`, so make `createDOM` a static method.
 - For methods that are not specific to a single instance, make them static.
+
+### Props/State Mechanism
+
+- Props/State mechanism is unidirectional.
+  - View --> Dispatch --> Reducer --> Store --> View
+- Store uses an observer mechanism where changes to a particular state in the store will trigger the `setProps` callbacks of each observer component with the new state.
+- Components that directly receive data from the store receive it through `setProps` method that they provide to the store.
+  - Components use the `setProps` to receive props and do whatever it needs to.
+    - Ex: pass on the props to child components.
+    - Ex: update/render its UI based on the received props.
+- "Dumb" components receive props from parent component through the use of `data-*` attributes and the `attributeChangedCallback` lifecycle callback for simplicity.
+  - Using `data-*` attributes to pass around props requires DOM access and parsing. Therefore, it is ideal to use it for data that is not too big and/or doesn't change too frequently.

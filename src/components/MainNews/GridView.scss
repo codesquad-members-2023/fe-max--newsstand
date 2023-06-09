@@ -1,0 +1,75 @@
+@use "@styles/_design-system.scss" as *;
+
+:host {
+  display: block;
+}
+
+.grid-view-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  .grid-container {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    border: 1px solid $color-grey-100;
+
+    .press-box {
+      height: 96px;
+      margin-bottom: -1px;
+      margin-right: -1px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-right: 1px solid $color-grey-100;
+      border-bottom: 1px solid $color-grey-100;
+
+      img {
+        height: 20px;
+      }
+    }
+  }
+
+  button {
+    width: 26px;
+    height: 42px;
+    position: absolute;
+    background-color: transparent;
+    border: none;
+
+    &.left-btn {
+      left: -74px;
+
+      &::before {
+        width: inherit;
+        height: inherit;
+        content: "";
+        display: block;
+        background-image: url("/src/assets/button-left.svg");
+        background-repeat: no-repeat;
+      }
+    }
+
+    &.right-btn {
+      right: -74px;
+
+      &::before {
+        width: inherit;
+        height: inherit;
+        content: "";
+        display: block;
+        background-image: url("/src/assets/button-right.svg");
+        background-repeat: no-repeat;
+      }
+    }
+
+    &.is-inactive {
+      display: none;
+    }
+  }
+}

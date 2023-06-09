@@ -14,6 +14,28 @@ import fs from "fs";
   // Scrape
   const pressData: { src: string | undefined; alt: string | undefined }[] = [];
 
+  // Click on "뉴스스탠드" tab.
+  const newsStandTab = await page.$(
+    ".ContentHeaderView-module__tab_text___IuWnG"
+  );
+  newsStandTab?.click();
+
+  // Make sure page is on entire press view.
+  const allOrSubscribedPressBtn = await page.$(
+    ".ContentHeaderSubView-module__btn_more___HnWNR"
+  );
+  const currAllOrSubscribedView = await (
+    await allOrSubscribedPressBtn?.getProperty("textContent")
+  )?.jsonValue();
+
+  if (currAllOrSubscribedView !== "전체언론사") {
+    allOrSubscribedPressBtn?.click(); // open select options
+    const optionBtn = await allOrSubscribedPressBtn?.$(
+      ".ContentHeaderSubView-module__link_more___MNUTv"
+    );
+    optionBtn?.click(); // click on "전체언론사 보기"
+  }
+
   for (let i = 0; i < 4; i++) {
     const pressBoxes = await page.$$(
       ".MediaSubscriptionView-module__subscription_box___YshKW"
