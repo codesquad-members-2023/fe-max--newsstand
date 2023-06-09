@@ -43,11 +43,17 @@ type Action =
         news: NewsData | null;
       };
     }
-    | {
+  | {
       type: 'initFieldData';
       payload: {
         fields: string[];
       };
+    }
+  | {
+      type: 'onClickLeftArrow';
+    }
+  | {
+      type: 'onClickRightArrow';
     };
 
 type GridImg = {
@@ -97,9 +103,9 @@ type MediaInfo = {
   imgSrc: string;
   imgAlt: string;
   editInfo: string;
-}
+};
 
 type FieldData = {
   name: string;
   active: boolean;
-}
+};

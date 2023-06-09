@@ -1,16 +1,21 @@
 import NewsStand from './components/NewsStand';
 import { getGridImgs, getSubscribedIds, setSubscribedIds } from './utils/dataUtils';
-import { shuffleArray } from './utils/randomUtils';
+import { shuffleArray } from './utils/commonUtils';
 import './styles/main.css';
+import { GRID_PAGE_LIMIT } from './constants';
 
 const state: {
   dateInfo: Date;
   gridInfo: GridInfo;
   subscribedMediaIds: number[];
   targetMedia: 'total' | 'subscribed';
-  viewerState: 'listView' | 'gridView';
+  viewer: 'gridView' | 'listView';
   news: NewsData | null;
   fields: FieldData[];
+  arrowInfo: {
+    left: boolean;
+    right: boolean;
+  };
 } = {
   dateInfo: new Date(),
   gridInfo: {
@@ -21,9 +26,13 @@ const state: {
   },
   subscribedMediaIds: getSubscribedIds(),
   targetMedia: 'total',
-  viewerState: 'gridView',
+  viewer: 'gridView',
   news: null,
-  fields: []
+  fields: [],
+  arrowInfo: {
+    left: true,
+    right: true
+  }
 };
 
 const initGridImgs = async () => {
@@ -38,10 +47,8 @@ const initGridImgs = async () => {
 export const invoke = (action: Action) => {
   switch (action.type) {
     case 'moveToNextGridPage':
-      state.gridInfo.page = state.gridInfo.page + 1;
       break;
     case 'moveToPrevGridPage':
-      state.gridInfo.page = state.gridInfo.page - 1;
       break;
     case 'turnOnSubscriptionCover':
       state.gridInfo.isHover = action.payload.hoverOnGrid;
@@ -53,6 +60,7 @@ export const invoke = (action: Action) => {
       break;
     case 'initGridImages':
       state.gridInfo.imgs = action.payload.images;
+      changeArrowStates();
       break;
     case 'updateSubscribedMedia':
       if (action.payload.mode === 'add') {
@@ -72,8 +80,9 @@ export const invoke = (action: Action) => {
       }
       state.news = news;
       state.fields.forEach((field) => {
-        field.active = field.name === news.category
-      })
+        field.active = field.name === news.category;
+      });
+      changeArrowStates();
       break;
     case 'initFieldData':
       const fields = action.payload.fields;
@@ -81,12 +90,42 @@ export const invoke = (action: Action) => {
         return {
           name: field,
           active: field === state.news?.category
-        }
-      })
+        };
+      });
+      break;
+    case 'onClickLeftArrow':
+      if (state.viewer === 'gridView') {
+        decreaseGridPage();
+      }
+      break;
+    case 'onClickRightArrow':
+      if (state.viewer === 'gridView') {
+        increaseGridPage()
+      }
       break;
   }
 
   onChangeState();
+};
+
+const increaseGridPage = () => {
+  state.gridInfo.page = (state.gridInfo.page + 1 + GRID_PAGE_LIMIT) % GRID_PAGE_LIMIT;
+  changeArrowStates();
+}
+
+const decreaseGridPage = () => {
+  state.gridInfo.page = (state.gridInfo.page - 1 + GRID_PAGE_LIMIT) % GRID_PAGE_LIMIT;
+  changeArrowStates();
+}
+
+const changeArrowStates = () => {
+  if (state.viewer === 'listView') {
+    state.arrowInfo.left = true;
+    state.arrowInfo.right = true;
+    return;
+  }
+  state.arrowInfo.left = state.gridInfo.page !== 0;
+  state.arrowInfo.right = state.gridInfo.page !== 3;
 };
 
 const app = document.querySelector('#app')!;
@@ -96,10 +135,11 @@ const newsStand = new NewsStand({
   subscriptionInfo: state.subscribedMediaIds,
   mainViewerInfo: {
     targetMedia: state.targetMedia,
-    viewerState: state.viewerState
+    viewer: state.viewer
   },
   news: state.news,
-  fields: state.fields
+  fields: state.fields,
+  arrowInfo: state.arrowInfo
 });
 
 app.append(newsStand.element);
@@ -112,9 +152,10 @@ const onChangeState = () => {
     subscriptionInfo: state.subscribedMediaIds,
     mainViewerInfo: {
       targetMedia: state.targetMedia,
-      viewerState: state.viewerState
+      viewer: state.viewer
     },
     news: state.news,
-    fields: state.fields
+    fields: state.fields,
+    arrowInfo: state.arrowInfo
   });
 };

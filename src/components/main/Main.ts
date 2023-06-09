@@ -10,10 +10,14 @@ type MainProps = {
   subscriptionInfo: number[];
   mainViewerInfo: {
     targetMedia: 'total' | 'subscribed';
-    viewerState: 'listView' | 'gridView';
+    viewer: 'listView' | 'gridView';
   };
   news: NewsData | null;
   fields: FieldData[];
+  arrowInfo: {
+    left: boolean;
+    right: boolean;
+  }
 };
 
 export default class Main {
@@ -26,11 +30,7 @@ export default class Main {
   constructor(props: MainProps) {
     this.element = createElement('main', { class: style.main });
     this.header = new MainHeader(props);
-    // this.content = new GridView({
-    //   gridInfo: props.gridInfo,
-    //   subscriptionInfo: props.subscriptionInfo
-    // });
-
+    // this.content = new GridView(props);
     this.content = new ListView(props);
     this.leftButton = new ArrowButton('left');
     this.rightButton = new ArrowButton('right');
@@ -43,10 +43,9 @@ export default class Main {
   }
 
   updateView(props: MainProps) {
-    // this.content.updateView({
-    //   gridInfo: props.gridInfo,
-    //   subscriptionInfo: props.subscriptionInfo
-    // });
+    // this.content.updateView(props);
     this.content.updateView(props);
+    this.leftButton.updateView(props);
+    this.rightButton.updateView(props);
   }
 }

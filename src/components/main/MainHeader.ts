@@ -4,7 +4,7 @@ import style from './MainHeader.module.css';
 type MainHeaderProps = {
   mainViewerInfo: {
     targetMedia: 'total' | 'subscribed';
-    viewerState: 'listView' | 'gridView';
+    viewer: 'listView' | 'gridView';
   };
 };
 
@@ -88,7 +88,7 @@ export default class MainHeader {
 
   private render(props: MainHeaderProps) {
     this.updateTabs(props.mainViewerInfo.targetMedia);
-    this.updateViewers(props.mainViewerInfo.viewerState);
+    this.updateViewers(props.mainViewerInfo.viewer);
   }
 
   private updateTabs(targetMedia: 'total' | 'subscribed') {

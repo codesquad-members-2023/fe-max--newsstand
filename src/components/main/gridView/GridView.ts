@@ -10,22 +10,19 @@ type GridViewProps = {
 
 export default class GridView {
   public readonly element;
-  private table = this.createTable();
+  private table;
   private cells;
   private subscriptionCover;
-  private leftArrow;
-  private rightArrow;
   private numberOfCells = 24;
   private props;
 
   constructor(props: GridViewProps) {
     this.element = createElement('section', { class: style.grid_view });
     this.cells = this.createCells();
-    this.leftArrow = this.createArrow('left');
-    this.rightArrow = this.createArrow('right');
+    this.table = this.createTable();
     this.subscriptionCover = new SubscriptionCover();
 
-    this.element.append(this.table, this.leftArrow, this.rightArrow);
+    this.element.append(this.table);
 
     this.props = this.updateProps(props);
     this.updateView(props);
@@ -76,16 +73,6 @@ export default class GridView {
     return tbody;
   }
 
-  private createArrow(direction: string) {
-    const imagePath = `assets/icons/${direction}_arrow.svg`;
-    const arrow = createElement('a', { href: '#', class: style[`${direction}_arrow`] });
-    const arrowImg = createElement('img', { src: imagePath });
-
-    arrow.append(arrowImg);
-
-    return arrow;
-  }
-
   private updateProps(props: GridViewProps) {
     return {
       imgs: [...props.gridInfo.imgs],
@@ -125,18 +112,6 @@ export default class GridView {
         payload: {
           hoverOnGrid: false
         }
-      });
-    });
-
-    this.leftArrow.addEventListener('click', () => {
-      invoke({
-        type: 'moveToPrevGridPage'
-      });
-    });
-
-    this.rightArrow.addEventListener('click', () => {
-      invoke({
-        type: 'moveToNextGridPage'
       });
     });
   }
@@ -205,8 +180,5 @@ export default class GridView {
       mediaLogo.setAttribute('alt', img.alt);
       mediaLogo.setAttribute('data-id', img.id.toString());
     });
-
-    this.leftArrow.classList.toggle('no-display', page === 0);
-    this.rightArrow.classList.toggle('no-display', page === 3);
   }
 }

@@ -10,10 +10,14 @@ type NewsStandProps = {
   subscriptionInfo: number[];
   mainViewerInfo: {
     targetMedia: 'total' | 'subscribed';
-    viewerState: 'listView' | 'gridView';
+    viewer: 'listView' | 'gridView';
   };
   news: NewsData | null;
-  fields: FieldData[]
+  fields: FieldData[];
+  arrowInfo: {
+    left: boolean;
+    right: boolean;
+  }
 };
 
 export default class NewsStand {
