@@ -22,3 +22,9 @@ export type TListViewData = {
     subArticles: string[];
   }[];
 };
+
+export type TListViewProps = {
+  listViewData: TListViewData[];
+  listViewCurrCategoryIdx: number;
+  listViewCurrArticleIdx: number;
+};

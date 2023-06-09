@@ -7,7 +7,9 @@ export enum EState {
   ListViewData = "listViewData",
 
   HeadlinesRollerTick = "headlinesRollerTick",
+
   MainContentView = "mainContentView",
+  ListViewCurrArticleIdx = "listViewCurrArticleIdx",
 }
 
 type StateItem<T> = {
@@ -22,10 +24,13 @@ interface IStore {
   gridViewData: StateItem<TGridViewData[]>;
   listViewData: StateItem<TListViewData[]>;
 
+  headlinesRollerTick: StateItem<number>;
   leftHeadlineIdx: StateItem<number>;
   rightHeadlineIdx: StateItem<number>;
-  headlinesRollerTick: StateItem<number>;
+
   mainContentView: StateItem<"list-view" | "grid-view">;
+  listViewCurrCategoryIdx: StateItem<number>;
+  listViewCurrArticleIdx: StateItem<number>;
 }
 
 const recentHeadlinesData = await fetchData("/data/recent-headlines.json");
@@ -37,10 +42,13 @@ const store: IStore = {
   gridViewData: { value: gridViewData, observers: [] },
   listViewData: { value: listViewData, observers: [] },
 
+  headlinesRollerTick: { value: 0, observers: [] },
   leftHeadlineIdx: { value: 0, observers: [] },
   rightHeadlineIdx: { value: 1, observers: [] },
-  headlinesRollerTick: { value: 0, observers: [] },
+
   mainContentView: { value: "grid-view", observers: [] },
+  listViewCurrCategoryIdx: { value: 0, observers: [] },
+  listViewCurrArticleIdx: { value: 0, observers: [] },
 };
 
 export function observeStates(observer: Component, ...targetStates: EState[]) {
@@ -70,61 +78,132 @@ export function dispatch(action: TAction) {
 }
 
 function reducer(action: TAction) {
-  switch (action.type) {
+  const { type, content } = action;
+
+  switch (type) {
     case "headlinesRollerTick":
-      store.headlinesRollerTick.value += 1;
-
-      if (store.headlinesRollerTick.value % 5 === 0) {
-        store.leftHeadlineIdx.value += 2;
-        store.leftHeadlineIdx.value %= store.recentHeadlinesData.value.length;
-      } else if (store.headlinesRollerTick.value % 5 === 1) {
-        store.rightHeadlineIdx.value += 2;
-        store.rightHeadlineIdx.value %= store.recentHeadlinesData.value.length;
-      }
-
-      store.headlinesRollerTick.observers.forEach((observer) => {
-        observer.setProps({
-          leftHeadlineProps: {
-            pressName:
-              store.recentHeadlinesData.value[store.leftHeadlineIdx.value]
-                .pressName,
-            headline:
-              store.recentHeadlinesData.value[store.leftHeadlineIdx.value]
-                .headlineTitle,
-          },
-          rightHeadlineProps: {
-            pressName:
-              store.recentHeadlinesData.value[store.rightHeadlineIdx.value]
-                .pressName,
-            headline:
-              store.recentHeadlinesData.value[store.rightHeadlineIdx.value]
-                .headlineTitle,
-          },
-        });
-      });
+      headlinesRollerTickHandler();
       break;
     case "mainContentView":
-      if (action.content === store.mainContentView.value) return;
-
-      if (action.content === "list-view") {
-        store.mainContentView.value = "list-view";
-      } else if (action.content === "grid-view") {
-        store.mainContentView.value = "grid-view";
-      }
-
-      store.mainContentView.observers.forEach((observer) => {
-        observer.setProps({ mainContentView: store.mainContentView.value });
-      });
+      mainContentViewHandler(content);
       break;
     case "gridViewData":
-      store.gridViewData.observers.forEach((observer) => {
-        observer.setProps({ gridViewData });
-      });
+      gridViewDataHandler();
       break;
     case "listViewData":
-      store.listViewData.observers.forEach((observer) => {
-        observer.setProps({ listViewData });
-      });
+      listViewDataHandler();
+      break;
+    case "listViewCurrArticleIdx":
+      listViewCurrArticleIdxHandler(content);
       break;
   }
+}
+
+function headlinesRollerTickHandler() {
+  store.headlinesRollerTick.value += 1;
+
+  if (store.headlinesRollerTick.value % 5 === 0) {
+    store.leftHeadlineIdx.value += 2;
+    store.leftHeadlineIdx.value %= store.recentHeadlinesData.value.length;
+  } else if (store.headlinesRollerTick.value % 5 === 1) {
+    store.rightHeadlineIdx.value += 2;
+    store.rightHeadlineIdx.value %= store.recentHeadlinesData.value.length;
+  }
+
+  store.headlinesRollerTick.observers.forEach((observer) => {
+    observer.setProps({
+      leftHeadlineProps: {
+        pressName:
+          store.recentHeadlinesData.value[store.leftHeadlineIdx.value]
+            .pressName,
+        headline:
+          store.recentHeadlinesData.value[store.leftHeadlineIdx.value]
+            .headlineTitle,
+      },
+      rightHeadlineProps: {
+        pressName:
+          store.recentHeadlinesData.value[store.rightHeadlineIdx.value]
+            .pressName,
+        headline:
+          store.recentHeadlinesData.value[store.rightHeadlineIdx.value]
+            .headlineTitle,
+      },
+    });
+  });
+}
+
+function mainContentViewHandler(content: string) {
+  if (content === store.mainContentView.value) return;
+
+  if (content === "list-view") {
+    store.mainContentView.value = "list-view";
+  } else if (content === "grid-view") {
+    store.mainContentView.value = "grid-view";
+  }
+
+  store.mainContentView.observers.forEach((observer) => {
+    observer.setProps({ mainContentView: store.mainContentView.value });
+  });
+}
+
+function gridViewDataHandler() {
+  store.gridViewData.observers.forEach((observer) => {
+    observer.setProps({ gridViewData: store.gridViewData.value });
+  });
+}
+
+function listViewDataHandler() {
+  store.listViewData.observers.forEach((observer) => {
+    observer.setProps({
+      listViewData: store.listViewData.value,
+      listViewCurrCategoryIdx: store.listViewCurrCategoryIdx.value,
+      listViewCurrArticleIdx: store.listViewCurrArticleIdx.value,
+    });
+  });
+}
+
+function listViewCurrArticleIdxHandler(content: string) {
+  switch (content) {
+    case "increment":
+      const nextArticleIdx = store.listViewCurrArticleIdx.value + 1;
+      const currCategoryNumArticles =
+        store.listViewData.value[store.listViewCurrCategoryIdx.value].pressList
+          .length;
+
+      //- Move to the next category index but so that it loops to the front.
+      if (nextArticleIdx >= currCategoryNumArticles) {
+        store.listViewCurrCategoryIdx.value =
+          (store.listViewCurrCategoryIdx.value + 1) %
+          store.listViewData.value.length;
+        store.listViewCurrArticleIdx.value = 0;
+      } else {
+        store.listViewCurrArticleIdx.value = nextArticleIdx;
+      }
+      break;
+    case "decrement":
+      const prevArticleIdx = store.listViewCurrArticleIdx.value - 1;
+
+      //- Move to the previous category index but so that it loops to the back.
+      if (prevArticleIdx < 0) {
+        store.listViewCurrCategoryIdx.value =
+          (store.listViewCurrCategoryIdx.value -
+            1 +
+            store.listViewData.value.length) %
+          store.listViewData.value.length;
+        store.listViewCurrArticleIdx.value =
+          store.listViewData.value[store.listViewCurrCategoryIdx.value]
+            .pressList.length - 1;
+      } else {
+        store.listViewCurrArticleIdx.value = prevArticleIdx;
+      }
+      break;
+  }
+
+  store.listViewCurrArticleIdx.observers.forEach((observer) => {
+    observer.setProps({
+      listViewData: store.listViewData.value,
+      listViewCurrCategoryIdx: store.listViewCurrCategoryIdx.value,
+      listViewCurrArticleIdx: store.listViewCurrArticleIdx.value,
+    });
+  });
 }
