@@ -54,6 +54,7 @@ export class List extends Base {
     const currentIndex = this.props.list.currentViewIndex;
     const list = this.props.list;
     const currentPressList = list.currentViewList.pressList;
+
     textButton.forEach((element) => {
       element.classList.remove("currentTextButton");
     });
@@ -140,23 +141,28 @@ export class List extends Base {
       props.list.currentViewIndex !== this.props.list.currentViewIndex;
     const isChangedCurrentType = props.currentType !== this.props.currentType;
 
-    if (isChangedCurrentViewIndex || isChangedCurrentPage) {
+    if (
+      isChangedCurrentViewIndex ||
+      isChangedCurrentPage ||
+      isChangedCurrentType
+    ) {
       this.props = props;
+
+      if (isChangedCurrentType) {
+        this.component["fieldTab"].remove();
+        delete this.components["textButton"];
+        delete this.components["count"];
+        delete this.components["fill"];
+
+        const fieldTab = this.setTemplate(this.createFieldTab());
+
+        this.node?.prepend(fieldTab);
+        this.setFieldTab();
+      }
+
       this.setFieldTab();
       this.setPressNews();
       this.resetAnimation();
-    }
-
-    if (isChangedCurrentType) {
-      this.props = props;
-      this.component["fieldTab"].remove();
-      delete this.components["textButton"];
-      delete this.components["count"];
-
-      const fieldTab = this.setTemplate(this.createFieldTab());
-
-      this.node?.prepend(fieldTab);
-      this.setFieldTab();
     }
   }
 }
