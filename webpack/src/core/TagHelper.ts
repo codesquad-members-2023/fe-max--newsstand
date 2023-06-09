@@ -1,23 +1,14 @@
-import { getHtmlTags } from "../utils/getHtmlTags";
-import { $ } from "./dom";
-import {
-  Attrs,
-  ElementRenderingTree,
-  HtmlTagFunction,
-  RenderingTree,
-} from "./types";
-
-export const htmlTags = getHtmlTags();
-
-type HtmlTags = (typeof htmlTags)[number];
-type HtmlTagFunctions = {
-  [K in HtmlTags]: HtmlTagFunction;
-};
+import { HtmlTagName } from "../constants/HtmlTag";
+import { Attrs } from "../interfaces/Attrs";
+import { ElementRenderingTree } from "../interfaces/ElementRenderingTree";
+import { HtmlTagFunctions } from "../interfaces/HtmlTagFunctions";
+import { RenderingTree } from "../interfaces/RenderingTree";
+import { $ } from "./nDom";
 
 export function generateTagHelper() {
   const helper: Partial<HtmlTagFunctions> = {};
 
-  htmlTags.forEach((tag) => {
+  Object.values(HtmlTagName).forEach((tag) => {
     helper[tag] = (
       first?: Attrs | RenderingTree[],
       second?: RenderingTree[]

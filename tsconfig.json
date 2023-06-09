@@ -6,6 +6,6 @@
     "moduleResolution": "node",
     "esModuleInterop": true
   },
-  "include": ["src/**/*.ts", "src/ts/server.ts", "vite.config.js"],
+  "include": ["src/**/*.ts", "server.ts", "vite.config.ts"],
   "exclude": ["node_modules"]
 }

@@ -1,6 +1,11 @@
+import { Attrs } from "../interfaces/Attrs";
+import { Children } from "../interfaces/Children";
+import { ElementRenderingTree } from "../interfaces/ElementRenderingTree";
+import { RenderingTree } from "../interfaces/RenderingTree";
+import { UseFn } from "../interfaces/UseFn";
+import { UseRenderingTree } from "../interfaces/UseRenderingTree";
+import { Store } from "./Store";
 import { applyRenderingTreeToDom } from "./apply";
-import { Attrs, Children, ElementRenderingTree, RenderingTree, UseFn, UseRenderingTree } from "./types";
-
 
 export function getTypeOfRenderingTree(
   renderingTree: RenderingTree
@@ -18,19 +23,19 @@ export let onAction: (action: any) => void = (_action) => {
 
 export function setUp<TState, TAction>(
   root: HTMLElement,
-  state: TState,
-  stateToRenderingTree: (state: TState) => RenderingTree,
-  updateStateOnAction: (state: TState, action: TAction) => void
+  store: Store<TState>,
+  stateToRenderingTree: (store: Store<TState>) => RenderingTree,
+  updateStateOnAction: (store: Store<TState>, action: TAction) => void
 ) {
   let prevRenderingTree: RenderingTree | undefined;
   const onStateChanged = () => {
-    const renderingTree = stateToRenderingTree(state);
+    const renderingTree = stateToRenderingTree(store);
     applyRenderingTreeToDom(root, renderingTree, prevRenderingTree);
     prevRenderingTree = renderingTree;
   };
 
   onAction = (action: TAction) => {
-    updateStateOnAction(state, action);
+    updateStateOnAction(store, action);
     onStateChanged();
   };
 
@@ -50,7 +55,6 @@ export function use(fn: UseFn, dependencies: any[]): UseRenderingTree {
     },
   };
 }
-
 
 export function $(tagName: string): ElementRenderingTree;
 export function $(tagName: string, attrs: Attrs): ElementRenderingTree;
@@ -84,5 +88,3 @@ export function $(
     children: childrenList,
   };
 }
-
-

@@ -4,7 +4,7 @@ import ejs from "ejs";
 import { createServer as createViteServer } from "vite";
 import fetch from "node-fetch";
 import { parse } from "node-html-parser";
-import { getNewsData } from "./utils/getNewsData";
+import { getNewsData } from "./src/ts/utils/getNewsData";
 import dotenv from "dotenv";
 
 async function createServer() {
@@ -33,7 +33,7 @@ async function createServer() {
   app.get("/api/rolling", async (req, res) => {
     try {
       if (!process.env.YNA_URL) {
-        throw new Error('The YNA_URL environment variable is not defined');
+        throw new Error("The YNA_URL environment variable is not defined");
       }
       const response = await fetch(process.env.YNA_URL);
       if (response.status == 200) {
@@ -109,7 +109,7 @@ async function createServer() {
   });
 
   app.listen(port, () => {
-    console.log(`${process.env.BASE_URL}:${port}`);
+    console.log(`${process.env.BASE_URL}:${port}/`);
   });
 }
 

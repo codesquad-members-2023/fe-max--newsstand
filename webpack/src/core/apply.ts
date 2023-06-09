@@ -1,19 +1,17 @@
-import { getTypeOfRenderingTree } from "./dom";
-import {
-  ElementRenderingTree,
-  RenderingTree,
-  SyncOptions,
-  UseRenderingTree,
-} from "./types";
+import { ElementRenderingTree } from "../interfaces/ElementRenderingTree";
+import { RenderingTree } from "../interfaces/RenderingTree";
+import { SyncOptions } from "../interfaces/SyncOptions";
+import { UseRenderingTree } from "../interfaces/UseRenderingTree";
+import { getTypeOfRenderingTree } from "./nDom";
 
 export function applyRenderingTreeToDom(
   root: HTMLElement,
   renderingTree: RenderingTree,
   prevRenderingTree: RenderingTree | undefined
 ) {
-  const replace = (newNode: Node) => {
+  function replace(newNode: Node) {
     root.replaceChildren(newNode);
-  };
+  }
 
   sync({
     target: root.firstChild,
@@ -62,15 +60,13 @@ function sync({
 
   switch (renderingTree.type) {
     case "element":
-      {
-        if (
-          !(target instanceof HTMLElement) ||
-          target.tagName !== renderingTree.tagName
-        ) {
-          return replace(createNode(renderingTree, prevRenderingTree));
-        }
-        syncElement(target, renderingTree, prevRenderingTree);
+      if (
+        !(target instanceof HTMLElement) ||
+        target.tagName !== renderingTree.tagName
+      ) {
+        return replace(createNode(renderingTree, prevRenderingTree));
       }
+      syncElement(target, renderingTree, prevRenderingTree);
       break;
     case "use": {
       if (
@@ -93,7 +89,7 @@ function sync({
         renderingTree.dispose = renderingTree.useFn() || undefined;
       }
 
-      renderingTree.children.forEach((child, index) => {
+      function childrenSync(child: RenderingTree, index: number) {
         sync({
           target,
           replace,
@@ -104,7 +100,9 @@ function sync({
               ? prevRenderingTree.children[index]
               : undefined,
         });
-      });
+      }
+
+      renderingTree.children.forEach(childrenSync);
     }
   }
 }
@@ -166,16 +164,17 @@ function syncChildren(
     if (!renderingTree) {
       continue;
     }
+    function replace(newNode: Node) {
+      if (childNode) {
+        target.replaceChild(newNode, childNode);
+      } else {
+        target.appendChild(newNode);
+      }
+    }
 
     sync({
       target: childNode,
-      replace: (newNode) => {
-        if (childNode) {
-          target.replaceChild(newNode, childNode);
-        } else {
-          target.appendChild(newNode);
-        }
-      },
+      replace,
       renderingTree,
       prevRenderingTree: prevChildren?.[i],
     });

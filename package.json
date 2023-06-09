@@ -19,10 +19,11 @@
     "vite": "^4.3.9",
     "vite-ssr": "^0.17.1"
   },
+  "main": "server.ts",
   "name": "ts-server",
   "version": "1.0.0",
   "scripts": {
-    "start": "nodemon --watch 'src/**/*' -e ts,tsx --exec ts-node src/ts/server.ts"
+    "start": "nodemon --watch 'src/**/*' -e ts,tsx --exec ts-node server.ts"
   },
   "keywords": [],
   "author": "",

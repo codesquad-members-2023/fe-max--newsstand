@@ -2,10 +2,10 @@
 export default {
   build: {
     rollupOptions: {
-      input: './src/server.ts'
-    }
+      input: "server.ts",
+    },
   },
   optimizeDeps: {
-    include: ["dependency-to-include"]
-  }
-}
+    include: ["dependency-to-include"],
+  },
+};
