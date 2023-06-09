@@ -7,4 +7,12 @@ export const Actions = {
       direction: direction,
     });
   },
+  handleSubBtn(target: HTMLElement, display: string) {
+    console.log(target, display);
+    dispatcher.dispatch({
+      type: 'Handle_Sub_Btn',
+      target: target,
+      display: display,
+    });
+  },
 };

@@ -7,13 +7,16 @@ import { Action, GridNewsData } from '../utils/types';
 export type GridState = {
   newsData: GridNewsData[];
   currentPage: number;
+  targetCell: HTMLElement;
+  displayCell: string;
+  subscriptionList: string[];
 };
 
 const setInitialData = async () => {
   const gridDataRaw = await fetchData('gridData');
   const gridData = shuffleArray(gridDataRaw);
 
-  return { newsData: gridData, currentPage: 1 };
+  return { newsData: gridData, currentPage: 1, targetCell: {}, subscriptionList: [] };
 };
 class GridStore<TState> {
   private dispatcher: Dispatcher<any>;
@@ -49,6 +52,24 @@ class GridStore<TState> {
           break;
         }
 
+        break;
+
+      case 'Handle_Sub_Btn':
+        const pressName = action.target.children[0].alt;
+
+        if (!state.subscriptionList.includes(pressName)) {
+          state.targetCell = action.target;
+          if (action.display === 'show') {
+            state.displayCell = 'show';
+            this.emitChange();
+            break;
+          }
+          if (action.display === 'hide') {
+            state.displayCell = 'hide';
+            this.emitChange();
+            break;
+          }
+        }
         break;
 
       default:

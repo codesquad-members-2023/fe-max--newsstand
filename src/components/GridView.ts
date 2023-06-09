@@ -40,6 +40,13 @@ export class GridView {
   }
 
   update(state: GridState) {
+    if (state.displayCell === 'show') {
+      this.showSubBtn(state);
+    }
+    if (state.displayCell === 'hide') {
+      this.hideSubBtn(state);
+    }
+
     if (state.currentPage === 1) {
       this.render(state);
       this.leftBtn.classList.add('hide');
@@ -62,15 +69,6 @@ export class GridView {
     });
   }
 
-  // firstRender(startIdx: number) {
-  //   this.gridItems.forEach((item, idx) => {
-  //     const itemImg = item.children[0] as HTMLImageElement;
-  //     const imgIdx = idx + startIdx;
-  //     itemImg.src = this.props[imgIdx] ? this.props[imgIdx].logoURL : '';
-  //     itemImg.alt = this.props[imgIdx] ? this.props[imgIdx].name : '';
-  //   });
-  // }
-
   setEvent() {
     this.rightBtn.addEventListener('click', () => {
       Actions.clickArrowBtn('right');
@@ -79,15 +77,19 @@ export class GridView {
       Actions.clickArrowBtn('left');
     });
     this.gridItems.forEach((item) => {
-      item.addEventListener('mouseenter', this.showSubBtn.bind(this));
+      item.addEventListener('mouseenter', (e) => {
+        Actions.handleSubBtn(e.target, 'show');
+      });
     });
     this.gridItems.forEach((item) => {
-      item.addEventListener('mouseleave', this.hideSubBtn.bind(this));
+      item.addEventListener('mouseleave', (e) => {
+        Actions.handleSubBtn(e.target, 'hide');
+      });
     });
   }
 
-  showSubBtn(e: HTMLElementEvent<HTMLDivElement>) {
-    const gridCell = e.target;
+  showSubBtn({ targetCell }) {
+    const gridCell = targetCell;
 
     const subBtn = document.createElement('button');
     subBtn.classList.add('sub-btn');
@@ -106,8 +108,8 @@ export class GridView {
     gridCell.append(subBtn);
   }
 
-  hideSubBtn(e: HTMLElementEvent<HTMLDivElement>) {
-    const gridCell = e.target;
+  hideSubBtn({ targetCell }) {
+    const gridCell = targetCell;
     const subBtn = gridCell.querySelector('.sub-btn');
     gridCell.removeChild(subBtn);
     gridCell.children[0].classList.remove('hide');
