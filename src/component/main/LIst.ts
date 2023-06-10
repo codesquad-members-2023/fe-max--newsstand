@@ -59,6 +59,13 @@ export class List extends Base {
       element.classList.remove("currentTextButton");
     });
     textButton[currentPage].classList.add("currentTextButton");
+
+    let scrollLeft =
+      textButton[currentPage].offsetLeft -
+      this.component["fieldTab"].offsetWidth / 2 +
+      textButton[currentPage].offsetWidth / 2;
+    this.component["fieldTab"].scroll({ left: scrollLeft });
+
     count.forEach((element) => {
       element.replaceChildren();
     });
@@ -80,7 +87,7 @@ export class List extends Base {
   }
 
   createPressNews() {
-    return `<div class="main__list__pressNews">
+    return `<div class="main__list__pressNews" data-component="pressNews">
       <div class="main__list__pressNews__pressInfo">
         <img data-component="pressInfoImg">
         <span class="pressInfo__editDate" data-component="pressInfoEditDate"></span>
@@ -126,6 +133,45 @@ export class List extends Base {
     });
   }
 
+  handleSubscribeBtnClick() {
+    const subscribeList = this.getSubscribeList();
+    const currentPress =
+      this.props.list.currentViewList.pressList[
+        this.props.list.currentViewIndex
+      ].pressLogoAlt;
+
+    if (subscribeList.includes(currentPress)) {
+      const newSubscribedList = subscribeList.filter(
+        (pressNameItem: string) => pressNameItem !== currentPress
+      );
+
+      localStorage.setItem("subscribe", JSON.stringify(newSubscribedList));
+    } else {
+      subscribeList.push(currentPress);
+
+      localStorage.setItem("subscribe", JSON.stringify(subscribeList));
+    }
+    store.dispatch({
+      type: "UPDATE_SUBSCRIBE",
+      subscribedPress: this.getSubscribeList(),
+    });
+
+    this.setFieldTab();
+    this.setPressNews();
+  }
+
+  getSubscribeList() {
+    const subscribeList = localStorage.getItem("subscribe");
+
+    if (subscribeList) {
+      return JSON.parse(subscribeList);
+    }
+
+    localStorage.setItem("subscribe", JSON.stringify([]));
+
+    return [];
+  }
+
   handleNextIndex() {
     store.dispatch({ type: "INCREMENT_INDEX" });
   }
@@ -140,15 +186,19 @@ export class List extends Base {
     const isChangedCurrentViewIndex =
       props.list.currentViewIndex !== this.props.list.currentViewIndex;
     const isChangedCurrentType = props.currentType !== this.props.currentType;
+    const isChangedCurrentTypeList =
+      props.list.currentTypeList.length !==
+      this.props.list.currentTypeList.length;
 
     if (
       isChangedCurrentViewIndex ||
       isChangedCurrentPage ||
-      isChangedCurrentType
+      isChangedCurrentType ||
+      isChangedCurrentTypeList
     ) {
       this.props = props;
 
-      if (isChangedCurrentType) {
+      if (isChangedCurrentType || isChangedCurrentTypeList) {
         this.component["fieldTab"].remove();
         delete this.components["textButton"];
         delete this.components["count"];
@@ -157,6 +207,13 @@ export class List extends Base {
         const fieldTab = this.setTemplate(this.createFieldTab());
 
         this.node?.prepend(fieldTab);
+        if (this.props.list.currentTypeList.length === 0) {
+          this.component["pressNews"].remove();
+
+          return;
+        }
+
+        this.node?.appendChild(this.component["pressNews"]);
         this.setFieldTab();
       }
 

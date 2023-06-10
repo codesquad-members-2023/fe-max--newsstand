@@ -46,20 +46,22 @@ export class Reducer {
       if (currentPage === list.currentTypeList.length - 1) {
         list.currentViewIndex = 0;
         newState.currentPage = 0;
-
-        return this.getUpdatedListData(newState);
+      } else {
+        list.currentViewIndex = 0;
+        newState.currentPage += 1;
       }
-      list.currentViewIndex = 0;
-      newState.currentPage += 1;
 
       return this.getUpdatedListData(newState);
     } else {
       if (newState.currentPage === 0 && list.currentViewIndex === -1) {
-        newState.currentPage = list.listAllList.length - 1;
+        newState.currentPage = list.currentTypeList.length - 1;
         list.currentViewIndex =
-          list.listAllList[newState.currentPage].pressList.length - 1;
-
-        return this.getUpdatedListData(newState);
+          list.currentTypeList[newState.currentPage].pressList.length - 1;
+      } else if (list.currentViewIndex === -1) {
+        newState.currentPage =
+          newState.currentPage > list.currentTypeList.length
+            ? 0
+            : newState.currentPage - 1;
       }
 
       return this.getUpdatedListData(newState);
@@ -135,16 +137,15 @@ export class Reducer {
         startIndex,
         endIndex
       );
+    } else {
+      const subList = newState.grid.gridAllList.filter((grid) =>
+        newState.subscribedPress.includes(grid.alt)
+      );
 
-      return newState;
+      newState.grid.currentTypeList = subList;
+      newState.grid.currentViewList = subList.slice(startIndex, endIndex);
     }
 
-    const subList = newState.grid.gridAllList.filter((grid) =>
-      newState.subscribedPress.includes(grid.alt)
-    );
-
-    newState.grid.currentTypeList = subList;
-    newState.grid.currentViewList = subList.slice(startIndex, endIndex);
     return newState;
   }
 
@@ -164,8 +165,6 @@ export class Reducer {
 
       newState.list.currentViewList =
         newState.list.listAllList[newState.currentPage];
-
-      return newState;
     } else {
       const listData = list.listAllList
         .map((data) => {
@@ -185,9 +184,9 @@ export class Reducer {
       list.currentViewIndex = 0;
       newState.list.currentTypeList = listData;
       newState.list.currentViewList = listData[currentPage];
-
-      return newState;
     }
+
+    return newState;
   }
 
   private incrementTick(state: newsStandState): newsStandState {

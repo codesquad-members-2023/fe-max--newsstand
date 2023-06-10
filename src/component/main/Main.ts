@@ -109,6 +109,9 @@ export class Main extends Base {
       } else if (!isLastPage && !nextButtonExists) {
         buttonsDiv.appendChild(nextBtn);
       }
+    } else {
+      buttonsDiv.prepend(prevBtn);
+      buttonsDiv.appendChild(nextBtn);
     }
   }
 

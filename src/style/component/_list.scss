@@ -10,6 +10,9 @@
     border: 1px solid $gray100;
     @include title-xs;
     position: relative;
+    overflow: auto;
+    white-space: nowrap;
+    height: 41px;
 
     &__textButton {
       display: flex;
@@ -44,7 +47,7 @@
         width: 0;
         z-index: 0;
         background-color: #4362d0;
-        animation: fillProgress 1s linear forwards;
+        animation: fillProgress 10s linear forwards;
       }
     }
 
