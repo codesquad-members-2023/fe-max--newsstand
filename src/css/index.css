@@ -213,12 +213,14 @@ display:revert; revert to element instead of attribute */
   font-size: 16px;
   font-weight: 700;
   line-height: 19.09px;
+  cursor: pointer;
 }
 .total-media .press-tab__my-subs {
   font-size: 16px;
   font-weight: 500;
   line-height: 22px;
   color: #879298;
+  cursor: pointer;
 }
 .total-media .view-tab {
   display: flex;
@@ -230,9 +232,11 @@ display:revert; revert to element instead of attribute */
 }
 .total-media .view-tab__list {
   color: #d2dae0;
+  cursor: pointer;
 }
 .total-media .view-tab__grid {
   color: #4362d0;
+  cursor: pointer;
 }
 
 .grid {
@@ -265,6 +269,7 @@ display:revert; revert to element instead of attribute */
   gap: 2px;
   border: 1px solid #d2dae0;
   border-radius: 50px;
+  cursor: pointer;
 }
 .grid-overlay .text {
   width: 42px;
@@ -282,13 +287,14 @@ display:revert; revert to element instead of attribute */
   background-color: #7890e7;
   position: relative;
   display: flex;
+  flex-shrink: 0;
   font-size: 14px;
   font-weight: 700;
   line-height: 16.71px;
   color: #ffffff;
   padding: 11.5px 16px;
   width: 166px;
-  height: 40px;
+  height: 100%;
   overflow: hidden;
 }
 .progress .content-wrapper {
@@ -297,6 +303,7 @@ display:revert; revert to element instead of attribute */
   gap: 8px;
   width: 100%;
   height: 100%;
+  align-items: center;
   justify-content: space-between;
 }
 .progress .content-wrapper .press-number {
@@ -322,12 +329,14 @@ display:revert; revert to element instead of attribute */
 
 .article {
   display: flex;
+  flex-shrink: 0;
   font-size: 14px;
   font-weight: 500;
   line-height: 16.71px;
   color: #6e8091;
   padding: 11.5px 16px;
   cursor: pointer;
+  height: 100%;
 }
 .article .text:hover {
   border-bottom: 1px solid #6e8091;
@@ -457,6 +466,8 @@ display:revert; revert to element instead of attribute */
   height: 40px;
   background-color: #f5f7f9;
   border: 1px solid #d2dae0;
+  overflow-x: scroll;
+  white-space: nowrap;
 }
 .list-view__press-news {
   display: flex;
@@ -468,6 +479,12 @@ display:revert; revert to element instead of attribute */
   height: 348px;
   /* gray100 */
   border: 1px solid #d2dae0;
+}
+.list-view .press-arrow {
+  display: flex;
+  align-items: center;
+  width: 9px;
+  height: 9px;
 }
 
 .grid-view {
@@ -526,6 +543,64 @@ display:revert; revert to element instead of attribute */
   line-height: 22px;
   opacity: 0;
   animation: fadeIn 0.25s ease-in forwards;
+}
+
+.unsubs-alert {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  width: 320px;
+  height: 140px;
+  left: 322px;
+  top: 235px;
+  filter: drop-shadow(0px 4px 2px rgba(20, 33, 43, 0.02)) drop-shadow(0px 2px 18px rgba(20, 33, 43, 0.08));
+  z-index: 3;
+}
+.unsubs-alert .text-wrapper {
+  display: flex;
+  padding: 24px;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  width: 320px;
+  height: 92px;
+  background: #ffffff;
+  border: 1px solid #d2dae0;
+}
+.unsubs-alert .text-wrapper span {
+  color: #14212b;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 19.09px;
+}
+.unsubs-alert .text-wrapper .text {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 22px;
+  color: #5f6e76;
+}
+.unsubs-alert .buttons {
+  display: flex;
+  width: 320px;
+  height: 48px;
+  background: #f5f7f9;
+  border: 0.5px solid #d2dae0;
+}
+.unsubs-alert .buttons .button {
+  display: flex;
+  flex-direction: row;
+  width: 160px;
+  height: 48px;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  gap: 10px;
+  border: 0.5px solid #d2dae0;
+}
+.unsubs-alert .buttons .button:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 #app {

@@ -6,6 +6,10 @@ import { subscribe } from "./store/store";
 import { Media } from "./components/media/Media";
 import { Grid, Images } from "./components/media/Grid";
 import { List } from "./components/media/List";
+import { errorMessages } from "./constants/errorMessages";
+
+const BASE_URL = "http://localhost:8080";
+const listNews = await initListNews();
 
 const header = Header();
 header.setEvent();
@@ -13,64 +17,52 @@ header.setEvent();
 const newsDate = NewsDate();
 newsDate.render();
 
-const initRoller = async () => {
-  try {
-    const headlines = await initHeadlinesData();
-    const roller = Roller(headlines);
-    roller.render();
-    roller.setEvent();
-    roller.startRolling();
-  } catch (error) {
-    console.error("헤드라인 정보를 가져오지 못했습니다.");
-  }
-};
-
-initRoller();
+const headlines = await fetchHeadlinesData();
+const roller = Roller(headlines);
+roller.render();
+roller.setEvent();
+roller.startRolling();
 
 const media = Media();
 media.render();
 media.setEvent();
+export const renderUnSubsAlert = media.renderUnSubsAlert;
 subscribe(media.render);
 
-export const initGrid = async () => {
-  try {
-    const images = await initImages();
-    const grid = Grid(images);
+const images = await fetchImages();
+const grid = Grid(listNews.images);
+grid.setEvent();
+subscribe(grid.render);
 
-    subscribe(grid.render);
-    subscribe(grid.renderButton);
-    grid.setEvent();
-  } catch (error) {
-    console.error("이미지들을 가져오지 못했습니다.");
-  }
-};
-
-initGrid();
-
-const listNews = await initListNews();
-
-const list = List(listNews);
+// const listNews = await initListNews();
+const list = List(listNews.data);
 list.setEvent();
-export const renderFieldTab = list.renderFieldTab;
-export const loadNextPress = list.loadNextPress;
+subscribe(list.render);
 export const stopInterval = list.stopInterval;
 export const startInterval = list.startInterval;
-export const setArt = list.setArt;
 
-async function initHeadlinesData() {
-  const response = await fetch("http://localhost:8080/headlines");
-  const data = await response.json();
-  return data.headlines;
+async function fetchHeadlinesData() {
+  try {
+    const response = await fetch(BASE_URL + "/headlines");
+    const data = await response.json();
+    return data.headlines;
+  } catch (error) {
+    console.error(`${errorMessages.fetchHeadlinesFailed}`, error);
+    throw error;
+  }
 }
 
-async function initImages() {
-  const response = await fetch("http://localhost:8080/images");
-  const data = await response.json();
-  const images = data.images.map((image: Images) => image);
-
-  const shuffledImages = shuffleArray(images);
-
-  return shuffledImages;
+async function fetchImages() {
+  try {
+    const response = await fetch(BASE_URL + "/images");
+    const data = await response.json();
+    // console.log(data);
+    const shuffledImages = shuffleArray(data.images);
+    return shuffledImages;
+  } catch (error) {
+    console.error(`${errorMessages.fetchImagesFailed}`, error);
+    throw error;
+  }
 }
 function shuffleArray(target: Images) {
   for (let i = target.length - 1; i > 0; i--) {
@@ -81,10 +73,26 @@ function shuffleArray(target: Images) {
 }
 
 async function initListNews() {
-  const response = await fetch("http://localhost:8080/list");
-  const data = await response.json();
+  try {
+    const response = await fetch(BASE_URL + "/list");
+    const data = await response.json();
+    console.log(data);
+    const imageData = data.map((item: any) => item.pressList);
 
-  return data;
+    const image = imageData.flatMap((itemArray: any[]) =>
+      itemArray.map((item: any) => ({
+        src: item.pressLogoSrc,
+        alt: item.pressLogoAlt,
+      }))
+    );
+
+    const images = shuffleArray(image)
+
+    return { data, images };
+  } catch (error) {
+    console.error(`${errorMessages.initListNewsFailed}`, error);
+    throw error;
+  }
 }
 
 // "[속보] 쿤디, \"돼지파스타 맛있어서 돼지된 것 같아...\"",

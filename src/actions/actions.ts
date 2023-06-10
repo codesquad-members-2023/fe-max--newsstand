@@ -1,25 +1,31 @@
 // import { UPDATE_NAME } from "../constants/ActionTypes";
 import {
   AUTO_NEXT_PAGE,
-  GO_NEXT_PAGE,
-  GO_PREV_PAGE,
+  GRID_NEXT_PAGE,
+  GRID_PREV_PAGE,
+  LIST_NEXT_PAGE,
+  LIST_PREV_PAGE,
   POP_SUBS,
   PUSH_SUBS,
-  RESET_ARTICLE_INDEX,
   SET_ARTICLE_INDEX,
   SET_LIST_LAST_PAGE,
   SWITCH_GRID_MODE,
+  SWITCH_GRID_SUBS,
+  SWITCH_GRID_TOTAL,
   SWITCH_LIST_MODE,
+  SWITCH_LIST_SUBS,
+  SWITCH_LIST_TOTAL,
+  UPDATE_NEWS,
   UPDATE_SUBS,
 } from "../constants/ActionTypes";
 import { dispatch } from "../dispatcher/dispatcher";
 
 export const actions = {
-  goNextPage: () => {
-    dispatch({ type: GO_NEXT_PAGE });
+  gridNextPage: () => {
+    dispatch({ type: GRID_NEXT_PAGE });
   },
-  goPrevPage: () => {
-    dispatch({ type: GO_PREV_PAGE });
+  gridPrevPage: () => {
+    dispatch({ type: GRID_PREV_PAGE });
   },
   switchGridMode: () => {
     dispatch({ type: SWITCH_GRID_MODE });
@@ -36,10 +42,13 @@ export const actions = {
   autoNextPage: () => {
     dispatch({ type: AUTO_NEXT_PAGE });
   },
-  resetArticleIndex: () => {
-    dispatch({ type: RESET_ARTICLE_INDEX });
+  listNextPage: (payloads?: object) => {
+    dispatch({ type: LIST_NEXT_PAGE, payload: payloads });
   },
-  setArticleIndex: (index: number) => {
+  listPrevPage: (payloads?: object) => {
+    dispatch({ type: LIST_PREV_PAGE, payload: payloads });
+  },
+  setArticleIndex: (index: object) => {
     dispatch({ type: SET_ARTICLE_INDEX, payload: index });
   },
   pushSubs: (pressName: string) => {
@@ -47,5 +56,20 @@ export const actions = {
   },
   popSubs: (pressName: string) => {
     dispatch({ type: POP_SUBS, payload: pressName });
+  },
+  updateNews: (data: object) => {
+    dispatch({ type: UPDATE_NEWS, payload: data });
+  },
+  switchGridTotal: () => {
+    dispatch({ type: SWITCH_GRID_TOTAL });
+  },
+  switchGridSubs: () => {
+    dispatch({ type: SWITCH_GRID_SUBS });
+  },
+  switchListTotal: () => {
+    dispatch({type: SWITCH_LIST_TOTAL})
+  },
+  switchListSubs: () => {
+    dispatch({ type: SWITCH_LIST_SUBS });
   },
 };
