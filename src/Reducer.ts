@@ -13,6 +13,8 @@ export class Reducer {
         return this.changePage(state, 1);
       case "DECREMENT_PAGE":
         return this.changePage(state, -1);
+      case "UPDATE_PAGE":
+        return this.updatePage(state, action.page);
       case "SELECT_ALL_CONTENT":
       case "SELECT_SUB_CONTENT": {
         const newState = this.changeCurrentType(state);
@@ -36,6 +38,13 @@ export class Reducer {
     }
   }
 
+  private updatePage(state: newsStandState, page: number) {
+    const newState = this.deepCopy(state);
+    newState.currentPage = page;
+
+    return this.getUpdatedListData(newState);
+  }
+
   private changeIndex(state: newsStandState, direction: number) {
     const newState = this.deepCopy(state);
     const list = newState.list;
@@ -50,8 +59,6 @@ export class Reducer {
         list.currentViewIndex = 0;
         newState.currentPage += 1;
       }
-
-      return this.getUpdatedListData(newState);
     } else {
       if (newState.currentPage === 0 && list.currentViewIndex === -1) {
         newState.currentPage = list.currentTypeList.length - 1;
@@ -63,9 +70,9 @@ export class Reducer {
             ? 0
             : newState.currentPage - 1;
       }
-
-      return this.getUpdatedListData(newState);
     }
+
+    return this.getUpdatedListData(newState);
   }
 
   private toggleCurrentContent(state: newsStandState) {
@@ -92,7 +99,6 @@ export class Reducer {
   private changeCurrentList(state: newsStandState) {
     const newState = this.deepCopy(state);
 
-    newState.currentPage = 0;
     if (newState.currentContent === "grid") {
       return this.getUpdatedGridData(newState);
     } else {

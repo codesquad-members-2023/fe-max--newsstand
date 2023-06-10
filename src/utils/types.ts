@@ -82,6 +82,11 @@ interface DecrementPage {
   type: "DECREMENT_PAGE";
 }
 
+interface UpdatePage {
+  type: "UPDATE_PAGE";
+  page: number;
+}
+
 interface SelectAllContent {
   type: "SELECT_ALL_CONTENT";
 }
@@ -115,6 +120,7 @@ export type Action =
   | ToggleRollingState
   | IncrementPage
   | DecrementPage
+  | UpdatePage
   | SelectAllContent
   | SelectSubContent
   | UpdateSubscribe

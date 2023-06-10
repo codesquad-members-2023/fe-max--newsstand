@@ -33,7 +33,7 @@ export class List extends Base {
       <div class="main__list__fieldTab" data-component="fieldTab">
         ${list
           .map((data) => {
-            return `<div class="main__list__fieldTab__textButton" data-components="textButton">
+            return `<div class="main__list__fieldTab__textButton" data-components="textButton" addClick="handleChangePage">
                 <div class="wrapper">
                   <span>${data.title}</span>
                   <span class="count" data-components="count"></span>
@@ -174,6 +174,16 @@ export class List extends Base {
 
   handleNextIndex() {
     store.dispatch({ type: "INCREMENT_INDEX" });
+  }
+
+  handleChangePage(event: Event) {
+    const target = event.currentTarget;
+    if (target instanceof HTMLElement) {
+      const textButtons = this.components["textButton"];
+      const targetPage = textButtons.indexOf(target);
+
+      store.dispatch({ type: "UPDATE_PAGE", page: targetPage });
+    }
   }
 
   isSubscribe(pressName: string) {
