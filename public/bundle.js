@@ -130,13 +130,23 @@ eval("\n\n/* istanbul ignore next  */\nfunction styleTagTransform(css, styleElem
 
 /***/ }),
 
+/***/ "./App.ts":
+/*!****************!*\
+  !*** ./App.ts ***!
+  \****************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   App: () => (/* binding */ App)\n/* harmony export */ });\n/* harmony import */ var _src_components_Header__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./src/components/Header */ \"./src/components/Header.ts\");\n/* harmony import */ var _src_utils_CreateFakeElementHelper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./src/utils/CreateFakeElementHelper */ \"./src/utils/CreateFakeElementHelper.ts\");\n\n\nconst { div } = _src_utils_CreateFakeElementHelper__WEBPACK_IMPORTED_MODULE_1__.CreateFakeElementHelper;\nfunction App() {\n    return div([(0,_src_components_Header__WEBPACK_IMPORTED_MODULE_0__.Header)()]);\n}\n\n\n//# sourceURL=webpack://webpack/./App.ts?");
+
+/***/ }),
+
 /***/ "./index.ts":
 /*!******************!*\
   !*** ./index.ts ***!
   \******************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _src_components_Header__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./src/components/Header */ \"./src/components/Header.ts\");\n/* harmony import */ var _src_core_fakeDOM__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./src/core/fakeDOM */ \"./src/core/fakeDOM.ts\");\n/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./style.css */ \"./style.css\");\n\n\n\n(() => {\n    const root = _src_core_fakeDOM__WEBPACK_IMPORTED_MODULE_1__.FakeDOM.createRoot(document.getElementById(\"root\"));\n    console.log((0,_src_components_Header__WEBPACK_IMPORTED_MODULE_0__.Header)().render());\n    // if (!root) {\n    //   throw new Error(\"root not found\");\n    // }\n    // root.appendChild(render(Header()));\n})();\n\n\n//# sourceURL=webpack://webpack/./index.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./App */ \"./App.ts\");\n/* harmony import */ var _src_core_FakeDom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./src/core/FakeDom */ \"./src/core/FakeDom.ts\");\n/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./style.css */ \"./style.css\");\n\n\n\n(() => {\n    const root = _src_core_FakeDom__WEBPACK_IMPORTED_MODULE_1__.FakeDom.createRoot(document.getElementById(\"root\"));\n    root.render((0,_App__WEBPACK_IMPORTED_MODULE_0__.App)());\n})();\n\n\n//# sourceURL=webpack://webpack/./index.ts?");
 
 /***/ }),
 
@@ -160,13 +170,13 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
-/***/ "./src/core/fakeDOM.ts":
+/***/ "./src/core/FakeDom.ts":
 /*!*****************************!*\
-  !*** ./src/core/fakeDOM.ts ***!
+  !*** ./src/core/FakeDom.ts ***!
   \*****************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   FakeDOM: () => (/* binding */ FakeDOM)\n/* harmony export */ });\nconst FakeDOM = (function () {\n    return {\n        createRoot: (root) => {\n        }\n    };\n})();\n\n\n//# sourceURL=webpack://webpack/./src/core/fakeDOM.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   FakeDom: () => (/* binding */ FakeDom)\n/* harmony export */ });\nconst FakeDom = (function () {\n    let _root = null;\n    return {\n        createRoot: function (root) {\n            _root = root;\n            return this;\n        },\n        get root() {\n            return _root;\n        },\n        render: function (fakeElement) {\n            _root === null || _root === void 0 ? void 0 : _root.replaceChildren(fakeElement.render());\n        },\n    };\n})();\n\n\n//# sourceURL=webpack://webpack/./src/core/FakeDom.ts?");
 
 /***/ }),
 
@@ -186,7 +196,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   createFakeElement: () => (/* binding */ createFakeElement)\n/* harmony export */ });\nfunction defineTextContent(element, text) {\n    element.textContent = text;\n}\nfunction defineProp(element, prop) {\n    const [name, value] = prop;\n    if (name.startsWith(\"on\")) {\n        const eventName = name.slice(2).toLowerCase();\n        element.addEventListener(eventName, value);\n        return;\n    }\n    element.setAttribute(name, value);\n}\nfunction defineProps(element, props) {\n    Object.entries(props).forEach((prop) => defineProp(element, prop));\n}\nfunction appendChildToElement(element, child) {\n    element.appendChild(child.render());\n}\nfunction defineChildren(element, children) {\n    children.forEach((child) => appendChildToElement(element, child));\n}\nfunction render(fakeElement) {\n    const { tagName, props, children, textContent } = fakeElement;\n    const element = document.createElement(tagName);\n    props && defineProps(element, props);\n    children && defineChildren(element, children);\n    textContent && defineTextContent(element, textContent);\n    return element;\n}\nfunction assignFakeElement(fakeElement, arg) {\n    if (Array.isArray(arg)) {\n        fakeElement.children = arg;\n    }\n    else if (typeof arg === \"string\") {\n        fakeElement.textContent = arg;\n    }\n    else if (typeof arg === \"object\") {\n        fakeElement.props = arg;\n    }\n    fakeElement.render = () => render(fakeElement);\n}\nfunction createFakeElement(tagName, ...args) {\n    const fakeElement = {\n        tagName,\n    };\n    args.forEach((arg) => assignFakeElement(fakeElement, arg));\n    return fakeElement;\n}\n\n\n//# sourceURL=webpack://webpack/./src/utils/createFakeElement.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   createFakeElement: () => (/* binding */ createFakeElement)\n/* harmony export */ });\nfunction createFakeElement(tagName, ...args) {\n    const fakeElement = {\n        tagName,\n    };\n    args.forEach((arg) => assignFakeElement(fakeElement, arg));\n    return fakeElement;\n}\nfunction assignFakeElement(fakeElement, arg) {\n    if (Array.isArray(arg)) {\n        fakeElement.children = arg;\n    }\n    else if (typeof arg === \"string\") {\n        fakeElement.textContent = arg;\n    }\n    else if (typeof arg === \"object\") {\n        fakeElement.props = arg;\n    }\n    fakeElement.render = () => render(fakeElement);\n}\nfunction render(fakeElement) {\n    const { tagName, props, children, textContent } = fakeElement;\n    const element = document.createElement(tagName);\n    props && defineProps(element, props);\n    children && defineChildren(element, children);\n    textContent && defineTextContent(element, textContent);\n    return element;\n}\nfunction defineTextContent(element, text) {\n    element.textContent = text;\n}\nfunction defineChildren(element, children) {\n    children.forEach((child) => appendChildToElement(element, child));\n}\nfunction appendChildToElement(element, child) {\n    element.appendChild(child.render());\n}\nfunction defineProps(element, props) {\n    Object.entries(props).forEach((prop) => defineProp(element, prop));\n}\nfunction defineProp(element, prop) {\n    const [name, value] = prop;\n    if (name.startsWith(\"on\")) {\n        const eventName = name.slice(2).toLowerCase();\n        element.addEventListener(eventName, value);\n        return;\n    }\n    element.setAttribute(name, value);\n}\n\n\n//# sourceURL=webpack://webpack/./src/utils/createFakeElement.ts?");
 
 /***/ }),
 

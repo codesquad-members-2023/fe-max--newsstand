@@ -1,19 +1,18 @@
 import { IFakeElement } from "../interfaces/IFakeElement";
 
-function render(fakeElement: IFakeElement) {
+export const FakeDom = (function () {
+  let _root: null | HTMLElement = null;
 
-  
-
-}
-
-function createRoot(root: HTMLElement) {
   return {
-    render,
-  };
-}
-
-export const FakeDOM = (function () {
-  return {
-    createRoot,
+    createRoot: function (root: HTMLElement) {
+      _root = root;
+      return this;
+    },
+    get root() {
+      return _root;
+    },
+    render: function (fakeElement: IFakeElement) {
+      _root?.replaceChildren(fakeElement.render());
+    },
   };
 })();

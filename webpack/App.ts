@@ -4,7 +4,6 @@ import { CreateFakeElementHelper } from "./src/utils/CreateFakeElementHelper";
 
 const { div } = CreateFakeElementHelper;
 
-export const App: IFakeElement = (() => {
-  
+export function App(): IFakeElement {
   return div([Header()]);
-})();
+}
