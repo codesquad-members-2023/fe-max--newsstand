@@ -1,4 +1,4 @@
-import { GRID_MAX_PAGE, LIST_INIT_MAX_PAGE } from "../constants/constant";
+import { FIRST_PAGE, GRID_MAX_PAGE, LIST_INIT_MAX_PAGE } from "../constants/constant";
 
 export type State = {
   currentPage: number;
@@ -19,7 +19,7 @@ export type State = {
 type Listener = () => void;
 
 let state: State = {
-  currentPage: 1,
+  currentPage: FIRST_PAGE,
   currentLastPage: GRID_MAX_PAGE,
   currentViewMode: "grid",
   currentPressMode: "total",

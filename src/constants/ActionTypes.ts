@@ -12,3 +12,8 @@ export const POP_SUBS = "POP_SUBS";
 export const LIST_PREV_PAGE = "LIST_PREV_PAGE";
 export const LIST_NEXT_PAGE = "LIST_NEXT_PAGE";
 export const UPDATE_NEWS = "UPDATE_NEWS";
+
+export const SWITCH_GRID_TOTAL = "SWITCH_GRID_TOTAL";
+export const SWITCH_GRID_SUBS = "SWITCH_GRID_SUBS";
+export const SWITCH_LIST_TOTAL = "SWITCH_LIST_TOTAL";
+export const SWITCH_LIST_SUBS = "SWITCH_LIST_SUBS";

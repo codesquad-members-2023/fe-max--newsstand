@@ -10,7 +10,11 @@ import {
   SET_ARTICLE_INDEX,
   SET_LIST_LAST_PAGE,
   SWITCH_GRID_MODE,
+  SWITCH_GRID_SUBS,
+  SWITCH_GRID_TOTAL,
   SWITCH_LIST_MODE,
+  SWITCH_LIST_SUBS,
+  SWITCH_LIST_TOTAL,
   UPDATE_NEWS,
   UPDATE_SUBS,
 } from "../constants/ActionTypes";
@@ -55,5 +59,17 @@ export const actions = {
   },
   updateNews: (data: object) => {
     dispatch({ type: UPDATE_NEWS, payload: data });
+  },
+  switchGridTotal: () => {
+    dispatch({ type: SWITCH_GRID_TOTAL });
+  },
+  switchGridSubs: () => {
+    dispatch({ type: SWITCH_GRID_SUBS });
+  },
+  switchListTotal: () => {
+    dispatch({type: SWITCH_LIST_TOTAL})
+  },
+  switchListSubs: () => {
+    dispatch({ type: SWITCH_LIST_SUBS });
   },
 };
