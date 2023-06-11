@@ -1,8 +1,9 @@
-import { GridStore, PressLogo } from "../mainView";
+import { Store } from "@store/types";
+import { MainViewState, PressLogo } from "..";
 
 export class GridPressBox {
   private readonly logo: PressLogo;
-  private readonly gridStore: GridStore;
+  private readonly store: Store<MainViewState>;
   private isSubscribed: boolean;
 
   private readonly $pressBox: HTMLElement = document.createElement("div");
@@ -10,10 +11,10 @@ export class GridPressBox {
   private readonly $subscribeButton: HTMLElement = document.createElement("div");
   private readonly $buttonText = document.createElement("div");
 
-  constructor(logo: PressLogo, gridStore: GridStore) {
+  constructor(logo: PressLogo, store: Store<MainViewState>) {
     this.logo = logo;
-    this.gridStore = gridStore;
-    this.isSubscribed = this.gridStore.isSubscribedPress(logo.alt);
+    this.store = store;
+    this.isSubscribed = this.store.getState().gridState.subscribedPressList.includes(logo.alt);
 
     this.initPressBox(logo);
     this.initSubscribeButton();
@@ -79,22 +80,22 @@ export class GridPressBox {
 
   subscribePress() {
     const pressName = this.logo.alt;
-    const subscribedPressList = this.gridStore.getSubscribedPressList();
+    const subscribedPressList = this.store.getSubscribedPressList();
     const newSubscribedPressList = [...subscribedPressList, pressName];
 
     localStorage.setItem("subscribed-press-list", JSON.stringify(newSubscribedPressList));
-    this.gridStore.initSubscribedPressList();
+    this.store.initSubscribedPressList();
     this.toggleSubscribeState();
     this.updateButtonText();
   }
 
   unsubscribePress() {
     const pressName = this.logo.alt;
-    const subscribedPressList = this.gridStore.getSubscribedPressList();
+    const subscribedPressList = this.store.getSubscribedPressList();
     const newSubscribedPressList = subscribedPressList.filter((press) => press !== pressName);
 
     localStorage.setItem("subscribed-press-list", JSON.stringify(newSubscribedPressList));
-    this.gridStore.initSubscribedPressList();
+    this.store.initSubscribedPressList();
     this.toggleSubscribeState();
     this.updateButtonText();
   }
