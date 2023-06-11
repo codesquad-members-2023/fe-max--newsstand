@@ -3,7 +3,6 @@ import { store } from './store';
 import { reducer } from './reducer';
 
 export function dispatch(action: Action) {
-  const newState = reducer(store.getState(), action);
+  const newState = reducer(store.getState(), action)!;
   store.setState(newState);
-  store.notify(newState);
 }
