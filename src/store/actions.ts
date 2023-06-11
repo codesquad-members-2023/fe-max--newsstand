@@ -41,6 +41,15 @@ export const createAction = {
     };
   },
 
+  unsubscribePress(pressName: string): Action {
+    return {
+      type: ActionType.UNSUBSCRIBE_PRESS,
+      payload: {
+        pressName,
+      },
+    };
+  },
+
   allPressTabClick(): Action {
     return { type: ActionType.ALL_PRESS_TAB_CLICK };
   },

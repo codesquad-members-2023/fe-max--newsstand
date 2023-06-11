@@ -68,7 +68,11 @@ export class GridPressBox {
 
     this.$subscribeButton.addEventListener("click", () => {
       const pressName = this.logo.alt;
-      this.store.dispatch(createAction.subscribePress(pressName));
+
+      const action = this.isSubscribed
+        ? createAction.unsubscribePress(pressName)
+        : createAction.subscribePress(pressName);
+      this.store.dispatch(action);
     });
   }
 

@@ -89,6 +89,21 @@ export const reducer: Reducer<MainViewState> = (state, actions) => {
         },
       };
 
+    case ActionType.UNSUBSCRIBE_PRESS:
+      if (!actions.payload) {
+        return state;
+      }
+
+      return {
+        ...state,
+        gridState: {
+          ...state.gridState,
+          subscribedPressList: state.gridState.subscribedPressList.filter(
+            (press) => press !== actions.payload!.pressName
+          ),
+        },
+      };
+
     case ActionType.ALL_PRESS_TAB_CLICK:
       return {
         ...state,
