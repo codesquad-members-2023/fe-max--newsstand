@@ -4,11 +4,11 @@ import { IFakeElement } from "../interfaces/IFakeElement";
 import { IProps } from "../interfaces/IProps";
 import { ITagName } from "../interfaces/ITagName";
 import { Prop } from "../types/Prop";
-import { PropsOrChildrenOrTextContent } from "../types/PropsOrChildrenOrTextContent";
+import { FakeElementArgs } from "../types/FakeElementArgs";
 
 export function createFakeElement(
   tagName: ITagName,
-  ...args: PropsOrChildrenOrTextContent[]
+  ...args: FakeElementArgs[]
 ): IFakeElement {
   const fakeElement = {
     tagName,
@@ -21,24 +21,44 @@ export function createFakeElement(
 
 function assignFakeElement(
   fakeElement: IFakeElement,
-  arg: PropsOrChildrenOrTextContent
+  arg: FakeElementArgs
 ): void {
   if (Array.isArray(arg)) {
     fakeElement.children = arg;
+    arg.forEach((child) => (child.parent = fakeElement));
   } else if (typeof arg === "string") {
     fakeElement.textContent = arg;
   } else if (typeof arg === "object") {
     fakeElement.props = arg;
+  } else if (typeof arg === "function") {
+    const func = arg.bind(fakeElement);
+    if (fakeElement.functions) {
+      fakeElement.functions.push(func);
+    } else {
+      fakeElement.functions = [func];
+    }
   }
-  fakeElement.render = () => render(fakeElement);
+  fakeElement.render = function () {
+    const { prevElement } = fakeElement;
+    const newElement = render(fakeElement);
+    if (prevElement) {
+      prevElement.parentElement!.replaceChild(prevElement, newElement);
+      fakeElement.prevElement = newElement;
+    }
+    return newElement;
+  };
 }
 
 function render(fakeElement: IFakeElement): HTMLElement {
-  const { tagName, props, children, textContent } = fakeElement;
+  const { tagName, props, children, textContent, functions } = fakeElement;
   const element = document.createElement(tagName);
   props && defineProps(element, props);
   children && defineChildren(element, children);
   textContent && defineTextContent(element, textContent);
+  functions &&
+    functions.forEach((func: Function) => {
+      func(element);
+    });
   return element;
 }
 

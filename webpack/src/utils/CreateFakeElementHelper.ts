@@ -1,17 +1,13 @@
 import { TagNames } from "../constants/TagNames";
 import { ICreateFakeElementHelper } from "../interfaces/ICreateFakeElementHelper";
 import { ITagName } from "../interfaces/ITagName";
-import { PropsOrChildrenOrTextContent } from "../types/PropsOrChildrenOrTextContent";
+import { FakeElementArgs } from "../types/FakeElementArgs";
 import { TagName } from "../types/TagName";
 import { createFakeElement } from "./createFakeElement";
 
 function assignHelper(helper: ICreateFakeElementHelper, tagName: TagName) {
-  helper[tagName] = function (...args: PropsOrChildrenOrTextContent[]) {
-    return createFakeElement(
-      tagName as ITagName,
-      ...(args as PropsOrChildrenOrTextContent[])
-    );
-  };
+  helper[tagName] = (...args: FakeElementArgs[]) =>
+    createFakeElement(tagName as ITagName, ...args);
 }
 
 export const CreateFakeElementHelper = (function () {

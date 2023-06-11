@@ -1,9 +1,6 @@
-import { PropsOrChildrenOrTextContent } from "../types/PropsOrChildrenOrTextContent";
-import { TagName } from "../types/TagName";
+import { FakeElementArgs } from "../types/FakeElementArgs";
 import { IFakeElement } from "./IFakeElement";
 
 export interface ICreateFakeElementHelper {
-  [tagName: string]: (
-    ...args: PropsOrChildrenOrTextContent[]
-  ) => IFakeElement;
+  [tagName: string]: (...args: FakeElementArgs[]) => IFakeElement;
 }
