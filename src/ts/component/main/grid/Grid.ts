@@ -1,68 +1,97 @@
-import { $, $$ } from '../../../common/util';
-import { State } from '../../../common/types';
+import { $, $$, render } from '../../../common/util';
+import { State, Grid } from '../../../common/types';
+import { store } from '../../../store';
 import { MAIN } from '../../../common/constant';
 import { ACTION } from '../../../actions';
 import { dispatch } from '../../../dispatch';
 
-export class Grid {
-  constructor(private state: State) {
-    this.setGrid(this.state);
-    this.hideArrow(this.state);
-    this.setEvent();
+export function initGrid(state: State) {
+  renderGrid(state.grid);
+  observeGridFn();
+}
+
+function setEvent() {
+  const leftBtn = $('.prev__grid');
+  const rightBtn = $('.next__grid');
+
+  leftBtn.addEventListener('click', () => {
+    dispatch({ type: ACTION.GO_TO_PREV_GRID });
+  });
+
+  rightBtn.addEventListener('click', () => {
+    dispatch({ type: ACTION.GO_TO_NEXT_GRID });
+  });
+}
+
+function setGridItem() {
+  const gridItems = [];
+  for (let i = 0; i < MAIN.GRID_NUM; i++) {
+    gridItems.push('<div class="grid__items"></div>');
   }
+  return gridItems.join('');
+}
 
-  setGrid(state: State) {
-    const grid = $$('.grid__items');
+function setAllGrid() {
+  return `
+    <div class="press__grid">
+      <img class="prev__grid" src="./asset/symbol/leftButton.svg" alt="<" />
+        <div class="grid__wrapper">
+          ${setGridItem()}
+        </div>
+      <img class="next__grid" src="./asset/symbol/rightButton.svg" alt=">" />
+    </div>
+  `;
+}
 
-    for (let i = 0; i < grid.length; i++) {
-      const pressCount = i + MAIN.GRID_NUM * (state.curPage - 1);
-      const isOverLength = pressCount >= state.gridList.length;
-      const img = grid[i].querySelector('img');
+function setGrid(state: Grid) {
+  const grid = $$('.grid__items');
 
-      if (!isOverLength) {
-        if (!img) {
-          const newImg = document.createElement('img');
-          grid[i].appendChild(newImg);
-        }
+  for (let i = 0; i < grid.length; i++) {
+    const pressCount = MAIN.GRID_NUM * (state.curPage - 1) + i;
+    const isOverLength = pressCount >= state.allGrid.length;
+    const img = grid[i].querySelector('img');
 
-        const curImg = grid[i].querySelector('img');
-        curImg?.setAttribute('src', state.gridList[pressCount].src);
-        curImg?.setAttribute('alt', state.gridList[pressCount].alt);
+    if (!isOverLength) {
+      if (!img) {
+        const newImg = document.createElement('img');
+        grid[i].appendChild(newImg);
       }
 
-      if (isOverLength) {
-        img?.remove();
-      }
-    }
-  }
-
-  hideArrow(state: State) {
-    const leftBtn = $('.grid__left');
-    const rightBtn = $('.grid__right');
-
-    if (state.curPage === 1) {
-      leftBtn.classList.add('hide');
-    } else {
-      leftBtn.classList.remove('hide');
+      const curImg = grid[i].querySelector('img') as HTMLElement;
+      curImg.setAttribute('src', state.allGrid[pressCount].src);
+      curImg.setAttribute('alt', state.allGrid[pressCount].alt);
     }
 
-    if (state.curPage === state.lastPage) {
-      rightBtn.classList.add('hide');
-    } else {
-      rightBtn.classList.remove('hide');
+    if (isOverLength) {
+      img?.remove();
     }
   }
+}
 
-  setEvent() {
-    const leftBtn = $('.grid__left');
-    const rightBtn = $('.grid__right');
+function hideArrow(state: Grid) {
+  const leftBtn = $('.prev__grid');
+  const rightBtn = $('.next__grid');
 
-    leftBtn.addEventListener('click', () => {
-      dispatch({ type: ACTION.GO_TO_PREV });
-    });
+  const isFirstPage = state.curPage === 1;
+  const isLastPage = state.curPage === state.lastPage;
 
-    rightBtn.addEventListener('click', () => {
-      dispatch({ type: ACTION.GO_TO_NEXT });
-    });
-  }
+  isFirstPage ? leftBtn.classList.add('hide') : leftBtn.classList.remove('hide');
+  isLastPage ? rightBtn.classList.add('hide') : rightBtn.classList.remove('hide');
+}
+
+function renderGrid(state: Grid) {
+  render($('.main__wrapper'), setAllGrid());
+  setGrid(state);
+  hideArrow(state);
+  setEvent();
+}
+
+function observeGridFn() {
+  store.subscribe('grid', setGrid);
+  store.subscribe('grid', hideArrow);
+}
+
+export function ignoreGridFn() {
+  store.unsubscribe('grid', setGrid);
+  store.unsubscribe('grid', hideArrow);
 }
