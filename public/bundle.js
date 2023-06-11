@@ -50,6 +50,46 @@ eval("\n\nmodule.exports = function (i) {\n  return i[1];\n};\n\n//# sourceURL=w
 
 /***/ }),
 
+/***/ "./src/images/icon/grid-blur.svg":
+/*!***************************************!*\
+  !*** ./src/images/icon/grid-blur.svg ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + \"images/grid-blur.svg\");\n\n//# sourceURL=webpack://webpack/./src/images/icon/grid-blur.svg?");
+
+/***/ }),
+
+/***/ "./src/images/icon/grid.svg":
+/*!**********************************!*\
+  !*** ./src/images/icon/grid.svg ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + \"images/grid.svg\");\n\n//# sourceURL=webpack://webpack/./src/images/icon/grid.svg?");
+
+/***/ }),
+
+/***/ "./src/images/icon/list-blur.svg":
+/*!***************************************!*\
+  !*** ./src/images/icon/list-blur.svg ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + \"images/list-blur.svg\");\n\n//# sourceURL=webpack://webpack/./src/images/icon/list-blur.svg?");
+
+/***/ }),
+
+/***/ "./src/images/icon/list.svg":
+/*!**********************************!*\
+  !*** ./src/images/icon/list.svg ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + \"images/list.svg\");\n\n//# sourceURL=webpack://webpack/./src/images/icon/list.svg?");
+
+/***/ }),
+
 /***/ "./src/images/icon/logo.svg":
 /*!**********************************!*\
   !*** ./src/images/icon/logo.svg ***!
@@ -57,6 +97,26 @@ eval("\n\nmodule.exports = function (i) {\n  return i[1];\n};\n\n//# sourceURL=w
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + \"images/logo.svg\");\n\n//# sourceURL=webpack://webpack/./src/images/icon/logo.svg?");
+
+/***/ }),
+
+/***/ "./src/images/outlet-sample.svg":
+/*!**************************************!*\
+  !*** ./src/images/outlet-sample.svg ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + \"images/outlet-sample.svg\");\n\n//# sourceURL=webpack://webpack/./src/images/outlet-sample.svg?");
+
+/***/ }),
+
+/***/ "./src/images/subscribe.svg":
+/*!**********************************!*\
+  !*** ./src/images/subscribe.svg ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + \"images/subscribe.svg\");\n\n//# sourceURL=webpack://webpack/./src/images/subscribe.svg?");
 
 /***/ }),
 
@@ -136,7 +196,7 @@ eval("\n\n/* istanbul ignore next  */\nfunction styleTagTransform(css, styleElem
   \****************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   App: () => (/* binding */ App)\n/* harmony export */ });\n/* harmony import */ var _src_components_Header__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./src/components/Header */ \"./src/components/Header.ts\");\n/* harmony import */ var _src_utils_CreateFakeElementHelper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./src/utils/CreateFakeElementHelper */ \"./src/utils/CreateFakeElementHelper.ts\");\n\n\nconst { div } = _src_utils_CreateFakeElementHelper__WEBPACK_IMPORTED_MODULE_1__.CreateFakeElementHelper;\nfunction App() {\n    return div([(0,_src_components_Header__WEBPACK_IMPORTED_MODULE_0__.Header)()]);\n}\n\n\n//# sourceURL=webpack://webpack/./App.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   App: () => (/* binding */ App)\n/* harmony export */ });\n/* harmony import */ var _src_components_header_Header__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./src/components/header/Header */ \"./src/components/header/Header.ts\");\n/* harmony import */ var _src_components_main_Main__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./src/components/main/Main */ \"./src/components/main/Main.ts\");\n/* harmony import */ var _src_utils_CreateFakeElementHelper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./src/utils/CreateFakeElementHelper */ \"./src/utils/CreateFakeElementHelper.ts\");\n\n\n\nconst { div } = _src_utils_CreateFakeElementHelper__WEBPACK_IMPORTED_MODULE_2__.CreateFakeElementHelper;\nfunction App() {\n    return div([(0,_src_components_header_Header__WEBPACK_IMPORTED_MODULE_0__.Header)(), (0,_src_components_main_Main__WEBPACK_IMPORTED_MODULE_1__.Main)()]);\n}\n\n\n//# sourceURL=webpack://webpack/./App.ts?");
 
 /***/ }),
 
@@ -150,13 +210,73 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _App
 
 /***/ }),
 
-/***/ "./src/components/Header.ts":
-/*!**********************************!*\
-  !*** ./src/components/Header.ts ***!
-  \**********************************/
+/***/ "./src/components/header/Header.ts":
+/*!*****************************************!*\
+  !*** ./src/components/header/Header.ts ***!
+  \*****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   Header: () => (/* binding */ Header)\n/* harmony export */ });\n/* harmony import */ var _utils_CreateFakeElementHelper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/CreateFakeElementHelper */ \"./src/utils/CreateFakeElementHelper.ts\");\n/* harmony import */ var _images_icon_logo_svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../images/icon/logo.svg */ \"./src/images/icon/logo.svg\");\n\n\nconst { header, div, h1, img, span, p } = _utils_CreateFakeElementHelper__WEBPACK_IMPORTED_MODULE_0__.CreateFakeElementHelper;\nfunction Header() {\n    return header([\n        div({ class: \"inner\" }, [\n            h1({ class: \"logo\" }, [\n                img({ src: _images_icon_logo_svg__WEBPACK_IMPORTED_MODULE_1__[\"default\"], alt: \"뉴스스탠드 아이콘\" }),\n                span(\"뉴스스탠드\"),\n            ]),\n            p({ class: \"date\" }, \"XXXX. XX. XX. X요일\"),\n        ]),\n    ]);\n}\n\n\n//# sourceURL=webpack://webpack/./src/components/Header.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   Header: () => (/* binding */ Header)\n/* harmony export */ });\n/* harmony import */ var _utils_CreateFakeElementHelper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils/CreateFakeElementHelper */ \"./src/utils/CreateFakeElementHelper.ts\");\n/* harmony import */ var _rollingBar_RollingBar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./rollingBar/RollingBar */ \"./src/components/header/rollingBar/RollingBar.ts\");\n/* harmony import */ var _images_icon_logo_svg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../images/icon/logo.svg */ \"./src/images/icon/logo.svg\");\n\n\n\nconst { header, div, h1, img, span, p } = _utils_CreateFakeElementHelper__WEBPACK_IMPORTED_MODULE_0__.CreateFakeElementHelper;\nfunction Header() {\n    return header([\n        div({ class: \"inner\" }, [\n            h1({ class: \"logo\" }, [\n                img({ src: _images_icon_logo_svg__WEBPACK_IMPORTED_MODULE_2__[\"default\"], alt: \"뉴스스탠드 아이콘\" }),\n                span(\"뉴스스탠드\"),\n            ]),\n            p({ class: \"date\" }, \"XXXX. XX. XX. X요일\"),\n        ]),\n        (0,_rollingBar_RollingBar__WEBPACK_IMPORTED_MODULE_1__.RollingBar)(),\n    ]);\n}\n\n\n//# sourceURL=webpack://webpack/./src/components/header/Header.ts?");
+
+/***/ }),
+
+/***/ "./src/components/header/rollingBar/Rolling.ts":
+/*!*****************************************************!*\
+  !*** ./src/components/header/rollingBar/Rolling.ts ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   Rolling: () => (/* binding */ Rolling)\n/* harmony export */ });\n/* harmony import */ var _utils_CreateFakeElementHelper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../utils/CreateFakeElementHelper */ \"./src/utils/CreateFakeElementHelper.ts\");\n\nconst { ul, li, h2, a } = _utils_CreateFakeElementHelper__WEBPACK_IMPORTED_MODULE_0__.CreateFakeElementHelper;\nfunction Rolling() {\n    return li([\n        h2({ class: \"blind\" }, \"연합뉴스 헤드라인\"),\n        ul({ class: \"rolling\" }, [\n            li([\n                a({ class: \"outlet\", href: \"\" }, \"연합뉴스\"),\n                a({ class: \"article\", href: \"\" }, \"[1보] 김기현·안철수·천하람·황교안, 與전대 본경선 진출\"),\n            ]),\n        ]),\n    ]);\n}\n\n\n//# sourceURL=webpack://webpack/./src/components/header/rollingBar/Rolling.ts?");
+
+/***/ }),
+
+/***/ "./src/components/header/rollingBar/RollingBar.ts":
+/*!********************************************************!*\
+  !*** ./src/components/header/rollingBar/RollingBar.ts ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   RollingBar: () => (/* binding */ RollingBar)\n/* harmony export */ });\n/* harmony import */ var _utils_CreateFakeElementHelper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../utils/CreateFakeElementHelper */ \"./src/utils/CreateFakeElementHelper.ts\");\n/* harmony import */ var _Rolling__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Rolling */ \"./src/components/header/rollingBar/Rolling.ts\");\n\n\nconst { ul } = _utils_CreateFakeElementHelper__WEBPACK_IMPORTED_MODULE_0__.CreateFakeElementHelper;\nfunction RollingBar() {\n    return ul({ class: \"rolling-bar\" }, [(0,_Rolling__WEBPACK_IMPORTED_MODULE_1__.Rolling)(), (0,_Rolling__WEBPACK_IMPORTED_MODULE_1__.Rolling)()]);\n}\n\n\n//# sourceURL=webpack://webpack/./src/components/header/rollingBar/RollingBar.ts?");
+
+/***/ }),
+
+/***/ "./src/components/main/Main.ts":
+/*!*************************************!*\
+  !*** ./src/components/main/Main.ts ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   Main: () => (/* binding */ Main)\n/* harmony export */ });\n/* harmony import */ var _utils_CreateFakeElementHelper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils/CreateFakeElementHelper */ \"./src/utils/CreateFakeElementHelper.ts\");\n/* harmony import */ var _list_List__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./list/List */ \"./src/components/main/list/List.ts\");\n/* harmony import */ var _images_icon_list_svg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../images/icon/list.svg */ \"./src/images/icon/list.svg\");\n/* harmony import */ var _images_icon_list_blur_svg__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../images/icon/list-blur.svg */ \"./src/images/icon/list-blur.svg\");\n/* harmony import */ var _images_icon_grid_svg__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../images/icon/grid.svg */ \"./src/images/icon/grid.svg\");\n/* harmony import */ var _images_icon_grid_blur_svg__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../images/icon/grid-blur.svg */ \"./src/images/icon/grid-blur.svg\");\n\n\n\n\n\n\nconst { main, h2, div, ul, li, a, img } = _utils_CreateFakeElementHelper__WEBPACK_IMPORTED_MODULE_0__.CreateFakeElementHelper;\nfunction Main() {\n    return main([\n        h2({ class: \"blind\" }, \"메인\"),\n        div({ class: \"tabs-bar\" }, [\n            ul({ class: \"article\" }, [\n                li({ class: \"active\" }, [a({ href: \"\" }, \"전체 언론사\")]),\n                li([a({ href: \"\" }, \"내가 구독한 언론사\")]),\n            ]),\n            ul({ class: \"view-type\" }, [\n                li([\n                    a({ class: \"active\", href: \"\" }, [\n                        img({ src: _images_icon_list_svg__WEBPACK_IMPORTED_MODULE_2__[\"default\"], alt: \"목록 아이콘\" }),\n                        img({ src: _images_icon_list_blur_svg__WEBPACK_IMPORTED_MODULE_3__[\"default\"], alt: \"흐린 목록 아이콘\" }),\n                    ]),\n                ]),\n                li([\n                    a({ href: \"\" }, [\n                        img({ src: _images_icon_grid_blur_svg__WEBPACK_IMPORTED_MODULE_5__[\"default\"], alt: \"격자 아이콘\" }),\n                        img({ src: _images_icon_grid_svg__WEBPACK_IMPORTED_MODULE_4__[\"default\"], alt: \"흐린 격자 아이콘\" }),\n                    ]),\n                ]),\n            ]),\n        ]),\n        (0,_list_List__WEBPACK_IMPORTED_MODULE_1__.List)(),\n    ]);\n}\n\n\n//# sourceURL=webpack://webpack/./src/components/main/Main.ts?");
+
+/***/ }),
+
+/***/ "./src/components/main/list/List.ts":
+/*!******************************************!*\
+  !*** ./src/components/main/list/List.ts ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   List: () => (/* binding */ List)\n/* harmony export */ });\n/* harmony import */ var _utils_CreateFakeElementHelper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../utils/CreateFakeElementHelper */ \"./src/utils/CreateFakeElementHelper.ts\");\n/* harmony import */ var _ListTabs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ListTabs */ \"./src/components/main/list/ListTabs.ts\");\n/* harmony import */ var _images_outlet_sample_svg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../images/outlet-sample.svg */ \"./src/images/outlet-sample.svg\");\n/* harmony import */ var _images_subscribe_svg__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../images/subscribe.svg */ \"./src/images/subscribe.svg\");\n\n\n\n\nconst { div, ul, li, a, span, h3, img, p, input, figure, figcaption } = _utils_CreateFakeElementHelper__WEBPACK_IMPORTED_MODULE_0__.CreateFakeElementHelper;\nfunction List() {\n    return div({ id: \"list\" }, [\n        (0,_ListTabs__WEBPACK_IMPORTED_MODULE_1__.ListTabs)(),\n        div({ class: \"inner\" }, [\n            div({ class: \"info\" }, [\n                h3([img({ src: _images_outlet_sample_svg__WEBPACK_IMPORTED_MODULE_2__[\"default\"], alt: \"샘플\" })]),\n                p(\"2023.02.10. 18:27 편집\"),\n                input({ type: \"image\", src: _images_subscribe_svg__WEBPACK_IMPORTED_MODULE_3__[\"default\"], alt: \"구독하기\" }),\n            ]),\n        ]),\n    ]);\n}\n\n\n//# sourceURL=webpack://webpack/./src/components/main/list/List.ts?");
+
+/***/ }),
+
+/***/ "./src/components/main/list/ListTab.ts":
+/*!*********************************************!*\
+  !*** ./src/components/main/list/ListTab.ts ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   ListTab: () => (/* binding */ ListTab)\n/* harmony export */ });\n/* harmony import */ var _utils_CreateFakeElementHelper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../utils/CreateFakeElementHelper */ \"./src/utils/CreateFakeElementHelper.ts\");\n\nfunction ListTab() {\n    const { li, div, a, span } = _utils_CreateFakeElementHelper__WEBPACK_IMPORTED_MODULE_0__.CreateFakeElementHelper;\n    return li({ class: \"tab active\" }, [\n        div({ class: \"progress-bar\" }, [\n            div({\n                class: \"fill\",\n                style: \"--index: 3; --total-count: 81\",\n                dataIndex: \"3\",\n                dataTotalCount: \"\",\n            }),\n            a({ class: \"category\", href: \"\" }, [\n                span({ class: \"name\" }, \"종합경제\"),\n                span({ class: \"fraction\" }, \"3 / 81\"),\n            ]),\n        ]),\n    ]);\n}\n\n\n//# sourceURL=webpack://webpack/./src/components/main/list/ListTab.ts?");
+
+/***/ }),
+
+/***/ "./src/components/main/list/ListTabs.ts":
+/*!**********************************************!*\
+  !*** ./src/components/main/list/ListTabs.ts ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   ListTabs: () => (/* binding */ ListTabs)\n/* harmony export */ });\n/* harmony import */ var _utils_CreateFakeElementHelper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../utils/CreateFakeElementHelper */ \"./src/utils/CreateFakeElementHelper.ts\");\n/* harmony import */ var _ListTab__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ListTab */ \"./src/components/main/list/ListTab.ts\");\n\n\nfunction ListTabs() {\n    const { ul } = _utils_CreateFakeElementHelper__WEBPACK_IMPORTED_MODULE_0__.CreateFakeElementHelper;\n    return ul({ class: \"tabs\" }, [(0,_ListTab__WEBPACK_IMPORTED_MODULE_1__.ListTab)(), (0,_ListTab__WEBPACK_IMPORTED_MODULE_1__.ListTab)(), (0,_ListTab__WEBPACK_IMPORTED_MODULE_1__.ListTab)(), (0,_ListTab__WEBPACK_IMPORTED_MODULE_1__.ListTab)()]);\n}\n\n\n//# sourceURL=webpack://webpack/./src/components/main/list/ListTabs.ts?");
 
 /***/ }),
 
@@ -196,7 +316,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   createFakeElement: () => (/* binding */ createFakeElement)\n/* harmony export */ });\nfunction createFakeElement(tagName, ...args) {\n    const fakeElement = {\n        tagName,\n    };\n    args.forEach((arg) => assignFakeElement(fakeElement, arg));\n    return fakeElement;\n}\nfunction assignFakeElement(fakeElement, arg) {\n    if (Array.isArray(arg)) {\n        fakeElement.children = arg;\n    }\n    else if (typeof arg === \"string\") {\n        fakeElement.textContent = arg;\n    }\n    else if (typeof arg === \"object\") {\n        fakeElement.props = arg;\n    }\n    fakeElement.render = () => render(fakeElement);\n}\nfunction render(fakeElement) {\n    const { tagName, props, children, textContent } = fakeElement;\n    const element = document.createElement(tagName);\n    props && defineProps(element, props);\n    children && defineChildren(element, children);\n    textContent && defineTextContent(element, textContent);\n    return element;\n}\nfunction defineTextContent(element, text) {\n    element.textContent = text;\n}\nfunction defineChildren(element, children) {\n    children.forEach((child) => appendChildToElement(element, child));\n}\nfunction appendChildToElement(element, child) {\n    element.appendChild(child.render());\n}\nfunction defineProps(element, props) {\n    Object.entries(props).forEach((prop) => defineProp(element, prop));\n}\nfunction defineProp(element, prop) {\n    const [name, value] = prop;\n    if (name.startsWith(\"on\")) {\n        const eventName = name.slice(2).toLowerCase();\n        element.addEventListener(eventName, value);\n        return;\n    }\n    element.setAttribute(name, value);\n}\n\n\n//# sourceURL=webpack://webpack/./src/utils/createFakeElement.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   createFakeElement: () => (/* binding */ createFakeElement)\n/* harmony export */ });\nfunction createFakeElement(tagName, ...args) {\n    const fakeElement = {\n        tagName,\n    };\n    args.forEach((arg) => assignFakeElement(fakeElement, arg));\n    return fakeElement;\n}\nfunction assignFakeElement(fakeElement, arg) {\n    if (Array.isArray(arg)) {\n        fakeElement.children = arg;\n    }\n    else if (typeof arg === \"string\") {\n        fakeElement.textContent = arg;\n    }\n    else if (typeof arg === \"object\") {\n        fakeElement.props = arg;\n    }\n    fakeElement.render = () => render(fakeElement);\n}\nfunction render(fakeElement) {\n    const { tagName, props, children, textContent } = fakeElement;\n    const element = document.createElement(tagName);\n    props && defineProps(element, props);\n    children && defineChildren(element, children);\n    textContent && defineTextContent(element, textContent);\n    return element;\n}\nfunction defineTextContent(element, text) {\n    element.textContent = text;\n}\nfunction defineChildren(element, children) {\n    children.forEach((child) => appendChildToElement(element, child));\n}\nfunction appendChildToElement(element, child) {\n    element.appendChild(child.render());\n}\nfunction defineProps(element, props) {\n    Object.entries(props).forEach((prop) => defineProp(element, prop));\n}\nfunction defineProp(element, prop) {\n    const [name, value] = prop;\n    if (name.startsWith(\"on\")) {\n        const eventName = name.slice(2).toLowerCase();\n        element.addEventListener(eventName, value);\n        return;\n    }\n    if (name.startsWith(\"data\")) {\n        const dataName = name.replace(/([A-Z])/g, \"-$1\").toLowerCase();\n        element.setAttribute(`data-${dataName}`, value);\n        return;\n    }\n    element.setAttribute(name, value);\n}\n\n\n//# sourceURL=webpack://webpack/./src/utils/createFakeElement.ts?");
 
 /***/ }),
 

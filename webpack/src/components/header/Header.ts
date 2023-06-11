@@ -1,6 +1,8 @@
-import { IFakeElement } from "../interfaces/IFakeElement";
-import { CreateFakeElementHelper } from "../utils/CreateFakeElementHelper";
-import logo from "../images/icon/logo.svg";
+import { IFakeElement } from "../../interfaces/IFakeElement";
+import { CreateFakeElementHelper } from "../../utils/CreateFakeElementHelper";
+
+import { RollingBar } from "./rollingBar/RollingBar";
+import logo from "../../images/icon/logo.svg";
 
 const { header, div, h1, img, span, p } = CreateFakeElementHelper;
 
@@ -13,5 +15,6 @@ export function Header(): IFakeElement {
       ]),
       p({ class: "date" }, "XXXX. XX. XX. X요일"),
     ]),
+    RollingBar(),
   ]);
 }

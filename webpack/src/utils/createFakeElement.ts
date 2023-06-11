@@ -33,7 +33,7 @@ function assignFakeElement(
   fakeElement.render = () => render(fakeElement);
 }
 
-function render(fakeElement: IFakeElement): Element {
+function render(fakeElement: IFakeElement): HTMLElement {
   const { tagName, props, children, textContent } = fakeElement;
   const element = document.createElement(tagName);
   props && defineProps(element, props);
@@ -42,29 +42,34 @@ function render(fakeElement: IFakeElement): Element {
   return element;
 }
 
-function defineTextContent(element: Element, text: string) {
+function defineTextContent(element: HTMLElement, text: string) {
   element.textContent = text;
 }
 
-function defineChildren(element: Element, children: IChildren): void {
+function defineChildren(element: HTMLElement, children: IChildren): void {
   children.forEach((child) => appendChildToElement(element, child));
 }
 
-function appendChildToElement(element: Element, child: IFakeElement): void {
+function appendChildToElement(element: HTMLElement, child: IFakeElement): void {
   element.appendChild(child.render());
 }
 
-function defineProps(element: Element, props: IProps): void {
+function defineProps(element: HTMLElement, props: IProps): void {
   Object.entries(props).forEach((prop) => defineProp(element, prop));
 }
 
-function defineProp(element: Element, prop: Prop) {
+function defineProp(element: HTMLElement, prop: Prop) {
   const [name, value] = prop;
   if (name.startsWith("on")) {
     const eventName = name.slice(2).toLowerCase();
     element.addEventListener(eventName, value as IEventFunction);
     return;
   }
+
+  if (name.startsWith("data")) {
+    const dataName = name.replace(/([A-Z])/g, "-$1").toLowerCase();
+    element.setAttribute(`data-${dataName}`, value as string);
+    return;
+  }
   element.setAttribute(name, value as string);
 }
- 
