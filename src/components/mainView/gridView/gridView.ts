@@ -1,5 +1,5 @@
 import { StateConst, Store } from "@store/types";
-import { MainViewState } from "..";
+import { MainViewState, PressLogo } from "..";
 import { GridPressBox } from "./gridPressBox";
 import { createAction } from "@store/actions";
 
@@ -17,18 +17,6 @@ export class GridView {
     this.$gridView.append(this.$group);
     this.initSubscription();
     this.initSubscribedPressList();
-  }
-
-  async initSubscribedPressList() {
-    this.store.dispatch(createAction.setSubscribedPressList());
-
-    const fetchPressLogosAction = await createAction.fetchPressLogos();
-
-    if (fetchPressLogosAction) {
-      this.store.dispatch(fetchPressLogosAction);
-      this.store.dispatch(createAction.shufflePressLogos());
-      this.store.dispatch(createAction.updateLastPage());
-    }
   }
 
   private frameRender() {
@@ -52,6 +40,28 @@ export class GridView {
 
   initSubscription() {
     this.store.subscribe(this.updateGridView.bind(this));
+  }
+
+  async initSubscribedPressList() {
+    this.store.dispatch(createAction.setSubscribedPressList());
+
+    const pressLogos = await this.fetchPressLogos();
+
+    if (pressLogos) {
+      this.store.dispatch(createAction.fetchPressLogos(pressLogos));
+      this.store.dispatch(createAction.shufflePressLogos());
+      this.store.dispatch(createAction.updateLastPage());
+    }
+  }
+
+  async fetchPressLogos(): Promise<PressLogo[] | void> {
+    try {
+      const response = await fetch("http://localhost:8080/press-logos");
+
+      return await response.json();
+    } catch (error) {
+      alert("언론사 리스트를 가져오는데 실패했습니다. 새로고침 하시기 바랍니다.");
+    }
   }
 
   appendPressBoxes() {

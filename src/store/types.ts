@@ -17,7 +17,7 @@ export enum StateConst {
 }
 
 export enum ActionType {
-  FETCH_PRESS_LIST,
+  FETCH_PRESS_LOGOS,
   SHUFFLE_PRESS_LIST,
   UPDATE_LAST_PAGE,
 

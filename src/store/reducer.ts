@@ -3,7 +3,7 @@ import { ActionType, Reducer, StateConst } from "./types";
 
 export const reducer: Reducer<MainViewState> = (state, actions) => {
   switch (actions.type) {
-    case ActionType.FETCH_PRESS_LIST:
+    case ActionType.FETCH_PRESS_LOGOS:
       if (!actions.payload || !actions.payload.logos) {
         return state;
       }

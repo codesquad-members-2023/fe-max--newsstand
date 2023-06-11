@@ -1,21 +1,15 @@
 import { shuffleArray } from "@utils/shuffleArray";
 import { Action, ActionType } from "./types";
+import { PressLogo } from "@components/mainView";
 
 export const createAction = {
-  async fetchPressLogos(): Promise<Action | void> {
-    try {
-      const response = await fetch("http://localhost:8080/press-logos");
-      const logos = await response.json();
-
-      return {
-        type: ActionType.FETCH_PRESS_LIST,
-        payload: {
-          logos,
-        },
-      };
-    } catch (error) {
-      alert("언론사 리스트를 가져오는데 실패했습니다. 새로고침 하시기 바랍니다.");
-    }
+  fetchPressLogos(logos: PressLogo[]): Action {
+    return {
+      type: ActionType.FETCH_PRESS_LOGOS,
+      payload: {
+        logos,
+      },
+    };
   },
 
   shufflePressLogos(): Action {
