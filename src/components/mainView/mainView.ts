@@ -1,28 +1,31 @@
 import { shuffleArray } from "@utils/shuffleArray";
 import { GridView } from "./gridView/gridView";
 import { TabAndViewer } from "./tabAndViewer";
-
-export interface PressLogo {
-  src: string;
-  alt: string;
-}
+import { Store } from "@store/types";
+import { MainViewState, PressLogo } from ".";
 
 export class MainView {
+  private store: Store<MainViewState>;
+
   $mainView: HTMLElement = document.createElement("section");
-  private tabAndViewer: TabAndViewer = new TabAndViewer();
+  private tabAndViewer: TabAndViewer;
   private $leftArrow: HTMLElement = document.createElement("div");
   private $rightArrow: HTMLElement = document.createElement("div");
 
   private gridStore: GridStore = new GridStore();
-  private gridView: GridView = new GridView(this.gridStore);
+  private gridView: GridView;
 
-  constructor() {
+  constructor(store: Store<MainViewState>) {
+    this.store = store;
+    this.tabAndViewer = new TabAndViewer(this.store);
+    this.gridView = new GridView(this.store);
+
     this.initElement();
     this.setEvents();
     this.initGridViewRender();
   }
 
-  initElement() {
+  private initElement() {
     this.$mainView.append(this.tabAndViewer.getElement());
 
     this.$mainView.className = "main-view";
