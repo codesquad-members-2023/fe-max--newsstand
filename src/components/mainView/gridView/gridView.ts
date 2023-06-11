@@ -1,6 +1,5 @@
 import { StateConst, Store } from "@store/types";
 import { MainViewState } from "..";
-import { GridStore } from "../mainView";
 import { GridPressBox } from "./gridPressBox";
 import { createAction } from "@store/actions";
 
@@ -16,97 +15,79 @@ export class GridView {
 
     this.frameRender();
     this.$gridView.append(this.$group);
-    this.initSubscribe();
+    this.initSubscription();
     this.initSubscribedPressList();
   }
 
   async initSubscribedPressList() {
     this.store.dispatch(createAction.setSubscribedPressList());
 
-    const action = await createAction.fetchPressLogos();
+    const fetchPressLogosAction = await createAction.fetchPressLogos();
 
-    if (action) {
-      this.store.dispatch(action);
+    if (fetchPressLogosAction) {
+      this.store.dispatch(fetchPressLogosAction);
       this.store.dispatch(createAction.shufflePressLogos());
+      this.store.dispatch(createAction.updateLastPage());
     }
   }
 
   private frameRender() {
+    this.$group.className = "grid-view-group";
+
     this.$gridView.className = "grid-view";
 
     this.$frame.className = "grid-view-frame";
     this.$frame.innerHTML =
-      Array(3)
-        .fill(null)
-        .map((_, index) => `<i class="grid-view-frame__row-frame${index + 1}"></i>`)
-        .join("") +
-      Array(5)
-        .fill(null)
-        .map((_, index) => `<i class="grid-view-frame__col-frame${index + 1}"></i>`)
-        .join("");
+      Array.from(
+        new Array(3),
+        (_, index) => `<i class="grid-view-frame__row-frame${index + 1}"></i>`
+      ).join("") +
+      Array.from(
+        new Array(5),
+        (_, index) => `<i class="grid-view-frame__col-frame${index + 1}"></i>`
+      ).join("");
 
     this.$gridView.append(this.$frame);
-
-    this.$group.className = "grid-view-group";
   }
 
-  initSubscribe() {
-    this.store.subscribe(this.updateView.bind(this));
+  initSubscription() {
+    this.store.subscribe(this.updateGridView.bind(this));
   }
 
   appendPressBoxes() {
     const state = this.store.getState();
-    const currentTab = state.currentTab;
+    const {
+      currentTab,
+      gridState: { logos, currentPage, subscribedPressList },
+    } = state;
 
-    if (currentTab === StateConst.ALL_PRESS) {
-      const logos = state.gridState.logos;
-      const fragment = document.createDocumentFragment();
+    const filteredLogos =
+      currentTab === StateConst.ALL_PRESS
+        ? logos
+        : logos.filter((logo) => subscribedPressList.includes(logo.alt));
 
-      logos.forEach((logo) => {
-        const gridPressBox = new GridPressBox(logo, this.store);
-        const pressBox = gridPressBox.getElement();
+    const startIndex = (currentPage - 1) * StateConst.ITEM_PER_PAGE;
+    const endIndex = currentPage * StateConst.ITEM_PER_PAGE;
+    const logosToRender = filteredLogos.slice(startIndex, endIndex);
 
-        fragment.append(pressBox);
-      });
+    const fragment = document.createDocumentFragment();
 
-      this.$group.append(fragment);
-    }
+    logosToRender.forEach((logo) => {
+      const gridPressBox = new GridPressBox(logo, this.store);
+      const pressBox = gridPressBox.getElement();
+      fragment.append(pressBox);
+    });
 
-    if (currentTab === StateConst.SUBSCRIBE_PRESS) {
-      const logos = state.gridState.logos.filter((logo) =>
-        state.gridState.subscribedPressList.some((pressName) => pressName === logo.alt)
-      );
-
-      const fragment = document.createDocumentFragment();
-
-      logos.forEach((logo) => {
-        const gridPressBox = new GridPressBox(logo, this.store);
-        const pressBox = gridPressBox.getElement();
-
-        fragment.append(pressBox);
-      });
-
-      this.$group.append(fragment);
-    }
+    this.$group.append(fragment);
   }
 
   getElement() {
     return this.$gridView;
   }
 
-  updateView() {
+  updateGridView() {
     this.clearPressBox();
     this.appendPressBoxes();
-  }
-
-  prevPageRender() {
-    this.gridStore.decreasePage();
-    this.updateView();
-  }
-
-  nextPageRender() {
-    this.gridStore.increasePage();
-    this.updateView();
   }
 
   private clearPressBox() {

@@ -14,7 +14,7 @@ export class TabAndViewer {
     this.store = store;
 
     this.initElement();
-    this.initSubscribe();
+    this.initSubscription();
     this.setEvents();
   }
 
@@ -45,7 +45,7 @@ export class TabAndViewer {
     this.$tabAndViewer.append(this.$tab, viewerButtons);
   }
 
-  initSubscribe() {
+  initSubscription() {
     this.store.subscribe(this.updateTabSelection.bind(this));
   }
 

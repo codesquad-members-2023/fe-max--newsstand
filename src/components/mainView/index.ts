@@ -10,25 +10,25 @@ export interface PressLogo {
 }
 
 export interface MainViewState {
+  currentTab: StateConst.ALL_PRESS | StateConst.SUBSCRIBE_PRESS;
+
   gridState: {
     logos: PressLogo[];
     subscribedPressList: string[];
     currentPage: number;
     lastPage: number;
-    ITEM_PER_PAGE: number;
   };
-  currentTab: StateConst.ALL_PRESS | StateConst.SUBSCRIBE_PRESS;
 }
 
 const initialState: MainViewState = {
+  currentTab: StateConst.ALL_PRESS,
+
   gridState: {
     logos: [],
     subscribedPressList: [],
     currentPage: 1,
     lastPage: 1,
-    ITEM_PER_PAGE: 24,
   },
-  currentTab: StateConst.ALL_PRESS,
 };
 
 export const initMainView = async () => {

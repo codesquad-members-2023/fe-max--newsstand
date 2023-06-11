@@ -1,5 +1,6 @@
-import { Store } from "@store/types";
+import { LocalStorageKey, Store } from "@store/types";
 import { MainViewState, PressLogo } from "..";
+import { createAction } from "@store/actions";
 
 export class GridPressBox {
   private readonly logo: PressLogo;
@@ -18,6 +19,7 @@ export class GridPressBox {
 
     this.initPressBox(logo);
     this.initSubscribeButton();
+    this.initSubscription();
     this.setEvents();
   }
 
@@ -46,12 +48,13 @@ export class GridPressBox {
     this.$subscribeButtonBox.append(this.$subscribeButton);
   }
 
-  toggleSubscribeState() {
-    this.isSubscribed = !this.isSubscribed;
+  initSubscription() {
+    this.store.subscribe(this.updateSubscribedPressInLocalStorage.bind(this));
   }
 
-  updateButtonText() {
-    this.$buttonText.textContent = this.isSubscribed ? "해지하기" : "구독하기";
+  updateSubscribedPressInLocalStorage() {
+    const subscribedPressList = this.store.getState().gridState.subscribedPressList;
+    localStorage.setItem(LocalStorageKey.SUBSCRIBE_PRESS_LIST, JSON.stringify(subscribedPressList));
   }
 
   setEvents() {
@@ -64,40 +67,9 @@ export class GridPressBox {
     });
 
     this.$subscribeButton.addEventListener("click", () => {
-      this.handleSubscribedButtonClick();
+      const pressName = this.logo.alt;
+      this.store.dispatch(createAction.subscribePress(pressName));
     });
-  }
-
-  handleSubscribedButtonClick() {
-    if (this.isSubscribed) {
-      this.unsubscribePress();
-
-      return;
-    }
-
-    this.subscribePress();
-  }
-
-  subscribePress() {
-    const pressName = this.logo.alt;
-    const subscribedPressList = this.store.getSubscribedPressList();
-    const newSubscribedPressList = [...subscribedPressList, pressName];
-
-    localStorage.setItem("subscribed-press-list", JSON.stringify(newSubscribedPressList));
-    this.store.initSubscribedPressList();
-    this.toggleSubscribeState();
-    this.updateButtonText();
-  }
-
-  unsubscribePress() {
-    const pressName = this.logo.alt;
-    const subscribedPressList = this.store.getSubscribedPressList();
-    const newSubscribedPressList = subscribedPressList.filter((press) => press !== pressName);
-
-    localStorage.setItem("subscribed-press-list", JSON.stringify(newSubscribedPressList));
-    this.store.initSubscribedPressList();
-    this.toggleSubscribeState();
-    this.updateButtonText();
   }
 
   appendSubscribeBox() {
