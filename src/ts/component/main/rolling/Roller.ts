@@ -1,59 +1,37 @@
 import { $ } from '../../../common/util';
-import { State } from '../../../common/types';
+import { State, RollingItem, Roller } from '../../../common/types';
+import { store } from '../../../store';
 import { ACTION } from '../../../actions';
 import { dispatch } from '../../../dispatch';
 
-export class Roller {
-  constructor(private state: State) {
-    this.setInitRoller(this.state);
-    this.initRollerTick();
-  }
+export function initRoller(state: State) {
+  setInitRoller(state.roller);
+  initRollerTick();
+  store.subscribe('roller', setRoller);
+}
 
-  setInitRoller(state: State) {
-    const leftRollingWrapper = $('.left__article__wrapper');
-    const leftArticle = leftRollingWrapper.querySelectorAll('a');
+function setArticle(container: HTMLElement, list: RollingItem[], index: number) {
+  const article = container.querySelectorAll('a');
 
-    leftArticle[0].setAttribute('href', state.leftRollingList[0].link);
-    leftArticle[0].textContent = state.leftRollingList[0].title;
+  article[0].setAttribute('href', list[index % 5].link);
+  article[0].textContent = list[index % 5].title;
 
-    leftArticle[1].setAttribute('href', state.leftRollingList[1].link);
-    leftArticle[1].textContent = state.leftRollingList[1].title;
+  article[1].setAttribute('href', list[(index + 1) % 5].link);
+  article[1].textContent = list[(index + 1) % 5].title;
+}
 
-    const rightRollingWrapper = $('.right__article__wrapper');
-    const rightArticle = rightRollingWrapper.querySelectorAll('a');
+function setInitRoller(state: Roller) {
+  setArticle($('.left__article__wrapper'), state.leftRollingList, 0);
+  setArticle($('.right__article__wrapper'), state.rightRollingList, 0);
+}
 
-    rightArticle[0].setAttribute('href', state.rightRollingList[0].link);
-    rightArticle[0].textContent = state.rightRollingList[0].title;
+export function setRoller(state: Roller) {
+  setArticle($('.left__article__wrapper'), state.leftRollingList, state.rollerTick);
+  setArticle($('.right__article__wrapper'), state.rightRollingList, state.rollerTick);
+}
 
-    rightArticle[1].setAttribute('href', state.rightRollingList[1].link);
-    rightArticle[1].textContent = state.rightRollingList[1].title;
-  }
-
-  setLeftRoller(state: State) {
-    const leftRollingWrapper = $('.left__article__wrapper');
-    const leftArticle = leftRollingWrapper.querySelectorAll('a');
-
-    leftArticle[0].setAttribute('href', state.leftRollingList[state.rollerTick % 5].link);
-    leftArticle[0].textContent = state.leftRollingList[state.rollerTick % 5].title;
-
-    leftArticle[1].setAttribute('href', state.leftRollingList[(state.rollerTick + 1) % 5].link);
-    leftArticle[1].textContent = state.leftRollingList[(state.rollerTick + 1) % 5].title;
-  }
-
-  setRightRoller(state: State) {
-    const rightRollingWrapper = $('.right__article__wrapper');
-    const rightArticle = rightRollingWrapper.querySelectorAll('a');
-
-    rightArticle[0].setAttribute('href', state.rightRollingList[state.rollerTick % 5].link);
-    rightArticle[0].textContent = state.rightRollingList[state.rollerTick % 5].title;
-
-    rightArticle[1].setAttribute('href', state.rightRollingList[(state.rollerTick + 1) % 5].link);
-    rightArticle[1].textContent = state.rightRollingList[(state.rollerTick + 1) % 5].title;
-  }
-
-  initRollerTick() {
-    setInterval(() => {
-      dispatch({ type: ACTION.INCREASE_TICK });
-    }, 3000);
-  }
+function initRollerTick() {
+  setInterval(() => {
+    dispatch({ type: ACTION.INCREASE_TICK });
+  }, 3000);
 }
