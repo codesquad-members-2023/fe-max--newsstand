@@ -1,27 +1,26 @@
-export class Header {
-  constructor(private logo: HTMLElement, private date: HTMLElement) {
-    this.setEvent();
-    this.render();
-  }
+export function initHeader(logoEl: HTMLElement, dateEl: HTMLElement) {
+  setEvent(logoEl);
+  setDate(dateEl);
+}
 
-  private setEvent() {
-    this.logo.addEventListener('click', () => location.reload());
-  }
+function setEvent(logoEl: HTMLElement) {
+  logoEl.addEventListener('click', () => location.reload());
+}
 
-  private getToday(): string {
-    const newDate = new Date();
-    const thisYear = newDate.getFullYear();
-    const isBeforeOctober = newDate.getMonth() + 1 < 10;
-    const isDigitDate = newDate.getDate() < 10;
-    const thisMonth = isBeforeOctober ? `0${newDate.getMonth() + 1}` : newDate.getMonth() + 1;
-    const thisDate = isDigitDate ? `0${newDate.getDate()}` : newDate.getDate();
-    const thisDay = newDate.getDay();
-    const dayList = ['일', '월', '화', '수', '목', '금', '토'];
+function getToday(): string {
+  const newDate = new Date();
 
-    return `${thisYear}. ${thisMonth}. ${thisDate}. ${dayList[thisDay]}요일`;
-  }
+  const dateOptions: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    weekday: 'long',
+  };
+  const today = new Intl.DateTimeFormat('ko-KR', dateOptions).format(newDate);
 
-  private render(): void {
-    this.date.textContent = this.getToday();
-  }
+  return today;
+}
+
+function setDate(dateEl: HTMLElement): void {
+  dateEl.textContent = getToday();
 }
