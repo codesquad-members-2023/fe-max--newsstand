@@ -1,15 +1,4 @@
-import { NewsStand } from './components/NewsStand.ts';
-import { OneLineNews, GridNewsData, ListNewsData } from './utils/types.ts';
-import './scss/main.scss';
-
-type State = {
-  systemDate: Date;
-  oneLineNews: OneLineNews[];
-  gridData: GridNewsData[];
-  listData: ListNewsData[];
-};
-
-function shuffleArray(array: GridNewsData[]): GridNewsData[] {
+export function shuffleArray(array: GridNewsData[]): GridNewsData[] {
   if (array.length < 2) {
     return array;
   }
@@ -24,7 +13,7 @@ function shuffleArray(array: GridNewsData[]): GridNewsData[] {
   return newArray;
 }
 
-async function fetchData(path: string) {
+export async function fetchData(path: string) {
   const data = await fetch(`${import.meta.env.VITE_SERVER_URL}/${path}`).then((res) => res.json());
 
   return data;
@@ -46,12 +35,3 @@ async function createState(): Promise<State> {
     listData,
   };
 }
-
-const newsStand = new NewsStand(await createState());
-
-function App() {
-  const app = document.querySelector('#app');
-  app?.append(newsStand.element);
-}
-
-App();

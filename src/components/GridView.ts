@@ -1,20 +1,14 @@
-import { GridNewsData, HTMLElementEvent } from '../types';
+import { GridNewsData, HTMLElementEvent } from '../utils/types';
+import { GridState } from '../store/GridStore';
+import { Actions } from '../flux/Actions';
 
 export class GridView {
-  private state: {
-    currentPage: number;
-  };
-  readonly props: GridNewsData[];
   element: HTMLElement;
   leftBtn: HTMLButtonElement;
   rightBtn: HTMLButtonElement;
   gridItems: HTMLElement[];
 
-  constructor(props: GridNewsData[]) {
-    this.state = {
-      currentPage: 1,
-    };
-    this.props = props;
+  constructor(props: GridState) {
     this.element = document.createElement('div');
     this.element.classList.add('grid-container');
 
@@ -41,77 +35,61 @@ export class GridView {
       this.gridItems.push(gridItem);
     }
 
-    this.onStateChanged();
+    this.render(props);
     this.setEvent();
   }
 
-  onStateChanged() {
-    switch (this.state.currentPage) {
-      case 1:
-        this.renderLogo(0);
-        this.leftBtn.classList.add('hide');
-        break;
-      case 2:
-        this.renderLogo(24);
-        this.leftBtn.classList.remove('hide');
-        break;
-      case 3:
-        this.renderLogo(48);
-        this.rightBtn.classList.remove('hide');
-        break;
-      case 4:
-        this.renderLogo(72);
-        this.rightBtn.classList.add('hide');
-        break;
-      default:
-        console.log('There is no page');
+  update(state: GridState) {
+    if (state.displayCell === 'show') {
+      this.showSubBtn(state);
+    }
+    if (state.displayCell === 'hide') {
+      this.hideSubBtn(state);
+    }
+
+    if (state.currentPage === 1) {
+      this.render(state);
+      this.leftBtn.classList.add('hide');
+    } else if (state.currentPage === 4) {
+      this.render(state);
+      this.rightBtn.classList.add('hide');
+    } else {
+      this.render(state);
+      this.leftBtn.classList.remove('hide');
+      this.rightBtn.classList.remove('hide');
     }
   }
 
-  renderLogo(startIdx: number) {
+  render(state: GridState) {
     this.gridItems.forEach((item, idx) => {
       const itemImg = item.children[0] as HTMLImageElement;
-      const imgIdx = idx + startIdx;
-      itemImg.src = this.props[imgIdx] ? this.props[imgIdx].logoURL : '';
-      itemImg.alt = this.props[imgIdx] ? this.props[imgIdx].name : '';
+      const imgIdx = idx + (state.currentPage - 1) * 24;
+      itemImg.src = state.newsData[imgIdx] ? state.newsData[imgIdx].logoURL : '';
+      itemImg.alt = state.newsData[imgIdx] ? state.newsData[imgIdx].name : '';
     });
   }
 
   setEvent() {
-    this.leftBtn.addEventListener('click', this.showPrevPage.bind(this));
-    this.rightBtn.addEventListener('click', this.showNextPage.bind(this));
-    this.gridItems.forEach((item) => {
-      item.addEventListener('mouseenter', this.showSubBtn.bind(this));
+    this.rightBtn.addEventListener('click', () => {
+      Actions.clickArrowBtn('right');
+    });
+    this.leftBtn.addEventListener('click', () => {
+      Actions.clickArrowBtn('left');
     });
     this.gridItems.forEach((item) => {
-      item.addEventListener('mouseleave', this.hideSubBtn.bind(this));
+      item.addEventListener('mouseenter', (e) => {
+        Actions.handleSubBtn(e.target, 'show');
+      });
+    });
+    this.gridItems.forEach((item) => {
+      item.addEventListener('mouseleave', (e) => {
+        Actions.handleSubBtn(e.target, 'hide');
+      });
     });
   }
 
-  showNextPage() {
-    if (this.state.currentPage === 4) {
-      this.state.currentPage = 1;
-      this.onStateChanged();
-      return;
-    }
-
-    this.state.currentPage += 1;
-    this.onStateChanged();
-  }
-
-  showPrevPage() {
-    if (this.state.currentPage === 1) {
-      this.state.currentPage = 4;
-      this.onStateChanged();
-      return;
-    }
-
-    this.state.currentPage -= 1;
-    this.onStateChanged();
-  }
-
-  showSubBtn(e: HTMLElementEvent<HTMLDivElement>) {
-    const gridCell = e.target;
+  showSubBtn({ targetCell }) {
+    const gridCell = targetCell;
 
     const subBtn = document.createElement('button');
     subBtn.classList.add('sub-btn');
@@ -130,8 +108,8 @@ export class GridView {
     gridCell.append(subBtn);
   }
 
-  hideSubBtn(e: HTMLElementEvent<HTMLDivElement>) {
-    const gridCell = e.target;
+  hideSubBtn({ targetCell }) {
+    const gridCell = targetCell;
     const subBtn = gridCell.querySelector('.sub-btn');
     gridCell.removeChild(subBtn);
     gridCell.children[0].classList.remove('hide');

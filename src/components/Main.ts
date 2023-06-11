@@ -1,4 +1,5 @@
-import { GridNewsData, ListNewsData } from '../types';
+import gridStore from '../store/GridStore';
+import { GridNewsData, ListNewsData } from '../utils/types';
 import { GridView } from './GridView';
 
 export class Main {
@@ -58,7 +59,9 @@ export class Main {
     const content = document.createElement('div');
     content.classList.add('content-area');
 
-    const gridView = new GridView(props.gridData);
+    const gridView = new GridView(gridStore.state);
+    gridStore.subscribe(gridView);
+
     this.children.push(gridView);
     content.append(gridView.leftBtn, gridView.rightBtn, gridView.element);
 

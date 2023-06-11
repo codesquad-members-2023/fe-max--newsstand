@@ -31,3 +31,8 @@ type ListMaterial = {
 export type HTMLElementEvent<T extends HTMLElement> = Event & {
   target: T;
 };
+
+export type Action = {
+  type: string;
+  [key: string]: unknown;
+};
