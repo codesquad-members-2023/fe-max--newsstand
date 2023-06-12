@@ -11,7 +11,7 @@
     <header class="header">
       <div class="header__title">
         <img src="./asset/symbol/logo.svg" alt="logo" />
-        <a onclick="window.location.reload()">뉴스스탠드</a>
+        <a>뉴스스탠드</a>
       </div>
       <div class="header__date">
         <span class="date"></span>
@@ -35,53 +35,20 @@
           </div>
         </div>
       </section>
+
       <section class="press">
         <div class="press__header">
-          <div class="tap">
-            <span class="tap__all">전체 언론사</span>
-            <span class="tap__subscribed">내가 구독한 언론사</span>
+          <div class="view">
+            <span class="view__all focus">전체 언론사</span>
+            <span class="view__subs">내가 구독한 언론사</span>
           </div>
-          <div class="viewer">
-            <img class="list__btn" src="./asset/symbol/list.svg" alt="list" />
-            <img
-              class="grid__btn grid__btn--activated"
-              src="./asset/symbol/grid-activated.svg"
-              alt="grid"
-            />
+          <div class="mode">
+            <img class="mode__list" src="./asset/symbol/list.svg" alt="list" />
+            <img class="mode__grid" src="./asset/symbol/grid-activated.svg" alt="grid" />
           </div>
         </div>
 
-        <div class="press__grid press__grid--activated">
-          <img class="grid__left" src="./asset/symbol/leftButton.svg" alt="<" />
-          <div class="grid__wrapper">
-            <div class="grid__items"></div>
-            <div class="grid__items"></div>
-            <div class="grid__items"></div>
-            <div class="grid__items"></div>
-            <div class="grid__items"></div>
-            <div class="grid__items"></div>
-            <div class="grid__items"></div>
-            <div class="grid__items"></div>
-            <div class="grid__items"></div>
-            <div class="grid__items"></div>
-            <div class="grid__items"></div>
-            <div class="grid__items"></div>
-            <div class="grid__items"></div>
-            <div class="grid__items"></div>
-            <div class="grid__items"></div>
-            <div class="grid__items"></div>
-            <div class="grid__items"></div>
-            <div class="grid__items"></div>
-            <div class="grid__items"></div>
-            <div class="grid__items"></div>
-            <div class="grid__items"></div>
-            <div class="grid__items"></div>
-            <div class="grid__items"></div>
-            <div class="grid__items"></div>
-          </div>
-          <img class="grid__right" src="./asset/symbol/rightButton.svg" alt=">" />
-        </div>
-        <div class="press__list"></div>
+        <div class="main__wrapper"></div>
       </section>
     </main>
   </body>

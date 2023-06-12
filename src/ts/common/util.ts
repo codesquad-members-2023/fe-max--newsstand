@@ -9,3 +9,7 @@ export function $$(selector: string, node: Document = document): NodeListOf<HTML
 export function delay(time: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, time));
 }
+
+export function render(container: HTMLElement, markup: string) {
+  container.innerHTML = markup;
+}

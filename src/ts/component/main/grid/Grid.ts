@@ -1,80 +1,54 @@
-import { $, $$ } from '../../../util/util';
+import { $, $$, render } from '../../../common/util';
+import { State, Grid } from '../../../common/types';
+import { store } from '../../../store';
+import { MAIN } from '../../../common/constant';
+import { ACTION } from '../../../actions';
+import { dispatch } from '../../../dispatch';
 
-type gridInfo = {
-  src: string;
-  alt: string;
-};
-
-async function fetchGridData() {
-  const res = await fetch('http://localhost:8080/grid');
-  const gridData = await res.json();
-  return gridData;
+export function initGrid(state: State) {
+  renderGrid(state.grid);
+  observeGridFn();
 }
 
-const COUNT_PER_GRID = $$('.grid__items').length;
-
-export async function addEvent() {
-  const gridData = await fetchGridData();
-
-  const leftBtn = $('.grid__left');
-  const rightBtn = $('.grid__right');
-  const arr: Array<gridInfo> = [];
-  const maxPage = await setMaxPage();
-  let counter = 1;
-
-  gridData.forEach((item: gridInfo) => arr.push(item));
-  shuffle(arr);
-  setGrid(arr, counter);
-
-  hideArrow(leftBtn, rightBtn, counter);
+function setEvent() {
+  const leftBtn = $('.prev__grid');
+  const rightBtn = $('.next__grid');
 
   leftBtn.addEventListener('click', () => {
-    if (counter !== 1) {
-      counter--;
-    }
-
-    hideArrow(leftBtn, rightBtn, counter);
-    setGrid(arr, counter);
+    dispatch({ type: ACTION.GO_TO_PREV_GRID });
   });
 
   rightBtn.addEventListener('click', () => {
-    if (counter !== maxPage) {
-      counter++;
-    }
-
-    hideArrow(leftBtn, rightBtn, counter);
-    setGrid(arr, counter);
+    dispatch({ type: ACTION.GO_TO_NEXT_GRID });
   });
 }
 
-async function hideArrow(leftBtn: HTMLElement, rightBtn: HTMLElement, counter: number) {
-  const maxPage = await setMaxPage();
-
-  if (counter === 1) {
-    leftBtn.classList.add('hide');
-  } else {
-    leftBtn.classList.remove('hide');
+function setGridItem() {
+  const gridItems = [];
+  for (let i = 0; i < MAIN.GRID_NUM; i++) {
+    gridItems.push('<div class="grid__items"></div>');
   }
-
-  if (counter === maxPage) {
-    rightBtn.classList.add('hide');
-  } else {
-    rightBtn.classList.remove('hide');
-  }
+  return gridItems.join('');
 }
 
-async function setMaxPage() {
-  const gridData = await fetchGridData();
-  return Math.ceil(gridData.length / COUNT_PER_GRID);
+function setAllGrid() {
+  return `
+    <div class="press__grid">
+      <img class="prev__grid" src="./asset/symbol/leftButton.svg" alt="<" />
+        <div class="grid__wrapper">
+          ${setGridItem()}
+        </div>
+      <img class="next__grid" src="./asset/symbol/rightButton.svg" alt=">" />
+    </div>
+  `;
 }
 
-export async function setGrid(arr: Array<gridInfo>, counter: number) {
+function setGrid(state: Grid) {
   const grid = $$('.grid__items');
-  const gridData = await fetchGridData();
 
   for (let i = 0; i < grid.length; i++) {
-    const pressCount = i + COUNT_PER_GRID * (counter - 1);
-    const isOverLength = pressCount >= gridData.length;
+    const pressCount = MAIN.GRID_NUM * (state.curPage - 1) + i;
+    const isOverLength = pressCount >= state.allGrid.length;
     const img = grid[i].querySelector('img');
 
     if (!isOverLength) {
@@ -83,9 +57,9 @@ export async function setGrid(arr: Array<gridInfo>, counter: number) {
         grid[i].appendChild(newImg);
       }
 
-      const curImg = grid[i].querySelector('img');
-      curImg?.setAttribute('src', arr[pressCount].src);
-      curImg?.setAttribute('alt', arr[pressCount].alt);
+      const curImg = grid[i].querySelector('img') as HTMLElement;
+      curImg.setAttribute('src', state.allGrid[pressCount].src);
+      curImg.setAttribute('alt', state.allGrid[pressCount].alt);
     }
 
     if (isOverLength) {
@@ -94,11 +68,30 @@ export async function setGrid(arr: Array<gridInfo>, counter: number) {
   }
 }
 
-function shuffle(array: Array<gridInfo>): Array<gridInfo> {
-  for (let i = 0; i < array.length; i++) {
-    const j = Math.floor(Math.random() * (i + 1));
+function hideArrow(state: Grid) {
+  const leftBtn = $('.prev__grid');
+  const rightBtn = $('.next__grid');
 
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
+  const isFirstPage = state.curPage === 1;
+  const isLastPage = state.curPage === state.lastPage;
+
+  isFirstPage ? leftBtn.classList.add('hide') : leftBtn.classList.remove('hide');
+  isLastPage ? rightBtn.classList.add('hide') : rightBtn.classList.remove('hide');
+}
+
+function renderGrid(state: Grid) {
+  render($('.main__wrapper'), setAllGrid());
+  setGrid(state);
+  hideArrow(state);
+  setEvent();
+}
+
+function observeGridFn() {
+  store.subscribe('grid', setGrid);
+  store.subscribe('grid', hideArrow);
+}
+
+export function ignoreGridFn() {
+  store.unsubscribe('grid', setGrid);
+  store.unsubscribe('grid', hideArrow);
 }

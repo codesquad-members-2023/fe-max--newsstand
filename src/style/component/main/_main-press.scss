@@ -4,10 +4,11 @@
   &__header {
     display: flex;
     width: 930px;
+    height: 24px;
     justify-content: space-between;
     margin: 0 0 24px 71px;
 
-    .tap {
+    .view {
       display: flex;
       align-items: center;
       gap: 24px;
@@ -17,18 +18,19 @@
         cursor: pointer;
       }
 
-      &__all {
-        font: $title-md;
-        color: $color-black;
-      }
-
-      &__subscribed {
+      &__all,
+      &__subs {
         font: $body-md;
         color: $color-gray-200;
       }
+
+      .focus {
+        font: $title-md;
+        color: $color-black;
+      }
     }
 
-    .viewer {
+    .mode {
       display: flex;
       gap: 14px;
 

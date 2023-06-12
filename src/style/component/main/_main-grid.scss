@@ -2,24 +2,23 @@
 
 .press {
   &__grid {
-    display: none;
+    display: flex;
     gap: 47px;
-
-    &--activated {
-      display: flex;
-    }
 
     .grid__wrapper {
       width: 930px;
       height: 388px;
       margin: 0 auto;
+      border-top: 1px solid $color-gray-100;
+      border-left: 1px solid $color-gray-100;
       display: grid;
       grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
 
       .grid__items {
         height: 96px;
         background-color: $color-white;
-        border: 1px solid $color-gray-100;
+        border-right: 1px solid $color-gray-100;
+        border-bottom: 1px solid $color-gray-100;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -32,17 +31,17 @@
       }
     }
 
-    .grid__left,
-    .grid__right {
+    .prev__grid,
+    .next__grid {
       position: absolute;
       cursor: pointer;
     }
 
-    .grid__left {
+    .prev__grid {
       transform: translateY(174px);
     }
 
-    .grid__right {
+    .next__grid {
       transform: translate(1048px, 174px);
     }
 
