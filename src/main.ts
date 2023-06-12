@@ -1,5 +1,5 @@
 import NewsStand from './components/NewsStand';
-import { getGridImgs } from './utils/dataUtils';
+import { getGridImgs, getSubscribedIds, setSubscribedIds } from './utils/dataUtils';
 import { shuffleArray } from './utils/randomUtils';
 import './styles/main.css';
 
@@ -9,6 +9,7 @@ const state: {
   subscribedMediaIds: number[];
   targetMedia: 'total' | 'subscribed';
   viewerState: 'listView' | 'gridView';
+  news: NewsData | null
 } = {
   dateInfo: new Date(),
   gridInfo: {
@@ -17,9 +18,10 @@ const state: {
     isHover: false,
     hoverIndex: -1
   },
-  subscribedMediaIds: [56],
+  subscribedMediaIds: getSubscribedIds(),
   targetMedia: 'total',
-  viewerState: 'gridView'
+  viewerState: 'gridView',
+  news: null
 };
 
 const initGridImgs = async () => {
@@ -50,6 +52,24 @@ export const invoke = (action: Action) => {
     case 'initGridImages':
       state.gridInfo.imgs = action.payload.images;
       break;
+    case 'updateSubscribedMedia':
+      if (action.payload.mode === 'add') {
+        state.subscribedMediaIds.push(action.payload.id);
+      } else {
+        state.subscribedMediaIds = state.subscribedMediaIds.filter(
+          (id) => id !== action.payload.id
+        );
+      }
+      setSubscribedIds(state.subscribedMediaIds);
+      state.subscribedMediaIds = getSubscribedIds();
+      break;
+    case 'initNewsData':
+      const news = action.payload.news;
+      if (!news) {
+        return;
+      }
+      state.news = news;
+      break;
   }
 
   onChangeState();
@@ -63,7 +83,8 @@ const newsStand = new NewsStand({
   mainViewerInfo: {
     targetMedia: state.targetMedia,
     viewerState: state.viewerState
-  }
+  },
+  news: state.news
 });
 
 app.append(newsStand.element);
@@ -77,6 +98,7 @@ const onChangeState = () => {
     mainViewerInfo: {
       targetMedia: state.targetMedia,
       viewerState: state.viewerState
-    }
+    },
+    news: state.news
   });
 };

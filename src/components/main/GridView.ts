@@ -1,5 +1,6 @@
 import { invoke } from '../../main';
 import { createElement } from '../../utils/domUtils';
+import { SubscriptionCover } from './SubscriptionCover';
 import style from './GridView.module.css';
 
 type GridViewProps = {
@@ -23,8 +24,8 @@ export default class GridView {
     this.table = this.createTable();
     this.leftArrow = this.createArrow('left');
     this.rightArrow = this.createArrow('right');
-    this.subscriptionCover = this.createSubscriptionCover();
-    
+    this.subscriptionCover = new SubscriptionCover();
+
     this.element.append(this.table, this.leftArrow, this.rightArrow);
 
     this.props = this.updateProps(props);
@@ -33,16 +34,18 @@ export default class GridView {
   }
 
   private createCells() {
-    return [...Array(this.numberOfCells)].map(() => {
+    return [...Array(this.numberOfCells)].map((_, index) => {
       const cell = createElement('td', { class: style.cell });
+      cell.dataset.index = index.toString();
+
       const anchor = createElement('a', { href: '#', class: style.media_thumb });
       const img = createElement('img', { class: style.media_logo });
-  
+
       anchor.append(img);
       cell.append(anchor);
-  
+
       return cell;
-    })
+    });
   }
 
   private createTable() {
@@ -84,37 +87,36 @@ export default class GridView {
     return arrow;
   }
 
-  private createSubscriptionCover() {
-    const cover = createElement('div', { class: style.subscription });
-    const button = createElement('a', { href: '#', class: 'subscribe-button' });
-    const plus = createElement('img', { src: 'assets/icons/plus-sm.svg', alt: '' });
-    const text = document.createTextNode('');
-
-    button.append(plus, text);
-    cover.append(button);
-
-    return cover;
-  }
-
   private updateProps(props: GridViewProps) {
     return {
       imgs: [...props.gridInfo.imgs],
       page: props.gridInfo.page,
       isHover: props.gridInfo.isHover,
-      hoverIndex: props.gridInfo.hoverIndex
+      hoverIndex: props.gridInfo.hoverIndex,
+      subscribedIds: [...props.subscriptionInfo]
     };
   }
 
   private setEvent() {
-    this.cells.forEach((cell, index) => {
-      cell.addEventListener('mouseenter', () => {
-        invoke({
-          type: 'turnOnSubscriptionCover',
-          payload: {
-            hoverOnGrid: true,
-            hoveredCellIndex: index
-          }
-        });
+    this.table.addEventListener('mouseover', (e) => {
+      const target = e.target;
+      if (!(target instanceof Element)) {
+        return;
+      }
+      const subscriptionCover = target.closest(`.${style.subscription}`);
+      if (subscriptionCover) {
+        return;
+      }
+      const cell = target.closest<HTMLElement>(`.${style.cell}`);
+      if (!cell || !cell.dataset.index) {
+        return;
+      }
+      invoke({
+        type: 'turnOnSubscriptionCover',
+        payload: {
+          hoverOnGrid: true,
+          hoveredCellIndex: parseInt(cell.dataset.index)
+        }
       });
     });
 
@@ -142,7 +144,7 @@ export default class GridView {
 
   updateView(props: GridViewProps) {
     const { imgs, page, isHover, hoverIndex } = props.gridInfo;
-    if (this.props.isHover !== isHover || this.props.hoverIndex !== hoverIndex) {
+    if (this.props.isHover !== isHover || this.props.hoverIndex !== hoverIndex || this.props.subscribedIds !== props.subscriptionInfo) {
       this.renderSubscriptionCover(isHover, hoverIndex, props.subscriptionInfo);
     }
 
@@ -159,20 +161,26 @@ export default class GridView {
     subscriptionInfo: number[]
   ) {
     for (let i = 0; i < this.cells.length; i++) {
-      const cell = this.cells[i];
+      const cell = this.cells?.[i];
+      if (!cell) {
+        continue;
+      }
       if (isHover && hoverIndex === i) {
-        const mediaLogo = cell.querySelector(`.${style.media_logo}`);
-        const textNode = this.subscriptionCover.querySelector('.subscribe-button')?.lastChild;
-        if (mediaLogo instanceof HTMLElement && mediaLogo.dataset.id && textNode) {
-          textNode.textContent = subscriptionInfo.includes(Number(mediaLogo.dataset.id))
-            ? '해지하기'
-            : '구독하기';
-          cell.append(this.subscriptionCover);
+        const index = this.props.page * this.numberOfCells + i;
+        const media = this.props.imgs?.[index];
+        if (!media) {
+          continue;
         }
+        const mediaId = media.id;
+        const isSubscribed = subscriptionInfo.includes(mediaId);
+
+        this.subscriptionCover.updateState({ mediaId, isSubscribed });
+        cell.append(this.subscriptionCover.getElement());
+
         continue;
       }
       if (cell.childElementCount > 1) {
-        cell.lastElementChild?.remove();
+        this.subscriptionCover.getElement().remove();
       }
     }
   }
@@ -182,7 +190,11 @@ export default class GridView {
     const limitGridIndex = firstGridIndex + this.numberOfCells;
 
     imgs.slice(firstGridIndex, limitGridIndex).forEach((img, index) => {
-      const mediaLogo = this.cells[index].querySelector(`.${style.media_logo}`);
+      const cell = this.cells?.[index];
+      if (!cell) {
+        return;
+      }
+      const mediaLogo = cell.querySelector(`.${style.media_logo}`);
       if (mediaLogo === null) {
         return;
       }

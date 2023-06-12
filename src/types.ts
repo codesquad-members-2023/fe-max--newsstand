@@ -29,6 +29,19 @@ type Action =
       payload: {
         news: HeadlineNews[];
       };
+    }
+  | {
+      type: 'updateSubscribedMedia';
+      payload: {
+        id: number;
+        mode: 'add' | 'remove';
+      };
+    }
+  | {
+      type: 'initNewsData';
+      payload: {
+        news: NewsData | null;
+      };
     };
 
 type GridImg = {
@@ -55,4 +68,24 @@ type HeadlineInfo = {
   news: HeadlineNews[];
   leftIndex: number;
   rightIndex: number;
+};
+
+type NewsData = {
+  mediaInfo: {
+    imgSrc: string;
+    imgAlt: string;
+    editInfo: string;
+  };
+  mainContent: {
+    imgSrc: string;
+    imgAlt: string;
+    url: string;
+  };
+  subContent: {
+    title: string;
+    url: string;
+  }[];
+  category: string;
+  order: number;
+  categoryCount: number;
 };

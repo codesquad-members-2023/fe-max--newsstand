@@ -12,6 +12,7 @@ type NewsStandProps = {
     targetMedia: 'total' | 'subscribed';
     viewerState: 'listView' | 'gridView';
   };
+  news: NewsData | null;
 };
 
 export default class NewsStand {
@@ -27,7 +28,8 @@ export default class NewsStand {
     this.main = new Main({
       gridInfo: props.gridInfo,
       subscriptionInfo: props.subscriptionInfo,
-      mainViewerInfo: props.mainViewerInfo
+      mainViewerInfo: props.mainViewerInfo,
+      news: props.news
     });
 
     this.element.append(header.element, this.newsBar.element, this.main.element);
@@ -37,7 +39,8 @@ export default class NewsStand {
     this.main.updateView({
       gridInfo: props.gridInfo,
       subscriptionInfo: props.subscriptionInfo,
-      mainViewerInfo: props.mainViewerInfo
+      mainViewerInfo: props.mainViewerInfo,
+      news: props.news
     });
   }
 }
