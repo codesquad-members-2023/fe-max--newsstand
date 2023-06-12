@@ -1,31 +1,41 @@
-interface SubscribeCallback {
-  (arg: unknown): void;
-}
+import { IObserver } from "../interfaces/IObserver";
+import { IState } from "../interfaces/IState";
+import { CallBack } from "../types/Callback";
 
-interface StoreObservers {
-  [key: string]: SubscribeCallback[];
-}
+export const Store = (function generateStore() {
+  const state = {} as Record<string, any>;
+  const observers = {} as Record<string, IObserver>;
 
-export class Store<S> {
-  public state = {} as S;
-  private observers = {} as StoreObservers;
-  constructor(state: S) {
-    for (const key in state) {
-      Object.defineProperty(this.state, key, {
-        get: () => state[key],
-        set: (val) => {
-          state[key] = val;
-          if (Array.isArray(this.observers[key])) {
-            this.observers[key].forEach((observer) => observer(val));
-          }
-        },
-      });
+  function setState(newState: IState) {
+    const temp = { ...state };
+    for (const name in state) {
+      delete state[name];
+    }
+    for (const name in newState) {
+      if (temp[name]) {
+        state[name] = temp[name];
+      } else {
+        let value = newState[name];
+        Object.defineProperty(state, name, {
+          get: () => value,
+          set: (_value) => {
+            value = _value;
+            if (observers[name]) {
+              observers[name].forEach((cb) => cb());
+            }
+          },
+        });
+      }
     }
   }
 
-  subscribe(key: string, cb: SubscribeCallback) {
-    Array.isArray(this.observers[key])
-      ? this.observers[key].push(cb)
-      : (this.observers[key] = [cb]);
+  function subscribe(name: string, cb: CallBack) {
+    observers[name] ? observers[name].push(cb) : (observers[name] = [cb]);
   }
-}
+
+  return {
+    state,
+    setState,
+    subscribe,
+  };
+})();

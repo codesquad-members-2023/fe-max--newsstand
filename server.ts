@@ -4,8 +4,21 @@ import ejs from "ejs";
 import { createServer as createViteServer } from "vite";
 import fetch from "node-fetch";
 import { parse } from "node-html-parser";
+import { getNewsData } from "./src/ts/utils/getNewsData";
+import dotenv from "dotenv";
 
 async function createServer() {
+  dotenv.config();
+  // let time = 0;
+  // let loading = "로딩중 현재 소요시간 ";
+  // console.log("좀 만 참아줘용.. 5분정도 걸려요..");
+  // const loadingKey = setInterval(() => {
+  //   time += 1;
+  //   console.log(loading + time + "분");
+  // }, 60000);
+  // const newsData = await getNewsData();
+  // clearInterval(loadingKey);
+
   const port = 5173;
   const app = express();
 
@@ -17,11 +30,12 @@ async function createServer() {
     appType: "custom",
   });
 
-  app.get("/api/rolling-news", async (req, res) => {
+  app.get("/api/rolling", async (req, res) => {
     try {
-      const response = await fetch(
-        "https://www.yna.co.kr/news?site=navi_latest_depth01"
-      );
+      if (!process.env.YNA_URL) {
+        throw new Error("The YNA_URL environment variable is not defined");
+      }
+      const response = await fetch(process.env.YNA_URL);
       if (response.status == 200) {
         const data = await response.text();
         const dom = parse(data);
@@ -33,7 +47,10 @@ async function createServer() {
             };
           }
         );
-        res.header("Access-Control-Allow-Origin", "http://127.0.0.1:5173");
+        res.header(
+          "Access-Control-Allow-Origin",
+          `${process.env.BASE_URL}:${port}`
+        );
         res.json({ news });
       } else {
         throw new Error("fail");
@@ -42,6 +59,10 @@ async function createServer() {
       console.error("Error:", error);
     }
   });
+
+  // app.get("/api/news", async (req, res) => {
+  //   res.json(newsData);
+  // });
 
   app.use(vite.middlewares);
   app.use("*", async (req, res, next) => {
@@ -88,7 +109,7 @@ async function createServer() {
   });
 
   app.listen(port, () => {
-    console.log(`http://localhost:${port}/`);
+    console.log(`${process.env.BASE_URL}:${port}/`);
   });
 }
 

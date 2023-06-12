@@ -86,10 +86,7 @@
 ## 목표
 - [x] 기존의 vite를 사용하며 사용한 클라이언트 사이드 랜더링 방식을 서버 사이드 랜더링 방식으로 교체한다.
 - [x] template engine을 활용하여 기존에 index.html을 재구성한다
-- [ ] 그리드 UI을 구현한다
-- [ ] 좌우페이지 이동을 구현한다.
-- [ ] 세션을 활용하여 구독 및 해지정보들을 관리할 방법을 정하고 적용시킨다.
-- [ ] 그리드 UI에 구독/해지 기능을 추가한다.
+- [x] 데이터 스크래핑 및 전달
 
 ## 학습계획
 - GPT에 예시코드들을 물어봐서 한번씩 실행해보고 파악해 본 후에 구현한다.
@@ -135,14 +132,41 @@ async function createServer() {
 createServer();
 ```
 
+## 3주차 상태관리
+
+## 목표
+- [ ] 화면구성
+- [ ] 탭 UX
+- [ ] 페이지이동/프로그레스바 애니메이션
+- [ ] 구독/해지
+
+## 학습계획
+마스터에게 너무 힘주고 한다는 피드백을 받았다.
+욕심부리지 않고 코어타임만 딱 열심히 하고 남은 시간에는 산책다녀와서 다른 공부를 하거나 하고 싶은 것들을 해야겠다.
+힘든 것들은 전부 끝내놓아서 남은 시간들은 좋아하는 UI설계하면서 행복코딩할 것 같다.
+클래스가 많은 것 같다는 피드백을 받아서 마스터의 코드를 사용하며 익히기로 했다.
+이번 프로젝트에서 코어부분의 대부분의 코드는 인용했으며 사용하며 구조를 파악하는데 의미를 두었다.
+
+## 4주차 테스트코드 구현과 재사용 코드
+- [ ] 구조를 다시 만들면서 하지못한 이전 목표들을 완수하기
+- [ ] 테스트코드에 대하여 만들어보고 실행하기
+
+## 학습계획
+이전에 목표한것들을 되는 데까지 하는 것을 목표로 하기로했다.
+너무 힘주지 않고 꾸준히 할 수 있는데까지 해보려고 한다.
+
+
+
 ## 기술스택(구현 과정 중 추가 삭제 예정)
 프로그래밍 언어: TypeScript, JavaScript (ES6+)
 웹 프레임워크: Express.js
-템플릿 엔진: ejs
-번들러: Webpack
-타입스크립트 로더: ts-loader
+템플릿 엔진: EJS
+웹 스크래핑 라이브러리: Puppeteer
+HTML 파싱 라이브러리: node-html-parser
+HTTP 요청 라이브러리: node-fetch
 개발용 서버 도구: Nodemon, ts-node
 JavaScript/TypeScript 컴파일러: TypeScript
-TypeScript 지원: @types/node, @types/express, @types/ejs
-SSR 도구: Vite, vite-ssr
+TypeScript 지원: @types/node, @types/express, @types/ejs, @types/node-fetch
+번들러 및 개발 서버 도구: Vite
+서버 사이드 렌더링(SSR) 도구: Vite, vite-ssr
 Rollup 플러그인: @rollup/plugin-typescript
