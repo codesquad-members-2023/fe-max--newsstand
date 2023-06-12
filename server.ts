@@ -2,10 +2,12 @@ import express from "express";
 import path from "path";
 import ejs from "ejs";
 import { createServer as createViteServer } from "vite";
-import fetch from "node-fetch";
-import { parse } from "node-html-parser";
-import { getNewsData } from "./src/ts/utils/getNewsData";
 import dotenv from "dotenv";
+import { checkEnvVar } from "./src/ts/utils/checkEnvVar";
+import { fetchData } from "./src/ts/utils/fetchData";
+import { parseRollingData } from "./src/ts/utils/parseRollingData";
+import { getDummyNewsData } from "./src/ts/utils/getDummy";
+// import { getNewsData } from "./src/ts/utils/getNewsData";
 
 async function createServer() {
   dotenv.config();
@@ -19,7 +21,9 @@ async function createServer() {
   // const newsData = await getNewsData();
   // clearInterval(loadingKey);
 
-  const port = 5173;
+  const newsData = await getDummyNewsData();
+
+  const port = checkEnvVar("PORT");
   const app = express();
 
   app.set("views", path.resolve(__dirname, "views"));
@@ -32,37 +36,27 @@ async function createServer() {
 
   app.get("/api/rolling", async (req, res) => {
     try {
-      if (!process.env.YNA_URL) {
-        throw new Error("The YNA_URL environment variable is not defined");
-      }
-      const response = await fetch(process.env.YNA_URL);
-      if (response.status == 200) {
-        const data = await response.text();
-        const dom = parse(data);
-        const news = Array.from(dom.querySelectorAll("a.tit-wrap")).map(
-          (titWrap) => {
-            return {
-              href: titWrap.getAttribute("href"),
-              textContent: titWrap.textContent.trim(),
-            };
-          }
-        );
-        res.header(
-          "Access-Control-Allow-Origin",
-          `${process.env.BASE_URL}:${port}`
-        );
-        res.json({ news });
-      } else {
-        throw new Error("fail");
-      }
+      const url = checkEnvVar("YNA_URL");
+      const data = await fetchData(url!);
+      const rolling = parseRollingData(data);
+
+      res.header(
+        "Access-Control-Allow-Origin",
+        `${checkEnvVar("BASE_URL")}:${port}`
+      );
+      res.json({ data: rolling });
     } catch (error) {
       console.error("Error:", error);
     }
   });
 
-  // app.get("/api/news", async (req, res) => {
-  //   res.json(newsData);
-  // });
+  app.get("/api/news", async (req, res) => {
+    res.header(
+      "Access-Control-Allow-Origin",
+      `${checkEnvVar("BASE_URL")}:${port}`
+    );
+    res.json(newsData);
+  });
 
   app.use(vite.middlewares);
   app.use("*", async (req, res, next) => {

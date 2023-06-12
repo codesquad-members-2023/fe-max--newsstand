@@ -1,14 +1,27 @@
 import { App } from "./App";
 import { Dispatcher } from "./src/core/Dispatcher";
 import { FakeDom } from "./src/core/FakeDom";
+import { Store } from "./src/core/Store";
+import { initNews } from "./src/utils/initNews";
+import { initRolling } from "./src/utils/initRolling";
 import "./style.css";
 
-(() => {
+(async () => {
   const root = FakeDom.createRoot(document.getElementById("root")!);
 
   setInterval(() => {
     Dispatcher.onAction({ type: "updateTime" });
   }, 1000);
 
+  setInterval(() => {
+    Dispatcher.onAction({ type: "rolling" });
+  }, 1000);
+
+  await initRolling();
+  await initNews();
+
+  console.log(Store.state.news)
+
   root.render(App());
+  Dispatcher.onAction({ type: "rolling" });
 })();

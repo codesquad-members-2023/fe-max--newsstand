@@ -41,24 +41,29 @@ function assignFakeElement(
   fakeElement.render = function () {
     const { prevElement } = fakeElement;
     const newElement = render(fakeElement);
+
     if (prevElement) {
-      prevElement.parentElement!.replaceChild(prevElement, newElement);
-      fakeElement.prevElement = newElement;
+      prevElement.parentElement!.replaceChild(newElement, prevElement);
     }
-    return newElement;
+
+    fakeElement.prevElement = newElement;
+    return fakeElement.prevElement;
   };
 }
 
 function render(fakeElement: IFakeElement): HTMLElement {
   const { tagName, props, children, textContent, functions } = fakeElement;
   const element = document.createElement(tagName);
+  functions &&
+    functions.forEach((func: Function) => {
+      const result = func(element);
+      if (typeof result === "string") {
+        element.textContent = result;
+      }
+    });
   props && defineProps(element, props);
   children && defineChildren(element, children);
   textContent && defineTextContent(element, textContent);
-  functions &&
-    functions.forEach((func: Function) => {
-      func(element);
-    });
   return element;
 }
 
@@ -91,5 +96,11 @@ function defineProp(element: HTMLElement, prop: Prop) {
     element.setAttribute(`data-${dataName}`, value as string);
     return;
   }
-  element.setAttribute(name, value as string);
+
+  if (typeof value === "function") {
+    element.setAttribute(name, value());
+    return;
+  }
+
+  element.setAttribute(name, value);
 }
