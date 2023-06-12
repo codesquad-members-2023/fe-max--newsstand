@@ -17,8 +17,7 @@ export enum StateConst {
 }
 
 export enum ActionType {
-  FETCH_PRESS_LIST,
-  SHUFFLE_PRESS_LIST,
+  SET_PRESS_LIST,
   UPDATE_LAST_PAGE,
 
   PREV_BUTTON_CLICK,
@@ -31,17 +30,10 @@ export enum ActionType {
   SUBSCRIBED_PRESS_TAB_CLICK,
 }
 
-interface FetchPressListAction {
-  type: ActionType.FETCH_PRESS_LIST;
+interface SetPressListAction {
+  type: ActionType.SET_PRESS_LIST;
   payload: {
     pressList: Press[];
-  };
-}
-
-interface ShufflePressListAction {
-  type: ActionType.SHUFFLE_PRESS_LIST;
-  payload: {
-    fn: (pressList: Press[]) => Press[];
   };
 }
 
@@ -59,6 +51,9 @@ interface NextButtonClickAction {
 
 interface SetSubscribePressListAction {
   type: ActionType.SET_SUBSCRIBED_PRESS_LIST;
+  payload: {
+    subscribedPressList: string[];
+  };
 }
 
 interface SubscribePressAction {
@@ -84,8 +79,7 @@ interface SubscribedPressTabClickAction {
 }
 
 export type Action =
-  | FetchPressListAction
-  | ShufflePressListAction
+  | SetPressListAction
   | UpdateLastPageAction
   | PrevButtonClickAction
   | NextButtonClickAction

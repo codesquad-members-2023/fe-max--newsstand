@@ -3,29 +3,12 @@ import { ActionType, Reducer, StateConst } from "./types";
 
 export const reducer: Reducer<MainViewState> = (state, actions) => {
   switch (actions.type) {
-    case ActionType.FETCH_PRESS_LIST:
-      if (!actions.payload || !actions.payload.pressList) {
-        return state;
-      }
-
+    case ActionType.SET_PRESS_LIST:
       return {
         ...state,
         gridState: {
           ...state.gridState,
-          pressList: actions.payload.pressList,
-        },
-      };
-
-    case ActionType.SHUFFLE_PRESS_LIST:
-      if (!actions.payload || !actions.payload.fn) {
-        return state;
-      }
-
-      return {
-        ...state,
-        gridState: {
-          ...state.gridState,
-          pressList: actions.payload.fn(state.gridState.pressList),
+          ...actions.payload,
         },
       };
 
@@ -63,37 +46,26 @@ export const reducer: Reducer<MainViewState> = (state, actions) => {
       };
 
     case ActionType.SET_SUBSCRIBED_PRESS_LIST:
-      const subscribedPressList = localStorage.getItem("subscribed-press-list");
-      const parsedList = subscribedPressList ? JSON.parse(subscribedPressList) : [];
-
       return {
         ...state,
         gridState: {
           ...state.gridState,
-          subscribedPressList: parsedList,
+          ...actions.payload,
         },
       };
 
     case ActionType.SUBSCRIBE_PRESS:
-      if (!actions.payload) {
-        return state;
-      }
-
       return {
         ...state,
         gridState: {
           ...state.gridState,
           subscribedPressList: [
-            ...new Set([...state.gridState.subscribedPressList, actions.payload.pressName]),
+            ...new Set([...state.gridState.subscribedPressList, ...actions.payload.pressName]),
           ],
         },
       };
 
     case ActionType.UNSUBSCRIBE_PRESS:
-      if (!actions.payload) {
-        return state;
-      }
-
       return {
         ...state,
         gridState: {

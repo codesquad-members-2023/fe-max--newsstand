@@ -2,6 +2,7 @@ import { StateConst, Store } from "@store/types";
 import { MainViewState, Press } from "..";
 import { GridPressBox } from "./gridPressBox";
 import { createAction } from "@store/actions";
+import { shuffleArray } from "@utils/shuffleArray";
 
 export class GridView {
   private store: Store<MainViewState>;
@@ -43,13 +44,17 @@ export class GridView {
   }
 
   async initSubscribedPressList() {
-    this.store.dispatch(createAction.setSubscribedPressList());
+    const subscribedPressList = localStorage.getItem("subscribed-press-list");
+    const parsedList: string[] = subscribedPressList ? JSON.parse(subscribedPressList) : [];
+
+    this.store.dispatch(createAction.setSubscribedPressList(parsedList));
 
     const pressList = await this.fetchPressList();
 
     if (pressList) {
-      this.store.dispatch(createAction.fetchPressList(pressList));
-      this.store.dispatch(createAction.shufflePressList());
+      const shuffledPressList = shuffleArray(pressList);
+
+      this.store.dispatch(createAction.setPressList(shuffledPressList));
       this.store.dispatch(createAction.updateLastPage());
     }
   }

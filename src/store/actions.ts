@@ -1,19 +1,14 @@
-import { shuffleArray } from "@utils/shuffleArray";
 import { Action, ActionType } from "./types";
 import { Press } from "@components/mainView";
 
 export const createAction = {
-  fetchPressList(pressList: Press[]): Action {
+  setPressList(pressList: Press[]): Action {
     return {
-      type: ActionType.FETCH_PRESS_LIST,
+      type: ActionType.SET_PRESS_LIST,
       payload: {
         pressList,
       },
     };
-  },
-
-  shufflePressList(): Action {
-    return { type: ActionType.SHUFFLE_PRESS_LIST, payload: { fn: shuffleArray } };
   },
 
   updateLastPage(): Action {
@@ -28,8 +23,8 @@ export const createAction = {
     return { type: ActionType.NEXT_BUTTON_CLICK };
   },
 
-  setSubscribedPressList(): Action {
-    return { type: ActionType.SET_SUBSCRIBED_PRESS_LIST };
+  setSubscribedPressList(subscribedPressList: string[]): Action {
+    return { type: ActionType.SET_SUBSCRIBED_PRESS_LIST, payload: { subscribedPressList } };
   },
 
   subscribePress(pressName: string): Action {
