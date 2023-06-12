@@ -69,9 +69,15 @@ export class List extends Base {
     count.forEach((element) => {
       element.replaceChildren();
     });
-    count[currentPage].textContent = `${currentIndex + 1}/${
-      currentPressList.length
-    }`;
+
+    if (this.props.currentType === "all") {
+      count[currentPage].textContent = `${currentIndex + 1}/${
+        currentPressList.length
+      }`;
+    } else {
+      const arrowImg = this.setTemplate('<img src="./src/assets/arrow.svg">');
+      count[currentPage].appendChild(arrowImg);
+    }
   }
 
   resetAnimation() {
