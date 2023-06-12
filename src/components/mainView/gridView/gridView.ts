@@ -1,5 +1,5 @@
 import { StateConst, Store } from "@store/types";
-import { MainViewState, PressLogo } from "..";
+import { MainViewState, Press } from "..";
 import { GridPressBox } from "./gridPressBox";
 import { createAction } from "@store/actions";
 
@@ -45,18 +45,18 @@ export class GridView {
   async initSubscribedPressList() {
     this.store.dispatch(createAction.setSubscribedPressList());
 
-    const pressLogos = await this.fetchPressLogos();
+    const pressList = await this.fetchPressList();
 
-    if (pressLogos) {
-      this.store.dispatch(createAction.fetchPressLogos(pressLogos));
-      this.store.dispatch(createAction.shufflePressLogos());
+    if (pressList) {
+      this.store.dispatch(createAction.fetchPressList(pressList));
+      this.store.dispatch(createAction.shufflePressList());
       this.store.dispatch(createAction.updateLastPage());
     }
   }
 
-  async fetchPressLogos(): Promise<PressLogo[] | void> {
+  async fetchPressList(): Promise<Press[] | void> {
     try {
-      const response = await fetch("http://localhost:8080/press-logos");
+      const response = await fetch("http://localhost:8080/press-list");
 
       return await response.json();
     } catch (error) {
@@ -68,22 +68,22 @@ export class GridView {
     const state = this.store.getState();
     const {
       currentTab,
-      gridState: { logos, currentPage, subscribedPressList },
+      gridState: { pressList: list, currentPage, subscribedPressList },
     } = state;
 
-    const filteredLogos =
+    const filteredList =
       currentTab === StateConst.ALL_PRESS
-        ? logos
-        : logos.filter((logo) => subscribedPressList.includes(logo.alt));
+        ? list
+        : list.filter((press) => subscribedPressList.includes(press.alt));
 
     const startIndex = (currentPage - 1) * StateConst.ITEM_PER_PAGE;
     const endIndex = currentPage * StateConst.ITEM_PER_PAGE;
-    const logosToRender = filteredLogos.slice(startIndex, endIndex);
+    const listToRender = filteredList.slice(startIndex, endIndex);
 
     const fragment = document.createDocumentFragment();
 
-    logosToRender.forEach((logo) => {
-      const gridPressBox = new GridPressBox(logo, this.store);
+    listToRender.forEach((press) => {
+      const gridPressBox = new GridPressBox(press, this.store);
       const pressBox = gridPressBox.getElement();
       fragment.append(pressBox);
     });

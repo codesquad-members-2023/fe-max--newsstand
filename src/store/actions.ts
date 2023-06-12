@@ -1,18 +1,18 @@
 import { shuffleArray } from "@utils/shuffleArray";
 import { Action, ActionType } from "./types";
-import { PressLogo } from "@components/mainView";
+import { Press } from "@components/mainView";
 
 export const createAction = {
-  fetchPressLogos(logos: PressLogo[]): Action {
+  fetchPressList(pressList: Press[]): Action {
     return {
-      type: ActionType.FETCH_PRESS_LOGOS,
+      type: ActionType.FETCH_PRESS_LIST,
       payload: {
-        logos,
+        pressList,
       },
     };
   },
 
-  shufflePressLogos(): Action {
+  shufflePressList(): Action {
     return { type: ActionType.SHUFFLE_PRESS_LIST, payload: { fn: shuffleArray } };
   },
 

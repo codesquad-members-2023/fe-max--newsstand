@@ -32,7 +32,7 @@ app.get("/rolling-news", (request, response) => {
   });
 });
 
-app.get("/press-logos", (request, response) => {
+app.get("/press-list", (request, response) => {
   const path = "./crawler/grid.json";
 
   fs.readFile(path, "utf-8", (error, data) => {

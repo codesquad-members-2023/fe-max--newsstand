@@ -1,9 +1,9 @@
 import { LocalStorageKey, Store } from "@store/types";
-import { MainViewState, PressLogo } from "..";
+import { MainViewState, Press } from "..";
 import { createAction } from "@store/actions";
 
 export class GridPressBox {
-  private readonly logo: PressLogo;
+  private readonly press: Press;
   private readonly store: Store<MainViewState>;
   private isSubscribed: boolean;
 
@@ -12,24 +12,24 @@ export class GridPressBox {
   private readonly $subscribeButton: HTMLElement = document.createElement("div");
   private readonly $buttonText = document.createElement("div");
 
-  constructor(logo: PressLogo, store: Store<MainViewState>) {
-    this.logo = logo;
+  constructor(press: Press, store: Store<MainViewState>) {
+    this.press = press;
     this.store = store;
-    this.isSubscribed = this.store.getState().gridState.subscribedPressList.includes(logo.alt);
+    this.isSubscribed = this.store.getState().gridState.subscribedPressList.includes(press.alt);
 
-    this.initPressBox(logo);
+    this.initPressBox(press);
     this.initSubscribeButton();
     this.initSubscription();
     this.setEvents();
   }
 
-  initPressBox(logo: PressLogo) {
+  initPressBox(press: Press) {
     this.$pressBox.className = "grid-view-group__press-box";
 
     const image = document.createElement("img");
     image.className = "grid-view-group__press-image";
-    image.src = logo.src;
-    image.alt = logo.alt;
+    image.src = press.src;
+    image.alt = press.alt;
 
     this.$pressBox.append(image);
   }
@@ -67,11 +67,12 @@ export class GridPressBox {
     });
 
     this.$subscribeButton.addEventListener("click", () => {
-      const pressName = this.logo.alt;
+      const pressName = this.press.alt;
 
       const action = this.isSubscribed
         ? createAction.unsubscribePress(pressName)
         : createAction.subscribePress(pressName);
+
       this.store.dispatch(action);
     });
   }

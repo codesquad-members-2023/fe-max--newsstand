@@ -3,8 +3,8 @@ import { ActionType, Reducer, StateConst } from "./types";
 
 export const reducer: Reducer<MainViewState> = (state, actions) => {
   switch (actions.type) {
-    case ActionType.FETCH_PRESS_LOGOS:
-      if (!actions.payload || !actions.payload.logos) {
+    case ActionType.FETCH_PRESS_LIST:
+      if (!actions.payload || !actions.payload.pressList) {
         return state;
       }
 
@@ -12,7 +12,7 @@ export const reducer: Reducer<MainViewState> = (state, actions) => {
         ...state,
         gridState: {
           ...state.gridState,
-          logos: actions.payload.logos,
+          pressList: actions.payload.pressList,
         },
       };
 
@@ -25,7 +25,7 @@ export const reducer: Reducer<MainViewState> = (state, actions) => {
         ...state,
         gridState: {
           ...state.gridState,
-          logos: actions.payload.fn(state.gridState.logos),
+          pressList: actions.payload.fn(state.gridState.pressList),
         },
       };
 
@@ -34,7 +34,7 @@ export const reducer: Reducer<MainViewState> = (state, actions) => {
         ...state,
         gridState: {
           ...state.gridState,
-          lastPage: Math.ceil(state.gridState.logos.length / StateConst.ITEM_PER_PAGE),
+          lastPage: Math.ceil(state.gridState.pressList.length / StateConst.ITEM_PER_PAGE),
         },
       };
 

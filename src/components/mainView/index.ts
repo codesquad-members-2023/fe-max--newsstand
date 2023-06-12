@@ -4,7 +4,7 @@ import { createStore } from "@store/store";
 import { reducer } from "@store/reducer";
 import { StateConst } from "@store/types";
 
-export interface PressLogo {
+export interface Press {
   src: string;
   alt: string;
 }
@@ -13,7 +13,7 @@ export interface MainViewState {
   currentTab: StateConst.ALL_PRESS | StateConst.SUBSCRIBE_PRESS;
 
   gridState: {
-    logos: PressLogo[];
+    pressList: Press[];
     subscribedPressList: string[];
     currentPage: number;
     lastPage: number;
@@ -24,7 +24,7 @@ const initialState: MainViewState = {
   currentTab: StateConst.ALL_PRESS,
 
   gridState: {
-    logos: [],
+    pressList: [],
     subscribedPressList: [],
     currentPage: 1,
     lastPage: 1,
