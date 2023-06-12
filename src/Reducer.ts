@@ -41,6 +41,7 @@ export class Reducer {
   private updatePage(state: newsStandState, page: number) {
     const newState = this.deepCopy(state);
     newState.currentPage = page;
+    newState.list.currentViewIndex = 0;
 
     return this.getUpdatedListData(newState);
   }
@@ -69,6 +70,10 @@ export class Reducer {
           newState.currentPage > list.currentTypeList.length
             ? 0
             : newState.currentPage - 1;
+
+        newState.list.currentViewIndex =
+          newState.list.currentTypeList[newState.currentPage].pressList.length -
+          1;
       }
     }
 

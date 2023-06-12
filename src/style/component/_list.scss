@@ -135,6 +135,10 @@
           height: 22px;
           @include body-md;
           color: $gray500;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          word-break: break-all;
         }
       }
     }
