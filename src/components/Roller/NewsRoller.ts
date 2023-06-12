@@ -1,5 +1,5 @@
-import { Component } from '../Component';
-import { OneLineNews } from '../utils/types';
+import { Component } from '../../Component';
+import { OneLineNews } from '../../utils/types';
 
 export class NewsRoller extends Component {
   private state: {

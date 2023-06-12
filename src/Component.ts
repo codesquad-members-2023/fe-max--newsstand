@@ -1,8 +1,10 @@
+import { State } from './utils/types';
+
 export class Component {
   element: HTMLElement;
-  props;
+  readonly props;
 
-  constructor(props) {
+  constructor(props: State) {
     this.element;
     this.props = props;
     this.render();

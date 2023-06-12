@@ -1,9 +1,15 @@
-import { Component } from '../Component';
+import { Component } from '../../Component';
 import { GridView } from './GridView';
 
 export class Main extends Component {
   header: HTMLElement;
   content: HTMLDivElement;
+  tabArea: HTMLDivElement;
+  allPressTab: HTMLDivElement;
+  subPressTab: HTMLDivElement;
+  viewBtnArea: HTMLDivElement;
+  listBtn: HTMLButtonElement;
+  gridBtn: HTMLButtonElement;
   leftBtn: HTMLButtonElement;
   rightBtn: HTMLButtonElement;
 
@@ -11,10 +17,15 @@ export class Main extends Component {
     this.element = document.createElement('main');
 
     this.renderMainHeader();
-    this.renderMainContent();
+    this.renderContentArea();
   }
 
   mount() {
+    const gridView = new GridView(this.props);
+
+    this.header.append(this.tabArea, this.viewBtnArea);
+    this.content.append(this.leftBtn, this.rightBtn, gridView.element);
+
     this.element.append(this.header, this.content);
   }
 
@@ -25,6 +36,16 @@ export class Main extends Component {
 
     this.renderTabArea();
     this.renderBtnArea();
+  }
+
+  renderContentArea() {
+    const mainContent = document.createElement('div');
+    mainContent.classList.add('content-area');
+
+    this.renderLeftBtn();
+    this.renderRightBtn();
+
+    this.content = mainContent;
   }
 
   renderTabArea() {
@@ -39,8 +60,10 @@ export class Main extends Component {
     subPressTab.classList.add('tab-btn__item');
     subPressTab.textContent = '내가 구독한 언론사';
 
+    this.allPressTab = allPressTab;
+    this.subPressTab = subPressTab;
+    this.tabArea = tabArea;
     tabArea.append(allPressTab, subPressTab);
-    this.header.append(tabArea);
   }
 
   renderBtnArea() {
@@ -53,21 +76,10 @@ export class Main extends Component {
     const gridBtn = document.createElement('button');
     gridBtn.classList.add('view-btn__item', 'grid-icon', 'active');
 
+    this.listBtn = listBtn;
+    this.gridBtn = gridBtn;
+    this.viewBtnArea = viewBtnArea;
     viewBtnArea.append(listBtn, gridBtn);
-    this.header.append(viewBtnArea);
-  }
-
-  renderMainContent() {
-    const mainContent = document.createElement('div');
-    mainContent.classList.add('content-area');
-    this.content = mainContent;
-
-    this.renderLeftBtn();
-    this.renderRightBtn();
-    this.content.append(this.leftBtn, this.rightBtn);
-
-    const gridView = new GridView(this.props);
-    this.content.append(gridView.element);
   }
 
   renderLeftBtn() {

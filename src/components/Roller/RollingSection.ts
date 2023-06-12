@@ -1,4 +1,4 @@
-import { Component } from '../Component';
+import { Component } from '../../Component';
 import { NewsRoller } from './NewsRoller';
 
 export class RollingSection extends Component {

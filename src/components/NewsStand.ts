@@ -1,6 +1,6 @@
-import { Header } from './Header';
-import { RollingSection } from './RollingSection';
-import { Main } from './Main';
+import { Header } from './Header/Header';
+import { RollingSection } from './Roller/RollingSection';
+import { Main } from './Main/Main';
 import { Component } from '../Component';
 
 export class NewsStand extends Component {

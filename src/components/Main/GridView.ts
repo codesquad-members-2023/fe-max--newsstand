@@ -1,6 +1,4 @@
-import { GridNewsData, HTMLElementEvent } from '../utils/types';
-
-import { Component } from '../Component';
+import { Component } from '../../Component';
 
 export class GridView extends Component {
   leftBtn: HTMLButtonElement;
@@ -12,11 +10,17 @@ export class GridView extends Component {
     this.element.classList.add('grid-container');
 
     this.renderNewsGrid();
+    this.renderPressLogo();
+  }
+
+  mount() {
+    this.element.append(...this.gridItems);
   }
 
   renderNewsGrid() {
     this.gridItems = [];
     const cellNum = 24;
+
     for (let i = 0; i < cellNum; i++) {
       const gridItem = document.createElement('div');
       gridItem.classList.add('grid-item');
@@ -25,10 +29,18 @@ export class GridView extends Component {
       logoImg.classList.add('press-logo');
 
       gridItem.append(logoImg);
-      this.element.append(gridItem);
-
       this.gridItems.push(gridItem);
     }
+  }
+
+  renderPressLogo() {
+    this.gridItems.forEach((item, idx) => {
+      const itemImg = item.children[0] as HTMLImageElement;
+      const imgIdx = idx + (this.props.currentPage - 1) * 24;
+
+      itemImg.src = this.props.gridData[imgIdx]?.logoURL || '';
+      itemImg.alt = this.props.gridData[imgIdx]?.name || '';
+    });
   }
 
   // update(state: GridState) {
