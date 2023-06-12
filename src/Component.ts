@@ -11,6 +11,7 @@ export class Component {
   }
 
   render(): void {}
-  mount(): void {}
   setEvent(): void {}
+  mount(): void {}
+  update(): {};
 }

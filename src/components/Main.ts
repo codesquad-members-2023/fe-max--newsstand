@@ -1,70 +1,84 @@
-import gridStore from '../store/GridStore';
-import { GridNewsData, ListNewsData } from '../utils/types';
+import { Component } from '../Component';
 import { GridView } from './GridView';
 
-export class Main {
-  element: HTMLElement;
-  state: {
-    viewMode: string;
-    viewTab: string;
-  };
-  children: object[];
-  showSubTabBtn: HTMLDivElement;
+export class Main extends Component {
+  header: HTMLElement;
+  content: HTMLDivElement;
+  leftBtn: HTMLButtonElement;
+  rightBtn: HTMLButtonElement;
 
-  constructor(props: { gridData: GridNewsData[]; listData: ListNewsData[] }) {
+  render() {
     this.element = document.createElement('main');
-    this.state = {
-      viewMode: 'grid',
-      viewTab: 'all',
-    };
-    this.children = [];
-    {
-      const headerTab = document.createElement('header');
-      headerTab.classList.add('header--main');
 
-      {
-        const tabBtnMenu = document.createElement('div');
-        tabBtnMenu.classList.add('tab-btn__menu');
+    this.renderMainHeader();
+    this.renderMainContent();
+  }
 
-        const showAllBtn = document.createElement('div');
-        showAllBtn.classList.add('tab-btn__item', 'active');
-        showAllBtn.textContent = '전체 언론사';
+  mount() {
+    this.element.append(this.header, this.content);
+  }
 
-        const showSubscribedBtn = document.createElement('div');
-        this.showSubTabBtn = showSubscribedBtn;
-        showSubscribedBtn.classList.add('tab-btn__item');
-        showSubscribedBtn.textContent = '내가 구독한 언론사';
+  renderMainHeader() {
+    const mainHeader = document.createElement('header');
+    mainHeader.classList.add('header--main');
+    this.header = mainHeader;
 
-        tabBtnMenu.append(showAllBtn, showSubscribedBtn);
-        headerTab.append(tabBtnMenu);
-      }
+    this.renderTabArea();
+    this.renderBtnArea();
+  }
 
-      {
-        const viewBtnMenu = document.createElement('div');
-        viewBtnMenu.classList.add('view-btn__menu');
+  renderTabArea() {
+    const tabArea = document.createElement('div');
+    tabArea.classList.add('tab-btn__menu');
 
-        const listBtn = document.createElement('button');
-        listBtn.classList.add('view-btn__item', 'list-icon');
+    const allPressTab = document.createElement('div');
+    allPressTab.classList.add('tab-btn__item', 'active');
+    allPressTab.textContent = '전체 언론사';
 
-        const gridBtn = document.createElement('button');
-        gridBtn.classList.add('view-btn__item', 'grid-icon', 'active');
+    const subPressTab = document.createElement('div');
+    subPressTab.classList.add('tab-btn__item');
+    subPressTab.textContent = '내가 구독한 언론사';
 
-        viewBtnMenu.append(listBtn, gridBtn);
-        headerTab.append(viewBtnMenu);
-      }
+    tabArea.append(allPressTab, subPressTab);
+    this.header.append(tabArea);
+  }
 
-      this.element.append(headerTab);
-    }
+  renderBtnArea() {
+    const viewBtnArea = document.createElement('div');
+    viewBtnArea.classList.add('view-btn__menu');
 
-    const content = document.createElement('div');
-    content.classList.add('content-area');
+    const listBtn = document.createElement('button');
+    listBtn.classList.add('view-btn__item', 'list-icon');
 
-    const gridView = new GridView(gridStore.state);
-    gridStore.subscribe(gridView);
+    const gridBtn = document.createElement('button');
+    gridBtn.classList.add('view-btn__item', 'grid-icon', 'active');
 
-    this.children.push(gridView);
-    content.append(gridView.leftBtn, gridView.rightBtn, gridView.element);
+    viewBtnArea.append(listBtn, gridBtn);
+    this.header.append(viewBtnArea);
+  }
 
-    this.element.append(content);
+  renderMainContent() {
+    const mainContent = document.createElement('div');
+    mainContent.classList.add('content-area');
+    this.content = mainContent;
+
+    this.renderLeftBtn();
+    this.renderRightBtn();
+    this.content.append(this.leftBtn, this.rightBtn);
+
+    const gridView = new GridView(this.props);
+    this.content.append(gridView.element);
+  }
+
+  renderLeftBtn() {
+    const leftBtn = document.createElement('button');
+    this.leftBtn = leftBtn;
+    leftBtn.classList.add('btn', 'btn--left', 'hide');
+  }
+
+  renderRightBtn() {
+    const rightBtn = document.createElement('button');
+    this.rightBtn = rightBtn;
+    rightBtn.classList.add('btn', 'btn--right');
   }
 }

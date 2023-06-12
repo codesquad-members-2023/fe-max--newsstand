@@ -1,6 +1,6 @@
-import reducer from './Reducer.ts';
+import reducer from './reducers/Reducer.ts';
 import { fetchData, shuffleArray } from './utils/utils.ts';
-import { createStore } from './store/Store.ts';
+import { createStore } from './createStore.ts';
 import { App } from './App.ts';
 import './scss/main.scss';
 
@@ -11,20 +11,23 @@ async function createInitialState() {
 
   return {
     systemDate: new Date(),
+    rollingNews: {
+      titleIdx: 1,
+      timer: 0,
+    },
     breakingNews,
     gridData,
     newsStandData,
     currentPage: 1,
-    targetCell: {},
     subscriptionList: [],
   };
 }
 
 const initialState = await createInitialState();
-const store = createStore(reducer);
+const store = createStore(reducer, initialState);
 
 // store.subscribe(() => {
 //   newsStand.update();
 // });
 
-new App(initialState);
+new App(store.getState());
