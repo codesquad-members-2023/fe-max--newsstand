@@ -6,9 +6,6 @@ import { CreateFakeElementHelper } from "./src/utils/CreateFakeElementHelper";
 
 const { div } = CreateFakeElementHelper;
 
-export function App(state: IState): IFakeElement {
-
-  
-
+export function App(): IFakeElement {
   return div([Header(), Main()]);
 }

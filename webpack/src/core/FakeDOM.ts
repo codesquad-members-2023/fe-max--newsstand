@@ -1,7 +1,9 @@
 import { IFakeElement } from "../interfaces/IFakeElement";
+import { State } from "./State";
 
 export const FakeDom = (function () {
   let _root: null | HTMLElement = null;
+  const state = State;
 
   return {
     createRoot: function (root: HTMLElement) {

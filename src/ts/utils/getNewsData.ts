@@ -7,7 +7,11 @@ import { ArticleData } from "../interface/ArticleData";
 async function getSnbTabQueries(page: Page): Promise<string[]> {
   const snbTabQueries: string[] = [];
 
-  await page.goto("https://newsstand.naver.com/", {
+  if (!process.env.NEWS_STAND_URL) {
+    throw new Error("Newsstand is not supported yet");
+  }
+
+  await page.goto(process.env.NEWS_STAND_URL, {
     waitUntil: "networkidle0",
   });
 
