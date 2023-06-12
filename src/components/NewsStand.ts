@@ -1,32 +1,23 @@
 import { Header } from './Header';
 import { RollingSection } from './RollingSection';
 import { Main } from './Main';
-import { OneLineNews, GridNewsData, ListNewsData } from '../utils/types.ts';
+import { Component } from '../Component';
 
-export class NewsStand {
-  element: HTMLElement;
-  header: Header;
-  rollingSection: RollingSection;
-  main: Main;
+export class NewsStand extends Component {
+  // header: Header;
+  // rollingSection: RollingSection;
+  // main: Main;
 
-  constructor({
-    systemDate,
-    oneLineNews,
-    gridData,
-    listData,
-  }: {
-    systemDate: Date;
-    oneLineNews: OneLineNews[];
-    gridData: GridNewsData[];
-    listData: ListNewsData[];
-  }) {
+  render() {
     this.element = document.createElement('div');
     this.element.id = 'newsStand';
+  }
 
-    this.header = new Header(systemDate);
-    this.rollingSection = new RollingSection(oneLineNews);
-    this.main = new Main({ gridData: gridData, listData: listData });
-
-    this.element.append(this.header.element, this.rollingSection.element, this.main.element);
+  mount() {
+    const header = new Header(this.props);
+    // const rollingSection = new RollingSection(this.props);
+    // const main = new Main(this.props);
+    this.element.append(header.element);
+    // this.element.append(header.element, rollingSection.element, main.element);
   }
 }
