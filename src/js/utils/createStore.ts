@@ -1,10 +1,15 @@
-export const createStore = (initialState = {}, updateStateFunc) => {
+import { Action } from '../types/types';
+
+export const createStore = <S>(
+	initialState: S,
+	updateStateFunc: (state: S, action: Action) => S,
+) => {
 	let state = initialState;
-	const listeners = [];
+	const listeners: (() => void)[] = [];
 
-	const getState = () => state;
+	const getState = (): S => state;
 
-	const subscribe = (listener) => {
+	const subscribe = (listener: () => void) => {
 		listeners.push(listener);
 	};
 
@@ -12,7 +17,7 @@ export const createStore = (initialState = {}, updateStateFunc) => {
 		listeners.forEach((listener) => listener());
 	};
 
-	const updateState = (action) => {
+	const updateState = (action: Action) => {
 		const newState = updateStateFunc(state, action);
 		if (newState !== state) {
 			state = newState;

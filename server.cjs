@@ -7,8 +7,19 @@ app.use(cors());
 
 app.use(express.static('public'));
 
-app.get('/data', (req, res) => {
-	res.sendFile(__dirname + '/data.json');
+app.get('/autoRolling', (req, res) => {
+	const data = require('./data.json');
+	res.json(data.autoRolling);
+});
+
+app.get('/grid', (req, res) => {
+	const data = require('./data.json');
+	res.json(data.grid);
+});
+
+app.get('/list', (req, res) => {
+	const data = require('./data.json');
+	res.json(data.list);
 });
 
 app.listen(port, () => {
