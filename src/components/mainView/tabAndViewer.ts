@@ -96,9 +96,11 @@ export class TabAndViewer {
       return;
     }
 
-    const isPressTabClick = target.classList.contains("tab-and-viewer__subscribed-press-tab");
+    const isSubscribedPressTabClick = target.classList.contains(
+      "tab-and-viewer__subscribed-press-tab"
+    );
 
-    if (isPressTabClick) {
+    if (isSubscribedPressTabClick) {
       this.store.dispatch(createAction.subscribedPressTabClick());
 
       return;
@@ -119,7 +121,7 @@ export class TabAndViewer {
       return;
     }
 
-    if (state.currentTab === StateConst.SUBSCRIBE_PRESS) {
+    if (state.currentTab === StateConst.SUBSCRIBED_PRESS) {
       this.$allPressTab.className = "tab-and-viewer__all-press-tab";
       this.$subscribedPressTab.className = "tab-and-viewer__subscribed-press-tab--selected";
     }

@@ -2,7 +2,7 @@ import { $ } from "@utils/domUtils";
 import { MainView } from "./mainView";
 import { createStore } from "@store/store";
 import { reducer } from "@store/reducer";
-import { StateConst } from "@store/types";
+import { LocalStorageKey, StateConst } from "@store/types";
 
 export interface Press {
   src: string;
@@ -10,7 +10,7 @@ export interface Press {
 }
 
 export interface MainViewState {
-  currentTab: StateConst.ALL_PRESS | StateConst.SUBSCRIBE_PRESS;
+  currentTab: StateConst.ALL_PRESS | StateConst.SUBSCRIBED_PRESS;
   currentView: StateConst.LIST_VIEW | StateConst.GRID_VIEW;
 
   gridState: {
@@ -21,17 +21,22 @@ export interface MainViewState {
   };
 }
 
-const initialState: MainViewState = {
-  currentTab: StateConst.ALL_PRESS,
-  currentView: StateConst.GRID_VIEW,
+const initialState: MainViewState = (() => {
+  const subscribedPressList = localStorage.getItem(LocalStorageKey.SUBSCRIBE_PRESS_LIST);
+  const parsedList: string[] = subscribedPressList ? JSON.parse(subscribedPressList) : [];
 
-  gridState: {
-    pressList: [],
-    subscribedPressList: [],
-    currentPage: 1,
-    lastPage: 1,
-  },
-};
+  return {
+    currentTab: StateConst.ALL_PRESS,
+    currentView: StateConst.GRID_VIEW,
+
+    gridState: {
+      pressList: [],
+      subscribedPressList: parsedList,
+      currentPage: 1,
+      lastPage: 1,
+    },
+  };
+})();
 
 export const initMainView = async () => {
   const store = createStore<MainViewState>(initialState, reducer);

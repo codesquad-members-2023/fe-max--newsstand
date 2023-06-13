@@ -17,7 +17,7 @@ export class GridView {
     this.frameRender();
     this.$gridView.append(this.$group);
     this.initSubscription();
-    this.initSubscribedPressList();
+    this.initFetchPressList();
   }
 
   private frameRender() {
@@ -43,20 +43,17 @@ export class GridView {
     this.store.subscribe(this.updateGridView.bind(this));
   }
 
-  async initSubscribedPressList() {
-    const subscribedPressList = localStorage.getItem("subscribed-press-list");
-    const parsedList: string[] = subscribedPressList ? JSON.parse(subscribedPressList) : [];
-
-    this.store.dispatch(createAction.setSubscribedPressList(parsedList));
-
+  async initFetchPressList() {
     const pressList = await this.fetchPressList();
 
-    if (pressList) {
-      const shuffledPressList = shuffleArray(pressList);
-
-      this.store.dispatch(createAction.setPressList(shuffledPressList));
-      this.store.dispatch(createAction.updateLastPage());
+    if (!pressList) {
+      return;
     }
+
+    const shuffledPressList = shuffleArray(pressList);
+
+    this.store.dispatch(createAction.setPressList(shuffledPressList));
+    this.store.dispatch(createAction.updateLastPage());
   }
 
   async fetchPressList(): Promise<Press[] | void> {

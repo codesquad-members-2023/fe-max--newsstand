@@ -5,12 +5,12 @@ import { MainViewState } from ".";
 import { createAction } from "@store/actions";
 
 export class MainView {
-  private store: Store<MainViewState>;
+  store: Store<MainViewState>;
 
   $mainView: HTMLElement = document.createElement("section");
-  private tabAndViewer: TabAndViewer;
-  private $prevButton: HTMLElement = document.createElement("div");
-  private $nextButton: HTMLElement = document.createElement("div");
+  tabAndViewer: TabAndViewer;
+  $prevButton: HTMLElement = document.createElement("div");
+  $nextButton: HTMLElement = document.createElement("div");
 
   private gridView: GridView;
 
@@ -72,13 +72,13 @@ export class MainView {
       return;
     }
 
-    if (state.currentTab === StateConst.SUBSCRIBE_PRESS) {
+    if (state.currentTab === StateConst.SUBSCRIBED_PRESS) {
       const { currentPage } = state.gridState;
       const lastPage = Math.ceil(
         state.gridState.subscribedPressList.length / StateConst.ITEM_PER_PAGE
       );
       const isFirstPage = currentPage === 1;
-      const isLastPage = currentPage === lastPage;
+      const isLastPage = currentPage >= lastPage;
 
       if (isFirstPage) {
         this.$prevButton.className = "main-view__left-arrow--hidden";
