@@ -115,12 +115,7 @@ export class Reducer {
     const newState = this.deepCopy(state);
     newState.currentPage += direction;
 
-    if (newState.currentContent === "grid") {
-      return this.getUpdatedGridData(newState);
-    } else {
-    }
-
-    return newState;
+    return this.getUpdatedGridData(newState);
   }
 
   private changeCurrentType(state: newsStandState) {
