@@ -195,3 +195,19 @@ describe("update page test", () => {
   });
 });
 
+describe("change currentType test", () => {
+  const newsStandState: newsStandState = JSON.parse(JSON.stringify(mockState));
+
+  it("currentType 변경", () => {
+    const allAction: Action = { type: "SELECT_ALL_CONTENT" };
+    const allNewState = reducer.reduce(newsStandState, allAction);
+
+    expect(allNewState.currentType).toBe("sub");
+
+    const subAction: Action = { type: "SELECT_SUB_CONTENT" };
+    const subNewState = reducer.reduce(allNewState, subAction);
+
+    expect(subNewState.currentType).toBe("all");
+  });
+});
+

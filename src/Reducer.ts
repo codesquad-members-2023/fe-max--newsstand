@@ -21,11 +21,8 @@ export class Reducer {
       case "UPDATE_PAGE":
         return this.updatePage(state, action.page);
       case "SELECT_ALL_CONTENT":
-      case "SELECT_SUB_CONTENT": {
-        const newState = this.changeCurrentType(state);
-
-        return this.changeCurrentList(newState);
-      }
+      case "SELECT_SUB_CONTENT":
+        return this.changeCurrentType(state);
       case "SELECT_GRID_TAB":
       case "SELECT_LIST_TAB": {
         const newState = this.toggleCurrentContent(state);
@@ -133,7 +130,7 @@ export class Reducer {
       newState.currentType = "all";
     }
 
-    return newState;
+    return this.changeCurrentList(newState);
   }
 
   private getUpdatedGridData(state: newsStandState) {
