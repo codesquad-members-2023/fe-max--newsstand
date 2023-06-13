@@ -5,7 +5,7 @@ export type OneLineNews = {
   url: string;
 };
 
-export type ListNewsData = {
+export type newsData = {
   type: string;
   category: string;
   name: string;
@@ -33,8 +33,8 @@ export type State = {
     timer: number;
   };
   breakingNews: OneLineNews[];
-  gridData: ListNewsData[];
-  newsStandData: ListNewsData[];
+  gridData: newsData[];
+  newsStandData: newsData[];
   currentPage: number;
   subscriptionList: string[];
 };

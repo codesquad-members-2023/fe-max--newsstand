@@ -6,7 +6,7 @@
   }
 
   100% {
-    transform: translateY(-100%);
+    transform: translateY(-190%);
   }
 }
 
@@ -37,8 +37,6 @@
       .title {
         position: absolute;
 
-        // transition: transform 0.5s;
-
         &.roll {
           animation: rolling 0.5s;
           animation-fill-mode: forwards;
@@ -47,14 +45,6 @@
         &:hover {
           text-decoration: underline;
         }
-
-        // &.show {
-        //   transform: translateY(-1rem);
-        // }
-
-        // &.after {
-        //   transform: translateY(-1rem);
-        // }
       }
     }
   }

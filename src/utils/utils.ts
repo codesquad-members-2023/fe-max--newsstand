@@ -1,4 +1,6 @@
-export function shuffleArray(array: GridNewsData[]): GridNewsData[] {
+import { newsData } from './types';
+
+export function shuffleArray(array: newsData[]): newsData[] {
   if (array.length < 2) {
     return array;
   }
@@ -19,19 +21,10 @@ export async function fetchData(path: string) {
   return data;
 }
 
-async function createState(): Promise<State> {
-  const [oneLineNews, gridDataRaw, listData] = await Promise.all([
-    fetchData('oneLineNews'),
-    fetchData('gridData'),
-    fetchData('listData'),
-  ]);
+export function divideNewsData(newsData: newsData[]) {
+  const middleNum = newsData.length / 2;
+  const leftRollerNews = newsData.slice(0, middleNum);
+  const rightRollerNews = newsData.slice(middleNum);
 
-  const gridData = shuffleArray(gridDataRaw);
-
-  return {
-    systemDate: new Date(),
-    oneLineNews,
-    gridData,
-    listData,
-  };
+  return [leftRollerNews, rightRollerNews];
 }

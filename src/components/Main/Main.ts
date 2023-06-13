@@ -13,6 +13,12 @@ export class Main extends Component {
   leftBtn: HTMLButtonElement;
   rightBtn: HTMLButtonElement;
 
+  constructor(props) {
+    super(props);
+    this.render();
+    this.mount();
+  }
+
   render() {
     this.element = document.createElement('main');
 

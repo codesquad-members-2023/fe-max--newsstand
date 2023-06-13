@@ -4,6 +4,12 @@ export class Header extends Component {
   logoArea: HTMLAnchorElement;
   dateArea: HTMLDivElement;
 
+  constructor(props) {
+    super(props);
+    this.render();
+    this.mount();
+  }
+
   render(): void {
     this.element = document.createElement('header');
 

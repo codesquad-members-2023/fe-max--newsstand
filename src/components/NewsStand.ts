@@ -4,6 +4,12 @@ import { Main } from './Main/Main';
 import { Component } from '../Component';
 
 export class NewsStand extends Component {
+  constructor(props) {
+    super(props);
+    this.render();
+    this.mount();
+  }
+
   render() {
     this.element = document.createElement('div');
     this.element.id = 'newsStand';

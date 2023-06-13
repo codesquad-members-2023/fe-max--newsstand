@@ -1,21 +1,18 @@
 import { Component } from '../../Component';
-import { OneLineNews } from '../../utils/types';
 
 export class NewsRoller extends Component {
-  private state: {
-    titleIdx: number;
-  };
-
-  pressName: HTMLDivElement;
+  protected pressName: HTMLDivElement;
   titleBox: HTMLDivElement;
   currentTitle: HTMLDivElement;
+  nextTitle: HTMLDivElement;
   timer: number | NodeJS.Timer;
 
   constructor(props) {
     super(props);
+    this.render();
+    this.mount();
 
-    // this.startRoller();
-    // this.setEvent();
+    this.startRoller();
   }
 
   render() {
@@ -42,46 +39,53 @@ export class NewsRoller extends Component {
   renderPressName() {
     const pressName = document.createElement('div');
     this.pressName = pressName;
-    pressName.classList.add('news-bar__name');
-    pressName.textContent = this.props.breakingNews[0].name;
+
+    this.pressName.classList.add('news-bar__name');
+    this.pressName.textContent = this.props.newsData[0]?.name || '';
   }
 
   renderNewsTitle() {
-    const titleBox = document.createElement('div');
-    this.titleBox = titleBox;
-    titleBox.classList.add('news-bar__title-box');
+    this.titleBox = document.createElement('div');
+
+    this.titleBox.classList.add('news-bar__title-box');
 
     const newsTitle = document.createElement('div');
-    this.currentTitle = newsTitle;
     newsTitle.classList.add('title');
-    newsTitle.textContent = this.props.breakingNews[0].title;
+    newsTitle.textContent = this.props.newsData[0]?.title || '';
+    this.currentTitle = newsTitle;
 
-    this.titleBox.append(newsTitle);
+    const nextNewsTitle = document.createElement('div');
+    nextNewsTitle.classList.add('title');
+    nextNewsTitle.setAttribute('style', 'top: 2rem');
+    this.nextTitle = nextNewsTitle;
+
+    this.titleBox.append(newsTitle, nextNewsTitle);
   }
 
-  // startRoller() {
-  //   const timer = setInterval(() => {
-  //     const nextTitle = document.createElement('div');
-  //     nextTitle.classList.add('title');
-  //     nextTitle.setAttribute('style', 'top: 1rem');
-  //     nextTitle.textContent = this.props.breakingNews[this.props.rollingNews.titleIdx].title;
+  startRoller() {
+    const timer = setInterval(() => {
+      this.nextTitle.textContent = this.props.newsData[this.props.nextTitleIdx].title;
 
-  //     this.state.titleIdx += 1;
-  //     this.state.titleIdx %= 5;
+      this.props.nextTitleIdx += 1;
+      this.props.nextTitleIdx %= 5;
 
-  //     this.titleBox.append(nextTitle);
+      this.currentTitle.classList.add('roll');
+      this.nextTitle.classList.add('roll');
 
-  //     this.currentTitle.classList.add('roll');
-  //     nextTitle.classList.add('roll');
+      setTimeout(() => {
+        this.currentTitle.classList.remove('roll');
+        this.currentTitle.setAttribute('style', 'top: 2rem');
+        this.currentTitle.textContent = this.props.newsData[this.props.nextTitleIdx].title;
 
-  //     setTimeout(() => {
-  //       this.titleBox.removeChild(this.currentTitle);
-  //       this.currentTitle = nextTitle;
-  //       nextTitle.removeAttribute('style');
-  //       nextTitle.classList.remove('roll');
-  //     }, 600);
-  //   }, 5000);
+        const pastNextTitle = this.nextTitle;
+        this.nextTitle = this.currentTitle;
 
-  //   this.timer = timer;
-  // }
+        this.currentTitle = pastNextTitle;
+        this.currentTitle.removeAttribute('style');
+        this.currentTitle.classList.remove('roll');
+      }, 600);
+    }, 5000);
+
+    this.timer = timer;
+  }
 }

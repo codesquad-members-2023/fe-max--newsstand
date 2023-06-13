@@ -5,6 +5,12 @@ export class GridView extends Component {
   rightBtn: HTMLButtonElement;
   gridItems: HTMLElement[];
 
+  constructor(props) {
+    super(props);
+    this.render();
+    this.mount();
+  }
+
   render() {
     this.element = document.createElement('div');
     this.element.classList.add('grid-container');
