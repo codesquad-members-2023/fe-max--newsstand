@@ -14,10 +14,11 @@ type NewsStandProps = {
   };
   news: NewsData | null;
   fields: FieldData[];
+  listIndex: number;
   arrowInfo: {
     left: boolean;
     right: boolean;
-  }
+  };
 };
 
 export default class NewsStand {

@@ -1,4 +1,4 @@
-import { getSubscribedIds, setSubscribedIds } from './utils/dataUtils';
+import { getNewsList, getSubscribedIds, setSubscribedIds } from './utils/dataUtils';
 import { GRID_PAGE_LIMIT } from './constants';
 import { onChangeState } from './main';
 
@@ -10,6 +10,7 @@ const state: {
   viewer: 'gridView' | 'listView';
   news: NewsData | null;
   fields: FieldData[];
+  listIndex: number;
   arrowInfo: {
     left: boolean;
     right: boolean;
@@ -27,6 +28,7 @@ const state: {
   viewer: 'listView',
   news: null,
   fields: [],
+  listIndex: 0,
   arrowInfo: {
     left: true,
     right: true
@@ -39,10 +41,6 @@ export const getState = () => {
 
 export const invoke = (action: Action) => {
   switch (action.type) {
-    case 'moveToNextGridPage':
-      break;
-    case 'moveToPrevGridPage':
-      break;
     case 'turnOnSubscriptionCover':
       state.gridInfo.isHover = action.payload.hoverOnGrid;
       state.gridInfo.hoverIndex = action.payload.hoveredCellIndex;
@@ -89,12 +87,20 @@ export const invoke = (action: Action) => {
     case 'onClickLeftArrow':
       if (state.viewer === 'gridView') {
         decreaseGridPage();
+      } else {
+        decreaseListIndex();
+        fetchNewsData(state.listIndex);
       }
+      changeArrowStates();
       break;
     case 'onClickRightArrow':
       if (state.viewer === 'gridView') {
         increaseGridPage();
+      } else {
+        increaseListIndex();
+        fetchNewsData(state.listIndex);
       }
+      changeArrowStates();
       break;
   }
 
@@ -103,12 +109,21 @@ export const invoke = (action: Action) => {
 
 const increaseGridPage = () => {
   state.gridInfo.page = (state.gridInfo.page + 1 + GRID_PAGE_LIMIT) % GRID_PAGE_LIMIT;
-  changeArrowStates();
 };
 
 const decreaseGridPage = () => {
   state.gridInfo.page = (state.gridInfo.page - 1 + GRID_PAGE_LIMIT) % GRID_PAGE_LIMIT;
   changeArrowStates();
+};
+
+const increaseListIndex = () => {
+  const totalCount = state.news?.totalCount!;
+  state.listIndex = (state.listIndex + 1 + totalCount) % totalCount;
+};
+
+const decreaseListIndex = () => {
+  const totalCount = state.news?.totalCount!;
+  state.listIndex = (state.listIndex - 1 + totalCount) % totalCount;
 };
 
 const changeArrowStates = () => {
@@ -119,4 +134,13 @@ const changeArrowStates = () => {
   }
   state.arrowInfo.left = state.gridInfo.page !== 0;
   state.arrowInfo.right = state.gridInfo.page !== 3;
+};
+
+export const fetchNewsData = async (index: number) => {
+  invoke({
+    type: 'initNewsData',
+    payload: {
+      news: await getNewsList(index)
+    }
+  });
 };

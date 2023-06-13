@@ -96,6 +96,7 @@ type NewsData = {
   category: string;
   order: number;
   categoryCount: number;
+  totalCount: number;
 };
 
 type MediaInfo = {

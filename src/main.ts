@@ -2,9 +2,6 @@ import NewsStand from './components/NewsStand';
 import { getState } from './store';
 import './styles/main.css';
 
-
-
-
 const app = document.querySelector('#app')!;
 const state = getState();
 
@@ -18,6 +15,7 @@ const newsStand = new NewsStand({
   },
   news: state.news,
   fields: state.fields,
+  listIndex: state.listIndex,
   arrowInfo: state.arrowInfo
 });
 
@@ -34,6 +32,7 @@ export const onChangeState = () => {
     },
     news: state.news,
     fields: state.fields,
+    listIndex: state.listIndex,
     arrowInfo: state.arrowInfo
   });
 };

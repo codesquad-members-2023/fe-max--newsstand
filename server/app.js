@@ -42,7 +42,8 @@ app.get('/newsList', (req, res) => {
   return res.json({
     ...news,
     order: categoryList.indexOf(news) + 1,
-    categoryCount: categoryList.length
+    categoryCount: categoryList.length,
+    totalCount: newsList.length
   });
 });
 

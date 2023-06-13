@@ -1,14 +1,14 @@
-import { invoke } from '../../../store';
-import { getNewsList } from '../../../utils/dataUtils';
+import { fetchNewsData } from '../../../store';
 import { createElement } from '../../../utils/domUtils';
 import { FieldTab } from './FieldTab';
-import style from './ListView.module.css';
 import { PressNews } from './pressNews/PressNews';
+import style from './ListView.module.css';
 
 type ListViewProps = {
   news: NewsData | null;
   subscriptionInfo: number[];
   fields: FieldData[];
+  listIndex: number;
 };
 
 export class ListView {
@@ -21,17 +21,7 @@ export class ListView {
     this.pressNews = new PressNews();
     this.element.append(this.fieldTab.element, this.pressNews.element);
 
-    this.initNewsData();
-  }
-
-  private async initNewsData() {
-    const START_INDEX = 0;
-    invoke({
-      type: 'initNewsData',
-      payload: {
-        news: await getNewsList(START_INDEX)
-      }
-    });
+    fetchNewsData(props.listIndex);
   }
 
   updateView(props: ListViewProps) {
