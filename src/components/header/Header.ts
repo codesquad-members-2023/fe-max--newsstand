@@ -21,7 +21,7 @@ export function Header() {
   }
 }
 
-function NewsDate() {
+export function NewsDate() {
   function getCurrentDate() {
     const currentDate = new Date();
     const options: Intl.DateTimeFormatOptions = {

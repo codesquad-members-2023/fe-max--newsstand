@@ -1,152 +1,234 @@
 import { actions } from "../../actions/actions";
-// import { loadNextPress, stopInterval, startInterval, setArt } from "../../main";
-// import { getState } from "../../store/store";
+import { ARTICLE_MOVE_TIME, SCROLL_AMOUNT } from "../../constants/constant";
+import { getState, subscribe } from "../../store/store";
+import { Arrow, renderArrow } from "./Arrow";
+import { Grid } from "./Grid";
+import { List } from "./List";
+import { Press, renderPressTab } from "./Press";
+import { ViewTab, renderViewTab } from "./ViewTab";
+import { UnSubsAlert, closeUnSubsAlert, renderUnSubsAlert } from "./unSubsAlert";
 
-import { State, getState, subscribe } from "../../store/store";
+export const Media = (pressData: any) => {
+  let progInterval: NodeJS.Timeout | null = null;
+  let isDown = false;
+  let startX: number;
+  let scrollLeft: number;
 
-export const Media = () => {
-  const media = document.querySelector(".media");
-  const state = getState();
+  const media = document.querySelector(".media") as HTMLElement;
+  const grid = Grid(pressData.randomImageData);
+  const list = List(pressData.totalPressData);
 
-  render();
-
-  const prevButton = document.querySelector(".prev-button") as HTMLElement;
-  const nextButton = document.querySelector(".next-button") as HTMLElement;
-  const gridModeTab = document.querySelector(".view-tab__grid") as HTMLElement;
-  const listModeTab = document.querySelector(".view-tab__list") as HTMLElement;
-  const grid = document.querySelector(".grid-view") as HTMLElement;
-  const list = document.querySelector(".list-view") as HTMLElement;
-
-  renderArrow(state);
-  renderViewTab(state);
-  setEvent();
-
-  function render() {
+  const render = () => {
+    const { currentViewMode } = getState();
+    const isGridMode = currentViewMode === "grid";
     media!.innerHTML = `
     <div class="total-media">
       <div class="total-media__tab-bar">
-        <div class="press-tab">
-          <div class="press-tab__total">전체 언론사</div>
-          <div class="press-tab__my-subs">내가 구독한 언론사</div>
-        </div>
-        <div class="view-tab">
-          <svg
-            class="view-tab__list"
-            width="18"
-            height="18"
-            viewBox="0 0 18 18"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M16 2V16H2V2H16ZM17.1 0H0.9C0.4 0 0 0.4 0 0.9V17.1C0 17.5 0.4 18 0.9 18H17.1C17.5 18 18 17.5 18 17.1V0.9C18 0.4 17.5 0 17.1 0ZM8 4H14V6H8V4ZM8 8H14V10H8V8ZM8 12H14V14H8V12ZM4 4H6V6H4V4ZM4 8H6V10H4V8ZM4 12H6V14H4V12Z"
-              fill="currentColor"
-            />
-          </svg>
-          <svg
-            class="view-tab__grid"
-            width="18"
-            height="18"
-            viewBox="0 0 18 18"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M0 8V0H8V8H0ZM0 18V10H8V18H0ZM10 8V0H18V8H10ZM10 18V10H18V18H10ZM2 6H6V2H2V6ZM12 6H16V2H12V6ZM12 16H16V12H12V16ZM2 16H6V12H2V16Z"
-              fill="currentColor"
-            />
-          </svg>
-        </div>
+        ${Press()}
+        ${ViewTab()}
       </div>
-      <img class="prev-button" src="/public/images/prev-button.svg"></img>
-      <img class="next-button" src="/public/images/next-button.svg"></img>
-      <div class="media">
-        <div class="grid-view"></div>
-        <div class="list-view"></div>
+      ${Arrow()}
+      <div class="media-view">
+        ${isGridMode ? grid.template() : list.template()}
       </div>
+      <div class="snack">내가 구독한 언론사에 추가되었습니다.</div>
+      ${UnSubsAlert()}
     </div>
     `;
-  }
+  };
 
-  // const render = () => {
-  //   const { currentPage, currentLastPage, currentViewMode } = getState();
+  render();
 
-  //   renderViewTab(currentViewMode);
+  const mediaView = document.querySelector(".media-view") as HTMLElement;
+  const totalPress = document.querySelector(".press-tab__total") as HTMLElement;
+  const mySubsPress = document.querySelector(".press-tab__my-subs") as HTMLElement;
+  const gridModeTab = document.querySelector(".view-tab__grid") as HTMLElement;
+  const listModeTab = document.querySelector(".view-tab__list") as HTMLElement;
+  const prevButton = document.querySelector(".prev-button") as HTMLElement;
+  const nextButton = document.querySelector(".next-button") as HTMLElement;
 
-  //   if (currentViewMode === "grid") {
-  //     prevButton.style.display = currentPage === 1 ? "none" : "block";
-  //     nextButton.style.display = currentPage < currentLastPage ? "block" : "none";
-  //     return;
-  //   }
-  //   prevButton.style.display = "block";
-  //   nextButton.style.display = "block";
-  // };
+  renderPressTab(totalPress, mySubsPress);
+  renderViewTab(gridModeTab, listModeTab);
+  renderArrow(prevButton, nextButton);
+  renderMediaView();
 
-  
-  // subscribe((state:State) => renderViewTab(state))
+  subscribe(() => renderPressTab(totalPress, mySubsPress));
+  subscribe(() => renderViewTab(gridModeTab, listModeTab));
+  subscribe(() => renderArrow(prevButton, nextButton));
+  subscribe(renderMediaView);
 
-  function renderArrow(state: State) {
-    const { currentPage, currentLastPage, currentViewMode } = state;
-    console.log(currentPage);
-    if (currentViewMode === "grid") {
-      prevButton.style.display = currentPage === 1 ? "none" : "block";
-      nextButton.style.display = currentPage < currentLastPage ? "block" : "none";
-      return;
-    }
-    prevButton.style.display = "block";
-    nextButton.style.display = "block";
-  }
+  const setEvent = () => {
+    media.addEventListener("click", (e) => handleMediaClick(e));
+    media.addEventListener("mouseover", (e) => handleMediaOver(e));
+    mediaView.addEventListener("mouseout", (e) => handleMouseOut(e));
+    media.addEventListener("mousedown", (e) => handleMouseDown(e));
+    media.addEventListener("mousemove", (e) => handleMouseMove(e));
+    media.addEventListener("mouseup", (e) => handleMouseUp(e));
+    mediaView.addEventListener("mouseleave", handleMediaLeave);
+  };
 
-  subscribe('currentPage',(state:State) => renderArrow(state))
+  setEvent();
+  startInterval();
 
-  function renderViewTab(state: State) {
-    const { currentViewMode } = state;
+  function renderMediaView() {
+    const { currentViewMode } = getState();
     const isGridMode = currentViewMode === "grid";
 
-    grid.style.display = isGridMode ? "grid" : "none";
-    gridModeTab.querySelector("path")!.style.fill = isGridMode ? "#4362D0" : "#d2dae0";
-
-    list.style.display = isGridMode ? "none" : "flex";
-    listModeTab.querySelector("path")!.style.fill = isGridMode ? "#d2dae0" : "#4362D0";
+    isGridMode ? grid.render() : list.render();
   }
 
-  function setEvent() {
-    prevButton.addEventListener("click", handleClickPrev);
-    nextButton.addEventListener("click", handleClickNext);
-    gridModeTab.addEventListener("click", () => {
+  function startInterval() {
+    if (progInterval) return;
+    progInterval = setInterval(() => {
+      const { currentViewMode } = getState();
+      if (currentViewMode === "list") {
+        actions.goNextPage();
+      }
+    }, ARTICLE_MOVE_TIME);
+  }
+
+  function stopInterval() {
+    if (progInterval) {
+      clearInterval(progInterval);
+      progInterval = null;
+    }
+  }
+
+  function handleMediaClick(e: Event) {
+    const target = e.target as HTMLElement;
+    if (target.className === "prev-button") {
+      stopInterval();
+      actions.goPrevPage();
+      startInterval();
+      return;
+    }
+    if (target.className === "next-button") {
+      stopInterval();
+      actions.goNextPage();
+      startInterval();
+      return;
+    }
+    if (target.closest(".grid-overlay__button")) {
+      grid.toggleSubs(target);
+      return;
+    }
+
+    if (target.closest(".view-tab__grid")) {
       actions.switchGridMode();
-    });
-    listModeTab.addEventListener("click", () => {
+      return;
+    }
+    if (target.closest(".view-tab__list")) {
       actions.switchListMode();
-      // setArt();
-    });
+      return;
+    }
+    if (target.className === "press-tab__total") {
+      actions.switchTotalMode();
+      return;
+    }
+    if (target.className === "press-tab__my-subs") {
+      actions.switchSubsMode();
+      return;
+    }
+    if (target.closest(".article")) {
+      stopInterval();
+      list.handleClickArticle(target);
+      startInterval();
+      return;
+    }
+    if (target.closest(".press-subs-button")) {
+      stopInterval();
+      list.handleClickSubs(target);
+      startInterval();
+      return;
+    }
+    if (target.className === "button no") {
+      closeUnSubsAlert();
+      return;
+    }
+    if (target.className === "button yes") {
+      const unSubsAlert = target.closest(".unsubs-alert") as HTMLElement;
+      const pressName = unSubsAlert.querySelector("span")!.textContent!;
+      closeUnSubsAlert();
+      stopInterval();
+      actions.popSubs(pressName);
+      localStorage.removeItem("pressName");
+      startInterval();
+      return;
+    }
   }
 
-  function handleClickPrev() {
+  function handleMediaOver(e: MouseEvent) {
+    const target = e.target as HTMLElement;
+    const relatedTarget = e.relatedTarget as HTMLElement;
+
+    if (target.className === "grid-item" && relatedTarget) {
+      const currentTarget = relatedTarget.closest(".grid-item");
+      if (target.closest(".grid-item") === currentTarget) {
+        return;
+      }
+      grid.renderGirdSubsOverlay(target);
+    }
+    if (target.className === "unsubs-button") {
+      const { currentViewMode, currentPressMode } = getState();
+      const isGridMode = currentViewMode === "grid";
+      if (currentViewMode === "grid" && currentPressMode === "total") return;
+      const pressName = isGridMode ? grid.unSubsPress(target) : list.unSubsPress(target);
+
+      renderUnSubsAlert(pressName);
+    }
+  }
+
+  function handleMouseOut(e: MouseEvent) {
+    const target = e.target as HTMLElement;
+    const relatedTarget = e.relatedTarget as HTMLElement;
+
+    if (target.closest(".list-view__field-tab")) {
+      const currentTarget = relatedTarget.closest(".list-view__field-tab");
+      if (target.closest(".list-view__field-tab") === currentTarget) {
+        return;
+      }
+      isDown = false;
+      target.classList.remove("active");
+    }
+  }
+
+  function handleMouseDown(e: MouseEvent) {
+    const target = e.target as HTMLElement;
+
+    if (target.closest(".list-view__field-tab")) {
+      const slider = target.closest(".list-view__field-tab") as HTMLElement;
+      isDown = true;
+      slider.classList.add("active");
+      startX = e.pageX - slider.offsetLeft;
+      scrollLeft = slider.scrollLeft;
+    }
+  }
+
+  function handleMouseMove(e: MouseEvent) {
+    const target = e.target as HTMLElement;
+    if (target.closest(".list-view__field-tab")) {
+      if (!isDown) return;
+      const slider = target.closest(".list-view__field-tab") as HTMLElement;
+      e.preventDefault();
+      const x = e.pageX - slider.offsetLeft;
+      const walk = (x - startX) * SCROLL_AMOUNT;
+
+      slider.scrollLeft = scrollLeft - walk;
+    }
+  }
+
+  function handleMouseUp(e: MouseEvent) {
+    const target = e.target as HTMLElement;
+    if (target.closest(".list-view__field-tab")) {
+      const slider = target.closest(".list-view__field-tab") as HTMLElement;
+      isDown = false;
+      slider.classList.remove("active");
+    }
+  }
+
+  function handleMediaLeave() {
     const { currentViewMode } = getState();
-    actions.goPrevPage();
-    currentViewMode === "grid" ? clickPrevGrid() : clickPrevList();
-  }
-  function clickPrevGrid() {
-    console.log("비어있어서 그리드인거 알려줌");
-  }
-  function clickPrevList() {
-    // loadNextPress();
-  }
-
-  function handleClickNext() {
-    // stopInterval();
-    const { currentViewMode } = getState();
-    actions.goNextPage();
-    currentViewMode === "grid" ? clickNextGrid() : clickNextList();
-    // startInterval();
-  }
-  function clickNextGrid() {
-    console.log("비어있어서 그리드인거 알려줌");
-  }
-
-  function clickNextList() {
-    // loadNextPress();
-    // renderFieldTab();
+    const isGrid = currentViewMode === "grid";
+    if (isGrid) grid.resetGridSubsOverlay();
   }
 };

@@ -1,3 +1,11 @@
 export const ITEM_PER_GRID = 24;
 export const GRID_MAX_PAGE = 4;
 export const LIST_INIT_MAX_PAGE = 82;
+export const LEFT_INDEX = 0;
+export const RIGHT_INDEX = 1;
+export const TIME_GAP = 1000;
+export const INTERVAL_TIME = 2000;
+export const DURATION = 600;
+export const INDEX_STEP = 2;
+export const ARTICLE_MOVE_TIME = 20000
+export const SCROLL_AMOUNT = 3

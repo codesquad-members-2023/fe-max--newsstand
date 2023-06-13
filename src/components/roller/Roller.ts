@@ -1,9 +1,4 @@
-const LEFT_INDEX = 0;
-const RIGHT_INDEX = 1;
-const TIME_GAP = 1000;
-const INTERVAL_TIME = 2000;
-const DURATION = 600;
-const INDEX_STEP = 2;
+import { DURATION, INDEX_STEP, INTERVAL_TIME, LEFT_INDEX, RIGHT_INDEX, TIME_GAP } from "../../constants/constant";
 
 type Direction = "left" | "right";
 

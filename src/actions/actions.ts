@@ -1,16 +1,20 @@
 // import { UPDATE_NAME } from "../constants/ActionTypes";
 import {
-  AUTO_NEXT_PAGE,
+  // AUTO_NEXT_PAGE,
   GO_NEXT_PAGE,
   GO_PREV_PAGE,
   POP_SUBS,
   PUSH_SUBS,
-  RESET_ARTICLE_INDEX,
-  SET_ARTICLE_INDEX,
-  SET_LIST_LAST_PAGE,
   SWITCH_GRID_MODE,
   SWITCH_LIST_MODE,
-  UPDATE_SUBS,
+  SWITCH_SUBS_MODE,
+  SWITCH_TOTAL_MODE,
+  UPDATE_NEWS,
+  // UPDATE_SUBS,
+
+  // RESET_ARTICLE_INDEX,
+  SET_ARTICLE_INDEX,
+  // SET_LIST_LAST_PAGE,
 } from "../constants/ActionTypes";
 import { dispatch } from "../dispatcher/dispatcher";
 
@@ -27,19 +31,28 @@ export const actions = {
   switchListMode: () => {
     dispatch({ type: SWITCH_LIST_MODE });
   },
-  updateSubs: (subs: string[]) => {
-    dispatch({ type: UPDATE_SUBS, payload: subs });
+  switchTotalMode: () => {
+    dispatch({ type: SWITCH_TOTAL_MODE });
   },
-  setListLastPage: (totalPress: number) => {
-    dispatch({ type: SET_LIST_LAST_PAGE, payload: totalPress });
+  switchSubsMode: () => {
+    dispatch({ type: SWITCH_SUBS_MODE });
   },
-  autoNextPage: () => {
-    dispatch({ type: AUTO_NEXT_PAGE });
+  updateNews: (data: object) => {
+    dispatch({ type: UPDATE_NEWS, payload: data });
   },
-  resetArticleIndex: () => {
-    dispatch({ type: RESET_ARTICLE_INDEX });
-  },
-  setArticleIndex: (index: number) => {
+  // updateSubs: (subs: string[]) => {
+  //   dispatch({ type: UPDATE_SUBS, payload: subs });
+  // },
+  // setListLastPage: (totalPress: number) => {
+  //   dispatch({ type: SET_LIST_LAST_PAGE, payload: totalPress });
+  // },
+  // autoNextPage: () => {
+  //   dispatch({ type: AUTO_NEXT_PAGE });
+  // },
+  // resetArticleIndex: () => {
+  //   dispatch({ type: RESET_ARTICLE_INDEX });
+  // },
+  setArticleIndex: (index: object) => {
     dispatch({ type: SET_ARTICLE_INDEX, payload: index });
   },
   pushSubs: (pressName: string) => {

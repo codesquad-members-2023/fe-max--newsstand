@@ -1,102 +1,67 @@
-import { App } from "./App";
-import { Header } from "./components/header/Header";
-import { Media } from "./components/media/Media";
-import { Roller } from "./components/roller/Roller";
 import "./css/index.css";
 
-// import { Header, NewsDate } from "./components/header/Header";
-// import { Roller } from "./components/roller/Roller";
-// import { subscribe } from "./store/store";
-// import { Media } from "./components/media/Media";
-// import { Grid, Images } from "./components/media/Grid";
-// import { List } from "./components/media/List";
-// import { test } from "./components/test";
+import { App } from "./App";
+import { Header } from "./components/header/Header";
+import { Roller } from "./components/roller/Roller";
+import { Media } from "./components/media/Media";
+import { errorMessages } from "./constants/errorMessages";
 
-App();
-Header();
+const BASE_URL = "http://localhost:8080";
 
-const initRoller = async () => {
+export type Images = { src: string; alt: string }[];
+
+const fetchAPI = async (url: string) => {
+  const response = await fetch(url);
+  return response.json();
+};
+
+const shuffleArray = (target: Images) => {
+  for (let i = target.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [target[i], target[j]] = [target[j]!, target[i]!];
+  }
+  return target;
+};
+
+const fetchHeadlinesData = async () => {
   try {
-    const headlines = await initHeadlinesData();
-    Roller(headlines);
+    const data = await fetchAPI(BASE_URL + "/headlines");
+    return data.headlines;
   } catch (error) {
-    console.error("타이틀 데이터를 fetch하지못함");
+    console.error(`${errorMessages.fetchHeadlinesFailed}`, error);
   }
 };
 
-initRoller();
+const fetchPressData = async () => {
+  try {
+    const totalPressData = await fetchAPI(BASE_URL + "/list");
+    const pressImageData = totalPressData.flatMap((item: any) =>
+      item.pressList.map((item: any) => ({
+        src: item.pressLogoSrc,
+        alt: item.pressLogoAlt,
+      }))
+    );
+    const randomImageData = shuffleArray(pressImageData);
 
-Media();
-// media.render();
-// media.setEvent();
-// subscribe(media.render);
+    return { totalPressData, randomImageData };
+  } catch (error) {
+    console.error(`${errorMessages.initListNewsFailed}`, error);
+  }
+};
 
-// export const initGrid = async () => {
-//   try {
-//     const images = await initImages();
-//     const grid = Grid(images);
+const initApp = async () => {
+  App();
 
-//     subscribe(grid.render);
-//     subscribe(grid.renderButton);
-//     grid.setEvent();
-//   } catch (error) {
-//     console.error("이미지들을 가져오지 못했습니다.");
-//   }
-// };
+  Header();
 
-// initGrid();
+  const headlines = await fetchHeadlinesData();
+  Roller(headlines);
 
-// const listNews = await initListNews();
+  const pressData = await fetchPressData();
+  Media(pressData);
+};
 
-// const list = List(listNews);
-// list.setEvent();
-// export const renderFieldTab = list.renderFieldTab;
-// export const loadNextPress = list.loadNextPress;
-// export const stopInterval = list.stopInterval;
-// export const startInterval = list.startInterval;
-// export const setArt = list.setArt;
-
-// let state = 3;
-
-// export function getS() {
-//   return state;
-// }
-
-// export function incS() {
-//   state++;
-// }
-
-// test();
-
-async function initHeadlinesData() {
-  const response = await fetch("http://localhost:8080/headlines");
-  const data = await response.json();
-  return data.headlines;
-}
-
-// async function initImages() {
-//   const response = await fetch("http://localhost:8080/images");
-//   const data = await response.json();
-//   const images = data.images.map((image: Images) => image);
-
-//   const shuffledImages = shuffleArray(images);
-
-//   return shuffledImages;
-// }
-// function shuffleArray(target: Images) {
-//   for (let i = target.length - 1; i > 0; i--) {
-//     const j = Math.floor(Math.random() * (i + 1));
-//     [target[i], target[j]] = [target[j]!, target[i]!];
-//   }
-//   return target;
-// }
-
-// async function initListNews() {
-//   const response = await fetch("http://localhost:8080/list");
-//   const data = await response.json();
-
-//   return data;
-// }
+initApp();
 
 // "[속보] 쿤디, \"돼지파스타 맛있어서 돼지된 것 같아...\"",
 // "[단독] 쿤디, 청년다방 오징어 튀김 중독됐다 \"이 맛 못끊어...\"",
