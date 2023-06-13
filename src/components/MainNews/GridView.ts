@@ -5,10 +5,10 @@ import {
   unobserveStates,
   dispatch,
 } from "@store/index.ts";
-import { TGridViewData } from "@customTypes/index.ts";
+import { TGridViewDataItem } from "@customTypes/index.ts";
 
 class GridView extends Component {
-  private tableChunks: TGridViewData[][] = [];
+  private tableChunks: TGridViewDataItem[][] = [];
   private currentTableChunkIdx: number = 0;
   private numPressBoxesPerTableChunk: number = 24;
 
@@ -50,13 +50,13 @@ class GridView extends Component {
     dispatch({ type: EState.GridViewData });
   }
 
-  setProps({ gridViewData }: { gridViewData: TGridViewData[] }) {
+  setProps({ gridViewData }: { gridViewData: TGridViewDataItem[] }) {
     this.tableChunks = this.chunkIntoTables(gridViewData);
     this.updateTable(this.tableChunks[this.currentTableChunkIdx]);
   }
 
-  chunkIntoTables(gridViewData: TGridViewData[]) {
-    return gridViewData.reduce((acc: TGridViewData[][], curr, idx) => {
+  chunkIntoTables(gridViewData: TGridViewDataItem[]) {
+    return gridViewData.reduce((acc: TGridViewDataItem[][], curr, idx) => {
       const chunkIdx = Math.floor(idx / this.numPressBoxesPerTableChunk);
 
       if (!acc[chunkIdx]) acc[chunkIdx] = [];
@@ -66,7 +66,7 @@ class GridView extends Component {
     }, []);
   }
 
-  updateTable(tableChunk: TGridViewData[]) {
+  updateTable(tableChunk: TGridViewDataItem[]) {
     if (this.currentTableChunkIdx === 0) {
       this.leftBtn.classList.add("is-inactive");
     } else if (this.currentTableChunkIdx === this.tableChunks.length - 1) {

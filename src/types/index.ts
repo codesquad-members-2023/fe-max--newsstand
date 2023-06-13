@@ -3,12 +3,12 @@ export type THeadlineData = {
   headline: string;
 };
 
-export type TGridViewData = {
+export type TGridViewDataItem = {
   src: string;
   alt: string;
 };
 
-export type TListViewData = {
+export type TListViewDataItem = {
   categoryName: string;
   pressList: {
     pressLogoSrc: string;
@@ -24,7 +24,7 @@ export type TListViewData = {
 };
 
 export type TListViewProps = {
-  listViewData: TListViewData[];
+  listViewData: TListViewDataItem[];
   listViewCurrCategoryIdx: number;
   listViewCurrArticleIdx: number;
 };
