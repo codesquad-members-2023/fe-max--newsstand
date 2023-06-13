@@ -60,7 +60,7 @@ export const reducer: Reducer<MainViewState> = (state, actions) => {
         gridState: {
           ...state.gridState,
           subscribedPressList: [
-            ...new Set([...state.gridState.subscribedPressList, ...actions.payload.pressName]),
+            ...new Set([...state.gridState.subscribedPressList, actions.payload.pressName]),
           ],
         },
       };
