@@ -15,6 +15,7 @@ export type ElementType = ElementObj | TextElementObj;
 export type Headline = {
   press: string;
   title: string;
+  link: string;
 };
 
 export type RollerType = {
