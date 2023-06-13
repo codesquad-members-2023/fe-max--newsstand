@@ -20,10 +20,10 @@ export function Main(): IFakeElement {
   return main(setContext("activePress"), setContext("viewType"), [
     h2({ class: "blind" }, "메인"),
     div(
-      useContext("activePress", "attr", (element, context) => {
+      useContext("activePress", "prop", (element, context) => {
         element.setAttribute("data-press", context);
       }),
-      useContext("viewType", "attr", (element, context) => {
+      useContext("viewType", "prop", (element, context) => {
         element.setAttribute("data-view-type", context);
       }),
       { class: "tabs-bar" },

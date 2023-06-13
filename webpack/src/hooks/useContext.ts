@@ -41,7 +41,7 @@ export function useContext(name: string, type?: string, callBack?: CallBack) {
             fakeElement.render();
             return;
           }
-        case "attr":
+        case "prop":
           if (callBack) {
             callBack(element, foundContext);
           }

@@ -1,7 +1,6 @@
 import { App } from "./App";
 import { Dispatcher } from "./src/core/Dispatcher";
 import { FakeDom } from "./src/core/FakeDom";
-import { Store } from "./src/core/Store";
 import { initNews } from "./src/utils/initNews";
 import { initRolling } from "./src/utils/initRolling";
 import "./style.css";

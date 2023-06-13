@@ -11,26 +11,23 @@ export function Rolling({ direction }: { direction: string }): IFakeElement {
     const turn = Store.state.rollingTurn;
     return direction === turn;
   }
-
-  return li(useContext("rollingIndex", "render", isUpdate), [
+  return li([
     h2({ class: "blind" }, "연합뉴스 헤드라인"),
     ul({ class: "rolling" }, [
       li([
         a({ class: "outlet", href: Config.YNA_URL }, "연합뉴스"),
-        a({ class: "article", href: getRollingHref }, getRollingTextContent),
+        a(
+          useContext("rollingIndex", "prop", (element, context) => {
+            if (isUpdate()) {
+              const index = context;
+              const rolling = Store.state.rolling[index];
+              element.setAttribute("href", rolling.href);
+              element.textContent = rolling.textContent;
+            }
+          }),
+          { class: "article" }
+        ),
       ]),
     ]),
   ]);
-}
-
-function getRollingHref() {
-  const index = Store.state.rollingIndex;
-  const rolling = Store.state.rolling[index];
-  return rolling.href;
-}
-
-function getRollingTextContent() {
-  const index = Store.state.rollingIndex;
-  const rolling = Store.state.rolling[index];
-  return rolling.textContent;
 }

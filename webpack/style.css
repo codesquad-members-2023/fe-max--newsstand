@@ -167,6 +167,7 @@ header .rolling .outlet {
 
 header .rolling .article {
   font: var(--font-body-sm);
+  line-height: 1rem;
   color: var(--color-gray-500);
 }
 
