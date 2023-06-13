@@ -1,6 +1,6 @@
 import Component from "@components/common/Component.ts";
 import { fetchData } from "@utils/index.ts";
-import { TGridViewData, TListViewData } from "@customTypes/index.ts";
+import { TGridViewDataItem, TListViewDataItem } from "@customTypes/index.ts";
 
 export enum EState {
   GridViewData = "gridViewData",
@@ -9,6 +9,7 @@ export enum EState {
   HeadlinesRollerTick = "headlinesRollerTick",
 
   MainContentView = "mainContentView",
+  ListViewCurrCategoryIdx = "listViewCurrCategoryIdx",
   ListViewCurrArticleIdx = "listViewCurrArticleIdx",
 }
 
@@ -21,8 +22,8 @@ interface IStore {
   recentHeadlinesData: StateItem<
     { pressName: string; headlineTitle: string }[]
   >;
-  gridViewData: StateItem<TGridViewData[]>;
-  listViewData: StateItem<TListViewData[]>;
+  gridViewData: StateItem<TGridViewDataItem[]>;
+  listViewData: StateItem<TListViewDataItem[]>;
 
   headlinesRollerTick: StateItem<number>;
   leftHeadlineIdx: StateItem<number>;
@@ -93,6 +94,9 @@ function reducer(action: TAction) {
     case "listViewData":
       listViewDataHandler();
       break;
+    case "listViewCurrCategoryIdx":
+      listViewCurrCategoryIdxHandler(content);
+      break;
     case "listViewCurrArticleIdx":
       listViewCurrArticleIdxHandler(content);
       break;
@@ -153,6 +157,22 @@ function gridViewDataHandler() {
 }
 
 function listViewDataHandler() {
+  store.listViewData.observers.forEach((observer) => {
+    observer.setProps({
+      listViewData: store.listViewData.value,
+      listViewCurrCategoryIdx: store.listViewCurrCategoryIdx.value,
+      listViewCurrArticleIdx: store.listViewCurrArticleIdx.value,
+    });
+  });
+}
+
+function listViewCurrCategoryIdxHandler(content: number) {
+  if (content >= 0 && content < store.listViewData.value.length) {
+    store.listViewCurrCategoryIdx.value = content;
+
+    store.listViewCurrArticleIdx.value = 0;
+  }
+
   store.listViewData.observers.forEach((observer) => {
     observer.setProps({
       listViewData: store.listViewData.value,
