@@ -1,5 +1,4 @@
 import { Config } from "../../../../config";
-import { Dispatcher } from "../../../core/Dispatcher";
 import { Store } from "../../../core/Store";
 import { useContext } from "../../../hooks/useContext";
 import { IFakeElement } from "../../../interfaces/IFakeElement";

@@ -19,7 +19,7 @@ export function createFakeElement(
   return fakeElement;
 }
 
-function assignFakeElement(
+export function assignFakeElement(
   fakeElement: IFakeElement,
   arg: FakeElementArgs
 ): void {
@@ -29,7 +29,7 @@ function assignFakeElement(
   } else if (typeof arg === "string") {
     fakeElement.textContent = arg;
   } else if (typeof arg === "object") {
-    fakeElement.props = arg;
+    fakeElement.props = arg as Record<string, any>;
   } else if (typeof arg === "function") {
     const func = arg.bind(fakeElement);
     if (fakeElement.functions) {
@@ -38,12 +38,18 @@ function assignFakeElement(
       fakeElement.functions = [func];
     }
   }
-  fakeElement.render = function () {
+  setRender(fakeElement);
+}
+
+export function setRender(fakeElement: IFakeElement) {
+  fakeElement.render = async function () {
     const { prevElement } = fakeElement;
-    const newElement = render(fakeElement);
+    const newElement = await render(fakeElement);
 
     if (prevElement) {
-      prevElement.parentElement!.replaceChild(newElement, prevElement);
+      if (prevElement.parentElement) {
+        prevElement.parentElement!.replaceChild(newElement, prevElement);
+      }
     }
 
     fakeElement.prevElement = newElement;
@@ -51,16 +57,27 @@ function assignFakeElement(
   };
 }
 
-function render(fakeElement: IFakeElement): HTMLElement {
-  const { tagName, props, children, textContent, functions } = fakeElement;
-  const element = document.createElement(tagName);
-  functions &&
-    functions.forEach((func: Function) => {
+function preceding(
+  element: HTMLElement,
+  fakeElement: IFakeElement
+): Promise<void> {
+  return new Promise<void>((resolve) => {
+    const funcs = fakeElement.functions || [];
+    for (const func of funcs) {
       const result = func(element);
       if (typeof result === "string") {
         element.textContent = result;
       }
-    });
+    }
+
+    setTimeout(() => resolve(), 0);
+  });
+}
+
+async function render(fakeElement: IFakeElement): Promise<HTMLElement> {
+  const element = document.createElement(fakeElement.tagName);
+  await preceding(element, fakeElement);
+  const { props, children, textContent } = fakeElement;
   props && defineProps(element, props);
   children && defineChildren(element, children);
   textContent && defineTextContent(element, textContent);
@@ -75,8 +92,11 @@ function defineChildren(element: HTMLElement, children: IChildren): void {
   children.forEach((child) => appendChildToElement(element, child));
 }
 
-function appendChildToElement(element: HTMLElement, child: IFakeElement): void {
-  element.appendChild(child.render());
+async function appendChildToElement(
+  element: HTMLElement,
+  child: IFakeElement
+): Promise<void> {
+  element.appendChild(await child.render());
 }
 
 function defineProps(element: HTMLElement, props: IProps): void {
@@ -93,7 +113,7 @@ function defineProp(element: HTMLElement, prop: Prop) {
 
   if (name.startsWith("data")) {
     const dataName = name.replace(/([A-Z])/g, "-$1").toLowerCase();
-    element.setAttribute(`data-${dataName}`, value as string);
+    element.setAttribute(dataName, value as string);
     return;
   }
 

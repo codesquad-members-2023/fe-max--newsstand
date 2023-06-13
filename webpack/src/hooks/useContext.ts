@@ -41,12 +41,18 @@ export function useContext(name: string, type?: string, callBack?: CallBack) {
             fakeElement.render();
             return;
           }
+        case "attr":
+          if (callBack) {
+            callBack(element, foundContext);
+          }
+          return;
       }
     }
 
     if (first) {
       current?.subscribeContext![name].push(func);
       first = false;
+      func();
     }
 
     if (!type || type === "textContent") {

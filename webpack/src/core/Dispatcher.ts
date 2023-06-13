@@ -1,3 +1,4 @@
+import { ActivePress } from "../constants/ActivePress";
 import { IAction } from "../interfaces/IAction";
 import { initRolling } from "../utils/initRolling";
 import { Store } from "./Store";
@@ -19,6 +20,18 @@ export const Dispatcher = (function () {
           return;
         }
         Store.state.rollingIndex += 1;
+        break;
+      case "activeAllPress":
+        Store.state.activePress = "ALL";
+        break;
+      case "activeSubscribePress":
+        Store.state.activePress = "SUBSCRIBE";
+        break;
+      case "activeViewTypeGrid":
+        Store.state.viewType = "GRID";
+        break;
+      case "activeViewTypeList":
+        Store.state.viewType = "LIST";
         break;
     }
   }

@@ -3,7 +3,7 @@ import { IFakeElement } from "../interfaces/IFakeElement";
 import { CallBack } from "../types/Callback";
 
 export function setContext(name: string) {
-  return function (this: IFakeElement) {
+  return function (this: IFakeElement) : IFakeElement {
     const fakeElement = this;
     fakeElement.combined = fakeElement.combined || {};
     fakeElement.combined.context = fakeElement.combined.context || {};

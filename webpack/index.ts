@@ -20,8 +20,6 @@ import "./style.css";
   await initRolling();
   await initNews();
 
-  console.log(Store.state.news)
-
   root.render(App());
   Dispatcher.onAction({ type: "rolling" });
 })();
