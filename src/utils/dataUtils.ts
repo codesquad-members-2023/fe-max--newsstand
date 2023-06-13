@@ -20,14 +20,14 @@ export const getNewsFields = async () => {
   return await response.json();
 }
 
-export const getSubscribedIds = () => {
-  const subscribedIdsInStorage = localStorage.getItem('subscribedIds');
-  if (subscribedIdsInStorage === null) {
+export const getSubscribedMedias = () => {
+  const subscribedMediasInStorage = localStorage.getItem('subscribedMedias');
+  if (subscribedMediasInStorage === null) {
     return [];
   }
-  return JSON.parse(subscribedIdsInStorage);
+  return JSON.parse(subscribedMediasInStorage);
 }
 
-export const setSubscribedIds = (subscribedIds:number[]) => {
-  localStorage.setItem('subscribedIds', JSON.stringify(subscribedIds));
+export const setSubscribedMedias = (subscribedMedias:string[]) => {
+  localStorage.setItem('subscribedMedias', JSON.stringify(subscribedMedias));
 }

@@ -1,4 +1,3 @@
-import { invoke } from '../../../store';
 import { createElement } from '../../../utils/domUtils';
 import style from './GridView.module.css';
 import { SubscribeButton } from '../SubscribeButton';
@@ -14,7 +13,7 @@ export class SubscriptionCover {
     this.element.append(this.button.element);
   }
 
-  updateState({ mediaId, isSubscribed }: { mediaId: number; isSubscribed: boolean }) {
-    this.button.updateState({ mediaId, isSubscribed })
+  updateView({ mediaName, isSubscribed }: { mediaName: string; isSubscribed: boolean }) {
+    this.button.updateView({ mediaName, isSubscribed })
   }
 }

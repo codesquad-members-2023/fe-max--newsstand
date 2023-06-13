@@ -4,11 +4,11 @@ import { createElement } from '../../utils/domUtils';
 export class SubscribeButton {
   public readonly element;
   private buttonText;
-  private mediaId: number = -1;
+  private mediaName: string = '';
   private mode: 'add' | 'remove' = 'add';
 
   constructor() {
-    const button = createElement('a', { href: '#', class: 'subscribe-button' });
+    const button = createElement('a', { href: '#', class: 'subscribe-button font-body-xs' });
     const icon = createElement('img', { src: 'assets/icons/plus-sm.svg', alt: '' });
     const buttonText = document.createTextNode('');
 
@@ -25,7 +25,7 @@ export class SubscribeButton {
       invoke({
         type: 'updateSubscribedMedia',
         payload: {
-          id: this.mediaId,
+          name: this.mediaName,
           mode: this.mode
         }
       });
@@ -36,8 +36,8 @@ export class SubscribeButton {
     this.buttonText.textContent = newText;
   }
 
-  private setMediaId(mediaId: number) {
-    this.mediaId = mediaId;
+  private setmediaName(mediaName: string) {
+    this.mediaName = mediaName;
   }
 
   private updateMode(isSubscribed: boolean) {
@@ -50,8 +50,8 @@ export class SubscribeButton {
     this.setText('구독하기');
   }
 
-  updateState({ mediaId, isSubscribed }: { mediaId: number; isSubscribed: boolean }) {
-    this.setMediaId(mediaId);
+  updateView({ mediaName, isSubscribed }: { mediaName: string; isSubscribed: boolean }) {
+    this.setmediaName(mediaName);
     this.updateMode(isSubscribed);
   }
 }

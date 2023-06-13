@@ -8,7 +8,7 @@ const state = getState();
 const newsStand = new NewsStand({
   dateInfo: state.dateInfo,
   gridInfo: state.gridInfo,
-  subscriptionInfo: state.subscribedMediaIds,
+  subscriptionInfo: state.subscribedMedias,
   mainViewerInfo: {
     targetMedia: state.targetMedia,
     viewer: state.viewer
@@ -25,7 +25,7 @@ export const onChangeState = () => {
   newsStand.updateView({
     dateInfo: state.dateInfo,
     gridInfo: state.gridInfo,
-    subscriptionInfo: state.subscribedMediaIds,
+    subscriptionInfo: state.subscribedMedias,
     mainViewerInfo: {
       targetMedia: state.targetMedia,
       viewer: state.viewer

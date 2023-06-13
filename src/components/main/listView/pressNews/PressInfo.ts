@@ -14,10 +14,11 @@ export class PressInfo {
     this.element.append(this.brandMark, this.editDate, this.subscribeButton.element);
   }
 
-  updateView({ url, imgSrc, imgAlt, editInfo }: MediaInfo) {
+  updateView({ url, imgSrc, imgAlt, editInfo }: MediaInfo, subscriptionInfo: string[]) {
     this.brandMark.setAttribute('href', url)
     this.brandMarkImage.setAttribute('src', imgSrc);
     this.brandMarkImage.setAttribute('alt', imgAlt);
     this.editDate.textContent = editInfo;
+    this.subscribeButton.updateView({ mediaName: imgAlt, isSubscribed: subscriptionInfo.includes(imgAlt)})
   }
 }

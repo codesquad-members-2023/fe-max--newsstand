@@ -1,11 +1,11 @@
-import { getNewsList, getSubscribedIds, setSubscribedIds } from './utils/dataUtils';
+import { getNewsList, getSubscribedMedias, setSubscribedMedias } from './utils/dataUtils';
 import { GRID_PAGE_LIMIT } from './constants';
 import { onChangeState } from './main';
 
 const state: {
   dateInfo: Date;
   gridInfo: GridInfo;
-  subscribedMediaIds: number[];
+  subscribedMedias: string[];
   targetMedia: 'total' | 'subscribed';
   viewer: 'gridView' | 'listView';
   news: NewsData | null;
@@ -23,7 +23,7 @@ const state: {
     isHover: false,
     hoverIndex: -1
   },
-  subscribedMediaIds: getSubscribedIds(),
+  subscribedMedias: getSubscribedMedias(),
   targetMedia: 'total',
   viewer: 'listView',
   news: null,
@@ -55,14 +55,14 @@ export const invoke = (action: Action) => {
       break;
     case 'updateSubscribedMedia':
       if (action.payload.mode === 'add') {
-        state.subscribedMediaIds.push(action.payload.id);
+        state.subscribedMedias.push(action.payload.name);
       } else {
-        state.subscribedMediaIds = state.subscribedMediaIds.filter(
-          (id) => id !== action.payload.id
+        state.subscribedMedias = state.subscribedMedias.filter(
+          (name) => name !== action.payload.name
         );
       }
-      setSubscribedIds(state.subscribedMediaIds);
-      state.subscribedMediaIds = getSubscribedIds();
+      setSubscribedMedias(state.subscribedMedias);
+      state.subscribedMedias = getSubscribedMedias();
       break;
     case 'initNewsData':
       const news = action.payload.news;

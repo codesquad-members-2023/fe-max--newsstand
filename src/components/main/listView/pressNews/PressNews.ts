@@ -12,11 +12,11 @@ export class PressNews {
     this.element.append(this.pressInfo.element, this.articleSection.element);
   }
 
-  updateView({ news }: { news: NewsData | null }) {
+  updateView({ news, subscriptionInfo }: { news: NewsData | null, subscriptionInfo: string[] }) {
     if (!news) {
       return;
     }
-    this.pressInfo.updateView(news.mediaInfo);
+    this.pressInfo.updateView(news.mediaInfo, subscriptionInfo);
     this.articleSection.updateView(news);
   }
 }

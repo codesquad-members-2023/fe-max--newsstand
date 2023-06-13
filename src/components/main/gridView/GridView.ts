@@ -7,7 +7,7 @@ import style from './GridView.module.css';
 
 type GridViewProps = {
   gridInfo: GridInfo;
-  subscriptionInfo: number[];
+  subscriptionInfo: string[];
 };
 
 export default class GridView {
@@ -149,7 +149,7 @@ export default class GridView {
   private renderSubscriptionCover(
     isHover: boolean,
     hoverIndex: number,
-    subscriptionInfo: number[]
+    subscriptionInfo: string[]
   ) {
     for (let i = 0; i < this.cells.length; i++) {
       const cell = this.cells?.[i];
@@ -162,10 +162,10 @@ export default class GridView {
         if (!media) {
           continue;
         }
-        const mediaId = media.id;
-        const isSubscribed = subscriptionInfo.includes(mediaId);
+        const mediaName = media.alt;
+        const isSubscribed = subscriptionInfo.includes(mediaName);
 
-        this.subscriptionCover.updateState({ mediaId, isSubscribed });
+        this.subscriptionCover.updateView({ mediaName, isSubscribed });
         cell.append(this.subscriptionCover.element);
 
         continue;

@@ -7,7 +7,7 @@ import NewsBar from './newsBar/NewsBar';
 type NewsStandProps = {
   dateInfo: Date;
   gridInfo: GridInfo;
-  subscriptionInfo: number[];
+  subscriptionInfo: string[];
   mainViewerInfo: {
     targetMedia: 'total' | 'subscribed';
     viewer: 'listView' | 'gridView';

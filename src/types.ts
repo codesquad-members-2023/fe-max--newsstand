@@ -33,7 +33,7 @@ type Action =
   | {
       type: 'updateSubscribedMedia';
       payload: {
-        id: number;
+        name: string;
         mode: 'add' | 'remove';
       };
     }

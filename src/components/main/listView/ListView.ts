@@ -6,7 +6,7 @@ import style from './ListView.module.css';
 
 type ListViewProps = {
   news: NewsData | null;
-  subscriptionInfo: number[];
+  subscriptionInfo: string[];
   fields: FieldData[];
   listIndex: number;
 };

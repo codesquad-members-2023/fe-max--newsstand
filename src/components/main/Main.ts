@@ -7,7 +7,7 @@ import { ArrowButton } from './ArrowButton';
 
 type MainProps = {
   gridInfo: GridInfo;
-  subscriptionInfo: number[];
+  subscriptionInfo: string[];
   mainViewerInfo: {
     targetMedia: 'total' | 'subscribed';
     viewer: 'listView' | 'gridView';
