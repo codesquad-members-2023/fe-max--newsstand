@@ -1,5 +1,5 @@
 import { Reducer } from "./../Reducer";
-import { Action } from "./../utils/types";
+import { Action, newsStandState } from "./../utils/types";
 import { mockState } from "./mockState";
 import { Header } from "./../component/Header";
 const reducer = new Reducer();
@@ -14,7 +14,7 @@ describe("Header test", () => {
 });
 
 describe("tick test", () => {
-  const newsStandState = JSON.parse(JSON.stringify(mockState));
+  const newsStandState: newsStandState = JSON.parse(JSON.stringify(mockState));
   const action: Action = { type: "INCREMENT_TICK" };
 
   it("tick이 1 증가", () => {
@@ -52,6 +52,16 @@ describe("tick test", () => {
     expect(newState.leftRoller.headline).toEqual(result);
   });
 
+  it("왼쪽 롤링 멈춤", () => {
+    newsStandState.rollerTick = 4;
+    newsStandState.leftRoller.isMove = false;
+
+    const currentHeadline = newsStandState.leftRoller.headline;
+    const newState = reducer.reduce(newsStandState, action);
+
+    expect(newState.leftRoller.headline).toEqual(currentHeadline);
+  });
+
   it("오른쪽 롤링", () => {
     newsStandState.rollerTick = 5;
     const newState = reducer.reduce(newsStandState, action);
@@ -61,16 +71,6 @@ describe("tick test", () => {
     ];
 
     expect(newState.rightRoller.headline).toEqual(result);
-  });
-
-  it("왼쪽 롤링 멈춤", () => {
-    newsStandState.rollerTick = 4;
-    newsStandState.leftRoller.isMove = false;
-
-    const currentHeadline = newsStandState.leftRoller.headline;
-    const newState = reducer.reduce(newsStandState, action);
-
-    expect(newState.leftRoller.headline).toEqual(currentHeadline);
   });
 
   it("오른쪽 무한 롤링", () => {
@@ -102,7 +102,7 @@ describe("tick test", () => {
 });
 
 describe("toggle Roller test", () => {
-  const newsStandState = JSON.parse(JSON.stringify(mockState));
+  const newsStandState: newsStandState = JSON.parse(JSON.stringify(mockState));
 
   it("왼쪽 isMove toggle", () => {
     const action: Action = { type: "TOGGLE_ROLLING_STATE", target: "left" };
@@ -124,3 +124,35 @@ describe("toggle Roller test", () => {
     expect(newState.rightRoller.isMove).toBe(true);
   });
 });
+
+describe("change page test", () => {
+  const newsStandState: newsStandState = JSON.parse(JSON.stringify(mockState));
+
+  it("page 증가 & currentViewList", () => {
+    const action: Action = { type: "INCREMENT_PAGE" };
+    const newState = reducer.reduce(newsStandState, action);
+
+    expect(newState.currentPage).toBe(newsStandState.currentPage + 1);
+    expect(newState.grid.currentViewList).toEqual(
+      newState.grid.gridAllList.slice(
+        newState.currentPage * 24,
+        newState.currentPage * 24 + 24
+      )
+    );
+  });
+
+  it("page 감소 & currentViewList", () => {
+    const action: Action = { type: "DECREMENT_PAGE" };
+    newsStandState.currentPage = 1;
+    const newState = reducer.reduce(newsStandState, action);
+
+    expect(newState.currentPage).toBe(newsStandState.currentPage - 1);
+    expect(newState.grid.currentViewList).toEqual(
+      newState.grid.gridAllList.slice(
+        newState.currentPage * 24,
+        newState.currentPage * 24 + 24
+      )
+    );
+  });
+});
+

@@ -89,7 +89,7 @@ export const mockState: newsStandState = {
     isMove: true,
   },
   rollerTick: 0,
-  currentContent: "list",
+  currentContent: "grid",
   currentType: "all",
   currentPage: 0,
   subscribedPress: [
