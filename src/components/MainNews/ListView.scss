@@ -96,6 +96,11 @@
           .main-article-title {
             @include f-body-md;
             color: $color-black;
+
+            &:hover {
+              text-decoration: underline;
+              cursor: pointer;
+            }
           }
         }
 
@@ -110,6 +115,11 @@
           a {
             @include f-body-md;
             color: $color-grey-500;
+
+            &:hover {
+              text-decoration: underline;
+              cursor: pointer;
+            }
           }
 
           span {
