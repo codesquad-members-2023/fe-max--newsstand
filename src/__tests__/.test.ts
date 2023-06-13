@@ -3,6 +3,7 @@ import { Action, newsStandState } from "./../utils/types";
 import { mockState } from "./mockState";
 import { Header } from "./../component/Header";
 const reducer = new Reducer();
+const ITEM_PER_PAGE = 24;
 
 describe("Header test", () => {
   it("kr 포맷에 맞게 리턴한다", async () => {
@@ -130,13 +131,25 @@ describe("change page test", () => {
 
   it("page 증가 & currentViewList", () => {
     const action: Action = { type: "INCREMENT_PAGE" };
-    const newState = reducer.reduce(newsStandState, action);
+    newsStandState.currentPage = 1;
+    let newState = reducer.reduce(newsStandState, action);
 
     expect(newState.currentPage).toBe(newsStandState.currentPage + 1);
     expect(newState.grid.currentViewList).toEqual(
       newState.grid.gridAllList.slice(
-        newState.currentPage * 24,
-        newState.currentPage * 24 + 24
+        newState.currentPage * ITEM_PER_PAGE,
+        newState.currentPage * ITEM_PER_PAGE + ITEM_PER_PAGE
+      )
+    );
+
+    newsStandState.currentPage = 3;
+    newState = reducer.reduce(newsStandState, action);
+
+    expect(newState.currentPage).toBe(newsStandState.currentPage + 1);
+    expect(newState.grid.currentViewList).toEqual(
+      newState.grid.gridAllList.slice(
+        newState.currentPage * ITEM_PER_PAGE,
+        newState.currentPage * ITEM_PER_PAGE + ITEM_PER_PAGE
       )
     );
   });
@@ -144,14 +157,40 @@ describe("change page test", () => {
   it("page 감소 & currentViewList", () => {
     const action: Action = { type: "DECREMENT_PAGE" };
     newsStandState.currentPage = 1;
-    const newState = reducer.reduce(newsStandState, action);
+    let newState = reducer.reduce(newsStandState, action);
 
     expect(newState.currentPage).toBe(newsStandState.currentPage - 1);
     expect(newState.grid.currentViewList).toEqual(
       newState.grid.gridAllList.slice(
-        newState.currentPage * 24,
-        newState.currentPage * 24 + 24
+        newState.currentPage * ITEM_PER_PAGE,
+        newState.currentPage * ITEM_PER_PAGE + ITEM_PER_PAGE
       )
+    );
+
+    newsStandState.currentPage = 3;
+    newState = reducer.reduce(newsStandState, action);
+
+    expect(newState.currentPage).toBe(newsStandState.currentPage - 1);
+    expect(newState.grid.currentViewList).toEqual(
+      newState.grid.gridAllList.slice(
+        newState.currentPage * ITEM_PER_PAGE,
+        newState.currentPage * ITEM_PER_PAGE + ITEM_PER_PAGE
+      )
+    );
+  });
+});
+
+describe("update page test", () => {
+  const newsStandState: newsStandState = JSON.parse(JSON.stringify(mockState));
+
+  it("page 변경 & currentViewList 변경", () => {
+    const page = 2;
+    const action: Action = { type: "UPDATE_PAGE", page: page };
+    const newState = reducer.reduce(newsStandState, action);
+
+    expect(newState.currentPage).toBe(page);
+    expect(newState.list.currentViewList).toBe(
+      newState.list.currentTypeList[page]
     );
   });
 });

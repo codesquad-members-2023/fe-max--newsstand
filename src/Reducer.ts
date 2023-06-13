@@ -1,4 +1,9 @@
-import { Action, RollerType, newsStandState } from "./utils/types";
+import {
+  Action,
+  ListDataType,
+  RollerType,
+  newsStandState,
+} from "./utils/types";
 
 export class Reducer {
   ITEM_PER_PAGE: number = 24;
@@ -157,42 +162,52 @@ export class Reducer {
 
   private getUpdatedListData(state: newsStandState) {
     const newState = this.deepCopy(state);
-    const list = newState.list;
-    const currentPage = newState.currentPage;
 
     if (newState.currentType === "all") {
-      newState.list.currentTypeList = list.listAllList;
-      newState.list.currentViewList = list.listAllList[currentPage];
-
-      if (newState.currentPage === list.listAllList.length) {
-        newState.currentPage = 0;
-        list.currentViewIndex = 0;
-      }
-
-      newState.list.currentViewList =
-        newState.list.listAllList[newState.currentPage];
+      return this.updateAllList(newState);
     } else {
-      const listData = list.listAllList
-        .map((data) => {
-          const list = data.pressList
-            .filter((pressData) =>
-              newState.subscribedPress.includes(pressData.pressLogoAlt)
-            )
-            .map((pressData) => ({
-              title: pressData.pressLogoAlt,
-              pressList: [pressData],
-            }));
+      return this.updateSubList(newState);
+    }
+  }
 
-          return list;
-        })
-        .flat();
+  private updateAllList(state: newsStandState) {
+    const list = state.list;
+    const currentPage = state.currentPage;
 
+    state.list.currentTypeList = list.listAllList;
+    state.list.currentViewList = list.listAllList[currentPage];
+
+    if (state.currentPage === list.listAllList.length) {
+      state.currentPage = 0;
       list.currentViewIndex = 0;
-      newState.list.currentTypeList = listData;
-      newState.list.currentViewList = listData[currentPage];
     }
 
-    return newState;
+    state.list.currentViewList = state.list.listAllList[state.currentPage];
+
+    return state;
+  }
+
+  private updateSubList(state: newsStandState) {
+    const listData = state.list.listAllList
+      .map((data) => this.filterSubscribedPress(state, data))
+      .flat();
+
+    state.list.currentViewIndex = 0;
+    state.list.currentTypeList = listData;
+    state.list.currentViewList = listData[state.currentPage];
+
+    return state;
+  }
+
+  private filterSubscribedPress(state: newsStandState, data: ListDataType) {
+    return data.pressList
+      .filter((pressData) =>
+        state.subscribedPress.includes(pressData.pressLogoAlt)
+      )
+      .map((pressData) => ({
+        title: pressData.pressLogoAlt,
+        pressList: [pressData],
+      }));
   }
 
   private incrementTick(state: newsStandState): newsStandState {
