@@ -26,7 +26,6 @@
 
 .field_tab__item[data-active='true'] {
   width: 166px;
-  background-color: var(--primary);
 }
 
 .field_tab__item[data-active='true'] a,
