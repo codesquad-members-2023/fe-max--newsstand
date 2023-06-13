@@ -52,6 +52,13 @@ export class MainView {
   updateArrowVisibility() {
     const state = this.store.getState();
 
+    if (state.currentView === StateConst.LIST_VIEW) {
+      this.$prevButton.className = "main-view__left-arrow";
+      this.$nextButton.className = "main-view__right-arrow";
+
+      return;
+    }
+
     if (state.currentTab === StateConst.ALL_PRESS) {
       const { currentPage, lastPage } = state.gridState;
       const isFirstPage = currentPage === 1;
