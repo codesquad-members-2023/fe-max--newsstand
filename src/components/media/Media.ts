@@ -1,168 +1,234 @@
 import { actions } from "../../actions/actions";
-import { stopInterval, startInterval } from "../../app";
+import { ARTICLE_MOVE_TIME, SCROLL_AMOUNT } from "../../constants/constant";
+import { getState, subscribe } from "../../store/store";
+import { Arrow, renderArrow } from "./Arrow";
+import { Grid } from "./Grid";
+import { List } from "./List";
+import { Press, renderPressTab } from "./Press";
+import { ViewTab, renderViewTab } from "./ViewTab";
+import { UnSubsAlert, closeUnSubsAlert, renderUnSubsAlert } from "./unSubsAlert";
 
-import { State, getState } from "../../store/store";
+export const Media = (pressData: any) => {
+  let progInterval: NodeJS.Timeout | null = null;
+  let isDown = false;
+  let startX: number;
+  let scrollLeft: number;
 
-export const Media = () => {
-  const prevButton = document.querySelector(".prev-button") as HTMLElement;
-  const nextButton = document.querySelector(".next-button") as HTMLElement;
-  const gridModeTab = document.querySelector(".view-tab__grid") as HTMLElement;
-  const listModeTab = document.querySelector(".view-tab__list") as HTMLElement;
-  const grid = document.querySelector(".grid-view") as HTMLElement;
-  const list = document.querySelector(".list-view") as HTMLElement;
-  const totalPress = document.querySelector(".press-tab__total") as HTMLElement;
-  const mySubsPress = document.querySelector(".press-tab__my-subs") as HTMLElement;
-  const totalMedia = document.querySelector(".total-media");
-  const unSubsAlert = document.querySelector(".unsubs-alert") as HTMLElement;
+  const media = document.querySelector(".media") as HTMLElement;
+  const grid = Grid(pressData.randomImageData);
+  const list = List(pressData.totalPressData);
 
   const render = () => {
-    const state = getState();
-    const { currentPage, currentLastPage, currentViewMode, subsPress, currentPressMode } = state;
-    // const isTotal = currentPressMode === "total";
-    renderViewMode(state);
-    console.log(subsPress.length === 0);
-
-    if (currentPressMode === "subs" && subsPress.length === 0) {
-      console.log("화살표없어야함");
-      prevButton.style.display = "none";
-      nextButton.style.display = "none";
-      return;
-    }
-    if (currentViewMode === "grid") {
-      prevButton.style.display = currentPage === 1 ? "none" : "block";
-      nextButton.style.display = currentPage < currentLastPage ? "block" : "none";
-      return;
-    }
-    prevButton.style.display = "block";
-    nextButton.style.display = "block";
-  };
-
-  function renderViewMode(state: State) {
-    const { currentViewMode, currentPressMode } = state;
+    const { currentViewMode } = getState();
     const isGridMode = currentViewMode === "grid";
-    const isTotalPressMode = currentPressMode === "total";
-
-    totalPress.style.cssText = isTotalPressMode
-      ? "line-height: 19.09px; font-weight: 700; color: #000;"
-      : "line-height: 22px; font-weight: 500; color: #879298;";
-
-    mySubsPress.style.cssText = isTotalPressMode
-      ? "line-height: 22px; font-weight: 500; color: #879298;"
-      : "line-height: 19.09; font-weight: 700; color: #000;";
-
-    grid.style.display = isGridMode ? "grid" : "none";
-    gridModeTab.querySelector("path")!.style.fill = isGridMode ? "#4362D0" : "#d2dae0";
-
-    list.style.display = isGridMode ? "none" : "flex";
-    listModeTab.querySelector("path")!.style.fill = isGridMode ? "#d2dae0" : "#4362D0";
-  }
-
-  const setEvent = () => {
-    totalMedia?.addEventListener("click", (e) => handleClick(e));
-  };
-  function renderUnSubsAlert(pressName: string) {
-    const { currentPressMode } = getState();
-
-    if (currentPressMode === "total") return;
-
-    unSubsAlert.innerHTML = `
-    <div class="text-wrapper">
-      <div class="text"><span>${pressName}</span>을(를)<br>
-      구독해지하시겠습니까?</div>
-    </div>
-    <div class="buttons">
-      <button class="button yes">예, 해지합니다</button>
-      <button class="button no">아니오</button>
+    media!.innerHTML = `
+    <div class="total-media">
+      <div class="total-media__tab-bar">
+        ${Press()}
+        ${ViewTab()}
+      </div>
+      ${Arrow()}
+      <div class="media-view">
+        ${isGridMode ? grid.template() : list.template()}
+      </div>
+      <div class="snack">내가 구독한 언론사에 추가되었습니다.</div>
+      ${UnSubsAlert()}
     </div>
     `;
-    unSubsAlert.style.display = "flex";
-  }
-  function handleTotalPress() {
+  };
+
+  render();
+
+  const mediaView = document.querySelector(".media-view") as HTMLElement;
+  const totalPress = document.querySelector(".press-tab__total") as HTMLElement;
+  const mySubsPress = document.querySelector(".press-tab__my-subs") as HTMLElement;
+  const gridModeTab = document.querySelector(".view-tab__grid") as HTMLElement;
+  const listModeTab = document.querySelector(".view-tab__list") as HTMLElement;
+  const prevButton = document.querySelector(".prev-button") as HTMLElement;
+  const nextButton = document.querySelector(".next-button") as HTMLElement;
+
+  renderPressTab(totalPress, mySubsPress);
+  renderViewTab(gridModeTab, listModeTab);
+  renderArrow(prevButton, nextButton);
+  renderMediaView();
+
+  subscribe(() => renderPressTab(totalPress, mySubsPress));
+  subscribe(() => renderViewTab(gridModeTab, listModeTab));
+  subscribe(() => renderArrow(prevButton, nextButton));
+  subscribe(renderMediaView);
+
+  const setEvent = () => {
+    media.addEventListener("click", (e) => handleMediaClick(e));
+    media.addEventListener("mouseover", (e) => handleMediaOver(e));
+    mediaView.addEventListener("mouseout", (e) => handleMouseOut(e));
+    media.addEventListener("mousedown", (e) => handleMouseDown(e));
+    media.addEventListener("mousemove", (e) => handleMouseMove(e));
+    media.addEventListener("mouseup", (e) => handleMouseUp(e));
+    mediaView.addEventListener("mouseleave", handleMediaLeave);
+  };
+
+  setEvent();
+  startInterval();
+
+  function renderMediaView() {
     const { currentViewMode } = getState();
-    currentViewMode === "grid" ? gridTotalPress() : listTotalPress();
-  }
-  function gridTotalPress() {
-    actions.switchGridTotal();
-  }
-  function listTotalPress() {
-    actions.switchListTotal();
+    const isGridMode = currentViewMode === "grid";
+
+    isGridMode ? grid.render() : list.render();
   }
 
-  function handleMySubsPress() {
-    const { currentViewMode } = getState();
-    currentViewMode === "grid" ? gridSubsPress() : listSubsPress();
-  }
-  function gridSubsPress() {
-    actions.switchGridSubs();
-  }
-  function listSubsPress() {
-    actions.switchListSubs();
+  function startInterval() {
+    if (progInterval) return;
+    progInterval = setInterval(() => {
+      const { currentViewMode } = getState();
+      if (currentViewMode === "list") {
+        actions.goNextPage();
+      }
+    }, ARTICLE_MOVE_TIME);
   }
 
-  function handleClick(e: Event) {
+  function stopInterval() {
+    if (progInterval) {
+      clearInterval(progInterval);
+      progInterval = null;
+    }
+  }
+
+  function handleMediaClick(e: Event) {
     const target = e.target as HTMLElement;
-    if (target.closest(".press-tab__total")) {
-      handleTotalPress();
+    if (target.className === "prev-button") {
+      stopInterval();
+      actions.goPrevPage();
+      startInterval();
       return;
     }
-    if (target.closest(".press-tab__my-subs")) {
-      handleMySubsPress();
+    if (target.className === "next-button") {
+      stopInterval();
+      actions.goNextPage();
+      startInterval();
       return;
     }
-    if (target.closest(".prev-button")) {
-      handleClickPrev();
+    if (target.closest(".grid-overlay__button")) {
+      grid.toggleSubs(target);
       return;
     }
-    if (target.closest(".next-button")) {
-      handleClickNext();
-      return;
-    }
+
     if (target.closest(".view-tab__grid")) {
-      handleClickGridMode();
+      actions.switchGridMode();
       return;
     }
     if (target.closest(".view-tab__list")) {
-      handleClickListMode();
+      actions.switchListMode();
+      return;
+    }
+    if (target.className === "press-tab__total") {
+      actions.switchTotalMode();
+      return;
+    }
+    if (target.className === "press-tab__my-subs") {
+      actions.switchSubsMode();
+      return;
+    }
+    if (target.closest(".article")) {
+      stopInterval();
+      list.handleClickArticle(target);
+      startInterval();
+      return;
+    }
+    if (target.closest(".press-subs-button")) {
+      stopInterval();
+      list.handleClickSubs(target);
+      startInterval();
+      return;
+    }
+    if (target.className === "button no") {
+      closeUnSubsAlert();
+      return;
+    }
+    if (target.className === "button yes") {
+      const unSubsAlert = target.closest(".unsubs-alert") as HTMLElement;
+      const pressName = unSubsAlert.querySelector("span")!.textContent!;
+      closeUnSubsAlert();
+      stopInterval();
+      actions.popSubs(pressName);
+      localStorage.removeItem("pressName");
+      startInterval();
       return;
     }
   }
 
-  function handleClickGridMode() {
-    actions.switchGridMode();
-    stopInterval();
+  function handleMediaOver(e: MouseEvent) {
+    const target = e.target as HTMLElement;
+    const relatedTarget = e.relatedTarget as HTMLElement;
+
+    if (target.className === "grid-item" && relatedTarget) {
+      const currentTarget = relatedTarget.closest(".grid-item");
+      if (target.closest(".grid-item") === currentTarget) {
+        return;
+      }
+      grid.renderGirdSubsOverlay(target);
+    }
+    if (target.className === "unsubs-button") {
+      const { currentViewMode, currentPressMode } = getState();
+      const isGridMode = currentViewMode === "grid";
+      if (currentViewMode === "grid" && currentPressMode === "total") return;
+      const pressName = isGridMode ? grid.unSubsPress(target) : list.unSubsPress(target);
+
+      renderUnSubsAlert(pressName);
+    }
   }
 
-  function handleClickListMode() {
-    actions.switchListMode();
-    startInterval();
+  function handleMouseOut(e: MouseEvent) {
+    const target = e.target as HTMLElement;
+    const relatedTarget = e.relatedTarget as HTMLElement;
+
+    if (target.closest(".list-view__field-tab")) {
+      const currentTarget = relatedTarget.closest(".list-view__field-tab");
+      if (target.closest(".list-view__field-tab") === currentTarget) {
+        return;
+      }
+      isDown = false;
+      target.classList.remove("active");
+    }
   }
 
-  function handleClickPrev() {
+  function handleMouseDown(e: MouseEvent) {
+    const target = e.target as HTMLElement;
+
+    if (target.closest(".list-view__field-tab")) {
+      const slider = target.closest(".list-view__field-tab") as HTMLElement;
+      isDown = true;
+      slider.classList.add("active");
+      startX = e.pageX - slider.offsetLeft;
+      scrollLeft = slider.scrollLeft;
+    }
+  }
+
+  function handleMouseMove(e: MouseEvent) {
+    const target = e.target as HTMLElement;
+    if (target.closest(".list-view__field-tab")) {
+      if (!isDown) return;
+      const slider = target.closest(".list-view__field-tab") as HTMLElement;
+      e.preventDefault();
+      const x = e.pageX - slider.offsetLeft;
+      const walk = (x - startX) * SCROLL_AMOUNT;
+
+      slider.scrollLeft = scrollLeft - walk;
+    }
+  }
+
+  function handleMouseUp(e: MouseEvent) {
+    const target = e.target as HTMLElement;
+    if (target.closest(".list-view__field-tab")) {
+      const slider = target.closest(".list-view__field-tab") as HTMLElement;
+      isDown = false;
+      slider.classList.remove("active");
+    }
+  }
+
+  function handleMediaLeave() {
     const { currentViewMode } = getState();
-    currentViewMode === "grid" ? clickPrevGrid() : clickPrevList();
+    const isGrid = currentViewMode === "grid";
+    if (isGrid) grid.resetGridSubsOverlay();
   }
-  function clickPrevGrid() {
-    actions.gridPrevPage();
-  }
-  function clickPrevList() {
-    stopInterval();
-    actions.listPrevPage();
-    startInterval();
-  }
-
-  function handleClickNext() {
-    const { currentViewMode } = getState();
-    currentViewMode === "grid" ? clickNextGrid() : clickNextList();
-  }
-  function clickNextGrid() {
-    actions.gridNextPage();
-  }
-
-  function clickNextList() {
-    stopInterval();
-    actions.listNextPage();
-    startInterval();
-  }
-
-  return { setEvent, render, renderUnSubsAlert };
 };
