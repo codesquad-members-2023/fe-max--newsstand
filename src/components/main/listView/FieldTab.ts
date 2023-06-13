@@ -27,13 +27,25 @@ export class FieldTab {
     });
   }
 
-  updateView({ news, fields }: { news: NewsData | null; fields: FieldData[] }) {
+  updateView({
+    news,
+    fields,
+    mainViewerInfo
+  }: {
+    news: NewsData | null;
+    fields: FieldData[];
+    mainViewerInfo: {
+      targetMedia: 'total' | 'subscribed';
+      viewer: 'listView' | 'gridView';
+    };
+  }) {
+
     if (this.fields.length !== fields.length) {
       this.fields = fields.map(() => new Field());
       this.fields.forEach((field) => this.container.append(field.element));
     }
     if (news) {
-      this.fields.forEach((field, index) => field.updateView(fields[index]!, news));
+      this.fields.forEach((field, index) => field.updateView({ field: fields[index]!, news, viewer: mainViewerInfo.viewer}));
     }
   }
 }

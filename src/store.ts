@@ -25,7 +25,7 @@ const state: {
   },
   subscribedMedias: getSubscribedMedias(),
   targetMedia: 'total',
-  viewer: 'listView',
+  viewer: 'gridView',
   news: null,
   fields: [],
   listIndex: 0,
@@ -44,13 +44,16 @@ export const invoke = (action: Action) => {
     case 'turnOnSubscriptionCover':
       state.gridInfo.isHover = action.payload.hoverOnGrid;
       state.gridInfo.hoverIndex = action.payload.hoveredCellIndex;
+
       break;
     case 'turnOffSubscriptionCover':
       state.gridInfo.isHover = action.payload.hoverOnGrid;
       state.gridInfo.hoverIndex = -1;
+
       break;
     case 'initGridImages':
       state.gridInfo.imgs = action.payload.images;
+
       changeArrowStates();
       break;
     case 'updateSubscribedMedia':
@@ -61,6 +64,7 @@ export const invoke = (action: Action) => {
           (name) => name !== action.payload.name
         );
       }
+
       setSubscribedMedias(state.subscribedMedias);
       state.subscribedMedias = getSubscribedMedias();
       break;
@@ -69,38 +73,50 @@ export const invoke = (action: Action) => {
       if (!news) {
         return;
       }
+
       state.news = news;
       state.fields.forEach((field) => {
         field.active = field.name === news.category;
       });
       state.listIndex = Number(news.index);
+
       changeArrowStates();
       break;
     case 'initFieldData':
       const fields = action.payload.fields;
+
       state.fields = fields.map((field) => {
         return {
           name: field,
           active: field === state.news?.category
         };
       });
+
       break;
     case 'onClickLeftArrow':
       if (state.viewer === 'gridView') {
         decreaseGridPage();
+        changeArrowStates();
       } else {
         decreaseListIndex();
         fetchNewsData(state.listIndex);
       }
-      changeArrowStates();
+
       break;
     case 'onClickRightArrow':
       if (state.viewer === 'gridView') {
         increaseGridPage();
+        changeArrowStates();
       } else {
         increaseListIndex();
         fetchNewsData(state.listIndex);
       }
+
+      break;
+    case 'changeViewer':
+      state.viewer = action.payload.viewer;
+
+      resetViewerStates();
       changeArrowStates();
       break;
   }
@@ -114,7 +130,6 @@ const increaseGridPage = () => {
 
 const decreaseGridPage = () => {
   state.gridInfo.page = (state.gridInfo.page - 1 + GRID_PAGE_LIMIT) % GRID_PAGE_LIMIT;
-  changeArrowStates();
 };
 
 const increaseListIndex = () => {
@@ -144,4 +159,24 @@ export const fetchNewsData = async (index: number = 0, category: string = '') =>
       news: await getNewsList(index, category)
     }
   });
+};
+
+export const resetViewerStates = () => {
+  resetGridViewStates();
+  resetListViewStates();
+};
+
+export const resetGridViewStates = () => {
+  state.gridInfo = {
+    imgs: [],
+    page: 0,
+    isHover: false,
+    hoverIndex: -1
+  };
+};
+
+export const resetListViewStates = () => {
+  state.fields = [];
+  state.listIndex = 0;
+  state.news = null;
 };

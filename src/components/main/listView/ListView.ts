@@ -9,6 +9,10 @@ type ListViewProps = {
   subscriptionInfo: string[];
   fields: FieldData[];
   listIndex: number;
+  mainViewerInfo: {
+    targetMedia: 'total' | 'subscribed';
+    viewer: 'listView' | 'gridView';
+  };
 };
 
 export class ListView {

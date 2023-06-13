@@ -55,12 +55,18 @@ type Action =
   | {
       type: 'onClickRightArrow';
     }
-    | {
+  | {
       type: 'moveToOtherField';
       payload: {
         news: NewsData | null;
       };
     }
+  | {
+      type: 'changeViewer';
+      payload: {
+        viewer: 'gridView' | 'listView'
+      }
+    };
 
 type GridImg = {
   id: number;
@@ -100,7 +106,7 @@ type NewsData = {
     url: string;
   }[];
   category: string;
-  index: number,
+  index: number;
   order: number;
   categoryCount: number;
   totalCount: number;

@@ -7,7 +7,7 @@ export class Field {
   private link = createElement('a', { href: '#' });
   private counter = createElement('span');
   private news: NewsData | null = null;
-  private animationId: number | null = null;
+  public animationId: number | null = null;
 
   constructor() {
     this.element.append(this.link, this.counter);
@@ -21,10 +21,18 @@ export class Field {
       if (fieldName) {
         fetchNewsData(0, fieldName);
       }
-    })
+    });
   }
 
-  updateView(field: FieldData, news: NewsData) {
+  updateView({
+    field,
+    news,
+    viewer
+  }: {
+    field: FieldData;
+    news: NewsData;
+    viewer: 'gridView' | 'listView';
+  }) {
     this.link.textContent = field.name;
 
     this.element.setAttribute('data-active', field.active.toString());
@@ -34,7 +42,7 @@ export class Field {
       this.initProgressBarAnimation();
       this.news = news;
     }
-    if (!field.active) {
+    if (viewer !== 'listView' || !field.active) {
       this.cancelProgressBarAnimation();
       this.element.style.background = '';
     }
@@ -42,15 +50,15 @@ export class Field {
 
   initProgressBarAnimation() {
     let start = performance.now();
+    const DURATION = 3000;
     const step = () => {
       const now = performance.now();
-      const duration = 3000;
       const elapsedTime = now - start;
-      const percentage = (elapsedTime / duration) * 100;
+      const percentage = (elapsedTime / DURATION) * 100;
       this.updateProgressBarColor(percentage);
 
       this.animationId = requestAnimationFrame(step);
-      if (elapsedTime >= duration) {
+      if (elapsedTime >= DURATION) {
         this.moveToNextNews();
         start = performance.now();
       }
@@ -72,6 +80,6 @@ export class Field {
   moveToNextNews() {
     invoke({
       type: 'onClickRightArrow'
-    })
+    });
   }
 }

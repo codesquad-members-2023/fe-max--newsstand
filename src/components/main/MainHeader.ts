@@ -1,3 +1,4 @@
+import { invoke } from '../../store';
 import { createElement } from '../../utils/domUtils';
 import style from './MainHeader.module.css';
 
@@ -22,8 +23,6 @@ export default class MainHeader {
     const viewerNav = this.createNavElement('viewer');
 
     this.element.append(tabNav, viewerNav);
-
-    this.render(props);
     this.setEvent();
   }
 
@@ -54,7 +53,7 @@ export default class MainHeader {
       const anchor = createElement('a', {
         href: '#',
         class: style.viewer_item,
-        'data-state': icon.state
+        'data-viewer': icon.state
       });
       const img = createElement('img', {
         src: icon.src,
@@ -86,7 +85,7 @@ export default class MainHeader {
     return nav;
   }
 
-  private render(props: MainHeaderProps) {
+  updateView(props: MainHeaderProps) {
     this.updateTabs(props.mainViewerInfo.targetMedia);
     this.updateViewers(props.mainViewerInfo.viewer);
   }
@@ -100,10 +99,25 @@ export default class MainHeader {
 
   private updateViewers(viewerState: 'listView' | 'gridView') {
     for (const viewer of this.viewers) {
-      const isActiveViewer = viewer.getAttribute('data-state') === viewerState;
+      const isActiveViewer = viewer.getAttribute('data-viewer') === viewerState;
       viewer.classList.toggle(style.active_viewer!, isActiveViewer);
     }
   }
 
-  private setEvent() {}
+  private setEvent() {
+    this.viewers.forEach((viewer) => {
+      viewer.addEventListener('click', () => {
+        const viewerName = viewer.getAttribute('data-viewer');
+        const isActiveViewer = viewer.classList.contains(style.active_viewer!);
+        if (viewerName && !isActiveViewer) {
+          invoke({
+            type: 'changeViewer',
+            payload: {
+              viewer: viewerName as 'gridView' | 'listView'
+            }
+          })
+        }
+      })
+    })
+  }
 }
