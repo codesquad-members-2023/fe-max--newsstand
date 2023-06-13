@@ -1,12 +1,12 @@
-@use 'color.scss';
-@use 'font.scss';
-@use 'reset.scss';
+@use "color.scss";
+@use "font.scss";
+@use "reset.scss";
 
-@use 'header.scss';
-@use 'roller.scss';
-@use 'media.scss';
+@use "header.scss";
+@use "roller.scss";
+@use "media.scss";
 
-#app {
+#root {
   font-family: font.$Pretendard;
   padding: 0 175px;
 

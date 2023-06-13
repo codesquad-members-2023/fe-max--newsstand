@@ -1,31 +1,29 @@
 // import { UPDATE_NAME } from "../constants/ActionTypes";
 import {
-  AUTO_NEXT_PAGE,
-  GRID_NEXT_PAGE,
-  GRID_PREV_PAGE,
-  LIST_NEXT_PAGE,
-  LIST_PREV_PAGE,
+  // AUTO_NEXT_PAGE,
+  GO_NEXT_PAGE,
+  GO_PREV_PAGE,
   POP_SUBS,
   PUSH_SUBS,
-  SET_ARTICLE_INDEX,
-  SET_LIST_LAST_PAGE,
   SWITCH_GRID_MODE,
-  SWITCH_GRID_SUBS,
-  SWITCH_GRID_TOTAL,
   SWITCH_LIST_MODE,
-  SWITCH_LIST_SUBS,
-  SWITCH_LIST_TOTAL,
+  SWITCH_SUBS_MODE,
+  SWITCH_TOTAL_MODE,
   UPDATE_NEWS,
-  UPDATE_SUBS,
+  // UPDATE_SUBS,
+
+  // RESET_ARTICLE_INDEX,
+  SET_ARTICLE_INDEX,
+  // SET_LIST_LAST_PAGE,
 } from "../constants/ActionTypes";
 import { dispatch } from "../dispatcher/dispatcher";
 
 export const actions = {
-  gridNextPage: () => {
-    dispatch({ type: GRID_NEXT_PAGE });
+  goNextPage: () => {
+    dispatch({ type: GO_NEXT_PAGE });
   },
-  gridPrevPage: () => {
-    dispatch({ type: GRID_PREV_PAGE });
+  goPrevPage: () => {
+    dispatch({ type: GO_PREV_PAGE });
   },
   switchGridMode: () => {
     dispatch({ type: SWITCH_GRID_MODE });
@@ -33,21 +31,27 @@ export const actions = {
   switchListMode: () => {
     dispatch({ type: SWITCH_LIST_MODE });
   },
-  updateSubs: (subs: string[]) => {
-    dispatch({ type: UPDATE_SUBS, payload: subs });
+  switchTotalMode: () => {
+    dispatch({ type: SWITCH_TOTAL_MODE });
   },
-  setListLastPage: (totalPress: number) => {
-    dispatch({ type: SET_LIST_LAST_PAGE, payload: totalPress });
+  switchSubsMode: () => {
+    dispatch({ type: SWITCH_SUBS_MODE });
   },
-  autoNextPage: () => {
-    dispatch({ type: AUTO_NEXT_PAGE });
+  updateNews: (data: object) => {
+    dispatch({ type: UPDATE_NEWS, payload: data });
   },
-  listNextPage: (payloads?: object) => {
-    dispatch({ type: LIST_NEXT_PAGE, payload: payloads });
-  },
-  listPrevPage: (payloads?: object) => {
-    dispatch({ type: LIST_PREV_PAGE, payload: payloads });
-  },
+  // updateSubs: (subs: string[]) => {
+  //   dispatch({ type: UPDATE_SUBS, payload: subs });
+  // },
+  // setListLastPage: (totalPress: number) => {
+  //   dispatch({ type: SET_LIST_LAST_PAGE, payload: totalPress });
+  // },
+  // autoNextPage: () => {
+  //   dispatch({ type: AUTO_NEXT_PAGE });
+  // },
+  // resetArticleIndex: () => {
+  //   dispatch({ type: RESET_ARTICLE_INDEX });
+  // },
   setArticleIndex: (index: object) => {
     dispatch({ type: SET_ARTICLE_INDEX, payload: index });
   },
@@ -56,20 +60,5 @@ export const actions = {
   },
   popSubs: (pressName: string) => {
     dispatch({ type: POP_SUBS, payload: pressName });
-  },
-  updateNews: (data: object) => {
-    dispatch({ type: UPDATE_NEWS, payload: data });
-  },
-  switchGridTotal: () => {
-    dispatch({ type: SWITCH_GRID_TOTAL });
-  },
-  switchGridSubs: () => {
-    dispatch({ type: SWITCH_GRID_SUBS });
-  },
-  switchListTotal: () => {
-    dispatch({type: SWITCH_LIST_TOTAL})
-  },
-  switchListSubs: () => {
-    dispatch({ type: SWITCH_LIST_SUBS });
   },
 };
