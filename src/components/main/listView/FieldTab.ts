@@ -1,4 +1,4 @@
-import { invoke } from '../../../main';
+import { invoke } from '../../../store';
 import { getNewsFields } from '../../../utils/dataUtils';
 import { createElement } from '../../../utils/domUtils';
 import { Field } from './Field';

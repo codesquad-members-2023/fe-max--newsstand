@@ -1,6 +1,8 @@
-import { invoke } from '../../../main';
+import { invoke } from '../../../store';
 import { createElement } from '../../../utils/domUtils';
 import { SubscriptionCover } from './SubscriptionCover';
+import { getGridImgs } from '../../../utils/dataUtils';
+import { shuffleArray } from '../../../utils/commonUtils';
 import style from './GridView.module.css';
 
 type GridViewProps = {
@@ -27,7 +29,18 @@ export default class GridView {
     this.props = this.updateProps(props);
     this.updateView(props);
     this.setEvent();
+
+    this.initGridImgs();
   }
+
+  async initGridImgs() {
+    invoke({
+      type: 'initGridImages',
+      payload: {
+        images: shuffleArray(await getGridImgs())
+      }
+    });
+  };
 
   private createCells() {
     return [...Array(this.numberOfCells)].map((_, index) => {

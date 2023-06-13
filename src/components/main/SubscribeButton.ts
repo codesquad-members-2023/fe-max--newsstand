@@ -1,4 +1,4 @@
-import { invoke } from '../../main';
+import { invoke } from '../../store';
 import { createElement } from '../../utils/domUtils';
 
 export class SubscribeButton {
