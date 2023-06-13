@@ -54,7 +54,13 @@ type Action =
     }
   | {
       type: 'onClickRightArrow';
-    };
+    }
+    | {
+      type: 'moveToOtherField';
+      payload: {
+        news: NewsData | null;
+      };
+    }
 
 type GridImg = {
   id: number;
@@ -94,6 +100,7 @@ type NewsData = {
     url: string;
   }[];
   category: string;
+  index: number,
   order: number;
   categoryCount: number;
   totalCount: number;

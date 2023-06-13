@@ -10,8 +10,8 @@ export const getHeadlineNews = async ():Promise<HeadlineNews[]> => {
   return await response.json();
 }
 
-export const getNewsList = async (index:number) => {
-  const response = await fetch(`${serverUrl}/newsList?index=${index}`);
+export const getNewsList = async (index:number, category: string = '') => {
+  const response = await fetch(`${serverUrl}/newsList?index=${index}&category=${category}`);
   return await response.json();
 }
 

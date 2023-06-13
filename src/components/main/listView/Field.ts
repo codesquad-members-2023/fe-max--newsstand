@@ -1,3 +1,4 @@
+import { fetchNewsData, invoke } from '../../../store';
 import { createElement } from '../../../utils/domUtils';
 import style from '../listView/ListView.module.css';
 
@@ -10,6 +11,17 @@ export class Field {
 
   constructor() {
     this.element.append(this.link, this.counter);
+
+    this.setEvent();
+  }
+
+  setEvent() {
+    this.element.addEventListener('click', () => {
+      const fieldName = this.link.textContent;
+      if (fieldName) {
+        fetchNewsData(0, fieldName);
+      }
+    })
   }
 
   updateView(field: FieldData, news: NewsData) {
@@ -39,6 +51,7 @@ export class Field {
 
       this.animationId = requestAnimationFrame(step);
       if (elapsedTime >= duration) {
+        this.moveToNextNews();
         start = performance.now();
       }
     };
@@ -54,5 +67,11 @@ export class Field {
       cancelAnimationFrame(this.animationId);
       this.animationId = null;
     }
+  }
+
+  moveToNextNews() {
+    invoke({
+      type: 'onClickRightArrow'
+    })
   }
 }

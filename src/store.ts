@@ -73,6 +73,7 @@ export const invoke = (action: Action) => {
       state.fields.forEach((field) => {
         field.active = field.name === news.category;
       });
+      state.listIndex = Number(news.index);
       changeArrowStates();
       break;
     case 'initFieldData':
@@ -136,11 +137,11 @@ const changeArrowStates = () => {
   state.arrowInfo.right = state.gridInfo.page !== 3;
 };
 
-export const fetchNewsData = async (index: number) => {
+export const fetchNewsData = async (index: number = 0, category: string = '') => {
   invoke({
     type: 'initNewsData',
     payload: {
-      news: await getNewsList(index)
+      news: await getNewsList(index, category)
     }
   });
 };
