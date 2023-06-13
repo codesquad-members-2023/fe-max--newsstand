@@ -27,7 +27,7 @@ describe("MainView updateArrowVisibility method tests", () => {
       mainView.updateArrowVisibility();
 
       expect(mainView.$prevButton.className).toBe("main-view__left-arrow");
-      expect(mainView.$nextButton.className).toBe("main-view__next-arrow");
+      expect(mainView.$nextButton.className).toBe("main-view__right-arrow");
     });
   });
 
