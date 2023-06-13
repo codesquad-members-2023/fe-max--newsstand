@@ -10,17 +10,19 @@ export type TGridViewDataItem = {
 
 export type TListViewDataItem = {
   categoryName: string;
-  pressList: {
-    pressLogoSrc: string;
-    pressLogoAlt: string;
-    lastEditted: string;
-    mainArticle: {
-      thumbnailSrc: string;
-      thumbnailAlt: string;
-      mainArticleTitle: string;
-    };
-    subArticles: string[];
-  }[];
+  pressList: TPressListItem[];
+};
+
+export type TPressListItem = {
+  pressLogoSrc: string;
+  pressLogoAlt: string;
+  lastEditted: string;
+  mainArticle: {
+    thumbnailSrc: string;
+    thumbnailAlt: string;
+    mainArticleTitle: string;
+  };
+  subArticles: string[];
 };
 
 export type TListViewProps = {
