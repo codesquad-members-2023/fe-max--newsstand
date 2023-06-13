@@ -14,6 +14,9 @@ export enum StateConst {
   ALL_PRESS = "all-press",
   SUBSCRIBE_PRESS = "subscribed-press",
   ITEM_PER_PAGE = 24,
+
+  LIST_VIEW = "list-view",
+  GRID_VIEW = "grid-view",
 }
 
 export enum ActionType {

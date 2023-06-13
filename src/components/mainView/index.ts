@@ -11,6 +11,7 @@ export interface Press {
 
 export interface MainViewState {
   currentTab: StateConst.ALL_PRESS | StateConst.SUBSCRIBE_PRESS;
+  currentView: StateConst.LIST_VIEW | StateConst.GRID_VIEW;
 
   gridState: {
     pressList: Press[];
@@ -22,6 +23,7 @@ export interface MainViewState {
 
 const initialState: MainViewState = {
   currentTab: StateConst.ALL_PRESS,
+  currentView: StateConst.GRID_VIEW,
 
   gridState: {
     pressList: [],
