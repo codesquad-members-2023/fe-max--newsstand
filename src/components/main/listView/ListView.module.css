@@ -74,16 +74,23 @@
 }
 
 .main_article {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   padding: 0px;
   gap: 16px;
+  overflow: hidden;
 }
 
 .thumbnail {
   width: 320px;
   height: 200px;
+  transition: transform 0.2s ease;
+}
+
+.thumbnail:hover {
+  transform: scale(1.05);
 }
 
 .main_title {
