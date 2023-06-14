@@ -23,7 +23,7 @@ const shuffleArray = (target: Images) => {
   return target;
 };
 
-const fetchHeadlinesData = async () => {
+export const fetchHeadlinesData = async () => {
   try {
     const data = await fetchAPI(BASE_URL + "/headlines");
     return data.headlines;
@@ -32,7 +32,7 @@ const fetchHeadlinesData = async () => {
   }
 };
 
-const fetchPressData = async () => {
+export const fetchPressData = async () => {
   try {
     const totalPressData = await fetchAPI(BASE_URL + "/list");
     const pressImageData = totalPressData.flatMap((item: any) =>
@@ -54,8 +54,8 @@ const initApp = async () => {
 
   Header();
 
-  const headlines = await fetchHeadlinesData();
-  Roller(headlines);
+  // const headlines = await fetchHeadlinesData();
+  // Roller(headlines);
 
   const pressData = await fetchPressData();
   Media(pressData);

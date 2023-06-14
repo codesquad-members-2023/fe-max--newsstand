@@ -9,7 +9,6 @@ export function Arrow() {
 export function renderArrow(prevButton:HTMLElement,nextButton:HTMLElement) {
   const { currentPage, currentLastPage, currentViewMode } = getState();
   
-
   if (currentViewMode === "grid") {
     prevButton.style.display = currentPage === 1 ? "none" : "block";
     nextButton.style.display = currentPage < currentLastPage ? "block" : "none";

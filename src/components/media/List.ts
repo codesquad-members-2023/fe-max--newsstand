@@ -1,6 +1,4 @@
 import { actions } from "../../actions/actions";
-// import { renderUnSubsAlert } from "../../app";
-// import { SNACK_TIMER } from "../../constants/constant";
 import { getState } from "../../store/store";
 
 export const List = (news: []) => {
