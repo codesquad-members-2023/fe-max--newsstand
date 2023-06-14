@@ -13,4 +13,8 @@ export default {
       "@customTypes": path.resolve(__dirname, "src/types"),
     },
   },
+  test: {
+    include: ["src/**/*.test.ts"],
+    environment: "jsdom",
+  },
 };
