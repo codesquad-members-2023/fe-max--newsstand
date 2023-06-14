@@ -2,34 +2,41 @@ import { $ } from "@utils/domUtils";
 import { MainView } from "./mainView";
 import { createStore } from "@store/store";
 import { reducer } from "@store/reducer";
-import { StateConst } from "@store/types";
+import { LocalStorageKey, StateConst } from "@store/types";
 
-export interface PressLogo {
+export interface Press {
   src: string;
   alt: string;
 }
 
 export interface MainViewState {
+  currentTab: StateConst.ALL_PRESS | StateConst.SUBSCRIBED_PRESS;
+  currentView: StateConst.LIST_VIEW | StateConst.GRID_VIEW;
+
   gridState: {
-    logos: PressLogo[];
+    pressList: Press[];
     subscribedPressList: string[];
     currentPage: number;
     lastPage: number;
-    ITEM_PER_PAGE: number;
   };
-  currentTab: StateConst.ALL_PRESS | StateConst.SUBSCRIBE_PRESS;
 }
 
-const initialState: MainViewState = {
-  gridState: {
-    logos: [],
-    subscribedPressList: [],
-    currentPage: 1,
-    lastPage: 1,
-    ITEM_PER_PAGE: 24,
-  },
-  currentTab: StateConst.ALL_PRESS,
-};
+const initialState: MainViewState = (() => {
+  const subscribedPressList = localStorage.getItem(LocalStorageKey.SUBSCRIBE_PRESS_LIST);
+  const parsedList: string[] = subscribedPressList ? JSON.parse(subscribedPressList) : [];
+
+  return {
+    currentTab: StateConst.ALL_PRESS,
+    currentView: StateConst.GRID_VIEW,
+
+    gridState: {
+      pressList: [],
+      subscribedPressList: parsedList,
+      currentPage: 1,
+      lastPage: 1,
+    },
+  };
+})();
 
 export const initMainView = async () => {
   const store = createStore<MainViewState>(initialState, reducer);

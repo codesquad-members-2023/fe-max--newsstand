@@ -1,18 +1,17 @@
-import { shuffleArray } from "@utils/shuffleArray";
 import { GridView } from "./gridView/gridView";
 import { TabAndViewer } from "./tabAndViewer";
-import { Store } from "@store/types";
-import { MainViewState, PressLogo } from ".";
+import { StateConst, Store } from "@store/types";
+import { MainViewState } from ".";
+import { createAction } from "@store/actions";
 
 export class MainView {
-  private store: Store<MainViewState>;
+  store: Store<MainViewState>;
 
   $mainView: HTMLElement = document.createElement("section");
-  private tabAndViewer: TabAndViewer;
-  private $leftArrow: HTMLElement = document.createElement("div");
-  private $rightArrow: HTMLElement = document.createElement("div");
+  tabAndViewer: TabAndViewer;
+  $prevButton: HTMLElement = document.createElement("div");
+  $nextButton: HTMLElement = document.createElement("div");
 
-  private gridStore: GridStore = new GridStore();
   private gridView: GridView;
 
   constructor(store: Store<MainViewState>) {
@@ -21,128 +20,85 @@ export class MainView {
     this.gridView = new GridView(this.store);
 
     this.initElement();
+    this.initSubscription();
     this.setEvents();
-    this.initGridViewRender();
+    this.updateArrowVisibility();
   }
 
   private initElement() {
     this.$mainView.append(this.tabAndViewer.getElement());
 
     this.$mainView.className = "main-view";
-    this.$leftArrow.className = "main-view__left-arrow";
-    this.$rightArrow.className = "main-view__right-arrow";
+    this.$prevButton.className = "main-view__left-arrow";
+    this.$nextButton.className = "main-view__right-arrow";
 
-    this.$mainView.append(this.$leftArrow, this.$rightArrow);
+    this.$mainView.append(this.$prevButton, this.$nextButton);
     this.$mainView.append(this.gridView.getElement());
   }
 
   setEvents() {
-    this.$leftArrow.addEventListener("click", () => {
-      this.gridView.prevPageRender();
-      this.updateArrowVisibility();
+    this.$prevButton.addEventListener("click", () => {
+      this.store.dispatch(createAction.prevButtonClick());
     });
 
-    this.$rightArrow.addEventListener("click", () => {
-      this.gridView.nextPageRender();
-      this.updateArrowVisibility();
+    this.$nextButton.addEventListener("click", () => {
+      this.store.dispatch(createAction.nextButtonClick());
     });
   }
 
-  updateArrowVisibility() {
-    if (this.gridStore.isFirstPage()) {
-      this.$leftArrow.className = "main-view__left-arrow--hidden";
-    } else {
-      this.$leftArrow.className = "main-view__left-arrow";
-    }
-
-    if (this.gridStore.isLastPage()) {
-      this.$rightArrow.className = "main-view__right-arrow--hidden";
-    } else {
-      this.$rightArrow.className = "main-view__right-arrow";
-    }
+  initSubscription() {
+    this.store.subscribe(this.updateArrowVisibility.bind(this));
   }
 
-  async initGridViewRender() {
-    await this.gridStore.fetchPressLogos();
-    this.gridStore.shufflePressLogos();
-    this.gridView.appendPressBoxes();
-    this.updateArrowVisibility();
-  }
-}
+  private updateArrowVisibility() {
+    const state = this.store.getState();
 
-export class GridStore {
-  private logos: PressLogo[] = [];
-  private subscribedPressList: string[] = [];
-  private currentPage: number = 1;
-  private lastPage: number = 1;
-  private ITEM_PER_PAGE: number = 24;
+    if (state.currentView === StateConst.LIST_VIEW) {
+      this.$prevButton.className = "main-view__left-arrow";
+      this.$nextButton.className = "main-view__right-arrow";
 
-  constructor() {
-    this.initSubscribedPressList();
-  }
-
-  initSubscribedPressList() {
-    const subscribedPressList = localStorage.getItem("subscribed-press-list");
-
-    this.subscribedPressList = subscribedPressList ? JSON.parse(subscribedPressList) : [];
-  }
-
-  getSubscribedPressList() {
-    return this.subscribedPressList;
-  }
-
-  setSubscribedPressList(subscribedPressList: string[]) {
-    this.subscribedPressList = subscribedPressList;
-  }
-
-  isSubscribedPress(pressName: string) {
-    return this.subscribedPressList.includes(pressName);
-  }
-
-  private setLastPage(logosLength: number) {
-    this.lastPage = Math.ceil(logosLength / this.ITEM_PER_PAGE);
-  }
-
-  getPaginatedLogos() {
-    return this.logos.slice(
-      (this.currentPage - 1) * this.ITEM_PER_PAGE,
-      this.currentPage * this.ITEM_PER_PAGE
-    );
-  }
-
-  increasePage() {
-    if (this.currentPage >= this.lastPage) {
       return;
     }
 
-    this.currentPage += 1;
-  }
+    if (state.currentTab === StateConst.ALL_PRESS) {
+      const { currentPage, lastPage } = state.gridState;
+      const isFirstPage = currentPage === 1;
+      const isLastPage = currentPage === lastPage;
 
-  decreasePage() {
-    if (this.currentPage <= 1) {
+      if (isFirstPage) {
+        this.$prevButton.className = "main-view__left-arrow--hidden";
+      } else {
+        this.$prevButton.className = "main-view__left-arrow";
+      }
+
+      if (isLastPage) {
+        this.$nextButton.className = "main-view__right-arrow--hidden";
+      } else {
+        this.$nextButton.className = "main-view__right-arrow";
+      }
+
       return;
     }
 
-    this.currentPage -= 1;
-  }
+    if (state.currentTab === StateConst.SUBSCRIBED_PRESS) {
+      const { currentPage } = state.gridState;
+      const lastPage = Math.ceil(
+        state.gridState.subscribedPressList.length / StateConst.ITEM_PER_PAGE
+      );
+      const isFirstPage = currentPage === 1;
+      const isLastPage = currentPage >= lastPage;
 
-  isFirstPage() {
-    return this.currentPage === 1;
-  }
+      if (isFirstPage) {
+        this.$prevButton.className = "main-view__left-arrow--hidden";
+      } else {
+        this.$prevButton.className = "main-view__left-arrow";
+      }
 
-  isLastPage() {
-    return this.currentPage === this.lastPage;
-  }
-
-  async fetchPressLogos() {
-    const response = await fetch("http://localhost:8080/press-logos");
-    const data = await response.json();
-
-    this.logos = data;
-    this.setLastPage(data.length);
-  }
-
-  shufflePressLogos() {
-    this.logos = shuffleArray(this.logos);
+      if (isLastPage) {
+        this.$nextButton.className = "main-view__right-arrow--hidden";
+      } else {
+        this.$nextButton.className = "main-view__right-arrow";
+      }
+    }
   }
 }

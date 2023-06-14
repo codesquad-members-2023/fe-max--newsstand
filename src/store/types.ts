@@ -1,4 +1,4 @@
-import { PressLogo } from "@components/mainView";
+import { Press } from "@components/mainView";
 
 export interface Store<T> {
   dispatch(action: Action): void;
@@ -6,25 +6,90 @@ export interface Store<T> {
   getState(): T;
 }
 
+export enum LocalStorageKey {
+  SUBSCRIBE_PRESS_LIST = "subscribed-press-list",
+}
+
 export enum StateConst {
   ALL_PRESS = "all-press",
-  SUBSCRIBE_PRESS = "subscribed-press",
+  SUBSCRIBED_PRESS = "subscribed-press",
+  ITEM_PER_PAGE = 24,
+
+  LIST_VIEW = "list-view",
+  GRID_VIEW = "grid-view",
 }
 
 export enum ActionType {
-  FETCH_PRESS_LIST = "FETCH_PRESS_LIST",
-  SHUFFLE_PRESS_LIST = "SHUFFLE_PRESS_LIST",
-  SET_SUBSCRIBED_PRESS_LIST = "SET_SUBSCRIBED_PRESS_LIST",
-  ALL_PRESS_TAB_CLICK = "ALL_PRESS_TAB_CLICK",
-  SUBSCRIBED_PRESS_TAB_CLICK = "SUBSCRIBED_PRESS_TAB_CLICK",
+  SET_PRESS_LIST,
+  UPDATE_LAST_PAGE,
+
+  PREV_BUTTON_CLICK,
+  NEXT_BUTTON_CLICK,
+
+  SET_SUBSCRIBED_PRESS_LIST,
+  SUBSCRIBE_PRESS,
+  UNSUBSCRIBE_PRESS,
+  ALL_PRESS_TAB_CLICK,
+  SUBSCRIBED_PRESS_TAB_CLICK,
 }
 
-export interface Action {
-  type: ActionType;
-  payload?: {
-    logos?: PressLogo[];
-    fn?: Function;
+interface SetPressListAction {
+  type: ActionType.SET_PRESS_LIST;
+  payload: {
+    pressList: Press[];
   };
 }
+
+interface UpdateLastPageAction {
+  type: ActionType.UPDATE_LAST_PAGE;
+}
+
+interface PrevButtonClickAction {
+  type: ActionType.PREV_BUTTON_CLICK;
+}
+
+interface NextButtonClickAction {
+  type: ActionType.NEXT_BUTTON_CLICK;
+}
+
+interface SetSubscribePressListAction {
+  type: ActionType.SET_SUBSCRIBED_PRESS_LIST;
+  payload: {
+    subscribedPressList: string[];
+  };
+}
+
+interface SubscribePressAction {
+  type: ActionType.SUBSCRIBE_PRESS | ActionType.UNSUBSCRIBE_PRESS;
+  payload: {
+    pressName: string;
+  };
+}
+
+interface UnsubscribePressAction {
+  type: ActionType.UNSUBSCRIBE_PRESS;
+  payload: {
+    pressName: string;
+  };
+}
+
+interface AllPressTabClickAction {
+  type: ActionType.ALL_PRESS_TAB_CLICK;
+}
+
+interface SubscribedPressTabClickAction {
+  type: ActionType.SUBSCRIBED_PRESS_TAB_CLICK;
+}
+
+export type Action =
+  | SetPressListAction
+  | UpdateLastPageAction
+  | PrevButtonClickAction
+  | NextButtonClickAction
+  | SetSubscribePressListAction
+  | SubscribePressAction
+  | UnsubscribePressAction
+  | AllPressTabClickAction
+  | SubscribedPressTabClickAction;
 
 export type Reducer<T> = (state: T, actions: Action) => T;

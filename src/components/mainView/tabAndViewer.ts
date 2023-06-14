@@ -7,14 +7,17 @@ export class TabAndViewer {
 
   private $tabAndViewer: HTMLElement = document.createElement("div");
   private $tab: HTMLElement = document.createElement("ul");
-  private $allPressTab: HTMLElement = document.createElement("div");
-  private $subscribedPressTab: HTMLElement = document.createElement("div");
+  private $allPressTab: HTMLElement = document.createElement("li");
+  private $subscribedPressTab: HTMLElement = document.createElement("li");
+  private $viewerButtons: HTMLElement = document.createElement("ul");
+  private $listViewButton: HTMLElement = document.createElement("li");
+  private $gridViewButton: HTMLElement = document.createElement("li");
 
   constructor(store: Store<MainViewState>) {
     this.store = store;
 
     this.initElement();
-    this.initSubscribe();
+    this.initSubscription();
     this.setEvents();
   }
 
@@ -31,26 +34,25 @@ export class TabAndViewer {
 
     this.$tab.append(this.$allPressTab, this.$subscribedPressTab);
 
-    const viewerButtons = document.createElement("ul");
-    viewerButtons.className = "tab-and-viewer__viewer-buttons";
+    this.$viewerButtons.className = "tab-and-viewer__viewer-buttons";
+    this.$listViewButton.className = "tab-and-viewer__list-view-button";
+    this.$gridViewButton.className = "tab-and-viewer__grid-view-button--selected";
 
-    const listViewButton = document.createElement("li");
-    listViewButton.className = "tab-and-viewer__list-view-button";
+    this.$viewerButtons.append(this.$listViewButton, this.$gridViewButton);
 
-    const gridViewButton = document.createElement("li");
-    gridViewButton.className = "tab-and-viewer__grid-view-button--selected";
-
-    viewerButtons.append(listViewButton, gridViewButton);
-
-    this.$tabAndViewer.append(this.$tab, viewerButtons);
+    this.$tabAndViewer.append(this.$tab, this.$viewerButtons);
   }
 
-  initSubscribe() {
+  initSubscription() {
     this.store.subscribe(this.updateTabSelection.bind(this));
+    this.store.subscribe(this.updateViewSelection.bind(this));
   }
 
   setEvents() {
     this.$tab.addEventListener("click", ({ target }) => this.handleTabClick.call(this, target));
+    this.$viewerButtons.addEventListener("click", ({ target }) =>
+      this.handleViewButtonClick.call(this, target)
+    );
   }
 
   handleTabClick(target: EventTarget | null) {
@@ -81,6 +83,36 @@ export class TabAndViewer {
     }
   }
 
+  handleViewButtonClick(target: EventTarget | null) {
+    if (!(target instanceof HTMLElement)) {
+      return;
+    }
+
+    const isAlreadySelected =
+      target.classList.contains("tab-and-viewer__list-view-button--selected") ||
+      target.classList.contains("tab-and-viewer__grid-view-button--selected");
+
+    if (isAlreadySelected) {
+      return;
+    }
+
+    const isSubscribedPressTabClick = target.classList.contains(
+      "tab-and-viewer__subscribed-press-tab"
+    );
+
+    if (isSubscribedPressTabClick) {
+      this.store.dispatch(createAction.subscribedPressTabClick());
+
+      return;
+    }
+
+    const isAllPressTabClick = target.classList.contains("tab-and-viewer__all-press-tab");
+
+    if (isAllPressTabClick) {
+      this.store.dispatch(createAction.allPressTabClick());
+    }
+  }
+
   updateTabSelection(state: MainViewState) {
     if (state.currentTab === StateConst.ALL_PRESS) {
       this.$allPressTab.className = "tab-and-viewer__all-press-tab--selected";
@@ -89,9 +121,23 @@ export class TabAndViewer {
       return;
     }
 
-    if (state.currentTab === StateConst.SUBSCRIBE_PRESS) {
+    if (state.currentTab === StateConst.SUBSCRIBED_PRESS) {
       this.$allPressTab.className = "tab-and-viewer__all-press-tab";
       this.$subscribedPressTab.className = "tab-and-viewer__subscribed-press-tab--selected";
+    }
+  }
+
+  updateViewSelection(state: MainViewState) {
+    if (state.currentView === StateConst.LIST_VIEW) {
+      this.$listViewButton.className = "tab-and-viewer__list-view-button--selected";
+      this.$gridViewButton.className = "tab-and-viewer__grid-view-button";
+
+      return;
+    }
+
+    if (state.currentView === StateConst.GRID_VIEW) {
+      this.$listViewButton.className = "tab-and-viewer__list-view-button";
+      this.$gridViewButton.className = "tab-and-viewer__grid-view-button--selected";
     }
   }
 
