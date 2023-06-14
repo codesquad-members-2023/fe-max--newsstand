@@ -13,8 +13,8 @@ export const FakeDom = (function () {
     get root() {
       return _root;
     },
-    render: function (fakeElement: IFakeElement) {
-      _root?.replaceChildren(fakeElement.render());
+    render: async function (fakeElement: IFakeElement) {
+      _root?.replaceChildren(await fakeElement.render());
     },
   };
 })();

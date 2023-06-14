@@ -10,7 +10,6 @@
   "license": "ISC",
   "devDependencies": {
     "css-loader": "^6.8.1",
-    "dotenv-webpack": "^8.0.1",
     "file-loader": "^6.2.0",
     "style-loader": "^3.3.3",
     "ts-loader": "^9.4.3",

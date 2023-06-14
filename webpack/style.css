@@ -167,6 +167,7 @@ header .rolling .outlet {
 
 header .rolling .article {
   font: var(--font-body-sm);
+  line-height: 1rem;
   color: var(--color-gray-500);
 }
 
@@ -181,13 +182,29 @@ main .tabs-bar .article {
   gap: 1.5rem;
 }
 
-main .tabs-bar a {
-  font: var(--font-title-md);
+main .tabs-bar .article button {
+  background: transparent;
+  font: var(--font-body-md);
+  line-height: var(--line-height-body-md);
   color: var(--color-gray-200);
+  border: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
 }
 
-main .tabs-bar a.active {
+main .tabs-bar[data-press="ALL"] .article li:nth-child(1) button {
   color: var(--color-black);
+  font: var(--font-title-md);
+  line-height: auto;
+}
+
+main .tabs-bar[data-press="SUBSCRIBE"] .article li:nth-child(2) button {
+  color: var(--color-black);
+  font: var(--font-title-md);
+  line-height: auto;
 }
 
 main .tabs-bar .view-type {
@@ -195,15 +212,76 @@ main .tabs-bar .view-type {
   gap: 0.5rem;
 }
 
-main .tabs-bar .view-type a img:nth-child(1) {
-  display: none;
+main .tabs-bar .view-type button {
+  background-color: transparent;
+  border: 0;
 }
 
-main .tabs-bar .view-type a.active img:nth-child(1) {
+main
+  .tabs-bar[data-view-type="GRID"]
+  .view-type
+  li:nth-child(1)
+  button
+  img:nth-child(1) {
+  display: none;
+}
+main
+  .tabs-bar[data-view-type="GRID"]
+  .view-type
+  li:nth-child(1)
+  button
+  img:nth-child(2) {
   display: inline-block;
 }
 
-main .tabs-bar .view-type a.active img:nth-child(2) {
+main
+  .tabs-bar[data-view-type="GRID"]
+  .view-type
+  li:nth-child(2)
+  button
+  img:nth-child(1) {
+  display: none;
+}
+main
+  .tabs-bar[data-view-type="GRID"]
+  .view-type
+  li:nth-child(2)
+  button
+  img:nth-child(2) {
+  display: inline-block;
+}
+
+main
+  .tabs-bar[data-view-type="LIST"]
+  .view-type
+  li:nth-child(1)
+  button
+  img:nth-child(1) {
+  display: inline-block;
+}
+main
+  .tabs-bar[data-view-type="LIST"]
+  .view-type
+  li:nth-child(1)
+  button
+  img:nth-child(2) {
+  display: none;
+}
+
+main
+  .tabs-bar[data-view-type="LIST"]
+  .view-type
+  li:nth-child(2)
+  button
+  img:nth-child(1) {
+  display: inline-block;
+}
+main
+  .tabs-bar[data-view-type="LIST"]
+  .view-type
+  li:nth-child(2)
+  button
+  img:nth-child(2) {
   display: none;
 }
 

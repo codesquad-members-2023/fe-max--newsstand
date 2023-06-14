@@ -1,4 +1,4 @@
-import puppeteer, { Page } from "puppeteer";
+import puppeteer, { Page, Frame } from "puppeteer";
 import { parse } from "node-html-parser";
 import { HTMLElement } from "node-html-parser";
 import { PressData } from "../interface/PressData";
@@ -43,6 +43,41 @@ function panelElementToBrandData(elem: HTMLElement): PressData {
   return pressData;
 }
 
+async function getPageAndParse(page: Page): Promise<HTMLElement> {
+  const content = await page.content();
+  return parse(content);
+}
+
+async function getArticlesData(frame: Frame | null): Promise<ArticleData[]> {
+  const articles: ArticleData[] = [];
+
+  if (!frame) return articles;
+  await frame.waitForSelector("body");
+  const frameContent = await frame.$eval("body", (body) => body.innerHTML);
+  const $frame = parse(frameContent);
+  const $frameAnchors = $frame.querySelectorAll("a");
+
+  $frameAnchors.forEach((anchor: HTMLElement) => {
+    const img = anchor.querySelector("img");
+    const content = anchor.textContent
+      .trim()
+      .replace(/[\r\n]+/g, " ")
+      .replace(/\s+/g, " ");
+    if (!content) {
+      return;
+    }
+    const data: ArticleData = {
+      link: anchor.getAttribute("href")!,
+      content,
+      hasImg: img !== null,
+      img: img ? img.getAttribute("src")! : "",
+    };
+    articles.push(data);
+  });
+
+  return articles;
+}
+
 async function getCategoryPressData(
   page: Page,
   $: HTMLElement
@@ -54,41 +89,12 @@ async function getCategoryPressData(
   );
 
   for (let i = 1; i <= clickCount; i++) {
-    const content = await page.content();
-    const $ = parse(content);
+    const $ = await getPageAndParse(page);
     const $panel = $.getElementById("focusPanelCenter")!;
     const pressData = panelElementToBrandData($panel);
     const frameElement = await page.$("#focusPanelCenter .ifr_arc");
 
-    if (!frameElement) continue;
-    const frame = await frameElement.contentFrame();
-    if (!frame) continue;
-
-    await frame.waitForSelector("body");
-    const frameContent = await frame.$eval("body", (body) => body.innerHTML);
-    const $frame = parse(frameContent);
-    const $frameAnchors = $frame.querySelectorAll("a");
-    const articles: ArticleData[] = [];
-
-    $frameAnchors.forEach((anchor: HTMLElement) => {
-      const img = anchor.querySelector("img");
-      const content = anchor.textContent
-        .trim()
-        .replace(/[\r\n]+/g, " ")
-        .replace(/\s+/g, " ");
-      if (!content) {
-        return;
-      }
-      const data: ArticleData = {
-        link: anchor.getAttribute("href")!,
-        content,
-        hasImg: img !== null,
-        img: img ? img.getAttribute("src")! : "",
-      };
-      articles.push(data);
-    });
-    pressData.articles = articles;
-
+    pressData.articles = await getArticlesData(frameElement ? await frameElement.contentFrame() : null);
     categoryBrandData.push(pressData);
 
     if (i !== clickCount) {
@@ -113,8 +119,7 @@ export async function getNewsData(): Promise<{ [key: string]: PressData[] }> {
         page.click(snbTabQuery),
       ]);
 
-      const content = await page.content();
-      const $ = parse(content);
+      const $ = await getPageAndParse(page);
       const category = $.querySelector("#snb strong")!.textContent;
 
       newsData[category] = await getCategoryPressData(page, $);

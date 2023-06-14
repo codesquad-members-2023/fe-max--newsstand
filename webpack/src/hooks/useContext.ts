@@ -4,6 +4,8 @@ import { CallBack } from "../types/Callback";
 export function useContext(name: string, type?: string, callBack?: CallBack) {
   let first = true;
   return function (this: IFakeElement, element: Element): void {
+    const fakeElement = this;
+
     let current: IFakeElement = this;
     let foundContext: any = undefined;
 
@@ -12,7 +14,7 @@ export function useContext(name: string, type?: string, callBack?: CallBack) {
         current &&
         current.combined &&
         current.combined.context &&
-        current.combined.context[name]
+        current.combined.context[name] !== undefined
       ) {
         break;
       }
@@ -30,14 +32,31 @@ export function useContext(name: string, type?: string, callBack?: CallBack) {
         case "textContent":
           element.textContent = foundContext ? callBack!(foundContext)! : "";
           return;
+        case "render":
+          if (!callBack) {
+            fakeElement.render();
+            return;
+          }
+          if (callBack()) {
+            fakeElement.render();
+            return;
+          }
+        case "prop":
+          if (callBack) {
+            callBack(element, foundContext);
+          }
+          return;
       }
     }
 
     if (first) {
       current?.subscribeContext![name].push(func);
       first = false;
+      func();
     }
 
-    func();
+    if (!type || type === "textContent") {
+      func();
+    }
   };
 }

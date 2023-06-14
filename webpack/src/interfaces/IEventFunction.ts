@@ -1,3 +1,3 @@
 export interface IEventFunction {
-  (e: Event): void;
+  (e?: Event): void;
 }

@@ -4,7 +4,7 @@ import { ListTabs } from "./ListTabs";
 import outletSample from "../../../images/outlet-sample.svg";
 import subscribe from "../../../images/subscribe.svg";
 
-const { div, ul, li, a, span, h3, img, p, input, figure, figcaption } =
+const { div, h3, img, p, input} =
   CreateFakeElementHelper;
 
 export function List(): IFakeElement {
