@@ -1,7 +1,7 @@
 import Component from "@components/common/Component.ts";
 import { EState, dispatch, observeStates } from "@store/index.ts";
 
-class MainNews extends Component {
+export default class MainNews extends Component {
   private contentViewBtns: HTMLButtonElement[] = [];
   private main: HTMLElement;
 
@@ -56,20 +56,23 @@ class MainNews extends Component {
     this.main.innerHTML = "";
     if (mainContentView === "grid-view") {
       this.main.appendChild(document.createElement("grid-view"));
+      this.setActiveContentViewBtn("grid-view");
     } else if (mainContentView === "list-view") {
       this.main.appendChild(document.createElement("list-view"));
+      this.setActiveContentViewBtn("list-view");
     }
   }
 
+  setActiveContentViewBtn(targetBtnId: string) {
+    this.contentViewBtns.forEach((btn) => {
+      if (btn.id === targetBtnId) btn.classList.add("is-active");
+      else btn.classList.remove("is-active");
+    });
+  }
+
   connectedCallback() {
-    this.contentViewBtns.forEach((btn, idx) => {
+    this.contentViewBtns.forEach((btn) => {
       btn.addEventListener("click", () => {
-        btn.classList.add("is-active");
-
-        this.contentViewBtns[
-          (idx + 1) % this.contentViewBtns.length
-        ].classList.remove("is-active");
-
         dispatch({
           type: EState.MainContentView,
           content: btn.id,
