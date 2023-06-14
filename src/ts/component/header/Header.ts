@@ -7,9 +7,7 @@ function setEvent(logoEl: HTMLElement) {
   logoEl.addEventListener('click', () => location.reload());
 }
 
-function getToday(): string {
-  const newDate = new Date();
-
+export function getToday(newDate: Date): string {
   const dateOptions: Intl.DateTimeFormatOptions = {
     year: 'numeric',
     month: '2-digit',
@@ -22,5 +20,6 @@ function getToday(): string {
 }
 
 function setDate(dateEl: HTMLElement): void {
-  dateEl.textContent = getToday();
+  const newDate = new Date();
+  dateEl.textContent = getToday(newDate);
 }
