@@ -1,3 +1,4 @@
+import { GRID, LIST } from './common/constant';
 import { State, Action } from './common/types';
 
 export function reducer(state: State, action: Action) {
@@ -14,6 +15,14 @@ export function reducer(state: State, action: Action) {
       return goToPrevList(state);
     case 'CLICK_CATEGORY':
       return clickCategory(state, action);
+    // case 'VIEW_ALL':
+    //   return;
+    // case 'VIEW_SUBS':
+    //   return;
+    case 'MODE_GRID':
+      return changeToGrid(state);
+    case 'MODE_LIST':
+      return changeToList(state);
     default:
       return state;
   }
@@ -149,21 +158,46 @@ function clickCategory(state: State, action: Action) {
   };
 }
 
-// import { VIEW, MODE } from './common/constant';
+function changeToGrid(state: State) {
+  return {
+    ...state,
+    grid: {
+      allGrid: state.grid.allGrid,
+      curPage: GRID.FIRST_PAGE,
+      lastPage: state.grid.lastPage,
+    },
+    list: {
+      allList: state.list.allList,
+      categoryIndex: LIST.FIRST_CATEGORY_INDEX,
+      curCategoryList: [state.list.allList[0]],
+      curCategoryIndex: LIST.FIRST_CUR_INDEX,
+    },
+    viewMode: {
+      view: state.viewMode.view,
+      mode: 'grid',
+      viewMode: 'allGrid',
+    },
+  };
+}
 
-// case 'VIEW_ALL':
-//   return { ...state, view: VIEW.ALL };
-// case 'VIEW_SUBS':
-//   return { ...state, view: VIEW.SUBS };
-// case 'MODE_LIST':
-//   return { ...state, mode: MODE.LIST };
-// case 'MODE_GRID':
-//   return { ...state, mode: MODE.GRID };
-// case 'ALL_LIST':
-//   return { ...state, viewMode: 'ALL_LIST' };
-// case 'ALL_GRID':
-//   return { ...state, viewMode: 'ALL_GRID' };
-// case 'SUBS_LIST':
-//   return { ...state, viewMode: 'SUBS_LIST' };
-// case 'SUBS_GRID':
-//   return { ...state, viewMode: 'SUBS_GRID' };
+function changeToList(state: State) {
+  return {
+    ...state,
+    grid: {
+      allGrid: state.grid.allGrid,
+      curPage: GRID.FIRST_PAGE,
+      lastPage: state.grid.lastPage,
+    },
+    list: {
+      allList: state.list.allList,
+      categoryIndex: LIST.FIRST_CATEGORY_INDEX,
+      curCategoryList: [state.list.allList[0]],
+      curCategoryIndex: LIST.FIRST_CUR_INDEX,
+    },
+    viewMode: {
+      view: state.viewMode.view,
+      mode: 'list',
+      viewMode: 'allList',
+    },
+  };
+}
