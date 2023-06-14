@@ -1,5 +1,3 @@
-import dispatcher from './Dispatcher';
-
 export const Actions = {
   clickArrowBtn(direction: string) {
     dispatcher.dispatch({

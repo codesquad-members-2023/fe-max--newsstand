@@ -1,4 +1,6 @@
 import { Component } from '../../Component';
+import { rolling } from '../../actions';
+import { store } from '../../index';
 
 export class NewsRoller extends Component {
   protected pressName: HTMLDivElement;
@@ -6,13 +8,18 @@ export class NewsRoller extends Component {
   currentTitle: HTMLDivElement;
   nextTitle: HTMLDivElement;
   timer: number | NodeJS.Timer;
+  startTime: number;
+  rAF: number;
 
   constructor(props) {
     super(props);
     this.render();
+    this.setEvent();
     this.mount();
 
-    this.startRoller();
+    // this.startRoller();
+    this.startTime = 0;
+    requestAnimationFrame(this.rolling);
   }
 
   render() {
@@ -23,17 +30,40 @@ export class NewsRoller extends Component {
     this.renderNewsTitle();
   }
 
-  // setEvent() {
-  //   this.titleBox.addEventListener('mouseenter', () => {
-  //     clearInterval(this.timer);
-  //   });
-  //   this.titleBox.addEventListener('mouseleave', () => {
-  //     this.startRoller();
-  //   });
-  // }
+  setEvent() {
+    this.titleBox.addEventListener('animationend', () => {
+      store.dispatch(rolling);
+    });
+    // this.titleBox.addEventListener('mouseenter', () => {
+    //   clearInterval(this.timer);
+    // });
+    // this.titleBox.addEventListener('mouseleave', () => {
+    //   this.startRoller();
+    // });
+  }
 
   mount() {
     this.element.append(this.pressName, this.titleBox);
+  }
+
+  update() {
+    this.props.nextTitleIdx += 1;
+    this.props.nextTitleIdx %= 5;
+
+    const prevCurrentTitle = this.currentTitle;
+    const prevNextTitle = this.nextTitle;
+    console.log(prevCurrentTitle, prevNextTitle);
+    debugger;
+
+    prevCurrentTitle.classList.remove('roll');
+    prevCurrentTitle.setAttribute('style', 'top: 2rem');
+    prevCurrentTitle.textContent = this.props.newsData[this.props.nextTitleIdx].title;
+
+    prevNextTitle.removeAttribute('style');
+    prevNextTitle.classList.remove('roll');
+
+    this.nextTitle = prevCurrentTitle;
+    this.currentTitle = prevNextTitle;
   }
 
   renderPressName() {
@@ -57,6 +87,7 @@ export class NewsRoller extends Component {
     const nextNewsTitle = document.createElement('div');
     nextNewsTitle.classList.add('title');
     nextNewsTitle.setAttribute('style', 'top: 2rem');
+    nextNewsTitle.textContent = this.props.newsData[1]?.title || '';
     this.nextTitle = nextNewsTitle;
 
     this.titleBox.append(newsTitle, nextNewsTitle);
@@ -88,4 +119,20 @@ export class NewsRoller extends Component {
 
     this.timer = timer;
   }
+
+  rolling = (timestamp) => {
+    if (!this.startTime) {
+      this.startTime = timestamp;
+    }
+
+    const intervalTime = timestamp - this.startTime;
+
+    if (intervalTime >= 3000) {
+      this.currentTitle.classList.add('roll');
+      this.nextTitle.classList.add('roll');
+      this.startTime = 0;
+    }
+
+    this.rAF = requestAnimationFrame(this.rolling);
+  };
 }

@@ -31,7 +31,7 @@ async function createInitialState() {
 }
 
 const initialState = await createInitialState();
-const store = createStore(reducer, initialState);
+export const store = createStore(reducer, initialState);
 
 const app = new App(store.getState());
 
