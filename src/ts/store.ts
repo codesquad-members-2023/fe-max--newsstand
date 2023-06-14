@@ -1,5 +1,5 @@
 import { State, RollingItem, GridItem, ListItem } from './common/types';
-import { URL, VIEW, MODE, VIEW_MODE, MAIN } from './common/constant';
+import { URL, ROLLER, GRID, LIST } from './common/constant';
 
 async function fetchData(url: string) {
   const baseUrl = URL.BASE_SERVER;
@@ -52,13 +52,13 @@ async function setCurCategoryList() {
   return filteredData;
 }
 
-async function setInitState() {
+export async function setInitState() {
   const rollingList = await setRollingList();
   const leftRollingList = rollingList.slice(0, rollingList.length / 2);
   const rightRollingList = rollingList.slice(rollingList.length / 2);
 
   const allGrid = await shuffleGridList();
-  const lastPage = Math.ceil(allGrid.length / MAIN.GRID_NUM);
+  const lastPage = Math.ceil(allGrid.length / GRID.GRID_NUM);
 
   const allList = await setAllList();
   const curCategoryList = await setCurCategoryList();
@@ -67,26 +67,26 @@ async function setInitState() {
     roller: {
       leftRollingList: leftRollingList,
       rightRollingList: rightRollingList,
-      rollerTick: MAIN.FIRST_TICK,
+      rollerTick: ROLLER.FIRST_TICK,
     },
 
     viewMode: {
-      view: VIEW.ALL,
-      mode: MODE.GRID,
-      viewMode: VIEW_MODE.ALL_GRID,
+      view: 'all',
+      mode: 'grid',
+      viewMode: 'allGrid',
     },
 
     grid: {
       allGrid: allGrid,
-      curPage: MAIN.FIRST_PAGE,
+      curPage: GRID.FIRST_PAGE,
       lastPage: lastPage,
     },
 
     list: {
       allList: allList,
-      categoryIndex: 0, // 종합/경제 = 0, 방송/통신 = 1, IT ...
+      categoryIndex: LIST.FIRST_CATEGORY_INDEX, // 종합/경제 = 0, 방송/통신 = 1, IT ...
       curCategoryList: curCategoryList, // curCategory.pressList.length 하면 해당 카테고리 언론 총 개수
-      curCategoryIndex: 0, // 현재 카테고리 pressList의 index
+      curCategoryIndex: LIST.FIRST_CUR_INDEX, // 현재 카테고리 pressList의 index
     },
   };
 
