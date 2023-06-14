@@ -24,8 +24,6 @@ describe("MainView updateArrowVisibility method tests", () => {
       const store = createStore<MainViewState>(initialState, reducer);
       const mainView = new MainView(store);
 
-      mainView.updateArrowVisibility();
-
       expect(mainView.$prevButton.className).toBe("main-view__left-arrow");
       expect(mainView.$nextButton.className).toBe("main-view__right-arrow");
     });
@@ -47,8 +45,6 @@ describe("MainView updateArrowVisibility method tests", () => {
       const store = createStore<MainViewState>(initialState, reducer);
       const mainView = new MainView(store);
 
-      mainView.updateArrowVisibility();
-
       expect(mainView.$prevButton.className).toBe("main-view__left-arrow--hidden");
       expect(mainView.$nextButton.className).toBe("main-view__right-arrow--hidden");
     });
@@ -67,8 +63,6 @@ describe("MainView updateArrowVisibility method tests", () => {
       };
       const store = createStore<MainViewState>(initialState, reducer);
       const mainView = new MainView(store);
-
-      mainView.updateArrowVisibility();
 
       expect(mainView.$prevButton.className).toBe("main-view__left-arrow--hidden");
       expect(mainView.$nextButton.className).toBe("main-view__right-arrow");
@@ -89,8 +83,6 @@ describe("MainView updateArrowVisibility method tests", () => {
       const store = createStore<MainViewState>(initialState, reducer);
       const mainView = new MainView(store);
 
-      mainView.updateArrowVisibility();
-
       expect(mainView.$prevButton.className).toBe("main-view__left-arrow");
       expect(mainView.$nextButton.className).toBe("main-view__right-arrow--hidden");
     });
@@ -109,8 +101,6 @@ describe("MainView updateArrowVisibility method tests", () => {
       };
       const store = createStore<MainViewState>(initialState, reducer);
       const mainView = new MainView(store);
-
-      mainView.updateArrowVisibility();
 
       expect(mainView.$prevButton.className).toBe("main-view__left-arrow");
       expect(mainView.$nextButton.className).toBe("main-view__right-arrow");
@@ -134,8 +124,6 @@ describe("MainView updateArrowVisibility method tests", () => {
       const store = createStore<MainViewState>(initialState, reducer);
       const mainView = new MainView(store);
 
-      mainView.updateArrowVisibility();
-
       expect(mainView.$prevButton.className).toBe("main-view__left-arrow--hidden");
       expect(mainView.$nextButton.className).toBe("main-view__right-arrow--hidden");
     });
@@ -156,8 +144,6 @@ describe("MainView updateArrowVisibility method tests", () => {
       const store = createStore<MainViewState>(initialState, reducer);
       const mainView = new MainView(store);
 
-      mainView.updateArrowVisibility();
-
       expect(mainView.$prevButton.className).toBe("main-view__left-arrow--hidden");
       expect(mainView.$nextButton.className).toBe("main-view__right-arrow");
     });
@@ -176,8 +162,6 @@ describe("MainView updateArrowVisibility method tests", () => {
       };
       const store = createStore<MainViewState>(initialState, reducer);
       const mainView = new MainView(store);
-
-      mainView.updateArrowVisibility();
 
       expect(mainView.$prevButton.className).toBe("main-view__left-arrow");
       expect(mainView.$nextButton.className).toBe("main-view__right-arrow--hidden");
@@ -198,8 +182,6 @@ describe("MainView updateArrowVisibility method tests", () => {
 
       const store = createStore<MainViewState>(initialState, reducer);
       const mainView = new MainView(store);
-
-      mainView.updateArrowVisibility();
 
       expect(mainView.$prevButton.className).toBe("main-view__left-arrow");
       expect(mainView.$nextButton.className).toBe("main-view__right-arrow");

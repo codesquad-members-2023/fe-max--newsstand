@@ -22,6 +22,7 @@ export class MainView {
     this.initElement();
     this.initSubscription();
     this.setEvents();
+    this.updateArrowVisibility();
   }
 
   private initElement() {
@@ -49,7 +50,7 @@ export class MainView {
     this.store.subscribe(this.updateArrowVisibility.bind(this));
   }
 
-  updateArrowVisibility() {
+  private updateArrowVisibility() {
     const state = this.store.getState();
 
     if (state.currentView === StateConst.LIST_VIEW) {
