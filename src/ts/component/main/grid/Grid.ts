@@ -1,16 +1,17 @@
 import { $, $$, render } from '../../../common/util';
-import { State, Grid } from '../../../common/types';
+import { Grid } from '../../../common/types';
 import { store } from '../../../store';
-import { MAIN } from '../../../common/constant';
+import { GRID } from '../../../common/constant';
 import { ACTION } from '../../../actions';
 import { dispatch } from '../../../dispatch';
 
-export function initGrid(state: State) {
-  renderGrid(state.grid);
-  observeGridFn();
+export function initAllGrid(state: Grid) {
+  renderAllGrid(state);
+  observeGridFn('grid');
+  setGridEvent();
 }
 
-function setEvent() {
+export function setGridEvent() {
   const leftBtn = $('.prev__grid');
   const rightBtn = $('.next__grid');
 
@@ -25,7 +26,7 @@ function setEvent() {
 
 function setGridItem() {
   const gridItems = [];
-  for (let i = 0; i < MAIN.GRID_NUM; i++) {
+  for (let i = 0; i < GRID.GRID_NUM; i++) {
     gridItems.push('<div class="grid__items"></div>');
   }
   return gridItems.join('');
@@ -47,7 +48,7 @@ function setGrid(state: Grid) {
   const grid = $$('.grid__items');
 
   for (let i = 0; i < grid.length; i++) {
-    const pressCount = MAIN.GRID_NUM * (state.curPage - 1) + i;
+    const pressCount = GRID.GRID_NUM * (state.curPage - 1) + i;
     const isOverLength = pressCount >= state.allGrid.length;
     const img = grid[i].querySelector('img');
 
@@ -79,19 +80,18 @@ function hideArrow(state: Grid) {
   isLastPage ? rightBtn.classList.add('hide') : rightBtn.classList.remove('hide');
 }
 
-function renderGrid(state: Grid) {
+export function renderAllGrid(state: Grid) {
   render($('.main__wrapper'), setAllGrid());
   setGrid(state);
   hideArrow(state);
-  setEvent();
 }
 
-function observeGridFn() {
-  store.subscribe('grid', setGrid);
-  store.subscribe('grid', hideArrow);
+export function observeGridFn(key: string) {
+  store.subscribe(key, setGrid);
+  store.subscribe(key, hideArrow);
 }
 
-export function ignoreGridFn() {
-  store.unsubscribe('grid', setGrid);
-  store.unsubscribe('grid', hideArrow);
+export function ignoreGridFn(key: string) {
+  store.unsubscribe(key, setGrid);
+  store.unsubscribe(key, hideArrow);
 }
