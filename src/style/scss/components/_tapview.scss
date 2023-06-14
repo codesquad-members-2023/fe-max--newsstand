@@ -9,8 +9,9 @@
   display: flex;
   gap: 24px;
   &__all {
-    @include typo(titleMD);
+    @include typo(bodyMD);
     padding: 0px;
+    color: $color-gray200;
     border: none;
     background-color: transparent;
   }
@@ -21,6 +22,11 @@
     border: none;
     background-color: transparent;
   }
+}
+
+.tap-active {
+  @include typo(titleMD);
+  color: $color-black;
 }
 
 .view-btns {

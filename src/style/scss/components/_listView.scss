@@ -80,3 +80,13 @@ body {
   border: 1px solid $color-gray100;
   border-radius: 50px;
 }
+
+.active-tap {
+  @include typo('titleSM');
+  width: 166px;
+  height: 40px;
+  color: $color-white;
+  background-color: transparent;
+  border: none;
+  padding: 0px 16px;
+}

@@ -1,21 +1,18 @@
 import { createElement } from '../utils.ts';
-import { HeaderProps } from '../type.ts';
+import { store } from '../store/store.ts';
 
 export class Header {
-  private props: HeaderProps;
+  private app: HTMLElement;
   private element: HTMLElement;
 
-  constructor(props: HeaderProps) {
-    this.props = props;
+  constructor() {
+    this.app = document.querySelector('.app')!;
     this.element = createElement('header', { class: 'header' });
-    this.render();
   }
 
   render() {
-    const app = document.querySelector('.app');
-
     this.element.append(this.createTitle(), this.createDate());
-    app?.append(this.element);
+    this.app.append(this.element);
   }
 
   createTitle() {
@@ -23,7 +20,7 @@ export class Header {
     const titleImg = createElement('img', { class: 'header-title__img', src: './src/asset/icon/name=newspaper.svg' });
     const title = createElement('h1', { class: 'header-title__text' });
 
-    title.textContent = this.props.title;
+    title.textContent = '뉴스스탠드';
     titleWrap.append(titleImg, title);
 
     return titleWrap;
@@ -31,7 +28,8 @@ export class Header {
 
   createDate() {
     const date = createElement('span', { class: 'header-date' });
-    date.textContent = this.props.date;
+    const state = store.getState();
+    date.textContent = state.date;
 
     return date;
   }

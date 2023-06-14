@@ -1,11 +1,13 @@
 export interface State {
+  date: string;
   isAllPress: boolean;
   isGrid: boolean;
-  gridIndex: number;
+  pageIndex: number;
 }
 
 export interface Action {
   type: string;
+  payload?: string;
 }
 
 export type Reducer = (state: State, action: Action) => State;
@@ -28,14 +30,18 @@ export interface TapviewProps {
 }
 
 export interface RollingNewsProps {
-  leftPress: string;
-  rightPress: string;
-  leftArticle: string;
-  rightArticle: string;
+  headline: { press: string; title: string; url: string }[];
+  leftIndex: number;
+  rightIndex: number;
 }
 
-export interface GridProps {
+export interface GridViewProps {
+  sizeOfGrid: number;
+}
+
+export interface GridContentsProps {
   pressList: { src: string; alt: string }[];
+  subscribedPress: { src: string; alt: string }[];
 }
 
 export interface MainContentsProps {
@@ -43,7 +49,11 @@ export interface MainContentsProps {
   nextBtnImg: string;
 }
 
-export interface ListProps {
+export interface ListViewProps {
   category: string[];
-  newsList: string[];
+  numberOfListContents: number;
+}
+
+export interface ListContentsProps {
+  newsList: any;
 }

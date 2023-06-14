@@ -1,21 +1,26 @@
-import { createElement } from '../utils.ts';
-import { ListProps } from '../type.ts';
+import { createElement } from '../../utils.ts';
+import { ListViewProps } from '../../type.ts';
+
+const ListViewProps = {
+  category: ['종합/경제', '방송/통신', 'IT', '영자지', '스포츠/연예', '매거진/전문지', '지역'],
+  numberOfListContents: 6,
+};
 
 export class ListView {
-  private props: ListProps;
+  private props: ListViewProps;
   private element: HTMLElement;
 
-  constructor(props: ListProps) {
-    this.props = props;
+  constructor() {
+    this.props = ListViewProps;
     this.element = createElement('div', { class: 'list-view' });
-    this.render();
   }
 
   async render() {
-    const newsMain = document.querySelector('.main-contents');
+    this.element.innerHTML = '';
+    const mainContents = document.querySelector('.main-wrap');
     this.createListTap();
     this.createListMain();
-    newsMain?.append(this.element);
+    mainContents?.append(this.element);
   }
 
   createListTap() {
@@ -43,14 +48,13 @@ export class ListView {
 
   createListHeader() {
     const headerWrap = createElement('div', { class: 'list-header' });
-    const header = createElement('a', { href: '#' });
-    const headerImg = createElement('img', { src: './src/asset/asset 35 1.svg' });
-    const editTime = createElement('span');
+    const header = createElement('a', { class: 'header-wrap' });
+    const headerImg = createElement('img', { class: 'list-header__img' });
+    const editTime = createElement('span', { class: 'list-header__editTitme' });
     const subscribeBtn = createElement('button', { class: 'subscribe-btn' });
     const subscribeBtnImg = createElement('img', { src: './src/asset/icon/Symbol.svg', alt: '구독하기' });
     const subscribeBtnText = createElement('span');
 
-    editTime.textContent = '2023.02.10. 18:27 편집';
     subscribeBtnText.textContent = '구독하기';
     header.append(headerImg);
     subscribeBtn.append(subscribeBtnImg, subscribeBtnText);
@@ -63,15 +67,14 @@ export class ListView {
     const contentsWrap = createElement('div', { class: 'list-contents' });
     const leftContents = createElement('a', { class: 'list-contents__left' });
     const rightContents = createElement('div', { class: 'list-contents__right' });
-    const thumbnailImg = createElement('img', { src: './src/asset/Thumbnail.png' });
+    const thumbnailImg = createElement('img');
     const thumbnailTitle = createElement('p');
     const contentsList = createElement('ul');
 
-    for (let i = 0; i < this.props.newsList.length; i++) {
+    for (let i = 0; i < this.props.numberOfListContents; i++) {
       const listWrap = createElement('li');
       const list = createElement('a');
 
-      list.textContent = this.props.newsList[i];
       listWrap.append(list);
       contentsList.append(listWrap);
     }
