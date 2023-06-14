@@ -4,11 +4,10 @@ import { ListTabs } from "./ListTabs";
 import outletSample from "../../../images/outlet-sample.svg";
 import subscribe from "../../../images/subscribe.svg";
 
-const { div, h3, img, p, input} =
-  CreateFakeElementHelper;
+const { div, h3, img, p, input } = CreateFakeElementHelper;
 
 export function List(): IFakeElement {
-  return div({ id: "list" }, [
+  return div({ class: "list" }, [
     ListTabs(),
     div({ class: "inner" }, [
       div({ class: "info" }, [

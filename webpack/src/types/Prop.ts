@@ -1,4 +1,4 @@
 import { IEventFunction } from "../interfaces/IEventFunction";
-import { CallBack } from "./Callback";
+import { Callback } from "./Callback";
 
-export type Prop = [string, string | CallBack];
+export type Prop = [string, string | Callback];

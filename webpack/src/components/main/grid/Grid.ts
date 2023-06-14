@@ -6,7 +6,10 @@ const { div } = CreateFakeElementHelper;
 
 export function Grid(): IFakeElement {
   return div(
-    { id: "grid" },
-    useIter(div({ class: "row" }, useIter(div({ class: "col" }), 6)), 4)
+    { class: "grid" },
+    useIter(
+      div({ class: "row" }, 
+      useIter(
+        div({ class: "col" }), 6)), 4)
   );
 }

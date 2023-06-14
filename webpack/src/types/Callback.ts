@@ -1,1 +1,1 @@
-export type CallBack = (...args:any[]) => any;
+export type Callback = (...args: any[]) => any;

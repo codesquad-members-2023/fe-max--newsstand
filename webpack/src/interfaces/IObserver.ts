@@ -1,3 +1,3 @@
-import { CallBack } from "../types/Callback";
+import { Callback } from "../types/Callback";
 
-export interface IObserver extends Array<CallBack> {}
+export interface IObserver extends Array<Callback> {}

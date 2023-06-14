@@ -12,7 +12,6 @@ import { useContext } from "../../hooks/useContext";
 import { setContext } from "../../hooks/setContext";
 import { Store } from "../../core/Store";
 import { Dispatcher } from "../../core/Dispatcher";
-import { useIf } from "../../hooks/useIf";
 
 const { main, h2, div, ul, li, button, img } = CreateFakeElementHelper;
 
@@ -53,16 +52,17 @@ export function Main(): IFakeElement {
         ]),
       ]
     ),
-    // Grid(),
-    // List(),
-    div(
-      useContext("viewType", "render"),
-      { class: "inner" },
-      useIf(isGrid, [Grid()], [List()])
-    ),
+    div(useContext("viewType", "render"), { class: "inner" }, [
+      div({ class: "press-panel" }, [
+        div({ class: "view-type-panel" }, [Grid(), List()]),
+      ]),
+      div({ class: "press-panel" }, [
+        div({ class: "view-type-panel" }, [Grid(), List()]),
+      ]),
+    ]),
   ]);
 }
-//
+
 function isGrid(): boolean {
   return Store.state.viewType === "GRID";
 }

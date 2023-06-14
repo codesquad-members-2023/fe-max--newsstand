@@ -1,6 +1,6 @@
 import { IObserver } from "../interfaces/IObserver";
 import { IState } from "../interfaces/IState";
-import { CallBack } from "../types/Callback";
+import { Callback } from "../types/Callback";
 
 export const Store = (function generateStore() {
   const state = {} as Record<string, any>;
@@ -29,7 +29,7 @@ export const Store = (function generateStore() {
     }
   }
 
-  function subscribe(name: string, cb: CallBack) {
+  function subscribe(name: string, cb: Callback) {
     observers[name] ? observers[name].push(cb) : (observers[name] = [cb]);
   }
 
