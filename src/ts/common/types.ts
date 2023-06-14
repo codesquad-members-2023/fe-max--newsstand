@@ -1,30 +1,13 @@
 export type State = {
-  roller: {
-    leftRollingList: RollingItem[];
-    rightRollingList: RollingItem[];
-    rollerTick: number;
-  };
+  roller: Roller;
 
-  viewMode: {
-    view: string;
-    mode: string;
-    viewMode: string;
-  };
+  viewMode: ViewMode;
 
-  grid: {
-    allGrid: GridItem[];
-    curPage: number;
-    lastPage: number;
-  };
+  grid: Grid;
 
-  list: {
-    allList: ListItem[];
-    categoryIndex: number;
-    curCategoryList: ListItem[]; // allList[categoryIndex] = curCategoryList
-    curCategoryIndex: number; // curCategoryList.pressList[curCategoryIndex] = curCategoryItem
-  };
+  list: List;
 
-  [key: string]: any;
+  [key: string]: Roller | ViewMode | Grid | List;
 };
 
 export type Roller = {
@@ -46,6 +29,12 @@ export type List = {
   curCategoryIndex: number;
 };
 
+export type ViewMode = {
+  view: string;
+  mode: string;
+  viewMode: string;
+};
+
 export type ListItem = {
   title: string;
   pressList: PressList[];
@@ -61,12 +50,6 @@ export type PressList = {
     mainArticleTitle: string;
   };
   subArticles: string[];
-};
-
-export type GridState = {
-  gridList: GridItem[];
-  curPage: number;
-  lastPage: number;
 };
 
 export type Action = {
