@@ -1,9 +1,9 @@
-import GridView from './gridView/GridView';
-import MainHeader from './MainHeader';
-import style from './Main.module.css';
 import { createElement } from '../../utils/domUtils';
+import { MainHeader } from './MainHeader';
 import { ListView } from './listView/ListView';
 import { ArrowButton } from './ArrowButton';
+import GridView from './gridView/GridView';
+import style from './Main.module.css';
 
 type MainProps = {
   gridInfo: GridInfo;

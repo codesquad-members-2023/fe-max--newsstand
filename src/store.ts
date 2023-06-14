@@ -1,6 +1,5 @@
 import { getNewsList, getSubscribedMedias, setSubscribedMedias } from './utils/dataUtils';
 import { GRID_PAGE_LIMIT } from './constants';
-import { onChangeState } from './main';
 
 const state: {
   dateInfo: Date;
@@ -36,7 +35,7 @@ const state: {
 };
 
 export const getState = () => {
-  return state;
+  return { ...state };
 };
 
 export const invoke = (action: Action) => {
@@ -121,7 +120,8 @@ export const invoke = (action: Action) => {
       break;
   }
 
-  onChangeState();
+  return {...state};
+  // onChangeState();
 };
 
 const increaseGridPage = () => {

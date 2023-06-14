@@ -20,19 +20,3 @@ const newsStand = new NewsStand({
 });
 
 app.append(newsStand.element);
-
-export const onChangeState = () => {
-  newsStand.updateView({
-    dateInfo: state.dateInfo,
-    gridInfo: state.gridInfo,
-    subscriptionInfo: state.subscribedMedias,
-    mainViewerInfo: {
-      targetMedia: state.targetMedia,
-      viewer: state.viewer
-    },
-    news: state.news,
-    fields: state.fields,
-    listIndex: state.listIndex,
-    arrowInfo: state.arrowInfo
-  });
-};

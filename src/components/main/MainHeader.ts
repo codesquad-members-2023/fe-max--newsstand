@@ -1,15 +1,15 @@
-import { invoke } from '../../store';
+import { dispatch, subscribe } from '../../dispatch';
 import { createElement } from '../../utils/domUtils';
 import style from './MainHeader.module.css';
 
-type MainHeaderProps = {
+export type MainHeaderProps = {
   mainViewerInfo: {
     targetMedia: 'total' | 'subscribed';
     viewer: 'listView' | 'gridView';
   };
 };
 
-export default class MainHeader {
+export class MainHeader {
   public readonly element;
   private tabs;
   private viewers;
@@ -24,6 +24,7 @@ export default class MainHeader {
 
     this.element.append(tabNav, viewerNav);
     this.setEvent();
+    subscribe(this.updateView.bind(this))
   }
 
   private createTabs() {
@@ -110,7 +111,7 @@ export default class MainHeader {
         const viewerName = viewer.getAttribute('data-viewer');
         const isActiveViewer = viewer.classList.contains(style.active_viewer!);
         if (viewerName && !isActiveViewer) {
-          invoke({
+          dispatch({
             type: 'changeViewer',
             payload: {
               viewer: viewerName as 'gridView' | 'listView'
