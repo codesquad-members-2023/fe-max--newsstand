@@ -15,6 +15,7 @@ export type ElementType = ElementObj | TextElementObj;
 export type Headline = {
   press: string;
   title: string;
+  link: string;
 };
 
 export type RollerType = {
@@ -60,7 +61,7 @@ export type newsStandState = {
   list: {
     currentViewIndex: number;
     listAllList: ListDataType[];
-    currentTypeList: ListDataType;
+    currentTypeList: ListDataType[];
     currentViewList: ListDataType;
   };
 };
@@ -80,6 +81,11 @@ interface IncrementPage {
 
 interface DecrementPage {
   type: "DECREMENT_PAGE";
+}
+
+interface UpdatePage {
+  type: "UPDATE_PAGE";
+  page: number;
 }
 
 interface SelectAllContent {
@@ -103,14 +109,24 @@ interface SelectListTab {
   type: "SELECT_LIST_TAB";
 }
 
+interface IncrementIndex {
+  type: "INCREMENT_INDEX";
+}
+
+interface DecrementIndex {
+  type: "DECREMENT_INDEX";
+}
 export type Action =
   | IncrementTick
   | ToggleRollingState
   | IncrementPage
   | DecrementPage
+  | UpdatePage
   | SelectAllContent
   | SelectSubContent
   | UpdateSubscribe
   | SelectGridTab
-  | SelectListTab;
+  | SelectListTab
+  | IncrementIndex
+  | DecrementIndex;
 

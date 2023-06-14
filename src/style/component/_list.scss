@@ -9,19 +9,46 @@
     background: $off-white;
     border: 1px solid $gray100;
     @include title-xs;
+    position: relative;
+    overflow: auto;
+    white-space: nowrap;
+    height: 41px;
 
     &__textButton {
       display: flex;
+      justify-content: space-between;
       align-items: center;
       padding: 0px 16px;
       gap: 8px;
       height: 40px;
       color: $gray300;
+      cursor: pointer;
     }
 
     .currentTextButton {
       background-color: #7890e7;
       color: $white;
+      position: relative;
+
+      .wrapper {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        background: none;
+      }
+
+      .fill {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 0;
+        z-index: 0;
+        background-color: #4362d0;
+        animation: fillProgress 10s linear forwards;
+      }
     }
 
     .count {
@@ -108,9 +135,22 @@
           height: 22px;
           @include body-md;
           color: $gray500;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          word-break: break-all;
         }
       }
     }
+  }
+}
+
+@keyframes fillProgress {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
   }
 }
 

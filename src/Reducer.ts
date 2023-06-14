@@ -1,4 +1,9 @@
-import { Action, RollerType, newsStandState } from "./utils/types";
+import {
+  Action,
+  ListDataType,
+  RollerType,
+  newsStandState,
+} from "./utils/types";
 
 export class Reducer {
   ITEM_PER_PAGE: number = 24;
@@ -13,27 +18,74 @@ export class Reducer {
         return this.changePage(state, 1);
       case "DECREMENT_PAGE":
         return this.changePage(state, -1);
+      case "UPDATE_PAGE":
+        return this.updatePage(state, action.page);
       case "SELECT_ALL_CONTENT":
-      case "SELECT_SUB_CONTENT": {
-        const newState = this.changeCurrentType(state);
+      case "SELECT_SUB_CONTENT":
+        return this.changeCurrentType(state);
+      case "SELECT_GRID_TAB":
+      case "SELECT_LIST_TAB": {
+        const newState = this.toggleCurrentContent(state);
 
         return this.changeCurrentList(newState);
       }
-      case "SELECT_GRID_TAB":
-      case "SELECT_LIST_TAB": {
-        return this.toggleCurrentContent(state);
-      }
       case "UPDATE_SUBSCRIBE":
         return this.updateSubscribe(state, action.subscribedPress);
-
+      case "INCREMENT_INDEX":
+        return this.changeIndex(state, 1);
+      case "DECREMENT_INDEX":
+        return this.changeIndex(state, -1);
       default:
         return state;
     }
   }
 
+  private updatePage(state: newsStandState, page: number) {
+    const newState = this.deepCopy(state);
+    newState.currentPage = page;
+    newState.list.currentViewIndex = 0;
+
+    return this.getUpdatedListData(newState);
+  }
+
+  private changeIndex(state: newsStandState, direction: number) {
+    const newState = this.deepCopy(state);
+    const list = newState.list;
+    const currentPage = newState.currentPage;
+
+    list.currentViewIndex += direction;
+    if (list.currentViewIndex === list.currentViewList.pressList.length) {
+      if (currentPage === list.currentTypeList.length - 1) {
+        list.currentViewIndex = 0;
+        newState.currentPage = 0;
+      } else {
+        list.currentViewIndex = 0;
+        newState.currentPage += 1;
+      }
+    } else {
+      if (newState.currentPage === 0 && list.currentViewIndex === -1) {
+        newState.currentPage = list.currentTypeList.length - 1;
+        list.currentViewIndex =
+          list.currentTypeList[newState.currentPage].pressList.length - 1;
+      } else if (list.currentViewIndex === -1) {
+        newState.currentPage =
+          newState.currentPage > list.currentTypeList.length
+            ? 0
+            : newState.currentPage - 1;
+
+        newState.list.currentViewIndex =
+          newState.list.currentTypeList[newState.currentPage].pressList.length -
+          1;
+      }
+    }
+
+    return this.getUpdatedListData(newState);
+  }
+
   private toggleCurrentContent(state: newsStandState) {
     const newState = this.deepCopy(state);
     newState.currentPage = 0;
+    newState.list.currentViewIndex = 0;
 
     if (newState.currentContent === "grid") {
       newState.currentContent = "list";
@@ -54,20 +106,18 @@ export class Reducer {
   private changeCurrentList(state: newsStandState) {
     const newState = this.deepCopy(state);
 
-    newState.currentPage = 0;
-
-    return this.getUpdatedGridData(newState);
+    if (newState.currentContent === "grid") {
+      return this.getUpdatedGridData(newState);
+    } else {
+      return this.getUpdatedListData(newState);
+    }
   }
 
   private changePage(state: newsStandState, direction: number): newsStandState {
     const newState = this.deepCopy(state);
     newState.currentPage += direction;
 
-    if (newState.currentContent === "grid") {
-      return this.getUpdatedGridData(newState);
-    }
-
-    return newState;
+    return this.getUpdatedGridData(newState);
   }
 
   private changeCurrentType(state: newsStandState) {
@@ -80,7 +130,7 @@ export class Reducer {
       newState.currentType = "all";
     }
 
-    return newState;
+    return this.changeCurrentList(newState);
   }
 
   private getUpdatedGridData(state: newsStandState) {
@@ -95,18 +145,66 @@ export class Reducer {
         startIndex,
         endIndex
       );
+    } else {
+      const subList = newState.grid.gridAllList.filter((grid) =>
+        newState.subscribedPress.includes(grid.alt)
+      );
 
-      return newState;
+      newState.grid.currentTypeList = subList;
+      newState.grid.currentViewList = subList.slice(startIndex, endIndex);
     }
 
-    const subList = newState.grid.gridAllList.filter((grid) =>
-      newState.subscribedPress.includes(grid.alt)
-    );
-
-    newState.grid.currentTypeList = subList;
-    newState.grid.currentViewList = subList.slice(startIndex, endIndex);
-
     return newState;
+  }
+
+  private getUpdatedListData(state: newsStandState) {
+    const newState = this.deepCopy(state);
+
+    if (newState.currentType === "all") {
+      return this.updateAllList(newState);
+    } else {
+      return this.updateSubList(newState);
+    }
+  }
+
+  private updateAllList(state: newsStandState) {
+    const list = state.list;
+    const currentPage = state.currentPage;
+
+    state.list.currentTypeList = list.listAllList;
+    state.list.currentViewList = list.listAllList[currentPage];
+
+    if (state.currentPage === list.listAllList.length) {
+      state.currentPage = 0;
+      list.currentViewIndex = 0;
+    }
+
+    state.list.currentViewList = state.list.listAllList[state.currentPage];
+
+    return state;
+  }
+
+  private updateSubList(state: newsStandState) {
+    const listData = state.list.listAllList
+      .map((data) => this.filterSubscribedPress(state, data))
+      .flat();
+
+    state.list.currentViewIndex = 0;
+    state.list.currentTypeList = listData;
+    state.list.currentViewList = listData[state.currentPage];
+
+    return state;
+  }
+
+  private filterSubscribedPress(state: newsStandState, data: ListDataType) {
+    return data.pressList
+      .filter((pressData) =>
+        state.subscribedPress.includes(pressData.pressLogoAlt)
+      )
+      .map((pressData) => ({
+        title: pressData.pressLogoAlt,
+        pressList: [pressData],
+      }));
   }
 
   private incrementTick(state: newsStandState): newsStandState {

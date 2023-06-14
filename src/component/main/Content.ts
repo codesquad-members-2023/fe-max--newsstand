@@ -1,7 +1,7 @@
 import { ListDataType, currentTypeList } from "../../utils/types";
 import { Base } from "../Base";
 import { Grid } from "./Grid";
-import { List } from "./LIst";
+import { List } from "./List";
 
 type ContentProps = {
   currentContent: "grid" | "list";
@@ -14,7 +14,7 @@ type ContentProps = {
   list: {
     listAllList: ListDataType[];
     currentViewIndex: number;
-    currentTypeList: ListDataType;
+    currentTypeList: ListDataType[];
     currentViewList: ListDataType;
   };
 };
@@ -62,12 +62,12 @@ export class Content extends Base {
       this.props.currentContent !== props.currentContent;
 
     this.props = props;
-
     if (isChanged) {
       const currentContent = this.props.currentContent;
       if (currentContent === "grid") {
         this.grid.update(this.props);
       } else {
+        this.list.update(this.props);
       }
     }
 

@@ -16,7 +16,7 @@ type MainState = {
   list: {
     listAllList: ListDataType[];
     currentViewIndex: number;
-    currentTypeList: ListDataType;
+    currentTypeList: ListDataType[];
     currentViewList: ListDataType;
   };
 };
@@ -87,35 +87,48 @@ export class Main extends Base {
   }
 
   updateButtonDisplay() {
-    const { currentPage, grid } = this.props;
+    const { currentPage, currentContent, grid } = this.props;
     const { prevBtn, nextBtn, buttonsDiv } = this.component;
-
-    const totalPages = Math.ceil(grid.currentTypeList.length / ITEM_PER_PAGE);
-    const isFirstPage = currentPage === 0;
-    const isLastPage = totalPages === currentPage + 1;
 
     const prevButtonExists = buttonsDiv.contains(prevBtn);
     const nextButtonExists = buttonsDiv.contains(nextBtn);
 
-    if (isFirstPage && prevButtonExists) {
-      buttonsDiv.removeChild(prevBtn);
-    } else if (!isFirstPage && !prevButtonExists) {
-      buttonsDiv.prepend(prevBtn);
-    }
+    if (currentContent === "grid") {
+      const totalPages = Math.ceil(grid.currentTypeList.length / ITEM_PER_PAGE);
+      const isFirstPage = currentPage === 0;
+      const isLastPage = totalPages === currentPage + 1;
 
-    if (isLastPage && nextButtonExists) {
-      buttonsDiv.removeChild(nextBtn);
-    } else if (!isLastPage && !nextButtonExists) {
+      if (isFirstPage && prevButtonExists) {
+        buttonsDiv.removeChild(prevBtn);
+      } else if (!isFirstPage && !prevButtonExists) {
+        buttonsDiv.prepend(prevBtn);
+      }
+
+      if (isLastPage && nextButtonExists) {
+        buttonsDiv.removeChild(nextBtn);
+      } else if (!isLastPage && !nextButtonExists) {
+        buttonsDiv.appendChild(nextBtn);
+      }
+    } else {
+      buttonsDiv.prepend(prevBtn);
       buttonsDiv.appendChild(nextBtn);
     }
   }
 
   handleNextBtnClick() {
-    store.dispatch({ type: "INCREMENT_PAGE" });
+    if (this.props.currentContent === "grid") {
+      store.dispatch({ type: "INCREMENT_PAGE" });
+    } else {
+      store.dispatch({ type: "INCREMENT_INDEX" });
+    }
   }
 
   handlePrevBtnClick() {
-    store.dispatch({ type: "DECREMENT_PAGE" });
+    if (this.props.currentContent === "grid") {
+      store.dispatch({ type: "DECREMENT_PAGE" });
+    } else {
+      store.dispatch({ type: "DECREMENT_INDEX" });
+    }
   }
 
   handleClickAllContent() {
@@ -168,6 +181,7 @@ export class Main extends Base {
     const isChangedCurrentViewList =
       this.props.grid.currentViewList.length !==
       props.grid.currentViewList.length;
+
     if (
       isChangedCurrentPage ||
       isChangedCurrentType ||
@@ -175,9 +189,9 @@ export class Main extends Base {
       isChangedCurrentViewList
     ) {
       this.props = props;
-      this.content.update(props);
       this.updateButtonDisplay();
     }
+    this.content.update(props);
   }
 }
 
