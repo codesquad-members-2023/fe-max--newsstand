@@ -137,8 +137,6 @@ function headlinesRollerTickHandler() {
 }
 
 function mainContentViewHandler(content: string) {
-  if (content === store.mainContentView.value) return;
-
   if (content === "list-view") {
     store.mainContentView.value = "list-view";
   } else if (content === "grid-view") {
