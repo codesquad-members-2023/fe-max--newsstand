@@ -10,20 +10,25 @@
     "server": "node ./server/server.mjs",
     "start": "npm run dev & npm run server",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/express": "^4.17.17",
+    "@types/jest": "^29.5.2",
     "@types/node": "^20.2.5",
     "@typescript-eslint/eslint-plugin": "^5.59.8",
     "@vitejs/plugin-legacy": "^4.0.4",
     "eslint": "^8.41.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "jest": "^29.5.0",
+    "jest-environment-jsdom": "^29.5.0",
     "prettier": "2.8.8",
     "sass": "^1.62.1",
+    "ts-jest": "^29.1.0",
     "typescript": "^5.0.4",
     "vite": "^4.3.2"
   },
