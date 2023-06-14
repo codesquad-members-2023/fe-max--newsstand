@@ -1,27 +1,14 @@
 import { $ } from '../common/util';
-import { Header } from './header/Header';
-import { Roller } from './main/rolling/Roller';
-import { Grid } from './main/grid/Grid';
+import { initHeader } from './header/Header';
+import { initRoller } from './main/rolling/Roller';
+import { initAllGrid } from './main/grid/Grid';
+import { initViewMode } from './main/viewMode/ViewMode';
 
 import { store } from '../store';
 
-export class App {
-  constructor() {
-    new Header($('.header__title'), $('.date'));
-
-    this.initRoller();
-    this.initGrid();
-  }
-
-  initRoller() {
-    const roller = new Roller(store.getState());
-    store.subscribe(roller.setLeftRoller);
-    store.subscribe(roller.setRightRoller);
-  }
-
-  initGrid() {
-    const grid = new Grid(store.getState());
-    store.subscribe(grid.setGrid);
-    store.subscribe(grid.hideArrow);
-  }
+export function App() {
+  initHeader($('.header__title'), $('.date'));
+  initRoller(store.getState());
+  initAllGrid(store.getState().grid);
+  initViewMode(store.getState());
 }

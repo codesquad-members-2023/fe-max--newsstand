@@ -1,20 +1,23 @@
-import { State, List } from '../../../common/types';
+import { List } from '../../../common/types';
 import { $, $$, render } from '../../../common/util';
 import { dispatch } from '../../../dispatch';
 import { ACTION } from '../../../actions';
 import { store } from '../../../store';
 
-export function initList(state: State) {
-  renderList(state.list);
-  observeListFn();
+export let autoNextList: any = null;
+
+export function initAllList(state: List) {
+  renderAllList(state);
+  observeListFn('list');
+  setListEvent();
 }
 
-function setEvent() {
+export function setListEvent() {
   const categories = $$('.category__item');
   const leftBtn = $('.prev__list');
   const rightBtn = $('.next__list');
 
-  let autoNextList = setInterval(() => {
+  autoNextList = setInterval(() => {
     dispatch({ type: ACTION.GO_TO_NEXT_LIST });
   }, 5000);
 
@@ -173,7 +176,7 @@ function getCurItem(state: List) {
   return state.allList[state.categoryIndex].pressList[state.curCategoryIndex];
 }
 
-function renderList(state: List) {
+export function renderAllList(state: List) {
   render($('.main__wrapper'), setAllList(state));
 
   setPressInfo(state);
@@ -181,21 +184,20 @@ function renderList(state: List) {
   setSubArticleContent(state);
   setEditorInfo(state);
   displayCurCategory(state);
-  setEvent();
 }
 
-function observeListFn() {
-  store.subscribe('list', setPressInfo);
-  store.subscribe('list', setMainArticle);
-  store.subscribe('list', setSubArticleContent);
-  store.subscribe('list', setEditorInfo);
-  store.subscribe('list', displayCurCategory);
+export function observeListFn(key: string) {
+  store.subscribe(key, setPressInfo);
+  store.subscribe(key, setMainArticle);
+  store.subscribe(key, setSubArticleContent);
+  store.subscribe(key, setEditorInfo);
+  store.subscribe(key, displayCurCategory);
 }
 
-export function ignoreListFn() {
-  store.unsubscribe('list', setPressInfo);
-  store.unsubscribe('list', setMainArticle);
-  store.unsubscribe('list', setSubArticleContent);
-  store.unsubscribe('list', setEditorInfo);
-  store.unsubscribe('list', displayCurCategory);
+export function ignoreListFn(key: string) {
+  store.unsubscribe(key, setPressInfo);
+  store.unsubscribe(key, setMainArticle);
+  store.unsubscribe(key, setSubArticleContent);
+  store.unsubscribe(key, setEditorInfo);
+  store.unsubscribe(key, displayCurCategory);
 }

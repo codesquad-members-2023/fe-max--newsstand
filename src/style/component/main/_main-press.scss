@@ -18,8 +18,8 @@
         cursor: pointer;
       }
 
-      &__all,
-      &__subs {
+      .all,
+      .subs {
         font: $body-md;
         color: $color-gray-200;
       }
