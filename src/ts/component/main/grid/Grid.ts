@@ -69,7 +69,7 @@ function setGrid(state: Grid) {
   }
 }
 
-function hideArrow(state: Grid) {
+export function hideArrow(state: Grid) {
   const leftBtn = $('.prev__grid');
   const rightBtn = $('.next__grid');
 
