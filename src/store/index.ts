@@ -34,14 +34,10 @@ interface IStore {
   listViewCurrArticleIdx: StateItem<number>;
 }
 
-const recentHeadlinesData = await fetchData("/data/recent-headlines.json");
-const gridViewData = await fetchData("/data/grid-view.json");
-const listViewData = await fetchData("/data/list-view.json");
-
 const store: IStore = {
-  recentHeadlinesData: { value: recentHeadlinesData, observers: [] },
-  gridViewData: { value: gridViewData, observers: [] },
-  listViewData: { value: listViewData, observers: [] },
+  recentHeadlinesData: { value: [], observers: [] },
+  gridViewData: { value: [], observers: [] },
+  listViewData: { value: [], observers: [] },
 
   headlinesRollerTick: { value: 0, observers: [] },
   leftHeadlineIdx: { value: 0, observers: [] },
@@ -103,7 +99,10 @@ function reducer(action: TAction) {
   }
 }
 
-function headlinesRollerTickHandler() {
+async function headlinesRollerTickHandler() {
+  const recentHeadlinesData = await fetchData("/data/recent-headlines.json");
+  store.recentHeadlinesData.value = recentHeadlinesData;
+
   store.headlinesRollerTick.value += 1;
 
   if (store.headlinesRollerTick.value % 5 === 0) {
@@ -148,13 +147,19 @@ function mainContentViewHandler(content: string) {
   });
 }
 
-function gridViewDataHandler() {
+async function gridViewDataHandler() {
+  const gridViewData = await fetchData("/data/grid-view.json");
+  store.gridViewData.value = gridViewData;
+
   store.gridViewData.observers.forEach((observer) => {
     observer.setProps({ gridViewData: store.gridViewData.value });
   });
 }
 
-function listViewDataHandler() {
+async function listViewDataHandler() {
+  const listViewData = await fetchData("/data/list-view.json");
+  store.listViewData.value = listViewData;
+
   store.listViewData.observers.forEach((observer) => {
     observer.setProps({
       listViewData: store.listViewData.value,
