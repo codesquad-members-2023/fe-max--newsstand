@@ -1,15 +1,20 @@
+import { invoke } from '../../store';
 import { createElement } from '../../utils/domUtils';
 import style from './MainHeader.module.css';
 
+type MainHeaderProps = {
+  mainViewerInfo: {
+    targetMedia: 'total' | 'subscribed';
+    viewer: 'listView' | 'gridView';
+  };
+};
+
 export default class MainHeader {
-  public element;
+  public readonly element;
   private tabs;
   private viewers;
 
-  constructor(props: {
-    targetMedia: 'total' | 'subscribed';
-    viewerState: 'listView' | 'gridView';
-  }) {
+  constructor(props:MainHeaderProps) {
     this.element = createElement('header', { class: style.header });
     this.tabs = this.createTabs();
     this.viewers = this.createViewers();
@@ -18,8 +23,6 @@ export default class MainHeader {
     const viewerNav = this.createNavElement('viewer');
 
     this.element.append(tabNav, viewerNav);
-
-    this.render(props);
     this.setEvent();
   }
 
@@ -50,7 +53,7 @@ export default class MainHeader {
       const anchor = createElement('a', {
         href: '#',
         class: style.viewer_item,
-        'data-state': icon.state
+        'data-viewer': icon.state
       });
       const img = createElement('img', {
         src: icon.src,
@@ -65,7 +68,7 @@ export default class MainHeader {
   private createNavElement(item: 'tab' | 'viewer') {
     const className = style[`${item}_list`];
     const targets = this[`${item}s`];
-    
+
     const nav = createElement('nav');
     const list = createElement('ul', { class: className });
 
@@ -82,27 +85,39 @@ export default class MainHeader {
     return nav;
   }
 
-  private render(props: {
-    targetMedia: 'total' | 'subscribed';
-    viewerState: 'listView' | 'gridView';
-  }) {
-    this.updateTabs(props.targetMedia);
-    this.updateViewers(props.viewerState);
+  updateView(props: MainHeaderProps) {
+    this.updateTabs(props.mainViewerInfo.targetMedia);
+    this.updateViewers(props.mainViewerInfo.viewer);
   }
 
   private updateTabs(targetMedia: 'total' | 'subscribed') {
     for (const tab of this.tabs) {
       const isActiveTab = tab.getAttribute('data-target-media') === targetMedia;
-      tab.classList.toggle(style.active_tab, isActiveTab);
+      tab.classList.toggle(style.active_tab!, isActiveTab);
     }
   }
 
   private updateViewers(viewerState: 'listView' | 'gridView') {
     for (const viewer of this.viewers) {
-      const isActiveViewer = viewer.getAttribute('data-state') === viewerState;
-      viewer.classList.toggle(style.active_viewer, isActiveViewer);
+      const isActiveViewer = viewer.getAttribute('data-viewer') === viewerState;
+      viewer.classList.toggle(style.active_viewer!, isActiveViewer);
     }
   }
 
-  private setEvent() {}
+  private setEvent() {
+    this.viewers.forEach((viewer) => {
+      viewer.addEventListener('click', () => {
+        const viewerName = viewer.getAttribute('data-viewer');
+        const isActiveViewer = viewer.classList.contains(style.active_viewer!);
+        if (viewerName && !isActiveViewer) {
+          invoke({
+            type: 'changeViewer',
+            payload: {
+              viewer: viewerName as 'gridView' | 'listView'
+            }
+          })
+        }
+      })
+    })
+  }
 }

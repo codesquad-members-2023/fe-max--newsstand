@@ -1,20 +1,20 @@
-import { invoke } from '../../main';
-import { createElement } from '../../utils/domUtils';
+import { invoke } from '../../../store';
+import { createElement } from '../../../utils/domUtils';
 import { SubscriptionCover } from './SubscriptionCover';
+import { getGridImgs } from '../../../utils/dataUtils';
+import { shuffleArray } from '../../../utils/commonUtils';
 import style from './GridView.module.css';
 
 type GridViewProps = {
   gridInfo: GridInfo;
-  subscriptionInfo: number[];
+  subscriptionInfo: string[];
 };
 
 export default class GridView {
-  public element;
+  public readonly element;
   private table;
   private cells;
   private subscriptionCover;
-  private leftArrow;
-  private rightArrow;
   private numberOfCells = 24;
   private props;
 
@@ -22,16 +22,25 @@ export default class GridView {
     this.element = createElement('section', { class: style.grid_view });
     this.cells = this.createCells();
     this.table = this.createTable();
-    this.leftArrow = this.createArrow('left');
-    this.rightArrow = this.createArrow('right');
     this.subscriptionCover = new SubscriptionCover();
 
-    this.element.append(this.table, this.leftArrow, this.rightArrow);
+    this.element.append(this.table);
 
     this.props = this.updateProps(props);
     this.updateView(props);
     this.setEvent();
+
+    this.initGridImgs();
   }
+
+  async initGridImgs() {
+    invoke({
+      type: 'initGridImages',
+      payload: {
+        images: shuffleArray(await getGridImgs())
+      }
+    });
+  };
 
   private createCells() {
     return [...Array(this.numberOfCells)].map((_, index) => {
@@ -77,16 +86,6 @@ export default class GridView {
     return tbody;
   }
 
-  private createArrow(direction: string) {
-    const imagePath = `assets/icons/${direction}_arrow.svg`;
-    const arrow = createElement('a', { href: '#', class: style[`${direction}_arrow`] });
-    const arrowImg = createElement('img', { src: imagePath });
-
-    arrow.append(arrowImg);
-
-    return arrow;
-  }
-
   private updateProps(props: GridViewProps) {
     return {
       imgs: [...props.gridInfo.imgs],
@@ -128,23 +127,15 @@ export default class GridView {
         }
       });
     });
-
-    this.leftArrow.addEventListener('click', () => {
-      invoke({
-        type: 'moveToPrevGridPage'
-      });
-    });
-
-    this.rightArrow.addEventListener('click', () => {
-      invoke({
-        type: 'moveToNextGridPage'
-      });
-    });
   }
 
   updateView(props: GridViewProps) {
     const { imgs, page, isHover, hoverIndex } = props.gridInfo;
-    if (this.props.isHover !== isHover || this.props.hoverIndex !== hoverIndex || this.props.subscribedIds !== props.subscriptionInfo) {
+    if (
+      this.props.isHover !== isHover ||
+      this.props.hoverIndex !== hoverIndex ||
+      this.props.subscribedIds !== props.subscriptionInfo
+    ) {
       this.renderSubscriptionCover(isHover, hoverIndex, props.subscriptionInfo);
     }
 
@@ -158,7 +149,7 @@ export default class GridView {
   private renderSubscriptionCover(
     isHover: boolean,
     hoverIndex: number,
-    subscriptionInfo: number[]
+    subscriptionInfo: string[]
   ) {
     for (let i = 0; i < this.cells.length; i++) {
       const cell = this.cells?.[i];
@@ -171,16 +162,16 @@ export default class GridView {
         if (!media) {
           continue;
         }
-        const mediaId = media.id;
-        const isSubscribed = subscriptionInfo.includes(mediaId);
+        const mediaName = media.alt;
+        const isSubscribed = subscriptionInfo.includes(mediaName);
 
-        this.subscriptionCover.updateState({ mediaId, isSubscribed });
-        cell.append(this.subscriptionCover.getElement());
+        this.subscriptionCover.updateView({ mediaName, isSubscribed });
+        cell.append(this.subscriptionCover.element);
 
         continue;
       }
       if (cell.childElementCount > 1) {
-        this.subscriptionCover.getElement().remove();
+        this.subscriptionCover.element.remove();
       }
     }
   }
@@ -202,8 +193,5 @@ export default class GridView {
       mediaLogo.setAttribute('alt', img.alt);
       mediaLogo.setAttribute('data-id', img.id.toString());
     });
-
-    this.leftArrow.classList.toggle('no-display', page === 0);
-    this.rightArrow.classList.toggle('no-display', page === 3);
   }
 }

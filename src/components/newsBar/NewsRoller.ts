@@ -2,7 +2,7 @@ import { createElement } from '../../utils/domUtils';
 import style from './NewsRoller.module.css';
 
 export default class NewsRoller {
-  public element;
+  public readonly element;
   private roller;
   private currentNewsWrapper;
   private nextNewsWrapper;

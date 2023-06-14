@@ -33,7 +33,7 @@ type Action =
   | {
       type: 'updateSubscribedMedia';
       payload: {
-        id: number;
+        name: string;
         mode: 'add' | 'remove';
       };
     }
@@ -42,6 +42,30 @@ type Action =
       payload: {
         news: NewsData | null;
       };
+    }
+  | {
+      type: 'initFieldData';
+      payload: {
+        fields: string[];
+      };
+    }
+  | {
+      type: 'onClickLeftArrow';
+    }
+  | {
+      type: 'onClickRightArrow';
+    }
+  | {
+      type: 'moveToOtherField';
+      payload: {
+        news: NewsData | null;
+      };
+    }
+  | {
+      type: 'changeViewer';
+      payload: {
+        viewer: 'gridView' | 'listView'
+      }
     };
 
 type GridImg = {
@@ -71,11 +95,7 @@ type HeadlineInfo = {
 };
 
 type NewsData = {
-  mediaInfo: {
-    imgSrc: string;
-    imgAlt: string;
-    editInfo: string;
-  };
+  mediaInfo: MediaInfo;
   mainContent: {
     imgSrc: string;
     imgAlt: string;
@@ -86,6 +106,20 @@ type NewsData = {
     url: string;
   }[];
   category: string;
+  index: number;
   order: number;
   categoryCount: number;
+  totalCount: number;
+};
+
+type MediaInfo = {
+  url: string;
+  imgSrc: string;
+  imgAlt: string;
+  editInfo: string;
+};
+
+type FieldData = {
+  name: string;
+  active: boolean;
 };

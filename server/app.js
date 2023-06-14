@@ -34,16 +34,43 @@ app.get('/newsList', (req, res) => {
   const newsList = JSON.parse(data);
 
   const index = req.query.index;
+  const category = req.query.category;
   if (!index && index !== 0) {
     return res.json(null);
   }
-  const news = newsList[index];
-  const categoryList = [...newsList].filter((item) => item.category === news.category);
+  
+  if (!category) {
+    const news = newsList[index];
+    const categoryList = newsList.filter((item) => item.category === news.category);
+    return res.json({
+      ...news,
+      index: index,
+      order: categoryList.indexOf(news) + 1,
+      categoryCount: categoryList.length,
+      totalCount: newsList.length
+    });
+  }
+
+  const categoryList = newsList.filter((item) => item.category === category);
+  const curIndex = newsList.indexOf(categoryList[0]);
   return res.json({
-    ...news,
-    order: categoryList.indexOf(news) + 1,
-    categoryCount: categoryList.length
-  });
+    ...categoryList[0],
+    index: curIndex,
+    order: 1,
+    categoryCount:  categoryList.length,
+    totalCount: newsList.length
+  })
+});
+
+app.get('/newsList/fields', (req, res) => {
+  const filePath = path.join(__dirname, 'data', 'newsList.json');
+  const data = fs.readFileSync(filePath, { encoding: 'utf8' });
+  const newsList = JSON.parse(data);
+
+  const fields = new Set();
+  newsList.forEach(({category}) => fields.add(category));
+
+  return res.json([...fields]);
 });
 
 app.listen(port, () => {

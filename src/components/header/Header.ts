@@ -6,7 +6,7 @@ type HeaderProps = {
 };
 
 export default class Header {
-  public element;
+  public readonly element;
   private logo;
   private date;
 

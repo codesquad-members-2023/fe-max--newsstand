@@ -4,7 +4,7 @@ import { createElement } from '../../utils/domUtils';
 import { getHeadlineNews } from '../../utils/dataUtils';
 
 export default class NewsBar {
-  public element;
+  public readonly element;
   private leftNewsRoller: NewsRoller;
   private rightNewsRoller: NewsRoller;
 
