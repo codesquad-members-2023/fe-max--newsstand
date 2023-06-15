@@ -1,7 +1,7 @@
 /** @jest-environment jsdom */
 import { StateConst } from "@store/types";
 import { MainView } from "./mainView";
-import { MainViewState } from ".";
+import { Press, MainViewState } from ".";
 import { createStore } from "@store/store";
 import { reducer } from "@store/reducer";
 
@@ -26,17 +26,9 @@ const expectRightArrowHidden = (mainView: MainView) => {
 describe("MainView updateArrowVisibility method tests", () => {
   describe("currentView가 list-view인 경우, 항상 양쪽 화살표가 보여야 한다.", () => {
     it("항상 양쪽 화살표가 보인다.", () => {
-      const initialState: MainViewState = {
-        currentTab: StateConst.ALL_PRESS_TAB,
+      const initialState = {
         currentView: StateConst.LIST_VIEW,
-
-        gridState: {
-          pressList: [],
-          subscribedPressList: [],
-          currentPage: 1,
-          lastPage: 1,
-        },
-      };
+      } as MainViewState;
       const store = createStore<MainViewState>(initialState, reducer);
       const mainView = new MainView(store);
 
@@ -52,12 +44,14 @@ describe("MainView updateArrowVisibility method tests", () => {
         currentView: StateConst.GRID_VIEW,
 
         gridState: {
-          pressList: [],
+          pressList: Array.from({ length: StateConst.ITEM_PER_PAGE - 1 }, () => {
+            return {} as Press;
+          }),
           subscribedPressList: [],
           currentPage: 1,
-          lastPage: 1,
         },
       };
+
       const store = createStore<MainViewState>(initialState, reducer);
       const mainView = new MainView(store);
 
@@ -71,10 +65,11 @@ describe("MainView updateArrowVisibility method tests", () => {
         currentView: StateConst.GRID_VIEW,
 
         gridState: {
-          pressList: [],
+          pressList: Array.from({ length: StateConst.ITEM_PER_PAGE + 1 }, () => {
+            return {} as Press;
+          }),
           subscribedPressList: [],
           currentPage: 1,
-          lastPage: 3,
         },
       };
       const store = createStore<MainViewState>(initialState, reducer);
@@ -90,10 +85,11 @@ describe("MainView updateArrowVisibility method tests", () => {
         currentView: StateConst.GRID_VIEW,
 
         gridState: {
-          pressList: [],
+          pressList: Array.from({ length: StateConst.ITEM_PER_PAGE + 1 }, () => {
+            return {} as Press;
+          }),
           subscribedPressList: [],
-          currentPage: 3,
-          lastPage: 3,
+          currentPage: 2,
         },
       };
       const store = createStore<MainViewState>(initialState, reducer);
@@ -109,10 +105,11 @@ describe("MainView updateArrowVisibility method tests", () => {
         currentView: StateConst.GRID_VIEW,
 
         gridState: {
-          pressList: [],
+          pressList: Array.from({ length: StateConst.ITEM_PER_PAGE * 2 + 1 }, () => {
+            return {} as Press;
+          }),
           subscribedPressList: [],
           currentPage: 2,
-          lastPage: 3,
         },
       };
       const store = createStore<MainViewState>(initialState, reducer);
@@ -133,7 +130,6 @@ describe("MainView updateArrowVisibility method tests", () => {
           pressList: [],
           subscribedPressList: Array.from({ length: 1 }, () => ""),
           currentPage: 1,
-          lastPage: 1,
         },
       };
 
@@ -153,7 +149,6 @@ describe("MainView updateArrowVisibility method tests", () => {
           pressList: [],
           subscribedPressList: Array.from({ length: StateConst.ITEM_PER_PAGE + 1 }, () => ""),
           currentPage: 1,
-          lastPage: 1,
         },
       };
 
@@ -173,7 +168,6 @@ describe("MainView updateArrowVisibility method tests", () => {
           pressList: [],
           subscribedPressList: Array.from({ length: StateConst.ITEM_PER_PAGE + 1 }, () => ""),
           currentPage: 2,
-          lastPage: 1,
         },
       };
       const store = createStore<MainViewState>(initialState, reducer);
@@ -192,7 +186,6 @@ describe("MainView updateArrowVisibility method tests", () => {
           pressList: [],
           subscribedPressList: Array.from({ length: StateConst.ITEM_PER_PAGE * 2 + 1 }, () => ""),
           currentPage: 2,
-          lastPage: 1,
         },
       };
 
