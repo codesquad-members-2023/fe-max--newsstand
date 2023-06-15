@@ -1,8 +1,9 @@
 import { GridView } from "./gridView/gridView";
 import { TabAndViewer } from "./tabAndViewer";
-import { StateConst, Store } from "@store/types";
+import { Store } from "@store/types";
 import { MainViewState } from ".";
-import { createAction } from "@store/actions";
+import { createAction } from "@components/mainView/store/actions";
+import { StateConst } from "./store/types";
 
 export class MainView {
   store: Store<MainViewState>;

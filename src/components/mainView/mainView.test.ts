@@ -1,9 +1,10 @@
 /** @jest-environment jsdom */
-import { StateConst } from "@store/types";
+
 import { MainView } from "./mainView";
 import { Press, MainViewState } from ".";
 import { createStore } from "@store/store";
-import { reducer } from "@store/reducer";
+import { reducer } from "@components/mainView/store/reducer";
+import { StateConst } from "./store/types";
 
 window.alert = jest.fn();
 

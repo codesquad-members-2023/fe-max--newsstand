@@ -1,5 +1,5 @@
-import { Action, ActionType } from "./types";
 import { Press } from "@components/mainView";
+import { Action, ActionType } from "./types";
 
 export const createAction = {
   setPressList(pressList: Press[]): Action {

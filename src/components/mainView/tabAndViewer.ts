@@ -1,6 +1,7 @@
-import { StateConst, Store } from "@store/types";
-import { createAction } from "@store/actions";
+import { Store } from "@store/types";
+import { createAction } from "@components/mainView/store/actions";
 import { MainViewState } from ".";
+import { StateConst } from "./store/types";
 
 export class TabAndViewer {
   private store: Store<MainViewState>;

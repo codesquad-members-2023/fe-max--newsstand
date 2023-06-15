@@ -1,6 +1,7 @@
-import { LocalStorageKey, Store } from "@store/types";
+import { Store } from "@store/types";
 import { MainViewState, Press } from "..";
-import { createAction } from "@store/actions";
+import { createAction } from "@components/mainView/store/actions";
+import { LocalStorageKey } from "../store/types";
 
 export class GridPressBox {
   private readonly press: Press;

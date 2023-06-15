@@ -1,8 +1,9 @@
-import { StateConst, Store } from "@store/types";
+import { Store } from "@store/types";
 import { MainViewState, Press } from "..";
 import { GridPressBox } from "./gridPressBox";
-import { createAction } from "@store/actions";
+import { createAction } from "@components/mainView/store/actions";
 import { shuffleArray } from "@utils/shuffleArray";
+import { StateConst } from "../store/types";
 
 export class GridView {
   private store: Store<MainViewState>;

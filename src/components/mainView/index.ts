@@ -1,8 +1,8 @@
 import { $ } from "@utils/domUtils";
 import { MainView } from "./mainView";
 import { createStore } from "@store/store";
-import { reducer } from "@store/reducer";
-import { LocalStorageKey, StateConst } from "@store/types";
+import { reducer } from "@components/mainView/store/reducer";
+import { LocalStorageKey, StateConst } from "./store/types";
 
 export interface Press {
   src: string;
