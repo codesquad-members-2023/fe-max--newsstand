@@ -22,20 +22,18 @@ type ListMaterial = {
   url: string;
 };
 
-export type HTMLElementEvent<T extends HTMLElement> = Event & {
-  target: T;
+export type State = any;
+
+export type RollerState = {
+  isRolling: boolean;
+  newsData: OneLineNews[];
+  nextTitleIdx: number;
 };
 
-export type State = {
+export type NewsStandState = {
   systemDate: Date;
-  leftRoller: {
-    newsData: OneLineNews[];
-    nextTitleIdx: number;
-  };
-  rightRoller: {
-    newsData: OneLineNews[];
-    nextTitleIdx: number;
-  };
+  leftRoller: RollerState;
+  rightRoller: RollerState;
   breakingNews: OneLineNews[];
   gridData: newsData[];
   newsStandData: newsData[];

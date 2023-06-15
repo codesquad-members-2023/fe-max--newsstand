@@ -1,23 +1,17 @@
 import { Component } from '../../Component';
 import { NewsRoller } from './NewsRoller';
 import { store } from '../..';
+import { NewsStandState } from '../../utils/types';
 
 export class RollingSection extends Component {
-  newsRollerLeft: HTMLDivElement;
-  newsRollerRight: HTMLDivElement;
+  newsRollerLeft: NewsRoller;
+  newsRollerRight: NewsRoller;
 
-  constructor(props) {
+  constructor(props: NewsStandState) {
     super(props);
     this.render();
     this.mount();
-
-    store.subscribe(() => {
-      this.newsRollerLeft.update(store.getState().leftRoller);
-    });
-
-    store.subscribe(() => {
-      this.newsRollerRight.update(store.getState().rightRoller);
-    });
+    this.componentDidMount();
   }
 
   render() {
@@ -32,7 +26,16 @@ export class RollingSection extends Component {
     this.element.append(this.newsRollerLeft.element, this.newsRollerRight.element);
   }
 
-  mapStateToProp(state) {
-    this.props = state;
+  componentDidMount() {
+    store.subscribe(() => {
+      this.newsRollerLeft.update(store.getState().leftRoller);
+    });
+
+    store.subscribe(() => {
+      this.newsRollerRight.update(store.getState().rightRoller);
+    });
+
+    // requestAnimationFrame(this.newsRollerLeft.rolling);
+    // requestAnimationFrame(this.newsRollerRight.rolling);
   }
 }

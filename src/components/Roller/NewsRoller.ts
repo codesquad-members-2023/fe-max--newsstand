@@ -1,5 +1,6 @@
 import { Component } from '../../Component';
 import { Actions } from '../../actions';
+import { RollerState } from '../../utils/types';
 
 export class NewsRoller extends Component {
   pressName: HTMLDivElement;
@@ -11,7 +12,7 @@ export class NewsRoller extends Component {
   rAF: number;
   position: string;
 
-  constructor(props, position) {
+  constructor(props: RollerState, position: string) {
     super(props);
     this.render();
     this.setEvent();
@@ -33,32 +34,36 @@ export class NewsRoller extends Component {
 
   setEvent() {
     this.titleBox.addEventListener('animationend', () => {
-      console.log('animationend');
       Actions.roll(this.position);
     });
-    // this.titleBox.addEventListener('mouseenter', () => {
-    //   clearInterval(this.timer);
-    // });
-    // this.titleBox.addEventListener('mouseleave', () => {
-    //   this.startRoller();
-    // });
+    this.titleBox.addEventListener('mouseenter', () => {
+      window.cancelAnimationFrame(this.rAF);
+    });
+    this.titleBox.addEventListener('mouseleave', () => {
+      requestAnimationFrame(this.rolling);
+    });
   }
 
   mount() {
     this.element.append(this.pressName, this.titleBox);
   }
 
-  update(newState) {
-    console.log(newState);
+  update(newState: RollerState) {
+    // if (!newState.isRolling) {
+    //   cancelAnimationFrame(this.rAF);
+    //   return;
+    // }
+    // requestAnimationFrame(this.rolling);
+
     this.titleBox.classList.remove('roll');
 
     if (newState.nextTitleIdx === 0) {
-      this.currentTitle.textContent = newState.newsData[newState.newsData.length - 1].title;
+      this.currentTitle.textContent = newState.newsData[newState.newsData.length - 1]?.title || '';
     } else {
-      this.currentTitle.textContent = newState.newsData[newState.nextTitleIdx - 1].title;
+      this.currentTitle.textContent = newState.newsData[newState.nextTitleIdx - 1]?.title || '';
     }
 
-    this.nextTitle.textContent = newState.newsData[newState.nextTitleIdx].title;
+    this.nextTitle.textContent = newState.newsData[newState.nextTitleIdx]?.title || '';
   }
 
   renderPressName() {
@@ -88,7 +93,7 @@ export class NewsRoller extends Component {
     this.titleBox.append(newsTitle, nextNewsTitle);
   }
 
-  rolling = (timestamp) => {
+  rolling = (timestamp: number) => {
     if (!this.startTime) {
       this.startTime = timestamp;
     }

@@ -14,10 +14,12 @@ async function createInitialState() {
   return {
     systemDate: new Date(),
     leftRoller: {
+      isRolling: true,
       newsData: leftRollerNews,
       nextTitleIdx: 1,
     },
     rightRoller: {
+      isRolling: true,
       newsData: rightRollerNews,
       nextTitleIdx: 1,
     },
