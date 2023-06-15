@@ -51,55 +51,42 @@ export class MainView {
   }
 
   private updateArrowVisibility() {
-    const state = this.store.getState();
+    const {
+      currentView,
+      currentTab,
+      gridState,
+      gridState: { currentPage },
+    } = this.store.getState();
 
-    if (state.currentView === StateConst.LIST_VIEW) {
-      this.$prevButton.className = "main-view__left-arrow";
-      this.$nextButton.className = "main-view__right-arrow";
+    const lastPage =
+      currentTab === StateConst.ALL_PRESS_TAB
+        ? Math.ceil(gridState.pressList.length / StateConst.ITEM_PER_PAGE)
+        : Math.ceil(gridState.subscribedPressList.length / StateConst.ITEM_PER_PAGE);
+
+    const isFirstPage = currentPage === 1;
+    const isLastPage = currentPage >= lastPage;
+
+    const setPrevButtonClass = (className: string) => {
+      this.$prevButton.className = className;
+    };
+
+    const setNextButtonClass = (className: string) => {
+      this.$nextButton.className = className;
+    };
+
+    if (currentView === StateConst.LIST_VIEW) {
+      setPrevButtonClass("main-view__left-arrow");
+      setNextButtonClass("main-view__right-arrow");
 
       return;
     }
 
-    if (state.currentTab === StateConst.ALL_PRESS_TAB) {
-      const { currentPage } = state.gridState;
-      const lastPage = Math.ceil(state.gridState.pressList.length / StateConst.ITEM_PER_PAGE);
-      const isFirstPage = currentPage === 1;
-      const isLastPage = currentPage === lastPage;
+    const prevButtonClass = isFirstPage ? "main-view__left-arrow--hidden" : "main-view__left-arrow";
+    const nextButtonClass = isLastPage
+      ? "main-view__right-arrow--hidden"
+      : "main-view__right-arrow";
 
-      if (isFirstPage) {
-        this.$prevButton.className = "main-view__left-arrow--hidden";
-      } else {
-        this.$prevButton.className = "main-view__left-arrow";
-      }
-
-      if (isLastPage) {
-        this.$nextButton.className = "main-view__right-arrow--hidden";
-      } else {
-        this.$nextButton.className = "main-view__right-arrow";
-      }
-
-      return;
-    }
-
-    if (state.currentTab === StateConst.SUBSCRIBED_PRESS_TAB) {
-      const { currentPage } = state.gridState;
-      const lastPage = Math.ceil(
-        state.gridState.subscribedPressList.length / StateConst.ITEM_PER_PAGE
-      );
-      const isFirstPage = currentPage === 1;
-      const isLastPage = currentPage >= lastPage;
-
-      if (isFirstPage) {
-        this.$prevButton.className = "main-view__left-arrow--hidden";
-      } else {
-        this.$prevButton.className = "main-view__left-arrow";
-      }
-
-      if (isLastPage) {
-        this.$nextButton.className = "main-view__right-arrow--hidden";
-      } else {
-        this.$nextButton.className = "main-view__right-arrow";
-      }
-    }
+    setPrevButtonClass(prevButtonClass);
+    setNextButtonClass(nextButtonClass);
   }
 }

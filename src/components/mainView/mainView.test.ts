@@ -26,9 +26,16 @@ const expectRightArrowHidden = (mainView: MainView) => {
 describe("MainView updateArrowVisibility method tests", () => {
   describe("currentView가 list-view인 경우, 항상 양쪽 화살표가 보여야 한다.", () => {
     it("항상 양쪽 화살표가 보인다.", () => {
-      const initialState = {
+      const initialState: MainViewState = {
+        currentTab: StateConst.ALL_PRESS_TAB,
         currentView: StateConst.LIST_VIEW,
-      } as MainViewState;
+
+        gridState: {
+          pressList: [],
+          subscribedPressList: [],
+          currentPage: 1,
+        },
+      };
       const store = createStore<MainViewState>(initialState, reducer);
       const mainView = new MainView(store);
 
