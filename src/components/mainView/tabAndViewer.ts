@@ -1,5 +1,5 @@
 import { Store } from "@store/types";
-import { changeTabState } from "@components/mainView/store/actions";
+import { changeCurrentTabState, changeCurrentViewState } from "@components/mainView/store/actions";
 import { MainViewState } from ".";
 import { StateConst } from "./store/types";
 
@@ -8,11 +8,11 @@ export class TabAndViewer {
 
   private $tabAndViewer: HTMLElement = document.createElement("div");
   private $tab: HTMLElement = document.createElement("ul");
-  private $allPressTab: HTMLElement = document.createElement("li");
-  private $subscribedPressTab: HTMLElement = document.createElement("li");
+  $allPressTab: HTMLElement = document.createElement("li");
+  $subscribedPressTab: HTMLElement = document.createElement("li");
   private $viewerButtons: HTMLElement = document.createElement("ul");
-  private $listViewButton: HTMLElement = document.createElement("li");
-  private $gridViewButton: HTMLElement = document.createElement("li");
+  $listViewButton: HTMLElement = document.createElement("li");
+  $gridViewButton: HTMLElement = document.createElement("li");
 
   constructor(store: Store<MainViewState>) {
     this.store = store;
@@ -27,7 +27,7 @@ export class TabAndViewer {
 
     this.$tab.className = "tab-and-viewer__tab";
 
-    this.$allPressTab.className = "tab-and-viewer__all-press-tab--selected";
+    this.$allPressTab.className = "tab-and-viewer__all-press-tab";
     this.$allPressTab.textContent = "전체 언론사";
 
     this.$subscribedPressTab.className = "tab-and-viewer__subscribed-press-tab";
@@ -37,7 +37,7 @@ export class TabAndViewer {
 
     this.$viewerButtons.className = "tab-and-viewer__viewer-buttons";
     this.$listViewButton.className = "tab-and-viewer__list-view-button";
-    this.$gridViewButton.className = "tab-and-viewer__grid-view-button--selected";
+    this.$gridViewButton.className = "tab-and-viewer__grid-view-button";
 
     this.$viewerButtons.append(this.$listViewButton, this.$gridViewButton);
 
@@ -72,7 +72,7 @@ export class TabAndViewer {
     const isPressTabClick = target.classList.contains("tab-and-viewer__subscribed-press-tab");
 
     if (isPressTabClick) {
-      changeTabState(this.store, StateConst.SUBSCRIBED_PRESS_TAB);
+      changeCurrentTabState(this.store, StateConst.SUBSCRIBED_PRESS_TAB);
 
       return;
     }
@@ -80,7 +80,7 @@ export class TabAndViewer {
     const isAllPressTabClick = target.classList.contains("tab-and-viewer__all-press-tab");
 
     if (isAllPressTabClick) {
-      changeTabState(this.store, StateConst.ALL_PRESS_TAB);
+      changeCurrentTabState(this.store, StateConst.ALL_PRESS_TAB);
     }
   }
 
@@ -97,20 +97,18 @@ export class TabAndViewer {
       return;
     }
 
-    const isSubscribedPressTabClick = target.classList.contains(
-      "tab-and-viewer__subscribed-press-tab"
-    );
+    const isListViewClick = target.classList.contains("tab-and-viewer__list-view-button");
 
-    if (isSubscribedPressTabClick) {
-      // this.store.dispatch(createAction.subscribedPressTabClick());
+    if (isListViewClick) {
+      changeCurrentViewState(this.store, StateConst.LIST_VIEW);
 
       return;
     }
 
-    const isAllPressTabClick = target.classList.contains("tab-and-viewer__all-press-tab");
+    const isGridViewClick = target.classList.contains("tab-and-viewer__grid-view-button");
 
-    if (isAllPressTabClick) {
-      // this.store.dispatch(createAction.allPressTabClick());
+    if (isGridViewClick) {
+      changeCurrentViewState(this.store, StateConst.GRID_VIEW);
     }
   }
 

@@ -22,8 +22,12 @@ export enum ActionType {
 
   SUBSCRIBE_PRESS,
   UNSUBSCRIBE_PRESS,
+
   ALL_PRESS_TAB_CLICK,
   SUBSCRIBED_PRESS_TAB_CLICK,
+
+  LIST_VIEW_CLICK,
+  GRID_VIEW_CLICK,
 }
 
 interface SetPressListAction {
@@ -63,6 +67,14 @@ interface SubscribedPressTabClickAction {
   type: ActionType.SUBSCRIBED_PRESS_TAB_CLICK;
 }
 
+interface ListViewClickAction {
+  type: ActionType.LIST_VIEW_CLICK;
+}
+
+interface GridViewClickAction {
+  type: ActionType.GRID_VIEW_CLICK;
+}
+
 export type Action =
   | SetPressListAction
   | PrevButtonClickAction
@@ -70,6 +82,8 @@ export type Action =
   | SubscribePressAction
   | UnsubscribePressAction
   | AllPressTabClickAction
-  | SubscribedPressTabClickAction;
+  | SubscribedPressTabClickAction
+  | ListViewClickAction
+  | GridViewClickAction;
 
 export type Reducer<T> = (state: T, actions: Action) => T;

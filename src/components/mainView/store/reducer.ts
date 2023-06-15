@@ -72,6 +72,18 @@ export const reducer: Reducer<MainViewState> = (state, actions) => {
         },
       };
 
+    case ActionType.LIST_VIEW_CLICK:
+      return {
+        ...state,
+        currentView: StateConst.LIST_VIEW,
+      };
+
+    case ActionType.GRID_VIEW_CLICK:
+      return {
+        ...state,
+        currentView: StateConst.GRID_VIEW,
+      };
+
     default:
       return state;
   }
