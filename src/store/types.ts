@@ -11,8 +11,8 @@ export enum LocalStorageKey {
 }
 
 export enum StateConst {
-  ALL_PRESS = "all-press",
-  SUBSCRIBED_PRESS = "subscribed-press",
+  ALL_PRESS_TAB = "all-press-tab",
+  SUBSCRIBED_PRESS_TAB = "subscribed-press-tab",
   ITEM_PER_PAGE = 24,
 
   LIST_VIEW = "list-view",

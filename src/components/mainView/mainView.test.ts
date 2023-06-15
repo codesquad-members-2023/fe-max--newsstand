@@ -27,7 +27,7 @@ describe("MainView updateArrowVisibility method tests", () => {
   describe("currentView가 list-view인 경우, 항상 양쪽 화살표가 보여야 한다.", () => {
     it("항상 양쪽 화살표가 보인다.", () => {
       const initialState: MainViewState = {
-        currentTab: StateConst.ALL_PRESS,
+        currentTab: StateConst.ALL_PRESS_TAB,
         currentView: StateConst.LIST_VIEW,
 
         gridState: {
@@ -48,7 +48,7 @@ describe("MainView updateArrowVisibility method tests", () => {
   describe("currentView가 grid-view이며 currentTab이 ALL_PRESS의 경우, 경우에 따라 화살표가 보이거나 사라진다.", () => {
     it("첫 페이지이며 마지막 페이지인 경우, 양쪽 화살표가 사라져야 한다.", () => {
       const initialState: MainViewState = {
-        currentTab: StateConst.ALL_PRESS,
+        currentTab: StateConst.ALL_PRESS_TAB,
         currentView: StateConst.GRID_VIEW,
 
         gridState: {
@@ -67,7 +67,7 @@ describe("MainView updateArrowVisibility method tests", () => {
 
     it("첫 페이지이며 마지막 페이지가 아닌 경우, 왼쪽 화살표가 사라져야 한다.", () => {
       const initialState: MainViewState = {
-        currentTab: StateConst.ALL_PRESS,
+        currentTab: StateConst.ALL_PRESS_TAB,
         currentView: StateConst.GRID_VIEW,
 
         gridState: {
@@ -86,7 +86,7 @@ describe("MainView updateArrowVisibility method tests", () => {
 
     it("첫 페이지가 아니며 마지막 페이지인 경우, 오른쪽 화살표가 사라져야 한다.", () => {
       const initialState: MainViewState = {
-        currentTab: StateConst.ALL_PRESS,
+        currentTab: StateConst.ALL_PRESS_TAB,
         currentView: StateConst.GRID_VIEW,
 
         gridState: {
@@ -105,7 +105,7 @@ describe("MainView updateArrowVisibility method tests", () => {
 
     it("첫 페이지도 마지막 페이지도 아닌 경우, 양쪽 화살표 모두 사라지지 않는다.", () => {
       const initialState: MainViewState = {
-        currentTab: StateConst.ALL_PRESS,
+        currentTab: StateConst.ALL_PRESS_TAB,
         currentView: StateConst.GRID_VIEW,
 
         gridState: {
@@ -126,7 +126,7 @@ describe("MainView updateArrowVisibility method tests", () => {
   describe("currentView가 grid-view이며 currentTab이 SUBSCRIBED_PRESS의 경우, 경우에 따라 화살표가 보이거나 사라진다.", () => {
     it("첫 페이지이며 마지막 페이지인 경우, 양쪽 화살표가 사라져야 한다.", () => {
       const initialState: MainViewState = {
-        currentTab: StateConst.SUBSCRIBED_PRESS,
+        currentTab: StateConst.SUBSCRIBED_PRESS_TAB,
         currentView: StateConst.GRID_VIEW,
 
         gridState: {
@@ -146,7 +146,7 @@ describe("MainView updateArrowVisibility method tests", () => {
 
     it("첫 페이지이며 마지막 페이지가 아닌 경우, 왼쪽 화살표가 사라져야 한다.", () => {
       const initialState: MainViewState = {
-        currentTab: StateConst.SUBSCRIBED_PRESS,
+        currentTab: StateConst.SUBSCRIBED_PRESS_TAB,
         currentView: StateConst.GRID_VIEW,
 
         gridState: {
@@ -166,7 +166,7 @@ describe("MainView updateArrowVisibility method tests", () => {
 
     it("첫 페이지가 아니며 마지막 페이지인 경우, 오른쪽 화살표가 사라져야 한다.", () => {
       const initialState: MainViewState = {
-        currentTab: StateConst.SUBSCRIBED_PRESS,
+        currentTab: StateConst.SUBSCRIBED_PRESS_TAB,
         currentView: StateConst.GRID_VIEW,
 
         gridState: {
@@ -185,7 +185,7 @@ describe("MainView updateArrowVisibility method tests", () => {
 
     it("첫 페이지도 마지막 페이지도 아닌 경우, 양쪽 화살표 모두 사라지지 않는다.", () => {
       const initialState: MainViewState = {
-        currentTab: StateConst.SUBSCRIBED_PRESS,
+        currentTab: StateConst.SUBSCRIBED_PRESS_TAB,
         currentView: StateConst.GRID_VIEW,
 
         gridState: {

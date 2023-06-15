@@ -10,7 +10,7 @@ export interface Press {
 }
 
 export interface MainViewState {
-  currentTab: StateConst.ALL_PRESS | StateConst.SUBSCRIBED_PRESS;
+  currentTab: StateConst.ALL_PRESS_TAB | StateConst.SUBSCRIBED_PRESS_TAB;
   currentView: StateConst.LIST_VIEW | StateConst.GRID_VIEW;
 
   gridState: {
@@ -26,7 +26,7 @@ const initialState: MainViewState = (() => {
   const parsedList: string[] = subscribedPressList ? JSON.parse(subscribedPressList) : [];
 
   return {
-    currentTab: StateConst.ALL_PRESS,
+    currentTab: StateConst.ALL_PRESS_TAB,
     currentView: StateConst.GRID_VIEW,
 
     gridState: {

@@ -79,7 +79,7 @@ export const reducer: Reducer<MainViewState> = (state, actions) => {
     case ActionType.ALL_PRESS_TAB_CLICK:
       return {
         ...state,
-        currentTab: StateConst.ALL_PRESS,
+        currentTab: StateConst.ALL_PRESS_TAB,
         gridState: {
           ...state.gridState,
           currentPage: 1,
@@ -89,7 +89,7 @@ export const reducer: Reducer<MainViewState> = (state, actions) => {
     case ActionType.SUBSCRIBED_PRESS_TAB_CLICK:
       return {
         ...state,
-        currentTab: StateConst.SUBSCRIBED_PRESS,
+        currentTab: StateConst.SUBSCRIBED_PRESS_TAB,
         gridState: {
           ...state.gridState,
           currentPage: 1,

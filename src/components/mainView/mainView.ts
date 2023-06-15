@@ -60,7 +60,7 @@ export class MainView {
       return;
     }
 
-    if (state.currentTab === StateConst.ALL_PRESS) {
+    if (state.currentTab === StateConst.ALL_PRESS_TAB) {
       const { currentPage, lastPage } = state.gridState;
       const isFirstPage = currentPage === 1;
       const isLastPage = currentPage === lastPage;
@@ -80,7 +80,7 @@ export class MainView {
       return;
     }
 
-    if (state.currentTab === StateConst.SUBSCRIBED_PRESS) {
+    if (state.currentTab === StateConst.SUBSCRIBED_PRESS_TAB) {
       const { currentPage } = state.gridState;
       const lastPage = Math.ceil(
         state.gridState.subscribedPressList.length / StateConst.ITEM_PER_PAGE

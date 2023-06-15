@@ -114,14 +114,14 @@ export class TabAndViewer {
   }
 
   updateTabSelection(state: MainViewState) {
-    if (state.currentTab === StateConst.ALL_PRESS) {
+    if (state.currentTab === StateConst.ALL_PRESS_TAB) {
       this.$allPressTab.className = "tab-and-viewer__all-press-tab--selected";
       this.$subscribedPressTab.className = "tab-and-viewer__subscribed-press-tab";
 
       return;
     }
 
-    if (state.currentTab === StateConst.SUBSCRIBED_PRESS) {
+    if (state.currentTab === StateConst.SUBSCRIBED_PRESS_TAB) {
       this.$allPressTab.className = "tab-and-viewer__all-press-tab";
       this.$subscribedPressTab.className = "tab-and-viewer__subscribed-press-tab--selected";
     }

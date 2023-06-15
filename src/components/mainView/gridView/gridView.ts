@@ -74,7 +74,7 @@ export class GridView {
     } = state;
 
     const filteredList =
-      currentTab === StateConst.ALL_PRESS
+      currentTab === StateConst.ALL_PRESS_TAB
         ? list
         : list.filter((press) => subscribedPressList.includes(press.alt));
 
