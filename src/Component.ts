@@ -2,8 +2,7 @@ import { State } from './utils/types';
 
 export class Component {
   element: HTMLElement;
-
-  readonly props;
+  props: any;
 
   constructor(props: any) {
     this.props = props;

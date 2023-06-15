@@ -1,24 +1,25 @@
 import { Component } from '../../Component';
-import { rolling } from '../../actions';
-import { store } from '../../index';
+import { Actions } from '../../actions';
 
 export class NewsRoller extends Component {
-  protected pressName: HTMLDivElement;
+  pressName: HTMLDivElement;
   titleBox: HTMLDivElement;
   currentTitle: HTMLDivElement;
   nextTitle: HTMLDivElement;
   timer: number | NodeJS.Timer;
   startTime: number;
   rAF: number;
+  position: string;
 
-  constructor(props) {
+  constructor(props, position) {
     super(props);
     this.render();
     this.setEvent();
     this.mount();
 
-    // this.startRoller();
+    this.position = position;
     this.startTime = 0;
+
     requestAnimationFrame(this.rolling);
   }
 
@@ -32,7 +33,8 @@ export class NewsRoller extends Component {
 
   setEvent() {
     this.titleBox.addEventListener('animationend', () => {
-      store.dispatch(rolling);
+      console.log('animationend');
+      Actions.roll(this.position);
     });
     // this.titleBox.addEventListener('mouseenter', () => {
     //   clearInterval(this.timer);
@@ -46,24 +48,17 @@ export class NewsRoller extends Component {
     this.element.append(this.pressName, this.titleBox);
   }
 
-  update() {
-    this.props.nextTitleIdx += 1;
-    this.props.nextTitleIdx %= 5;
+  update(newState) {
+    console.log(newState);
+    this.titleBox.classList.remove('roll');
 
-    const prevCurrentTitle = this.currentTitle;
-    const prevNextTitle = this.nextTitle;
-    console.log(prevCurrentTitle, prevNextTitle);
-    debugger;
+    if (newState.nextTitleIdx === 0) {
+      this.currentTitle.textContent = newState.newsData[newState.newsData.length - 1].title;
+    } else {
+      this.currentTitle.textContent = newState.newsData[newState.nextTitleIdx - 1].title;
+    }
 
-    prevCurrentTitle.classList.remove('roll');
-    prevCurrentTitle.setAttribute('style', 'top: 2rem');
-    prevCurrentTitle.textContent = this.props.newsData[this.props.nextTitleIdx].title;
-
-    prevNextTitle.removeAttribute('style');
-    prevNextTitle.classList.remove('roll');
-
-    this.nextTitle = prevCurrentTitle;
-    this.currentTitle = prevNextTitle;
+    this.nextTitle.textContent = newState.newsData[newState.nextTitleIdx].title;
   }
 
   renderPressName() {
@@ -93,33 +88,6 @@ export class NewsRoller extends Component {
     this.titleBox.append(newsTitle, nextNewsTitle);
   }
 
-  startRoller() {
-    const timer = setInterval(() => {
-      this.nextTitle.textContent = this.props.newsData[this.props.nextTitleIdx].title;
-
-      this.props.nextTitleIdx += 1;
-      this.props.nextTitleIdx %= 5;
-
-      this.currentTitle.classList.add('roll');
-      this.nextTitle.classList.add('roll');
-
-      setTimeout(() => {
-        this.currentTitle.classList.remove('roll');
-        this.currentTitle.setAttribute('style', 'top: 2rem');
-        this.currentTitle.textContent = this.props.newsData[this.props.nextTitleIdx].title;
-
-        const pastNextTitle = this.nextTitle;
-        this.nextTitle = this.currentTitle;
-
-        this.currentTitle = pastNextTitle;
-        this.currentTitle.removeAttribute('style');
-        this.currentTitle.classList.remove('roll');
-      }, 600);
-    }, 5000);
-
-    this.timer = timer;
-  }
-
   rolling = (timestamp) => {
     if (!this.startTime) {
       this.startTime = timestamp;
@@ -128,8 +96,7 @@ export class NewsRoller extends Component {
     const intervalTime = timestamp - this.startTime;
 
     if (intervalTime >= 3000) {
-      this.currentTitle.classList.add('roll');
-      this.nextTitle.classList.add('roll');
+      this.titleBox.classList.add('roll');
       this.startTime = 0;
     }
 

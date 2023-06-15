@@ -6,7 +6,7 @@
   }
 
   100% {
-    transform: translateY(-190%);
+    transform: translateY(-200%);
   }
 }
 
@@ -22,6 +22,7 @@
     padding: 1rem;
     background-color: $color-off-white;
     border: 1px solid $color-gray-100;
+    overflow: hidden;
 
     &__name {
       color: $color-black;
@@ -32,15 +33,14 @@
       cursor: pointer;
       flex-grow: 1;
       color: $color-gray-500;
-      // overflow: hidden;
+
+      &.roll {
+        animation: rolling 0.7s;
+        animation-fill-mode: forwards;
+      }
 
       .title {
         position: absolute;
-
-        &.roll {
-          animation: rolling 0.5s;
-          animation-fill-mode: forwards;
-        }
 
         &:hover {
           text-decoration: underline;

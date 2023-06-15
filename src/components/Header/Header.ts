@@ -17,11 +17,11 @@ export class Header extends Component {
     this.renderDateArea();
   }
 
-  setEvent() {
-    this.logoArea.addEventListener('click', () => {
-      window.location.reload();
-    });
-  }
+  // setEvent() {
+  //   this.logoArea.addEventListener('click', () => {
+  //     window.location.reload();
+  //   });
+  // }
 
   mount() {
     this.element.append(this.logoArea, this.dateArea);
@@ -38,7 +38,7 @@ export class Header extends Component {
 
   renderLogoArea() {
     const logoArea = document.createElement('a');
-    logoArea.setAttribute('href', '#');
+    logoArea.setAttribute('href', '/');
     logoArea.classList.add('logo__area');
 
     const logoImg = document.createElement('img');

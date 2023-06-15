@@ -28,9 +28,13 @@ export type HTMLElementEvent<T extends HTMLElement> = Event & {
 
 export type State = {
   systemDate: Date;
-  rollingNews: {
-    titleIdx: number;
-    timer: number;
+  leftRoller: {
+    newsData: OneLineNews[];
+    nextTitleIdx: number;
+  };
+  rightRoller: {
+    newsData: OneLineNews[];
+    nextTitleIdx: number;
   };
   breakingNews: OneLineNews[];
   gridData: newsData[];

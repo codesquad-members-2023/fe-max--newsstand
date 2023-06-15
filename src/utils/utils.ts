@@ -21,7 +21,7 @@ export async function fetchData(path: string) {
   return data;
 }
 
-export function divideNewsData(newsData: newsData[]) {
+export function divideNewsData<TNewsType>(newsData: TNewsType[]): [TNewsType[], TNewsType[]] {
   const middleNum = newsData.length / 2;
   const leftRollerNews = newsData.slice(0, middleNum);
   const rightRollerNews = newsData.slice(middleNum);
