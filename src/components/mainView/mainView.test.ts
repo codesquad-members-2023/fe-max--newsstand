@@ -7,6 +7,22 @@ import { reducer } from "@store/reducer";
 
 window.alert = jest.fn();
 
+const expectLeftArrowVisible = (mainView: MainView) => {
+  expect(mainView.$prevButton.className).toBe("main-view__left-arrow");
+};
+
+const expectLeftArrowHidden = (mainView: MainView) => {
+  expect(mainView.$prevButton.className).toBe("main-view__left-arrow--hidden");
+};
+
+const expectRightArrowVisible = (mainView: MainView) => {
+  expect(mainView.$nextButton.className).toBe("main-view__right-arrow");
+};
+
+const expectRightArrowHidden = (mainView: MainView) => {
+  expect(mainView.$nextButton.className).toBe("main-view__right-arrow--hidden");
+};
+
 describe("MainView updateArrowVisibility method tests", () => {
   describe("currentView가 list-view인 경우, 항상 양쪽 화살표가 보여야 한다.", () => {
     it("항상 양쪽 화살표가 보인다.", () => {
@@ -24,8 +40,8 @@ describe("MainView updateArrowVisibility method tests", () => {
       const store = createStore<MainViewState>(initialState, reducer);
       const mainView = new MainView(store);
 
-      expect(mainView.$prevButton.className).toBe("main-view__left-arrow");
-      expect(mainView.$nextButton.className).toBe("main-view__right-arrow");
+      expectLeftArrowVisible(mainView);
+      expectRightArrowVisible(mainView);
     });
   });
 
@@ -45,8 +61,8 @@ describe("MainView updateArrowVisibility method tests", () => {
       const store = createStore<MainViewState>(initialState, reducer);
       const mainView = new MainView(store);
 
-      expect(mainView.$prevButton.className).toBe("main-view__left-arrow--hidden");
-      expect(mainView.$nextButton.className).toBe("main-view__right-arrow--hidden");
+      expectLeftArrowHidden(mainView);
+      expectRightArrowHidden(mainView);
     });
 
     it("첫 페이지이며 마지막 페이지가 아닌 경우, 왼쪽 화살표가 사라져야 한다.", () => {
@@ -64,8 +80,8 @@ describe("MainView updateArrowVisibility method tests", () => {
       const store = createStore<MainViewState>(initialState, reducer);
       const mainView = new MainView(store);
 
-      expect(mainView.$prevButton.className).toBe("main-view__left-arrow--hidden");
-      expect(mainView.$nextButton.className).toBe("main-view__right-arrow");
+      expectLeftArrowHidden(mainView);
+      expectRightArrowVisible(mainView);
     });
 
     it("첫 페이지가 아니며 마지막 페이지인 경우, 오른쪽 화살표가 사라져야 한다.", () => {
@@ -83,8 +99,8 @@ describe("MainView updateArrowVisibility method tests", () => {
       const store = createStore<MainViewState>(initialState, reducer);
       const mainView = new MainView(store);
 
-      expect(mainView.$prevButton.className).toBe("main-view__left-arrow");
-      expect(mainView.$nextButton.className).toBe("main-view__right-arrow--hidden");
+      expectLeftArrowVisible(mainView);
+      expectRightArrowHidden(mainView);
     });
 
     it("첫 페이지도 마지막 페이지도 아닌 경우, 양쪽 화살표 모두 사라지지 않는다.", () => {
@@ -102,8 +118,8 @@ describe("MainView updateArrowVisibility method tests", () => {
       const store = createStore<MainViewState>(initialState, reducer);
       const mainView = new MainView(store);
 
-      expect(mainView.$prevButton.className).toBe("main-view__left-arrow");
-      expect(mainView.$nextButton.className).toBe("main-view__right-arrow");
+      expectLeftArrowVisible(mainView);
+      expectRightArrowVisible(mainView);
     });
   });
 
@@ -124,8 +140,8 @@ describe("MainView updateArrowVisibility method tests", () => {
       const store = createStore<MainViewState>(initialState, reducer);
       const mainView = new MainView(store);
 
-      expect(mainView.$prevButton.className).toBe("main-view__left-arrow--hidden");
-      expect(mainView.$nextButton.className).toBe("main-view__right-arrow--hidden");
+      expectLeftArrowHidden(mainView);
+      expectRightArrowHidden(mainView);
     });
 
     it("첫 페이지이며 마지막 페이지가 아닌 경우, 왼쪽 화살표가 사라져야 한다.", () => {
@@ -144,8 +160,8 @@ describe("MainView updateArrowVisibility method tests", () => {
       const store = createStore<MainViewState>(initialState, reducer);
       const mainView = new MainView(store);
 
-      expect(mainView.$prevButton.className).toBe("main-view__left-arrow--hidden");
-      expect(mainView.$nextButton.className).toBe("main-view__right-arrow");
+      expectLeftArrowHidden(mainView);
+      expectRightArrowVisible(mainView);
     });
 
     it("첫 페이지가 아니며 마지막 페이지인 경우, 오른쪽 화살표가 사라져야 한다.", () => {
@@ -163,8 +179,8 @@ describe("MainView updateArrowVisibility method tests", () => {
       const store = createStore<MainViewState>(initialState, reducer);
       const mainView = new MainView(store);
 
-      expect(mainView.$prevButton.className).toBe("main-view__left-arrow");
-      expect(mainView.$nextButton.className).toBe("main-view__right-arrow--hidden");
+      expectLeftArrowVisible(mainView);
+      expectRightArrowHidden(mainView);
     });
 
     it("첫 페이지도 마지막 페이지도 아닌 경우, 양쪽 화살표 모두 사라지지 않는다.", () => {
@@ -183,8 +199,8 @@ describe("MainView updateArrowVisibility method tests", () => {
       const store = createStore<MainViewState>(initialState, reducer);
       const mainView = new MainView(store);
 
-      expect(mainView.$prevButton.className).toBe("main-view__left-arrow");
-      expect(mainView.$nextButton.className).toBe("main-view__right-arrow");
+      expectLeftArrowVisible(mainView);
+      expectRightArrowVisible(mainView);
     });
   });
 });
