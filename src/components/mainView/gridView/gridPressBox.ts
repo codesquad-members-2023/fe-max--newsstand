@@ -1,6 +1,6 @@
 import { Store } from "@store/types";
 import { MainViewState, Press } from "..";
-import { createAction } from "@components/mainView/store/actions";
+import { subscribePress, unsubscribePress } from "@components/mainView/store/actions";
 import { LocalStorageKey } from "../store/types";
 
 export class GridPressBox {
@@ -70,11 +70,13 @@ export class GridPressBox {
     this.$subscribeButton.addEventListener("click", () => {
       const pressName = this.press.alt;
 
-      const action = this.isSubscribed
-        ? createAction.unsubscribePress(pressName)
-        : createAction.subscribePress(pressName);
+      if (this.isSubscribed) {
+        unsubscribePress(this.store, pressName);
 
-      this.store.dispatch(action);
+        return;
+      }
+
+      subscribePress(this.store, pressName);
     });
   }
 

@@ -30,15 +30,6 @@ export const reducer: Reducer<MainViewState> = (state, actions) => {
         },
       };
 
-    case ActionType.SET_SUBSCRIBED_PRESS_LIST:
-      return {
-        ...state,
-        gridState: {
-          ...state.gridState,
-          ...actions.payload,
-        },
-      };
-
     case ActionType.SUBSCRIBE_PRESS:
       return {
         ...state,

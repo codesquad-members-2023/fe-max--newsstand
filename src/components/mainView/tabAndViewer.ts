@@ -1,5 +1,5 @@
 import { Store } from "@store/types";
-import { createAction } from "@components/mainView/store/actions";
+import { changeTabState } from "@components/mainView/store/actions";
 import { MainViewState } from ".";
 import { StateConst } from "./store/types";
 
@@ -72,7 +72,7 @@ export class TabAndViewer {
     const isPressTabClick = target.classList.contains("tab-and-viewer__subscribed-press-tab");
 
     if (isPressTabClick) {
-      this.store.dispatch(createAction.subscribedPressTabClick());
+      changeTabState(this.store, StateConst.SUBSCRIBED_PRESS_TAB);
 
       return;
     }
@@ -80,7 +80,7 @@ export class TabAndViewer {
     const isAllPressTabClick = target.classList.contains("tab-and-viewer__all-press-tab");
 
     if (isAllPressTabClick) {
-      this.store.dispatch(createAction.allPressTabClick());
+      changeTabState(this.store, StateConst.ALL_PRESS_TAB);
     }
   }
 
@@ -102,7 +102,7 @@ export class TabAndViewer {
     );
 
     if (isSubscribedPressTabClick) {
-      this.store.dispatch(createAction.subscribedPressTabClick());
+      // this.store.dispatch(createAction.subscribedPressTabClick());
 
       return;
     }
@@ -110,7 +110,7 @@ export class TabAndViewer {
     const isAllPressTabClick = target.classList.contains("tab-and-viewer__all-press-tab");
 
     if (isAllPressTabClick) {
-      this.store.dispatch(createAction.allPressTabClick());
+      // this.store.dispatch(createAction.allPressTabClick());
     }
   }
 

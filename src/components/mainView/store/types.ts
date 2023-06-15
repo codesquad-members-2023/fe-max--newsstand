@@ -20,7 +20,6 @@ export enum ActionType {
   PREV_BUTTON_CLICK,
   NEXT_BUTTON_CLICK,
 
-  SET_SUBSCRIBED_PRESS_LIST,
   SUBSCRIBE_PRESS,
   UNSUBSCRIBE_PRESS,
   ALL_PRESS_TAB_CLICK,
@@ -40,13 +39,6 @@ interface PrevButtonClickAction {
 
 interface NextButtonClickAction {
   type: ActionType.NEXT_BUTTON_CLICK;
-}
-
-interface SetSubscribePressListAction {
-  type: ActionType.SET_SUBSCRIBED_PRESS_LIST;
-  payload: {
-    subscribedPressList: string[];
-  };
 }
 
 interface SubscribePressAction {
@@ -75,7 +67,6 @@ export type Action =
   | SetPressListAction
   | PrevButtonClickAction
   | NextButtonClickAction
-  | SetSubscribePressListAction
   | SubscribePressAction
   | UnsubscribePressAction
   | AllPressTabClickAction

@@ -1,51 +1,51 @@
-import { Press } from "@components/mainView";
-import { Action, ActionType } from "./types";
+import { MainViewState, Press } from "@components/mainView";
+import { ActionType, StateConst } from "./types";
+import { Store } from "@store/types";
 
-export const createAction = {
-  setPressList(pressList: Press[]): Action {
-    return {
-      type: ActionType.SET_PRESS_LIST,
-      payload: {
-        pressList,
-      },
-    };
-  },
+export const subscribePress = (store: Store<MainViewState>, pressName: string) => {
+  store.dispatch({
+    type: ActionType.SUBSCRIBE_PRESS,
+    payload: {
+      pressName,
+    },
+  });
+};
 
-  prevButtonClick(): Action {
-    return { type: ActionType.PREV_BUTTON_CLICK };
-  },
+export const unsubscribePress = (store: Store<MainViewState>, pressName: string) => {
+  store.dispatch({
+    type: ActionType.UNSUBSCRIBE_PRESS,
+    payload: {
+      pressName,
+    },
+  });
+};
 
-  nextButtonClick(): Action {
-    return { type: ActionType.NEXT_BUTTON_CLICK };
-  },
+export const handlePrevButtonClick = (store: Store<MainViewState>) => {
+  store.dispatch({ type: ActionType.PREV_BUTTON_CLICK });
+};
 
-  setSubscribedPressList(subscribedPressList: string[]): Action {
-    return { type: ActionType.SET_SUBSCRIBED_PRESS_LIST, payload: { subscribedPressList } };
-  },
+export const handleNextButtonClick = (store: Store<MainViewState>) => {
+  store.dispatch({ type: ActionType.NEXT_BUTTON_CLICK });
+};
 
-  subscribePress(pressName: string): Action {
-    return {
-      type: ActionType.SUBSCRIBE_PRESS,
-      payload: {
-        pressName,
-      },
-    };
-  },
+export const changeTabState = (
+  store: Store<MainViewState>,
+  targetTab: StateConst.ALL_PRESS_TAB | StateConst.SUBSCRIBED_PRESS_TAB
+) => {
+  if (targetTab === StateConst.ALL_PRESS_TAB) {
+    store.dispatch({ type: ActionType.ALL_PRESS_TAB_CLICK });
 
-  unsubscribePress(pressName: string): Action {
-    return {
-      type: ActionType.UNSUBSCRIBE_PRESS,
-      payload: {
-        pressName,
-      },
-    };
-  },
+    return;
+  }
 
-  allPressTabClick(): Action {
-    return { type: ActionType.ALL_PRESS_TAB_CLICK };
-  },
+  store.dispatch({ type: ActionType.SUBSCRIBED_PRESS_TAB_CLICK });
+};
 
-  subscribedPressTabClick(): Action {
-    return { type: ActionType.SUBSCRIBED_PRESS_TAB_CLICK };
-  },
+export const setPressList = (store: Store<MainViewState>, pressList: Press[]) => {
+  store.dispatch({
+    type: ActionType.SET_PRESS_LIST,
+    payload: {
+      pressList,
+    },
+  });
 };

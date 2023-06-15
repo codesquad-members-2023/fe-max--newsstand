@@ -2,7 +2,7 @@ import { GridView } from "./gridView/gridView";
 import { TabAndViewer } from "./tabAndViewer";
 import { Store } from "@store/types";
 import { MainViewState } from ".";
-import { createAction } from "@components/mainView/store/actions";
+import { handleNextButtonClick, handlePrevButtonClick } from "@components/mainView/store/actions";
 import { StateConst } from "./store/types";
 
 export class MainView {
@@ -39,11 +39,11 @@ export class MainView {
 
   setEvents() {
     this.$prevButton.addEventListener("click", () => {
-      this.store.dispatch(createAction.prevButtonClick());
+      handlePrevButtonClick(this.store);
     });
 
     this.$nextButton.addEventListener("click", () => {
-      this.store.dispatch(createAction.nextButtonClick());
+      handleNextButtonClick(this.store);
     });
   }
 

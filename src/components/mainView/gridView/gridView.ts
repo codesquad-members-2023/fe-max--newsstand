@@ -1,7 +1,7 @@
 import { Store } from "@store/types";
 import { MainViewState, Press } from "..";
 import { GridPressBox } from "./gridPressBox";
-import { createAction } from "@components/mainView/store/actions";
+import { setPressList } from "@components/mainView/store/actions";
 import { shuffleArray } from "@utils/shuffleArray";
 import { StateConst } from "../store/types";
 
@@ -53,7 +53,7 @@ export class GridView {
 
     const shuffledPressList = shuffleArray(pressList);
 
-    this.store.dispatch(createAction.setPressList(shuffledPressList));
+    setPressList(this.store, shuffledPressList);
   }
 
   async fetchPressList(): Promise<Press[] | void> {
