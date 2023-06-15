@@ -40,10 +40,6 @@ interface SetPressListAction {
   };
 }
 
-interface UpdateLastPageAction {
-  type: ActionType.UPDATE_LAST_PAGE;
-}
-
 interface PrevButtonClickAction {
   type: ActionType.PREV_BUTTON_CLICK;
 }
@@ -83,7 +79,6 @@ interface SubscribedPressTabClickAction {
 
 export type Action =
   | SetPressListAction
-  | UpdateLastPageAction
   | PrevButtonClickAction
   | NextButtonClickAction
   | SetSubscribePressListAction

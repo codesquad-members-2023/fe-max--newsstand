@@ -61,7 +61,8 @@ export class MainView {
     }
 
     if (state.currentTab === StateConst.ALL_PRESS_TAB) {
-      const { currentPage, lastPage } = state.gridState;
+      const { currentPage } = state.gridState;
+      const lastPage = Math.ceil(state.gridState.pressList.length / StateConst.ITEM_PER_PAGE);
       const isFirstPage = currentPage === 1;
       const isLastPage = currentPage === lastPage;
 

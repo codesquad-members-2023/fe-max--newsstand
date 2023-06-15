@@ -11,10 +11,6 @@ export const createAction = {
     };
   },
 
-  updateLastPage(): Action {
-    return { type: ActionType.UPDATE_LAST_PAGE };
-  },
-
   prevButtonClick(): Action {
     return { type: ActionType.PREV_BUTTON_CLICK };
   },

@@ -53,7 +53,6 @@ export class GridView {
     const shuffledPressList = shuffleArray(pressList);
 
     this.store.dispatch(createAction.setPressList(shuffledPressList));
-    this.store.dispatch(createAction.updateLastPage());
   }
 
   async fetchPressList(): Promise<Press[] | void> {

@@ -17,7 +17,6 @@ export interface MainViewState {
     pressList: Press[];
     subscribedPressList: string[];
     currentPage: number;
-    lastPage: number;
   };
 }
 
@@ -33,7 +32,6 @@ const initialState: MainViewState = (() => {
       pressList: [],
       subscribedPressList: parsedList,
       currentPage: 1,
-      lastPage: 1,
     },
   };
 })();

@@ -12,24 +12,12 @@ export const reducer: Reducer<MainViewState> = (state, actions) => {
         },
       };
 
-    case ActionType.UPDATE_LAST_PAGE:
-      return {
-        ...state,
-        gridState: {
-          ...state.gridState,
-          lastPage: Math.ceil(state.gridState.pressList.length / StateConst.ITEM_PER_PAGE),
-        },
-      };
-
     case ActionType.PREV_BUTTON_CLICK:
       return {
         ...state,
         gridState: {
           ...state.gridState,
-          currentPage:
-            state.gridState.currentPage > 1
-              ? state.gridState.currentPage - 1
-              : state.gridState.currentPage,
+          currentPage: state.gridState.currentPage - 1,
         },
       };
 
@@ -38,10 +26,7 @@ export const reducer: Reducer<MainViewState> = (state, actions) => {
         ...state,
         gridState: {
           ...state.gridState,
-          currentPage:
-            state.gridState.currentPage < state.gridState.lastPage
-              ? state.gridState.currentPage + 1
-              : state.gridState.currentPage,
+          currentPage: state.gridState.currentPage + 1,
         },
       };
 
