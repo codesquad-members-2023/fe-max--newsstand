@@ -5,7 +5,7 @@ const subscribers: Function[] = [];
 export const subscribe = (
   subscriber: (state: {
     dateInfo: Date;
-    gridInfo: GridInfo;
+    gridViewInfo: GridViewInfo;
     subscriptionInfo: string[];
     mainViewerInfo: {
       targetMedia: 'total' | 'subscribed';

@@ -6,7 +6,7 @@ import GridView from '@components/main/gridView/GridView';
 import style from '@components/main/Main.module.css';
 
 type MainProps = {
-  gridInfo: GridInfo;
+  gridViewInfo: GridViewInfo;
   subscriptionInfo: string[];
   mainViewerInfo: {
     targetMedia: 'total' | 'subscribed';

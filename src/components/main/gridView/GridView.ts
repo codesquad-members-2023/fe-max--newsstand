@@ -6,7 +6,7 @@ import SubscriptionCover from '@components/main/gridView/SubscriptionCover';
 import style from '@components/main/gridView/GridView.module.css';
 
 type GridViewProps = {
-  gridInfo: GridInfo;
+  gridViewInfo: GridViewInfo;
   subscriptionInfo: string[];
 };
 
@@ -40,7 +40,7 @@ export default class GridView {
         images: shuffleArray(await getGridImgs())
       }
     });
-  };
+  }
 
   private createCells() {
     return [...Array(this.numberOfCells)].map((_, index) => {
@@ -88,10 +88,10 @@ export default class GridView {
 
   private updateProps(props: GridViewProps) {
     return {
-      imgs: [...props.gridInfo.imgs],
-      page: props.gridInfo.page,
-      isHover: props.gridInfo.isHover,
-      hoverIndex: props.gridInfo.hoverIndex,
+      imgs: [...props.gridViewInfo.imgs],
+      page: props.gridViewInfo.page,
+      isHover: props.gridViewInfo.isHover,
+      hoverIndex: props.gridViewInfo.hoverIndex,
       subscribedIds: [...props.subscriptionInfo]
     };
   }
@@ -130,7 +130,7 @@ export default class GridView {
   }
 
   updateView(props: GridViewProps) {
-    const { imgs, page, isHover, hoverIndex } = props.gridInfo;
+    const { imgs, page, isHover, hoverIndex } = props.gridViewInfo;
     if (
       this.props.isHover !== isHover ||
       this.props.hoverIndex !== hoverIndex ||

@@ -6,12 +6,9 @@ import style from '@components/NewsStand.module.css';
 
 type NewsStandProps = {
   dateInfo: Date;
-  gridInfo: GridInfo;
+  gridViewInfo: GridViewInfo;
   subscriptionInfo: string[];
-  mainViewerInfo: {
-    targetMedia: 'total' | 'subscribed';
-    viewer: 'listView' | 'gridView';
-  };
+  mainViewerInfo: MainViewerInfo;
   news: NewsData | null;
   fields: FieldData[];
   listIndex: number;

@@ -74,7 +74,7 @@ type GridImg = {
   alt: string;
 };
 
-type GridInfo = {
+type GridViewInfo = {
   imgs: GridImg[];
   page: number;
   isHover: boolean;
@@ -122,4 +122,9 @@ type MediaInfo = {
 type FieldData = {
   name: string;
   active: boolean;
+};
+
+type MainViewerInfo = {
+  targetMedia: 'total' | 'subscribed';
+  viewer: 'listView' | 'gridView';
 };

@@ -1,12 +1,11 @@
 import { getNewsList, getSubscribedMedias, setSubscribedMedias } from '@utils/dataUtils';
 import { GRID_PAGE_LIMIT } from '@/constants';
 
-const state: {
+type State = {
   dateInfo: Date;
-  gridInfo: GridInfo;
-  subscribedMedias: string[];
-  targetMedia: 'total' | 'subscribed';
-  viewer: 'gridView' | 'listView';
+  gridViewInfo: GridViewInfo;
+  subscriptionInfo: string[];
+  mainViewerInfo: MainViewerInfo;
   news: NewsData | null;
   fields: FieldData[];
   listIndex: number;
@@ -14,17 +13,21 @@ const state: {
     left: boolean;
     right: boolean;
   };
-} = {
+}
+
+const state: State = {
   dateInfo: new Date(),
-  gridInfo: {
+  gridViewInfo: {
     imgs: [],
     page: 0,
     isHover: false,
     hoverIndex: -1
   },
-  subscribedMedias: getSubscribedMedias(),
-  targetMedia: 'total',
-  viewer: 'gridView',
+  subscriptionInfo: getSubscribedMedias(),
+  mainViewerInfo: {
+    targetMedia: 'total',
+    viewer: 'gridView',
+  },
   news: null,
   fields: [],
   listIndex: 0,
@@ -41,31 +44,31 @@ export const getState = () => {
 export const invoke = (action: Action) => {
   switch (action.type) {
     case 'turnOnSubscriptionCover':
-      state.gridInfo.isHover = action.payload.hoverOnGrid;
-      state.gridInfo.hoverIndex = action.payload.hoveredCellIndex;
+      state.gridViewInfo.isHover = action.payload.hoverOnGrid;
+      state.gridViewInfo.hoverIndex = action.payload.hoveredCellIndex;
 
       break;
     case 'turnOffSubscriptionCover':
-      state.gridInfo.isHover = action.payload.hoverOnGrid;
-      state.gridInfo.hoverIndex = -1;
+      state.gridViewInfo.isHover = action.payload.hoverOnGrid;
+      state.gridViewInfo.hoverIndex = -1;
 
       break;
     case 'initGridImages':
-      state.gridInfo.imgs = action.payload.images;
+      state.gridViewInfo.imgs = action.payload.images;
 
       changeArrowStates();
       break;
     case 'updateSubscribedMedia':
       if (action.payload.mode === 'add') {
-        state.subscribedMedias.push(action.payload.name);
+        state.subscriptionInfo.push(action.payload.name);
       } else {
-        state.subscribedMedias = state.subscribedMedias.filter(
+        state.subscriptionInfo = state.subscriptionInfo.filter(
           (name) => name !== action.payload.name
         );
       }
 
-      setSubscribedMedias(state.subscribedMedias);
-      state.subscribedMedias = getSubscribedMedias();
+      setSubscribedMedias(state.subscriptionInfo);
+      state.subscriptionInfo = getSubscribedMedias();
       break;
     case 'initNewsData':
       const news = action.payload.news;
@@ -93,7 +96,7 @@ export const invoke = (action: Action) => {
 
       break;
     case 'onClickLeftArrow':
-      if (state.viewer === 'gridView') {
+      if (state.mainViewerInfo.viewer === 'gridView') {
         decreaseGridPage();
         changeArrowStates();
       } else {
@@ -103,7 +106,7 @@ export const invoke = (action: Action) => {
 
       break;
     case 'onClickRightArrow':
-      if (state.viewer === 'gridView') {
+      if (state.mainViewerInfo.viewer === 'gridView') {
         increaseGridPage();
         changeArrowStates();
       } else {
@@ -113,7 +116,7 @@ export const invoke = (action: Action) => {
 
       break;
     case 'changeViewer':
-      state.viewer = action.payload.viewer;
+      state.mainViewerInfo.viewer = action.payload.viewer;
 
       resetViewerStates();
       changeArrowStates();
@@ -125,11 +128,11 @@ export const invoke = (action: Action) => {
 };
 
 const increaseGridPage = () => {
-  state.gridInfo.page = (state.gridInfo.page + 1 + GRID_PAGE_LIMIT) % GRID_PAGE_LIMIT;
+  state.gridViewInfo.page = (state.gridViewInfo.page + 1 + GRID_PAGE_LIMIT) % GRID_PAGE_LIMIT;
 };
 
 const decreaseGridPage = () => {
-  state.gridInfo.page = (state.gridInfo.page - 1 + GRID_PAGE_LIMIT) % GRID_PAGE_LIMIT;
+  state.gridViewInfo.page = (state.gridViewInfo.page - 1 + GRID_PAGE_LIMIT) % GRID_PAGE_LIMIT;
 };
 
 const increaseListIndex = () => {
@@ -143,13 +146,13 @@ const decreaseListIndex = () => {
 };
 
 const changeArrowStates = () => {
-  if (state.viewer === 'listView') {
+  if (state.mainViewerInfo.viewer === 'listView') {
     state.arrowInfo.left = true;
     state.arrowInfo.right = true;
     return;
   }
-  state.arrowInfo.left = state.gridInfo.page !== 0;
-  state.arrowInfo.right = state.gridInfo.page !== 3;
+  state.arrowInfo.left = state.gridViewInfo.page !== 0;
+  state.arrowInfo.right = state.gridViewInfo.page !== 3;
 };
 
 export const fetchNewsData = async (index: number = 0, category: string = '') => {
@@ -167,7 +170,7 @@ export const resetViewerStates = () => {
 };
 
 export const resetGridViewStates = () => {
-  state.gridInfo = {
+  state.gridViewInfo = {
     imgs: [],
     page: 0,
     isHover: false,
