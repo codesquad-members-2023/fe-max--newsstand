@@ -300,9 +300,8 @@ main
   border: 0.5px solid var(--color-gray-100);
 }
 
-#list .tabs a {
+#list .tabs {
   display: inline-block;
-  padding: 0.72rem 1rem;
   font: var(--font-body-sm);
   line-height: 1.06rem;
   color: var(--color-gray-300);
@@ -312,18 +311,25 @@ main
 #list .tabs {
   display: flex;
   background-color: var(--color-off-white);
+  border: 1px solid var(--color-gray-100);
 }
+
 #list .tab {
   position: relative;
 }
 
-#list .progress-bar {
+#list .tab .progress-bar {
   width: 100%;
   height: 100%;
   position: absolute;
   top: 0;
   background-color: var(--color-primary-alt);
   display: none;
+}
+
+
+#list .tab.active .progress-bar {
+  display: block;
 }
 
 #list .tabs .progress-bar .fill {
@@ -340,19 +346,32 @@ main
   background-color: transparent;
 }
 
-#list .tab.active a {
-  color: var(--color-white);
+#list .tab button {
+  padding: 0.72rem 1rem;
+  height: 100%;
   position: relative;
   z-index: 1;
+  background-color: transparent;
+  border: 0;
 }
 
-#list .tab.active .progress-bar {
-  display: block;
+#list .tab.active button {
+  color: var(--color-black);
+}
+
+#list .tab.active button {
+  color: var(--color-white);
+}
+
+#list .tab.active button {
+  color: var(--color-white);
 }
 
 #list .tab.active .fraction {
   display: inline;
 }
+
+
 
 #list .inner {
   padding: 1.625rem 1.5rem;

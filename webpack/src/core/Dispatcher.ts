@@ -5,7 +5,7 @@ import { Store } from "./Store";
 
 export const Dispatcher = (function () {
   async function onAction(action: IAction) {
-    const { type } = action;
+    const { type, payload } = action;
     switch (type) {
       case "updateTime":
         Store.state.date = new Date();
@@ -33,8 +33,20 @@ export const Dispatcher = (function () {
       case "activeViewTypeList":
         Store.state.viewType = "LIST";
         break;
-      case "addGridIndex":
-        Store.state.gridIndex += 1;
+      case "addGridPageIndex":
+        Store.state.gridPageIndex =
+          (Store.state.gridPageIndex + 1) % Store.state.gridPageLimit;
+        break;
+      case "decGridPageIndex": {
+        const limit = Store.state.gridPageLimit as number;
+        Store.state.gridPageIndex =
+          (Store.state.gridPageIndex - 1 + limit) % limit;
+        break;
+      }
+      case "subscribe":
+        Store.state.subscribePress[payload] =
+          !Store.state.subscribePress[payload];
+        Store.state.subscribePress = Store.state.subscribePress;
         break;
     }
   }

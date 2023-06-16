@@ -16,5 +16,6 @@ export const CreateFakeElementHelper = (function () {
     assignHelper(helper, tagName as TagName)
   );
 
+
   return helper;
 })();

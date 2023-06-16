@@ -1,6 +1,5 @@
 import { IChildren } from "../interfaces/IChildren";
 import { IFakeElement } from "../interfaces/IFakeElement";
-import { Callback } from "../types/Callback";
 import { assignFakeElement } from "../utils/createFakeElement";
 
 export function useIter(
