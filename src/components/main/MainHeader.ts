@@ -11,23 +11,23 @@ export type MainHeaderProps = {
 
 export default class MainHeader {
   public readonly element;
-  private tabs;
-  private viewers;
+  private targetMediaTabs;
+  private viewerModeTabs;
 
   constructor(props: MainHeaderProps) {
     this.element = createElement('header', { class: style.header });
-    this.tabs = this.createTabs();
-    this.viewers = this.createViewers();
+    this.targetMediaTabs = this.createtargetMediaTabs();
+    this.viewerModeTabs = this.createViewerModeTabs();
 
-    const tabNav = this.createNavElement('tab');
-    const viewerNav = this.createNavElement('viewer');
+    const targetMediaNav = this.createNavElement('targetMedia');
+    const viewerModeNav = this.createNavElement('viewerMode');
 
-    this.element.append(tabNav, viewerNav);
+    this.element.append(targetMediaNav, viewerModeNav);
     this.setEvent();
     subscribe(this.updateView.bind(this));
   }
 
-  private createTabs() {
+  private createtargetMediaTabs() {
     const tabInfo = [
       { text: '전체 언론사', targetMedia: 'total' },
       { text: '내가 구독한 언론사', targetMedia: 'subscribed' }
@@ -44,7 +44,7 @@ export default class MainHeader {
     });
   }
 
-  private createViewers() {
+  private createViewerModeTabs() {
     const viewerInfo = [
       { src: 'assets/icons/list-view.svg', alt: '리스트 보기', state: 'listView' },
       { src: 'assets/icons/grid-view.svg', alt: '그리드 보기', state: 'gridView' }
@@ -66,9 +66,9 @@ export default class MainHeader {
     });
   }
 
-  private createNavElement(item: 'tab' | 'viewer') {
+  private createNavElement(item: 'targetMedia' | 'viewerMode') {
     const className = style[`${item}_list`];
-    const targets = this[`${item}s`];
+    const targets = this[`${item}Tabs`];
 
     const nav = createElement('nav');
     const list = createElement('ul', { class: className });
@@ -87,29 +87,29 @@ export default class MainHeader {
   }
 
   updateView(props: MainHeaderProps) {
-    this.updateTabs(props.mainViewerInfo.targetMedia);
-    this.updateViewers(props.mainViewerInfo.viewer);
+    this.updateTargetMediaTabs(props.mainViewerInfo.targetMedia);
+    this.updateViewerModeTabs(props.mainViewerInfo.viewer);
   }
 
-  private updateTabs(targetMedia: 'total' | 'subscribed') {
-    for (const tab of this.tabs) {
+  private updateTargetMediaTabs(targetMedia: 'total' | 'subscribed') {
+    for (const tab of this.targetMediaTabs) {
       const isActiveTab = tab.getAttribute('data-target-media') === targetMedia;
       tab.classList.toggle(style.active_tab!, isActiveTab);
     }
   }
 
-  private updateViewers(viewerState: 'listView' | 'gridView') {
-    for (const viewer of this.viewers) {
+  private updateViewerModeTabs(viewerState: 'listView' | 'gridView') {
+    for (const viewer of this.viewerModeTabs) {
       const isActiveViewer = viewer.getAttribute('data-viewer') === viewerState;
       viewer.classList.toggle(style.active_viewer!, isActiveViewer);
     }
   }
 
   private setEvent() {
-    this.viewers.forEach((viewer) => {
-      viewer.addEventListener('click', () => {
-        const viewerName = viewer.getAttribute('data-viewer');
-        const isActiveViewer = viewer.classList.contains(style.active_viewer!);
+    this.viewerModeTabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const viewerName = tab.getAttribute('data-viewer');
+        const isActiveViewer = tab.classList.contains(style.active_viewer!);
         if (viewerName && !isActiveViewer) {
           dispatch({
             type: 'changeViewer',
