@@ -1,7 +1,7 @@
 import { State, Action } from '../utils/types';
 import { produce } from 'immer';
 
-export default function newsReducer(state: State | undefined, action: Action) {
+export function reducer(state: State | undefined, action: Action) {
   switch (action.type) {
     case 'ROLLING': {
       if (action.position === 'left') {

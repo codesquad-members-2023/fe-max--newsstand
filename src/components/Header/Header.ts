@@ -1,10 +1,12 @@
 import { Component } from '../../Component';
 
+export type HeaderState = Date;
+
 export class Header extends Component {
   logoArea: HTMLAnchorElement;
   dateArea: HTMLDivElement;
 
-  constructor(props) {
+  constructor(props: HeaderState) {
     super(props);
     this.render();
     this.mount();
@@ -17,21 +19,15 @@ export class Header extends Component {
     this.renderDateArea();
   }
 
-  // setEvent() {
-  //   this.logoArea.addEventListener('click', () => {
-  //     window.location.reload();
-  //   });
-  // }
-
   mount() {
     this.element.append(this.logoArea, this.dateArea);
   }
 
-  getCurrentDate({ systemDate }: { systemDate: Date }) {
-    const year = systemDate.getFullYear();
-    const month = (systemDate.getMonth() + 1).toString().padStart(2, '0');
-    const date = systemDate.getDate().toString().padStart(2, '0');
-    const day = systemDate.toLocaleDateString('ko-KR', { weekday: 'long' });
+  getCurrentDate(currentDate: Date) {
+    const year = currentDate.getFullYear();
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    const date = currentDate.getDate().toString().padStart(2, '0');
+    const day = currentDate.toLocaleDateString('ko-KR', { weekday: 'long' });
 
     return `${year}. ${month}. ${date}. ${day}`;
   }

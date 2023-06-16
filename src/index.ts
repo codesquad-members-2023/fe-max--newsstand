@@ -1,6 +1,6 @@
-import reducer from './reducers/Reducer.ts';
+import { reducer } from './reducers/Reducer.ts';
 import { fetchData, shuffleArray, divideNewsData } from './utils/utils.ts';
-import { createStore } from './createStore.ts';
+import { createStore } from './utils/createStore.ts';
 import { App } from './App.ts';
 import './scss/main.scss';
 import { OneLineNews } from './utils/types.ts';

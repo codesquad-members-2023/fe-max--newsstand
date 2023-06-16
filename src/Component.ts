@@ -1,5 +1,3 @@
-import { State } from './utils/types';
-
 export class Component {
   element: HTMLElement;
   props: any;

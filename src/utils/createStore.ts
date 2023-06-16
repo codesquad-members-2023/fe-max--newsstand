@@ -1,4 +1,4 @@
-import { Action, Reducer, State, Store, ListenerCallback } from './utils/types';
+import { Action, Reducer, State, Store, ListenerCallback } from './types';
 
 export function createStore(reducer: Reducer, preloadedState?: State | undefined): Store {
   if (typeof reducer !== 'function') {
