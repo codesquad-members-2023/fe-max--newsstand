@@ -9,17 +9,15 @@ export const Actions = {
     });
   },
 
-  stopRolling(position: string) {
+  movePrev() {
     store.dispatch({
-      type: types.STOP_ROLLING,
-      position: position,
+      type: types.MOVE_TO_PREV,
     });
   },
 
-  startRolling(position: string) {
+  moveNext() {
     store.dispatch({
-      type: types.START_ROLLING,
-      position: position,
+      type: types.MOVE_TO_NEXT,
     });
   },
 };

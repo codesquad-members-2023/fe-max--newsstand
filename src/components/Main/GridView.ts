@@ -8,6 +8,7 @@ export class GridView extends Component {
   constructor(props) {
     super(props);
     this.render();
+    this.setEvent();
     this.mount();
   }
 
@@ -21,6 +22,13 @@ export class GridView extends Component {
 
   mount() {
     this.element.append(...this.gridItems);
+  }
+
+  update(newState) {
+    if (newState.currentPage !== this.props.currentPage) {
+      this.props = newState;
+      this.renderPressLogo();
+    }
   }
 
   renderNewsGrid() {
@@ -49,43 +57,7 @@ export class GridView extends Component {
     });
   }
 
-  // update(state: GridState) {
-  //   if (state.displayCell === 'show') {
-  //     this.showSubBtn(state);
-  //   }
-  //   if (state.displayCell === 'hide') {
-  //     this.hideSubBtn(state);
-  //   }
-
-  //   if (state.currentPage === 1) {
-  //     this.render(state);
-  //     this.leftBtn.classList.add('hide');
-  //   } else if (state.currentPage === 4) {
-  //     this.render(state);
-  //     this.rightBtn.classList.add('hide');
-  //   } else {
-  //     this.render(state);
-  //     this.leftBtn.classList.remove('hide');
-  //     this.rightBtn.classList.remove('hide');
-  //   }
-  // }
-
-  // render(state: GridState) {
-  //   this.gridItems.forEach((item, idx) => {
-  //     const itemImg = item.children[0] as HTMLImageElement;
-  //     const imgIdx = idx + (state.currentPage - 1) * 24;
-  //     itemImg.src = state.newsData[imgIdx] ? state.newsData[imgIdx].logoURL : '';
-  //     itemImg.alt = state.newsData[imgIdx] ? state.newsData[imgIdx].name : '';
-  //   });
-  // }
-
   // setEvent() {
-  //   this.rightBtn.addEventListener('click', () => {
-  //     Actions.clickArrowBtn('right');
-  //   });
-  //   this.leftBtn.addEventListener('click', () => {
-  //     Actions.clickArrowBtn('left');
-  //   });
   //   this.gridItems.forEach((item) => {
   //     item.addEventListener('mouseenter', (e) => {
   //       Actions.handleSubBtn(e.target, 'show');

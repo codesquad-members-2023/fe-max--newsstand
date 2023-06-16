@@ -49,21 +49,20 @@ export class NewsRoller extends Component {
   }
 
   update(newState: RollerState) {
-    // if (!newState.isRolling) {
-    //   cancelAnimationFrame(this.rAF);
-    //   return;
-    // }
-    // requestAnimationFrame(this.rolling);
+    if (newState === this.props) {
+      return;
+    }
+    this.props = newState;
 
     this.titleBox.classList.remove('roll');
 
-    if (newState.nextTitleIdx === 0) {
-      this.currentTitle.textContent = newState.newsData[newState.newsData.length - 1]?.title || '';
+    if (this.props.nextTitleIdx === 0) {
+      this.currentTitle.textContent = this.props.newsData[this.props.newsData.length - 1]?.title || '';
     } else {
-      this.currentTitle.textContent = newState.newsData[newState.nextTitleIdx - 1]?.title || '';
+      this.currentTitle.textContent = this.props.newsData[this.props.nextTitleIdx - 1]?.title || '';
     }
 
-    this.nextTitle.textContent = newState.newsData[newState.nextTitleIdx]?.title || '';
+    this.nextTitle.textContent = this.props.newsData[this.props.nextTitleIdx]?.title || '';
   }
 
   renderPressName() {

@@ -1,5 +1,8 @@
+import { store } from '../..';
 import { Component } from '../../Component';
+import { Actions } from '../../actions';
 import { GridView } from './GridView';
+import { NewsStandState } from '../../utils/types';
 
 export class Main extends Component {
   header: HTMLElement;
@@ -12,27 +15,65 @@ export class Main extends Component {
   gridBtn: HTMLButtonElement;
   leftBtn: HTMLButtonElement;
   rightBtn: HTMLButtonElement;
+  gridView: GridView;
 
-  constructor(props) {
+  constructor(props: NewsStandState) {
     super(props);
     this.render();
+    this.setEvent();
     this.mount();
+    this.componentDidMount();
   }
 
-  render() {
+  render(): void {
     this.element = document.createElement('main');
 
     this.renderMainHeader();
     this.renderContentArea();
   }
 
-  mount() {
-    const gridView = new GridView(this.props);
+  setEvent(): void {
+    this.leftBtn.addEventListener('click', () => {
+      Actions.movePrev();
+    });
+    this.rightBtn.addEventListener('click', () => {
+      Actions.moveNext();
+    });
+  }
+
+  mount(): void {
+    this.gridView = new GridView(this.props);
 
     this.header.append(this.tabArea, this.viewBtnArea);
-    this.content.append(this.leftBtn, this.rightBtn, gridView.element);
+    this.content.append(this.leftBtn, this.rightBtn, this.gridView.element);
 
     this.element.append(this.header, this.content);
+  }
+
+  componentDidMount(): void {
+    store.subscribe(() => {
+      this.update(store.getState());
+    });
+    store.subscribe(() => {
+      this.gridView.update(store.getState());
+    });
+  }
+
+  update(newState: NewsStandState) {
+    if (newState === this.props) {
+      return;
+    }
+
+    this.props = newState;
+
+    if (this.props.currentPage === 1) {
+      this.leftBtn.classList.add('hide');
+    } else if (this.props.currentPage === 4) {
+      this.rightBtn.classList.add('hide');
+    } else {
+      this.leftBtn.classList.remove('hide');
+      this.rightBtn.classList.remove('hide');
+    }
   }
 
   renderMainHeader() {

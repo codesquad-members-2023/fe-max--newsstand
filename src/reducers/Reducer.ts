@@ -24,41 +24,20 @@ export function reducer(state: State | undefined, action: Action) {
       break;
     }
 
-    // case 'STOP_ROLLING': {
-    //   if (action.position === 'left') {
-    //     return produce(state, (draftState) => {
-    //       draftState.leftRoller.isRolling = false;
-    //       return draftState;
-    //     });
-    //   }
+    case 'MOVE_TO_PREV': {
+      return produce(state, (draftState) => {
+        draftState.currentPage -= 1;
+        return draftState;
+      });
+    }
 
-    //   if (action.position === 'right') {
-    //     return produce(state, (draftState) => {
-    //       draftState.rightRoller.isRolling = false;
-    //       return draftState;
-    //     });
-    //   }
+    case 'MOVE_TO_NEXT': {
+      return produce(state, (draftState) => {
+        draftState.currentPage += 1;
 
-    //   break;
-    // }
-
-    // case 'START_ROLLING': {
-    //   if (action.position === 'left') {
-    //     return produce(state, (draftState) => {
-    //       draftState.leftRoller.isRolling = true;
-    //       return draftState;
-    //     });
-    //   }
-
-    //   if (action.position === 'right') {
-    //     return produce(state, (draftState) => {
-    //       draftState.rightRoller.isRolling = true;
-    //       return draftState;
-    //     });
-    //   }
-
-    //   break;
-    // }
+        return draftState;
+      });
+    }
 
     default:
       return state;

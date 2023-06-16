@@ -34,8 +34,5 @@ export class RollingSection extends Component {
     store.subscribe(() => {
       this.newsRollerRight.update(store.getState().rightRoller);
     });
-
-    // requestAnimationFrame(this.newsRollerLeft.rolling);
-    // requestAnimationFrame(this.newsRollerRight.rolling);
   }
 }
