@@ -15,5 +15,5 @@ export interface IFakeElement {
     props?: Record<string, any>;
     context?: Record<string, any>;
   };
-  subscribeContext?: Record<string, Callback[]>;
+  observers?: Record<string, Callback[]>;
 }

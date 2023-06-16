@@ -1,13 +1,10 @@
-import { setContext } from "../../../hooks/setContext";
 import { useIter } from "../../../hooks/useEter";
 import { IFakeElement } from "../../../interfaces/IFakeElement";
 import { CreateFakeElementHelper } from "../../../utils/CreateFakeElementHelper";
-import { Row } from "./Row";
+import { Col } from "./Col";
 
 const { div } = CreateFakeElementHelper;
 
-export function Grid(): IFakeElement {
-  return div(setContext("gridIndex"), useIter(Row, 4), {
-    id: "grid",
-  });
+export function Row(index: number): IFakeElement {
+  return div({ class: "row", dataIndex: `${index}` }, useIter(Col, 6));
 }

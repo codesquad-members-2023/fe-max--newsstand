@@ -52,19 +52,13 @@ export function Main(): IFakeElement {
         ]),
       ]
     ),
-    div(useContext("viewType", "render"), { class: "inner" }, [
-      div({ class: "press-panel" }, [
-        div({ class: "view-type-panel" }, [Grid(), List()]),
-      ]),
-      div({ class: "press-panel" }, [
-        div({ class: "view-type-panel" }, [Grid(), List()]),
-      ]),
-    ]),
+    Grid(),
+    button({
+      onClick: (e) => {
+        Dispatcher.onAction({ type: "addGridIndex" });
+      },
+    }),
   ]);
-}
-
-function isGrid(): boolean {
-  return Store.state.viewType === "GRID";
 }
 
 function activeAllPressHandler() {

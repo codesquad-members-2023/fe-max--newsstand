@@ -33,4 +33,5 @@ export const [State, addState] = generateState({
   news: {} as INews,
   activePress: "ALL" as ActivePressType,
   viewType: "GRID" as ViewType,
+  gridIndex: 0,
 });

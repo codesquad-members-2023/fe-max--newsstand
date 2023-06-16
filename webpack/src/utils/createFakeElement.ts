@@ -74,7 +74,7 @@ function preceding(
   });
 }
 
-async function render(fakeElement: IFakeElement): Promise<HTMLElement> {
+export async function render(fakeElement: IFakeElement): Promise<HTMLElement> {
   const element = document.createElement(fakeElement.tagName);
   await preceding(element, fakeElement);
   const { props, children, textContent } = fakeElement;

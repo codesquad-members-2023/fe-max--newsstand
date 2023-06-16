@@ -8,13 +8,13 @@ export function setContext(name: string) {
     fakeElement.combined = fakeElement.combined || {};
     fakeElement.combined.context = fakeElement.combined.context || {};
     fakeElement.combined.context[name] = Store.state[name];
-    fakeElement.subscribeContext = fakeElement.subscribeContext || {};
-    fakeElement.subscribeContext[name] = [] as Callback[];
+    fakeElement.observers = fakeElement.observers || {};
+    fakeElement.observers[name] = [] as Callback[];
 
     Store.subscribe(name, () => {
       fakeElement.combined!.context![name] = Store.state[name];
-      fakeElement.subscribeContext![name].forEach((func: Callback) => {
-        func();
+      fakeElement.observers![name].forEach((callback: Callback) => {
+        callback();
       });
     });
 

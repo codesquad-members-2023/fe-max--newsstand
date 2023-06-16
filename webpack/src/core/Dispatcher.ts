@@ -33,6 +33,9 @@ export const Dispatcher = (function () {
       case "activeViewTypeList":
         Store.state.viewType = "LIST";
         break;
+      case "addGridIndex":
+        Store.state.gridIndex += 1;
+        break;
     }
   }
 

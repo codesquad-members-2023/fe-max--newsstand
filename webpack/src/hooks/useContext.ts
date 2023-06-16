@@ -33,24 +33,21 @@ export function useContext(name: string, type?: string, callback?: Callback) {
           element.textContent = foundContext ? callback!(foundContext)! : "";
           return;
         case "render":
-          if (!callback) {
-            fakeElement.render();
-            return;
+          if (callback) {
+            callback(element, foundContext, fakeElement);
           }
-          if (callback()) {
-            fakeElement.render();
-            return;
-          }
+          fakeElement.render();
+          return;
         case "prop":
           if (callback) {
-            callback(element, foundContext);
+            callback(element, foundContext, fakeElement);
           }
           return;
       }
     }
 
     if (first) {
-      current?.subscribeContext![name].push(func);
+      current?.observers![name].push(func);
       first = false;
       func();
     }
