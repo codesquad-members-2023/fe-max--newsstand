@@ -1,8 +1,8 @@
-import { invoke } from '../../store';
-import { createElement } from '../../utils/domUtils';
-import style from './Main.module.css';
+import { invoke } from '@/store';
+import { createElement } from '@utils/domUtils';
+import style from '@components/main/Main.module.css';
 
-export class ArrowButton {
+export default class ArrowButton {
   public readonly element;
   private arrow;
   private direction;

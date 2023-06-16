@@ -1,4 +1,4 @@
-import { invoke } from './store';
+import { invoke } from '@/store';
 
 const subscribers: Function[] = [];
 

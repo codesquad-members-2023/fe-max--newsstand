@@ -1,7 +1,7 @@
-import { invoke } from '../../store';
-import { createElement } from '../../utils/domUtils';
+import { invoke } from '@/store';
+import { createElement } from '@utils/domUtils';
 
-export class SubscribeButton {
+export default class SubscribeButton {
   public readonly element;
   private buttonText;
   private mediaName: string = '';

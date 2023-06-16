@@ -1,8 +1,8 @@
-import { fetchNewsData } from '../../../store';
-import { createElement } from '../../../utils/domUtils';
-import { FieldTab } from './FieldTab';
-import { PressNews } from './pressNews/PressNews';
-import style from './ListView.module.css';
+import { fetchNewsData } from '@/store';
+import { createElement } from '@utils/domUtils';
+import FieldTab from '@components/main/listView/FieldTab';
+import PressNews from '@components/main/listView/pressNews/PressNews';
+import style from '@components/main/listView/ListView.module.css';
 
 type ListViewProps = {
   news: NewsData | null;
@@ -15,7 +15,7 @@ type ListViewProps = {
   };
 };
 
-export class ListView {
+export default class ListView {
   public readonly element = createElement('section', { class: style.list_view });
   private fieldTab;
   private pressNews;

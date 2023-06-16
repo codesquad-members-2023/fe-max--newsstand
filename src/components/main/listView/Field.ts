@@ -1,8 +1,8 @@
-import { fetchNewsData, invoke } from '../../../store';
-import { createElement } from '../../../utils/domUtils';
-import style from '../listView/ListView.module.css';
+import { fetchNewsData, invoke } from '@/store';
+import { createElement } from '@utils/domUtils';
+import style from '@components/main/listView/listView/ListView.module.css';
 
-export class Field {
+export default class Field {
   public readonly element = createElement('li', { class: [style.field_tab__item, 'font-body-sm'] });
   private link = createElement('a', { href: '#' });
   private counter = createElement('span');

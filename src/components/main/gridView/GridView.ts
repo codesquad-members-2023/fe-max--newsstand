@@ -1,9 +1,9 @@
-import { invoke } from '../../../store';
-import { createElement } from '../../../utils/domUtils';
-import { SubscriptionCover } from './SubscriptionCover';
-import { getGridImgs } from '../../../utils/dataUtils';
-import { shuffleArray } from '../../../utils/commonUtils';
-import style from './GridView.module.css';
+import { invoke } from '@/store';
+import { createElement } from '@utils/domUtils';
+import { getGridImgs } from '@utils/dataUtils';
+import { shuffleArray } from '@utils/commonUtils';
+import SubscriptionCover from '@components/main/gridView/SubscriptionCover';
+import style from '@components/main/gridView/GridView.module.css';
 
 type GridViewProps = {
   gridInfo: GridInfo;

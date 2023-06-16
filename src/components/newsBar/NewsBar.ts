@@ -1,7 +1,7 @@
-import NewsRoller from './NewsRoller';
-import style from './NewsBar.module.css';
-import { createElement } from '../../utils/domUtils';
-import { getHeadlineNews } from '../../utils/dataUtils';
+import { createElement } from '@utils/domUtils';
+import { getHeadlineNews } from '@utils/dataUtils';
+import NewsRoller from '@components/newsBar/NewsRoller';
+import style from '@components/newsBar/NewsBar.module.css';
 
 export default class NewsBar {
   public readonly element;

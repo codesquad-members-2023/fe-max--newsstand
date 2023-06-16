@@ -1,5 +1,5 @@
-import { createElement } from '../../utils/domUtils';
-import style from './Header.module.css';
+import { createElement } from '@utils/domUtils';
+import style from '@components/header/Header.module.css';
 
 type HeaderProps = {
   dateInfo: Date;

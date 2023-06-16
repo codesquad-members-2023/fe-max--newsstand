@@ -1,5 +1,5 @@
-import { createElement } from '../../utils/domUtils';
-import style from './NewsRoller.module.css';
+import { createElement } from '@utils/domUtils';
+import style from '@components/newsBar/NewsRoller.module.css';
 
 export default class NewsRoller {
   public readonly element;
@@ -61,8 +61,8 @@ export default class NewsRoller {
     const currentIndex = this.index % this.newsList.length;
     const nextIndex = (this.index + 2) % this.newsList.length;
 
-    this.updateNewsData(this.currentNewsWrapper, this.newsList[currentIndex]);
-    this.updateNewsData(this.nextNewsWrapper, this.newsList[nextIndex]);
+    this.updateNewsData(this.currentNewsWrapper, this.newsList[currentIndex]!);
+    this.updateNewsData(this.nextNewsWrapper, this.newsList[nextIndex]!);
   }
 
   private updateNewsData(newsWrapper: HTMLElement, headlineNews: HeadlineNews) {
@@ -80,7 +80,7 @@ export default class NewsRoller {
   }
 
   startRollup() {
-    this.intervalId = setInterval(() => {
+    this.intervalId = window.setInterval(() => {
       this.activateRollup();
     }, 3000);
   }
@@ -99,10 +99,10 @@ export default class NewsRoller {
   }
 
   private inactivateRollup() {
-    this.roller.classList.remove(style.roll_up);
+    this.roller.classList.remove(style.roll_up!);
   }
 
   private activateRollup() {
-    this.roller.classList.add(style.roll_up);
+    this.roller.classList.add(style.roll_up!);
   }
 }

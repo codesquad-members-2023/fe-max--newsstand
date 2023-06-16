@@ -1,6 +1,6 @@
-import NewsStand from './components/NewsStand';
-import { getState } from './store';
-import './styles/main.css';
+import { getState } from '@/store';
+import NewsStand from '@components/NewsStand';
+import '@/styles/main.css';
 
 const app = document.querySelector('#app')!;
 const state = getState();

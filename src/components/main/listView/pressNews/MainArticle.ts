@@ -1,7 +1,7 @@
-import { createElement } from '../../../../utils/domUtils';
-import style from '../ListView.module.css';
+import { createElement } from '@utils/domUtils';
+import style from '@components/main/listView/ListView.module.css';
 
-export class MainArticle {
+export default class MainArticle {
   public readonly element = createElement('div', { class: style.main_article });
   private thumbnailWrapper = createElement('a', { href: '' });
   private thumbnail = createElement('img', { class: style.thumbnail });

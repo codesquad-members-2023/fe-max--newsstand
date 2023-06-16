@@ -1,8 +1,8 @@
-import { createElement } from '../../../utils/domUtils';
-import style from './GridView.module.css';
-import { SubscribeButton } from '../SubscribeButton';
+import { createElement } from '@utils/domUtils';
+import SubscribeButton from '@components/main/SubscribeButton';
+import style from '@components/main/gridView/GridView.module.css';
 
-export class SubscriptionCover {
+export default class SubscriptionCover {
   public readonly element;
   private button;
 
@@ -14,6 +14,6 @@ export class SubscriptionCover {
   }
 
   updateView({ mediaName, isSubscribed }: { mediaName: string; isSubscribed: boolean }) {
-    this.button.updateView({ mediaName, isSubscribed })
+    this.button.updateView({ mediaName, isSubscribed });
   }
 }

@@ -1,7 +1,7 @@
-import { createElement } from '../../../../utils/domUtils';
-import style from '../ListView.module.css';
+import { createElement } from '@utils/domUtils';
+import style from '@components/main/listView/ListView.module.css';
 
-export class SubArticle {
+export default class SubArticle {
   public readonly element = createElement('div', { class: style.sub_article });
   private articleContainer = createElement('ul', { class: style.sub_article__container });
   private articleCount = 6;

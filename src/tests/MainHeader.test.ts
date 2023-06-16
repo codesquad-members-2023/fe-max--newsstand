@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { MainHeader, MainHeaderProps } from '../components/main/MainHeader';
-import style from '../components/main/MainHeader.module.css';
+import MainHeader, { MainHeaderProps } from '@components/main/MainHeader';
+import style from '@components/main/MainHeader.module.css';
 
 describe('MainHeader updateView Method Test', () => {
   describe('mainViewerInfo.targetMedia가 total일 경우에 mainViewerInfo.viewer 값에 따라 아이콘이 활성화된다.', () => {

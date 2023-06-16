@@ -1,6 +1,6 @@
-import { dispatch, subscribe } from '../../dispatch';
-import { createElement } from '../../utils/domUtils';
-import style from './MainHeader.module.css';
+import { dispatch, subscribe } from '@/dispatch';
+import { createElement } from '@utils/domUtils';
+import style from '@components/main/MainHeader.module.css';
 
 export type MainHeaderProps = {
   mainViewerInfo: {
@@ -9,12 +9,12 @@ export type MainHeaderProps = {
   };
 };
 
-export class MainHeader {
+export default class MainHeader {
   public readonly element;
   private tabs;
   private viewers;
 
-  constructor(props:MainHeaderProps) {
+  constructor(props: MainHeaderProps) {
     this.element = createElement('header', { class: style.header });
     this.tabs = this.createTabs();
     this.viewers = this.createViewers();
@@ -24,7 +24,7 @@ export class MainHeader {
 
     this.element.append(tabNav, viewerNav);
     this.setEvent();
-    subscribe(this.updateView.bind(this))
+    subscribe(this.updateView.bind(this));
   }
 
   private createTabs() {
@@ -116,9 +116,9 @@ export class MainHeader {
             payload: {
               viewer: viewerName as 'gridView' | 'listView'
             }
-          })
+          });
         }
-      })
-    })
+      });
+    });
   }
 }

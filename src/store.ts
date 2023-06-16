@@ -1,5 +1,5 @@
-import { getNewsList, getSubscribedMedias, setSubscribedMedias } from './utils/dataUtils';
-import { GRID_PAGE_LIMIT } from './constants';
+import { getNewsList, getSubscribedMedias, setSubscribedMedias } from '@utils/dataUtils';
+import { GRID_PAGE_LIMIT } from '@/constants';
 
 const state: {
   dateInfo: Date;
