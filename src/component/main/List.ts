@@ -17,8 +17,7 @@ export class List extends Base {
     super();
     this.render(`
         <div class="main__list">
-            ${this.createFieldTab()}
-
+          ${this.createFieldTab()}
           ${this.createPressNews()}
         </div>
     `);
@@ -60,7 +59,7 @@ export class List extends Base {
     });
     textButton[currentPage].classList.add("currentTextButton");
 
-    let scrollLeft =
+    const scrollLeft =
       textButton[currentPage].offsetLeft -
       this.component["fieldTab"].offsetWidth / 2 +
       textButton[currentPage].offsetWidth / 2;
@@ -119,22 +118,24 @@ export class List extends Base {
     const currentViewPressList = list.currentViewList.pressList;
     const currentViewIndex = list.currentViewIndex;
     const currentView = currentViewPressList[currentViewIndex];
-
     const { pressInfoImg, pressInfoEditDate, pressInfoSubBtn } = this.component;
+    const { newsImg, newsMainTitle, newsSub } = this.component;
+
     pressInfoImg.setAttribute("src", currentView.pressLogoSrc);
     pressInfoEditDate.textContent = currentView.lastEditted;
     pressInfoSubBtn.textContent = this.isSubscribe(currentView.pressLogoAlt)
       ? "해지하기"
       : "구독하기";
 
-    const { newsImg, newsMainTitle, newsSub } = this.component;
     newsImg.setAttribute("src", currentView.mainArticle.thumbnailSrc);
-    newsMainTitle.textContent = currentView.mainArticle.mainArticleTitle;
     newsSub.replaceChildren();
+
+    newsMainTitle.textContent = currentView.mainArticle.mainArticleTitle;
     currentView.subArticles.forEach((data) => {
       const subTitle = this.setTemplate(
         `<div class="news__sub__title">${data}</div>`
       );
+
       newsSub.appendChild(subTitle);
     });
   }
@@ -157,6 +158,7 @@ export class List extends Base {
 
       localStorage.setItem("subscribe", JSON.stringify(subscribeList));
     }
+
     store.dispatch({
       type: "UPDATE_SUBSCRIBE",
       subscribedPress: this.getSubscribeList(),
@@ -194,6 +196,7 @@ export class List extends Base {
 
   isSubscribe(pressName: string) {
     const subscribedPress = JSON.parse(localStorage.getItem("subscribe")!);
+
     return subscribedPress.includes(pressName);
   }
 
@@ -225,12 +228,10 @@ export class List extends Base {
         this.node?.prepend(fieldTab);
         if (this.props.list.currentTypeList.length === 0) {
           this.component["pressNews"].remove();
-
-          return;
+        } else {
+          this.node?.appendChild(this.component["pressNews"]);
+          this.setFieldTab();
         }
-
-        this.node?.appendChild(this.component["pressNews"]);
-        this.setFieldTab();
       }
 
       this.setFieldTab();
