@@ -15,7 +15,6 @@ export enum StateConst {
 
 export enum ActionType {
   SET_PRESS_LIST,
-  UPDATE_LAST_PAGE,
 
   PREV_BUTTON_CLICK,
   NEXT_BUTTON_CLICK,
