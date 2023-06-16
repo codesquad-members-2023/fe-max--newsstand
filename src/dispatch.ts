@@ -24,7 +24,7 @@ export const subscribe = (
 };
 
 export const dispatch = (action: Action) => {
-  const state = invoke(action)!;
+  const state = invoke(action);
   if (state) {
     subscribers.forEach((subscriber) => subscriber(state));
   }
