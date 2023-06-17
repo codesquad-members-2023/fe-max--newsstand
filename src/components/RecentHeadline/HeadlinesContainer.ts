@@ -1,7 +1,7 @@
 import Component from "@components/common/Component.ts";
 import RecentHeadline from "./RecentHeadline.ts";
 import { THeadlineData } from "@customTypes/index.ts";
-import { EState, observeStates, dispatch } from "@store/index.ts";
+import { observeStates, dispatch } from "@store/index.ts";
 
 type THeadlinesProps = {
   leftHeadlineProps: THeadlineData;
@@ -35,11 +35,11 @@ export default class HeadlinesContainer extends Component {
     this.leftHeadline = leftHeadline;
     this.rightHeadline = rightHeadline;
 
-    observeStates(this, EState.HeadlinesRollerTick);
-    dispatch({ type: EState.HeadlinesRollerTick });
+    observeStates(this, "headlinesRollerTick");
+    dispatch({ type: "headlinesRollerTick" });
 
     this.intervalId = window.setInterval(() => {
-      dispatch({ type: EState.HeadlinesRollerTick });
+      dispatch({ type: "headlinesRollerTick" });
     }, 1000);
   }
 

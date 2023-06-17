@@ -3,28 +3,30 @@ export type THeadlineData = {
   headline: string;
 };
 
-export type TGridViewData = {
+export type TGridViewDataItem = {
   src: string;
   alt: string;
 };
 
-export type TListViewData = {
+export type TListViewDataItem = {
   categoryName: string;
-  pressList: {
-    pressLogoSrc: string;
-    pressLogoAlt: string;
-    lastEditted: string;
-    mainArticle: {
-      thumbnailSrc: string;
-      thumbnailAlt: string;
-      mainArticleTitle: string;
-    };
-    subArticles: string[];
-  }[];
+  pressList: TPressListItem[];
+};
+
+export type TPressListItem = {
+  pressLogoSrc: string;
+  pressLogoAlt: string;
+  lastEditted: string;
+  mainArticle: {
+    thumbnailSrc: string;
+    thumbnailAlt: string;
+    mainArticleTitle: string;
+  };
+  subArticles: string[];
 };
 
 export type TListViewProps = {
-  listViewData: TListViewData[];
+  listViewData: TListViewDataItem[];
   listViewCurrCategoryIdx: number;
   listViewCurrArticleIdx: number;
 };

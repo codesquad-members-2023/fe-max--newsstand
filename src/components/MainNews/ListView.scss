@@ -1,0 +1,171 @@
+@use "@styles/_design-system.scss" as *;
+
+:host {
+  display: block;
+  height: inherit;
+}
+
+.list-view-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+  border: 1px solid $color-grey-100;
+
+  .list-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .categories-bar {
+      width: 100%;
+      height: 40px;
+      display: flex;
+      background-color: $color-off-white;
+      border-bottom: 1px solid $color-grey-100;
+
+      .category-box {
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 11.5px;
+        @include f-body-sm;
+        color: $color-grey-300;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+        }
+
+        &.is-active {
+          width: 166px;
+          position: relative;
+          background-color: $color-primary-faded;
+          border: 1px solid $color-primary-faded;
+          color: $color-white;
+          overflow: hidden;
+
+          .progress-bar {
+            width: 0;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            background-color: $color-primary;
+          }
+        }
+
+        > * {
+          z-index: 2;
+        }
+      }
+    }
+
+    .main-display {
+      width: 100%;
+      padding: 24px;
+      flex-grow: 1;
+
+      header {
+        height: 24px;
+        display: flex;
+        align-items: center;
+        margin-bottom: 16px;
+
+        .press-logo {
+          height: inherit;
+          margin-right: 16px;
+        }
+
+        .last-editted {
+          @include f-body-xs;
+          color: $color-grey-400;
+        }
+      }
+
+      .main-container {
+        display: flex;
+        gap: 32px;
+
+        .main-article-container {
+          width: 320px;
+
+          .main-article-title {
+            @include f-body-md;
+            color: $color-black;
+
+            &:hover {
+              text-decoration: underline;
+              cursor: pointer;
+            }
+          }
+        }
+
+        .subarticles-container {
+          height: 245px;
+          display: flex;
+          flex-direction: column;
+          flex-grow: 1;
+          gap: 16px;
+          overflow-y: auto;
+
+          a {
+            @include f-body-md;
+            color: $color-grey-500;
+
+            &:hover {
+              text-decoration: underline;
+              cursor: pointer;
+            }
+          }
+
+          span {
+            @include f-body-sm;
+            color: $color-grey-200;
+          }
+        }
+      }
+    }
+  }
+
+  button {
+    width: 26px;
+    height: 42px;
+    position: absolute;
+    background-color: transparent;
+    border: none;
+
+    &.left-btn {
+      left: -74px;
+
+      &::before {
+        width: inherit;
+        height: inherit;
+        content: "";
+        display: block;
+        background-image: url("/src/assets/button-left.svg");
+        background-repeat: no-repeat;
+      }
+    }
+
+    &.right-btn {
+      right: -74px;
+
+      &::before {
+        width: inherit;
+        height: inherit;
+        content: "";
+        display: block;
+        background-image: url("/src/assets/button-right.svg");
+        background-repeat: no-repeat;
+      }
+    }
+
+    &.is-inactive {
+      display: none;
+    }
+  }
+}

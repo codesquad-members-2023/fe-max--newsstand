@@ -1,16 +1,6 @@
 import Component from "@components/common/Component.ts";
 import { fetchData } from "@utils/index.ts";
-import { TGridViewData, TListViewData } from "@customTypes/index.ts";
-
-export enum EState {
-  GridViewData = "gridViewData",
-  ListViewData = "listViewData",
-
-  HeadlinesRollerTick = "headlinesRollerTick",
-
-  MainContentView = "mainContentView",
-  ListViewCurrArticleIdx = "listViewCurrArticleIdx",
-}
+import { TGridViewDataItem, TListViewDataItem } from "@customTypes/index.ts";
 
 type StateItem<T> = {
   value: T;
@@ -21,8 +11,8 @@ interface IStore {
   recentHeadlinesData: StateItem<
     { pressName: string; headlineTitle: string }[]
   >;
-  gridViewData: StateItem<TGridViewData[]>;
-  listViewData: StateItem<TListViewData[]>;
+  gridViewData: StateItem<TGridViewDataItem[]>;
+  listViewData: StateItem<TListViewDataItem[]>;
 
   headlinesRollerTick: StateItem<number>;
   leftHeadlineIdx: StateItem<number>;
@@ -33,14 +23,10 @@ interface IStore {
   listViewCurrArticleIdx: StateItem<number>;
 }
 
-const recentHeadlinesData = await fetchData("/data/recent-headlines.json");
-const gridViewData = await fetchData("/data/grid-view.json");
-const listViewData = await fetchData("/data/list-view.json");
-
 const store: IStore = {
-  recentHeadlinesData: { value: recentHeadlinesData, observers: [] },
-  gridViewData: { value: gridViewData, observers: [] },
-  listViewData: { value: listViewData, observers: [] },
+  recentHeadlinesData: { value: [], observers: [] },
+  gridViewData: { value: [], observers: [] },
+  listViewData: { value: [], observers: [] },
 
   headlinesRollerTick: { value: 0, observers: [] },
   leftHeadlineIdx: { value: 0, observers: [] },
@@ -51,15 +37,18 @@ const store: IStore = {
   listViewCurrArticleIdx: { value: 0, observers: [] },
 };
 
-export function observeStates(observer: Component, ...targetStates: EState[]) {
+export function observeStates<K extends keyof IStore>(
+  observer: Component,
+  ...targetStates: K[]
+) {
   targetStates.forEach((targetState) => {
     store[targetState].observers.push(observer);
   });
 }
 
-export function unobserveStates(
+export function unobserveStates<K extends keyof IStore>(
   observer: Component,
-  ...targetStates: EState[]
+  ...targetStates: K[]
 ) {
   targetStates.forEach((targetState) => {
     store[targetState].observers = store[targetState].observers.filter(
@@ -68,16 +57,16 @@ export function unobserveStates(
   });
 }
 
-type TAction = {
-  type: string;
+type TAction<K extends keyof IStore> = {
+  type: K;
   content?: any;
 };
 
-export function dispatch(action: TAction) {
+export function dispatch<K extends keyof IStore>(action: TAction<K>) {
   reducer(action);
 }
 
-function reducer(action: TAction) {
+function reducer<K extends keyof IStore>(action: TAction<K>) {
   const { type, content } = action;
 
   switch (type) {
@@ -85,7 +74,7 @@ function reducer(action: TAction) {
       headlinesRollerTickHandler();
       break;
     case "mainContentView":
-      mainContentViewHandler(content);
+      mainContentViewHandler(content as "list-view" | "grid-view");
       break;
     case "gridViewData":
       gridViewDataHandler();
@@ -93,13 +82,19 @@ function reducer(action: TAction) {
     case "listViewData":
       listViewDataHandler();
       break;
+    case "listViewCurrCategoryIdx":
+      listViewCurrCategoryIdxHandler(content as number);
+      break;
     case "listViewCurrArticleIdx":
-      listViewCurrArticleIdxHandler(content);
+      listViewCurrArticleIdxHandler(content as "increment" | "decrement");
       break;
   }
 }
 
-function headlinesRollerTickHandler() {
+async function headlinesRollerTickHandler() {
+  const recentHeadlinesData = await fetchData("/data/recent-headlines.json");
+  store.recentHeadlinesData.value = recentHeadlinesData;
+
   store.headlinesRollerTick.value += 1;
 
   if (store.headlinesRollerTick.value % 5 === 0) {
@@ -132,9 +127,7 @@ function headlinesRollerTickHandler() {
   });
 }
 
-function mainContentViewHandler(content: string) {
-  if (content === store.mainContentView.value) return;
-
+function mainContentViewHandler(content: "list-view" | "grid-view") {
   if (content === "list-view") {
     store.mainContentView.value = "list-view";
   } else if (content === "grid-view") {
@@ -146,13 +139,19 @@ function mainContentViewHandler(content: string) {
   });
 }
 
-function gridViewDataHandler() {
+async function gridViewDataHandler() {
+  const gridViewData = await fetchData("/data/grid-view.json");
+  store.gridViewData.value = gridViewData;
+
   store.gridViewData.observers.forEach((observer) => {
     observer.setProps({ gridViewData: store.gridViewData.value });
   });
 }
 
-function listViewDataHandler() {
+async function listViewDataHandler() {
+  const listViewData = await fetchData("/data/list-view.json");
+  store.listViewData.value = listViewData;
+
   store.listViewData.observers.forEach((observer) => {
     observer.setProps({
       listViewData: store.listViewData.value,
@@ -162,7 +161,23 @@ function listViewDataHandler() {
   });
 }
 
-function listViewCurrArticleIdxHandler(content: string) {
+function listViewCurrCategoryIdxHandler(content: number) {
+  if (content >= 0 && content < store.listViewData.value.length) {
+    store.listViewCurrCategoryIdx.value = content;
+
+    store.listViewCurrArticleIdx.value = 0;
+  }
+
+  store.listViewData.observers.forEach((observer) => {
+    observer.setProps({
+      listViewData: store.listViewData.value,
+      listViewCurrCategoryIdx: store.listViewCurrCategoryIdx.value,
+      listViewCurrArticleIdx: store.listViewCurrArticleIdx.value,
+    });
+  });
+}
+
+function listViewCurrArticleIdxHandler(content: "increment" | "decrement") {
   switch (content) {
     case "increment":
       const nextArticleIdx = store.listViewCurrArticleIdx.value + 1;
