@@ -1,10 +1,5 @@
 import Component from "@components/common/Component.ts";
-import {
-  EState,
-  observeStates,
-  unobserveStates,
-  dispatch,
-} from "@store/index.ts";
+import { observeStates, unobserveStates, dispatch } from "@store/index.ts";
 import { TGridViewDataItem } from "@customTypes/index.ts";
 
 class GridView extends Component {
@@ -46,8 +41,8 @@ class GridView extends Component {
     this.rightBtn = rightBtn;
     this.pressBoxes = [...gridContainer.querySelectorAll(".press-box")];
 
-    observeStates(this, EState.GridViewData);
-    dispatch({ type: EState.GridViewData });
+    observeStates(this, "gridViewData");
+    dispatch({ type: "gridViewData" });
   }
 
   setProps({ gridViewData }: { gridViewData: TGridViewDataItem[] }) {
@@ -96,7 +91,7 @@ class GridView extends Component {
   }
 
   disconnectedCallback() {
-    unobserveStates(this, EState.GridViewData);
+    unobserveStates(this, "gridViewData");
   }
 }
 

@@ -2,17 +2,6 @@ import Component from "@components/common/Component.ts";
 import { fetchData } from "@utils/index.ts";
 import { TGridViewDataItem, TListViewDataItem } from "@customTypes/index.ts";
 
-export enum EState {
-  GridViewData = "gridViewData",
-  ListViewData = "listViewData",
-
-  HeadlinesRollerTick = "headlinesRollerTick",
-
-  MainContentView = "mainContentView",
-  ListViewCurrCategoryIdx = "listViewCurrCategoryIdx",
-  ListViewCurrArticleIdx = "listViewCurrArticleIdx",
-}
-
 type StateItem<T> = {
   value: T;
   observers: Component[];
@@ -48,15 +37,18 @@ const store: IStore = {
   listViewCurrArticleIdx: { value: 0, observers: [] },
 };
 
-export function observeStates(observer: Component, ...targetStates: EState[]) {
+export function observeStates<K extends keyof IStore>(
+  observer: Component,
+  ...targetStates: K[]
+) {
   targetStates.forEach((targetState) => {
     store[targetState].observers.push(observer);
   });
 }
 
-export function unobserveStates(
+export function unobserveStates<K extends keyof IStore>(
   observer: Component,
-  ...targetStates: EState[]
+  ...targetStates: K[]
 ) {
   targetStates.forEach((targetState) => {
     store[targetState].observers = store[targetState].observers.filter(
@@ -65,16 +57,16 @@ export function unobserveStates(
   });
 }
 
-type TAction = {
-  type: string;
+type TAction<K extends keyof IStore> = {
+  type: K;
   content?: any;
 };
 
-export function dispatch(action: TAction) {
+export function dispatch<K extends keyof IStore>(action: TAction<K>) {
   reducer(action);
 }
 
-function reducer(action: TAction) {
+function reducer<K extends keyof IStore>(action: TAction<K>) {
   const { type, content } = action;
 
   switch (type) {
@@ -82,7 +74,7 @@ function reducer(action: TAction) {
       headlinesRollerTickHandler();
       break;
     case "mainContentView":
-      mainContentViewHandler(content);
+      mainContentViewHandler(content as "list-view" | "grid-view");
       break;
     case "gridViewData":
       gridViewDataHandler();
@@ -91,10 +83,10 @@ function reducer(action: TAction) {
       listViewDataHandler();
       break;
     case "listViewCurrCategoryIdx":
-      listViewCurrCategoryIdxHandler(content);
+      listViewCurrCategoryIdxHandler(content as number);
       break;
     case "listViewCurrArticleIdx":
-      listViewCurrArticleIdxHandler(content);
+      listViewCurrArticleIdxHandler(content as "increment" | "decrement");
       break;
   }
 }
@@ -135,7 +127,7 @@ async function headlinesRollerTickHandler() {
   });
 }
 
-function mainContentViewHandler(content: string) {
+function mainContentViewHandler(content: "list-view" | "grid-view") {
   if (content === "list-view") {
     store.mainContentView.value = "list-view";
   } else if (content === "grid-view") {
@@ -185,7 +177,7 @@ function listViewCurrCategoryIdxHandler(content: number) {
   });
 }
 
-function listViewCurrArticleIdxHandler(content: string) {
+function listViewCurrArticleIdxHandler(content: "increment" | "decrement") {
   switch (content) {
     case "increment":
       const nextArticleIdx = store.listViewCurrArticleIdx.value + 1;

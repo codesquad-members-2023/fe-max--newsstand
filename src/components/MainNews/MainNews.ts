@@ -1,5 +1,5 @@
 import Component from "@components/common/Component.ts";
-import { EState, dispatch, observeStates } from "@store/index.ts";
+import { dispatch, observeStates } from "@store/index.ts";
 
 export default class MainNews extends Component {
   private contentViewBtns: HTMLButtonElement[] = [];
@@ -48,8 +48,8 @@ export default class MainNews extends Component {
     this.contentViewBtns = [listViewBtn, gridViewBtn];
     this.main = main;
 
-    observeStates(this, EState.MainContentView);
-    dispatch({ type: EState.MainContentView, content: "grid-view" });
+    observeStates(this, "mainContentView");
+    dispatch({ type: "mainContentView", content: "grid-view" });
   }
 
   setProps({ mainContentView }: { mainContentView: string }) {
@@ -74,7 +74,7 @@ export default class MainNews extends Component {
     this.contentViewBtns.forEach((btn) => {
       btn.addEventListener("click", () => {
         dispatch({
-          type: EState.MainContentView,
+          type: "mainContentView",
           content: btn.id,
         });
       });

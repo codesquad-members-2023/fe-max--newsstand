@@ -1,10 +1,5 @@
 import Component from "@components/common/Component.ts";
-import {
-  EState,
-  observeStates,
-  unobserveStates,
-  dispatch,
-} from "@store/index.ts";
+import { observeStates, unobserveStates, dispatch } from "@store/index.ts";
 import {
   TListViewDataItem,
   TPressListItem,
@@ -46,11 +41,11 @@ class ListView extends Component {
 
     observeStates(
       this,
-      EState.ListViewData,
-      EState.ListViewCurrCategoryIdx,
-      EState.ListViewCurrArticleIdx
+      "listViewData",
+      "listViewCurrCategoryIdx",
+      "listViewCurrArticleIdx"
     );
-    dispatch({ type: EState.ListViewData });
+    dispatch({ type: "listViewData" });
   }
 
   setProps({
@@ -105,7 +100,7 @@ class ListView extends Component {
       }
 
       categoryBox.addEventListener("click", () => {
-        dispatch({ type: EState.ListViewCurrCategoryIdx, content: idx });
+        dispatch({ type: "listViewCurrCategoryIdx", content: idx });
       });
 
       categoriesBar.appendChild(categoryBox);
@@ -131,7 +126,7 @@ class ListView extends Component {
         requestAnimationFrame(step);
       } else {
         dispatch({
-          type: EState.ListViewCurrArticleIdx,
+          type: "listViewCurrArticleIdx",
           content: "increment",
         });
       }
@@ -195,15 +190,15 @@ class ListView extends Component {
 
   connectedCallback() {
     this.leftBtn.addEventListener("click", () => {
-      dispatch({ type: EState.ListViewCurrArticleIdx, content: "decrement" });
+      dispatch({ type: "listViewCurrArticleIdx", content: "decrement" });
     });
     this.rightBtn.addEventListener("click", () => {
-      dispatch({ type: EState.ListViewCurrArticleIdx, content: "increment" });
+      dispatch({ type: "listViewCurrArticleIdx", content: "increment" });
     });
   }
 
   disconnectedCallback() {
-    unobserveStates(this, EState.ListViewData, EState.ListViewCurrArticleIdx);
+    unobserveStates(this, "listViewData", "listViewCurrArticleIdx");
 
     if (this.animationFrameId) {
       cancelAnimationFrame(this.animationFrameId);
