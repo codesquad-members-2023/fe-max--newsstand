@@ -1,6 +1,7 @@
-import { fetchNewsData, invoke } from '@/store';
+import { dispatch } from '@/dispatcher';
+import { fetchNewsData } from '@/actions';
 import { createElement } from '@utils/domUtils';
-import style from '@components/main/listView/listView/ListView.module.css';
+import style from '@components/main/listView/ListView.module.css';
 
 export default class Field {
   public readonly element = createElement('li', { class: [style.field_tab__item, 'font-body-sm'] });
@@ -78,7 +79,7 @@ export default class Field {
   }
 
   moveToNextNews() {
-    invoke({
+    dispatch({
       type: 'onClickRightArrow'
     });
   }

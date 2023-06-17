@@ -1,7 +1,8 @@
-import { getNewsList, getSubscribedMedias, setSubscribedMedias } from '@utils/dataUtils';
+import { getSubscribedMedias, setSubscribedMedias } from '@utils/dataUtils';
 import { GRID_PAGE_LIMIT } from '@/constants';
+import { fetchNewsData } from './actions';
 
-type State = {
+export type State = {
   dateInfo: Date;
   gridViewInfo: GridViewInfo;
   subscriptionInfo: string[];
@@ -153,15 +154,6 @@ const changeArrowStates = () => {
   }
   state.arrowInfo.left = state.gridViewInfo.page !== 0;
   state.arrowInfo.right = state.gridViewInfo.page !== 3;
-};
-
-export const fetchNewsData = async (index: number = 0, category: string = '') => {
-  invoke({
-    type: 'initNewsData',
-    payload: {
-      news: await getNewsList(index, category)
-    }
-  });
 };
 
 export const resetViewerStates = () => {

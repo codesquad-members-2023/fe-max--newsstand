@@ -24,8 +24,8 @@ describe('MainHeader updateView Method Test', () => {
       const listViewIcon = mainHeader.element.querySelector('[data-viewer="listView"]');
       if (listViewIcon) {
         const iconClassList = [...listViewIcon?.classList];
-  
-        expect(iconClassList).toContain(style.active_viewer);
+
+        expect(iconClassList).toContain(style.active_viewerMode);
       } else {
         throw Error('리스트 뷰 아이콘을 찾을 수 없습니다.')
       }
@@ -45,7 +45,7 @@ describe('MainHeader updateView Method Test', () => {
       if (gridViewIcon) {
         const iconClassList = Array.from(gridViewIcon?.classList!);
   
-        expect(iconClassList).toContain(style.active_viewer);
+        expect(iconClassList).toContain(style.active_viewerMode);
       } else {
         throw Error('그리드 뷰 아이콘을 찾을 수 없습니다.')
       }

@@ -1,4 +1,4 @@
-import { invoke } from '@/store';
+import { dispatch } from '@/dispatcher';
 import { createElement } from '@utils/domUtils';
 
 export default class SubscribeButton {
@@ -22,7 +22,7 @@ export default class SubscribeButton {
 
   private setEvent() {
     this.element.addEventListener('click', () => {
-      invoke({
+      dispatch({
         type: 'updateSubscribedMedia',
         payload: {
           name: this.mediaName,

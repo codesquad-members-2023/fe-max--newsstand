@@ -1,4 +1,4 @@
-import { invoke } from '@/store';
+import { dispatch, subscribe } from '@/dispatcher';
 import { createElement } from '@utils/domUtils';
 import { getGridImgs } from '@utils/dataUtils';
 import { shuffleArray } from '@utils/commonUtils';
@@ -31,10 +31,12 @@ export default class GridView {
     this.setEvent();
 
     this.initGridImgs();
+
+    subscribe(this.updateView.bind(this));
   }
 
   async initGridImgs() {
-    invoke({
+    dispatch({
       type: 'initGridImages',
       payload: {
         images: shuffleArray(await getGridImgs())
@@ -110,7 +112,7 @@ export default class GridView {
       if (!cell || !cell.dataset.index) {
         return;
       }
-      invoke({
+      dispatch({
         type: 'turnOnSubscriptionCover',
         payload: {
           hoverOnGrid: true,
@@ -120,7 +122,7 @@ export default class GridView {
     });
 
     this.table.addEventListener('mouseleave', () => {
-      invoke({
+      dispatch({
         type: 'turnOffSubscriptionCover',
         payload: {
           hoverOnGrid: false

@@ -4,13 +4,13 @@
   align-items: center;
 }
 
-.tab_list {
+.targetMedia_list {
   display: flex;
   align-items: center;
   gap: 24px;
 }
 
-.tab_item {
+.targetMedia_item {
   font-family: 'Pretendard';
   font-style: normal;
   font-weight: 500;
@@ -19,18 +19,18 @@
   color: var(--gray-200);
 }
 
-.viewer_list {
+.viewerMode_list {
   display: flex;
   justify-content: center;
   align-items: flex-start;
   gap: 8px;
 }
 
-.viewer_item {
+.viewerMode_item {
   filter: invert(91%) sepia(10%) saturate(162%) hue-rotate(163deg) brightness(98%) contrast(86%);
 }
 
-.active_tab {
+.active_targetMedia {
   font-family: 'Pretendard';
   font-style: normal;
   font-weight: 700;
@@ -39,6 +39,6 @@
   color: var(--black);
 }
 
-.active_viewer {
+.active_viewerMode {
   filter: invert(31%) sepia(99%) saturate(972%) hue-rotate(206deg) brightness(91%) contrast(88%);
 }

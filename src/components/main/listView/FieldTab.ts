@@ -1,4 +1,4 @@
-import { invoke } from '@/store';
+import { dispatch } from '@/dispatcher';
 import { getNewsFields } from '@utils/dataUtils';
 import { createElement } from '@utils/domUtils';
 import Field from '@components/main/listView/Field';
@@ -19,7 +19,7 @@ export default class FieldTab {
   }
 
   private async initFieldData() {
-    invoke({
+    dispatch({
       type: 'initFieldData',
       payload: {
         fields: await getNewsFields()

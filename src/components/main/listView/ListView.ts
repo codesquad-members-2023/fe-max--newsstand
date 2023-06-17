@@ -1,8 +1,9 @@
-import { fetchNewsData } from '@/store';
+import { fetchNewsData } from '@/actions';
 import { createElement } from '@utils/domUtils';
 import FieldTab from '@components/main/listView/FieldTab';
 import PressNews from '@components/main/listView/pressNews/PressNews';
 import style from '@components/main/listView/ListView.module.css';
+import { subscribe } from '@/dispatcher';
 
 type ListViewProps = {
   news: NewsData | null;
@@ -26,6 +27,8 @@ export default class ListView {
     this.element.append(this.fieldTab.element, this.pressNews.element);
 
     fetchNewsData(props.listIndex);
+
+    subscribe(this.updateView.bind(this));
   }
 
   updateView(props: ListViewProps) {

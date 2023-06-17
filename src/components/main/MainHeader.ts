@@ -1,4 +1,4 @@
-import { dispatch, subscribe } from '@/dispatch';
+import { dispatch, subscribe } from '@/dispatcher';
 import { createElement } from '@utils/domUtils';
 import style from '@components/main/MainHeader.module.css';
 
@@ -24,6 +24,7 @@ export default class MainHeader {
 
     this.element.append(targetMediaNav, viewerModeNav);
     this.setEvent();
+    
     subscribe(this.updateView.bind(this));
   }
 
@@ -94,14 +95,14 @@ export default class MainHeader {
   private updateTargetMediaTabs(targetMedia: 'total' | 'subscribed') {
     for (const tab of this.targetMediaTabs) {
       const isActiveTab = tab.getAttribute('data-target-media') === targetMedia;
-      tab.classList.toggle(style.active_tab!, isActiveTab);
+      tab.classList.toggle(style.active_targetMedia!, isActiveTab);
     }
   }
 
   private updateViewerModeTabs(viewerState: 'listView' | 'gridView') {
     for (const viewer of this.viewerModeTabs) {
       const isActiveViewer = viewer.getAttribute('data-viewer') === viewerState;
-      viewer.classList.toggle(style.active_viewer!, isActiveViewer);
+      viewer.classList.toggle(style.active_viewerMode!, isActiveViewer);
     }
   }
 
@@ -109,7 +110,7 @@ export default class MainHeader {
     this.viewerModeTabs.forEach((tab) => {
       tab.addEventListener('click', () => {
         const viewerName = tab.getAttribute('data-viewer');
-        const isActiveViewer = tab.classList.contains(style.active_viewer!);
+        const isActiveViewer = tab.classList.contains(style.active_viewerMode!);
         if (viewerName && !isActiveViewer) {
           dispatch({
             type: 'changeViewer',

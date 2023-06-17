@@ -1,4 +1,4 @@
-import { invoke } from '@/store';
+import { dispatch } from '@/dispatcher';
 import { createElement } from '@utils/domUtils';
 import style from '@components/main/Main.module.css';
 
@@ -29,7 +29,7 @@ export default class ArrowButton {
   private setEvent() {
     this.element.addEventListener('click', () => {
       const arrowActionType = this.direction === 'left' ? 'onClickLeftArrow' : 'onClickRightArrow';
-      invoke({
+      dispatch({
         type: arrowActionType
       });
     });
