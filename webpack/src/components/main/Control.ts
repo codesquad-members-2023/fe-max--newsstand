@@ -10,6 +10,7 @@ export function Control(): IFakeElement {
   return div({ class: "control" }, [
     button(
       {
+        class: "left",
         onClick: () => {
           Dispatcher.onAction({ type: "decGridPageIndex" });
         },
@@ -18,6 +19,7 @@ export function Control(): IFakeElement {
     ),
     button(
       {
+        class: "right",
         onClick: () => {
           Dispatcher.onAction({ type: "addGridPageIndex" });
         },

@@ -15,6 +15,7 @@ import listBlur from "../../images/icon/list-blur.svg";
 import grid from "../../images/icon/grid.svg";
 import gridBlur from "../../images/icon/grid-blur.svg";
 import { Control } from "./Control";
+import { SubscribeGrid } from "./grid/SubscribeGrid";
 
 const { main, h2, div, ul, li, button, img } = CreateFakeElementHelper;
 
@@ -23,6 +24,8 @@ export function Main(): IFakeElement {
     setContext("activePress"),
     setContext("viewType"),
     setContext("gridPageIndex"),
+    setContext("subscribePress"),
+    setContext("listIndex"),
     { class: "tabs" },
     [
       h2({ class: "blind" }, "메인"),
@@ -53,34 +56,36 @@ export function Main(): IFakeElement {
             ]),
             li([
               button({ onClick: activeViewTypeGridHandler }, [
-                img({ src: gridBlur, alt: "격자 아이콘" }),
-                img({ src: grid, alt: "흐린 격자 아이콘" }),
+                img({ src: grid, alt: "격자 아이콘" }),
+                img({ src: gridBlur, alt: "흐린 격자 아이콘" }),
               ]),
             ]),
           ]),
         ]
       ),
-      div(
-        useContext("activePress", "render"),
-        useContext("viewType", "render"),
-        { class: "press-panel" },
-        useIf(
-          isActivePressAll,
-          [
-            div(
-              { class: "view-type-panel" },
-              useIf(isViewTypeGrid, [AllGrid()], [AllList()])
-            ),
-          ],
-          [
-            div(
-              { class: "view-type-panel" },
-              useIf(isViewTypeGrid, [AllGrid()], [AllList()])
-            ),
-          ]
-        )
-      ),
-      Control(),
+      div({ class: "inner" }, [
+        div(
+          useContext("activePress", "render"),
+          useContext("viewType", "render"),
+          { class: "press-panel" },
+          useIf(
+            isActivePressAll,
+            [
+              div(
+                { class: "view-type-panel" },
+                useIf(isViewTypeGrid, [AllGrid()], [AllList()])
+              ),
+            ],
+            [
+              div(
+                { class: "view-type-panel" },
+                useIf(isViewTypeGrid, [SubscribeGrid()], [AllList()])
+              ),
+            ]
+          )
+        ),
+        Control(),
+      ]),
     ]
   );
 }

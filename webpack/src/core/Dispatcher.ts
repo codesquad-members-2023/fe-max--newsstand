@@ -1,3 +1,4 @@
+import { Config } from "../../config";
 import { ActivePress } from "../constants/ActivePress";
 import { IAction } from "../interfaces/IAction";
 import { initRolling } from "../utils/initRolling";
@@ -47,6 +48,12 @@ export const Dispatcher = (function () {
         Store.state.subscribePress[payload] =
           !Store.state.subscribePress[payload];
         Store.state.subscribePress = Store.state.subscribePress;
+        const subscribePress = Store.state.subscribePress;
+        Store.state.subscribeGridLimit = Math.ceil(
+          Object.keys(subscribePress).filter((name) => subscribePress[name])
+            .length /
+            (Config.GRID_ROW * Config.GRID_COL)
+        );
         break;
     }
   }

@@ -16,7 +16,12 @@ export function getBaseState() {
     viewType: "LIST" as ViewType,
     gridPageIndex: 0,
     gridPageLimit: 0,
-    subscribe: {},
+    pressArr: [],
+    listIndex: 0,
+    listLimit: 0,
+    subscribePress: {},
+    subscribeGridIndex: 0,
+    subscribeGridLimit: 0,
   } as IState;
 
   return state;

@@ -1,23 +1,73 @@
 import { IFakeElement } from "../../../interfaces/IFakeElement";
 import { CreateFakeElementHelper } from "../../../utils/CreateFakeElementHelper";
-import outletSample from "../../../images/outlet-sample.svg";
-import subscribe from "../../../images/subscribe.svg";
-import thumbnailSample from "../../../images/thumbnail-sample.png";
 import { Store } from "../../../core/Store";
 import { INews } from "../../../interfaces/INews";
 import { ITabData } from "../../../interfaces/ITabData";
+import { useContext } from "../../../hooks/useContext";
+import { setTrimmedBackgroundImageUrl } from "../../../utils/setTrimmedBackgroundImageUrl";
+import { Dispatcher } from "../../../core/Dispatcher";
+import outletSample from "../../../images/outlet-sample.svg";
+import subscribe from "../../../images/subscribe.svg";
+import unsubscribe from "../../../images/unsubscribe.svg";
+import thumbnailSample from "../../../images/thumbnail-sample.png";
+import { IPress } from "../../../interfaces/IPress";
+import { IArticle } from "../../../interfaces/IArticle";
 
-const { div, a, p, img, span, ul, li, input, h3, figure, figcaption, button } =
-  CreateFakeElementHelper;
+const {
+  div,
+  a,
+  p,
+  img,
+  span,
+  ul,
+  li,
+  input,
+  h3,
+  figure,
+  figcaption,
+  button,
+  strong,
+} = CreateFakeElementHelper;
 
 export function AllList(): IFakeElement {
   return div({ id: "list" }, [
     ListTabs(),
     div({ class: "inner" }, [
       div({ class: "info" }, [
-        h3([img({ src: outletSample, alt: "샘플" })]),
+        h3([
+          img(function (this: IFakeElement, element: HTMLElement) {
+            const { mark, name } = getListData();
+            setTrimmedBackgroundImageUrl(element, mark);
+            element.setAttribute("alt", name);
+          }),
+        ]),
         p("2023.02.10. 18:27 편집"),
-        input({ type: "image", src: subscribe, alt: "구독하기" }),
+        input(function (this: IFakeElement, element: HTMLElement) {
+          const press = getListData();
+          if (Store.state.listIndex >= Store.state.mainPress.length) {
+            element.className = "blind";
+            return;
+          }
+          const { name } = press;
+          element.setAttribute("type", "image");
+
+          this.props = {
+            onClick: function () {
+              subscribePress(name);
+              if (isSubscribe(name)) {
+                element.setAttribute("src", subscribe);
+                return;
+              }
+              element.setAttribute("src", unsubscribe);
+            },
+          };
+
+          if (isSubscribe(name)) {
+            element.setAttribute("src", subscribe);
+            return;
+          }
+          element.setAttribute("src", unsubscribe);
+        }),
       ]),
       ListContent(),
     ]),
@@ -27,51 +77,46 @@ export function AllList(): IFakeElement {
 export function ListContent(): IFakeElement {
   return div({ class: "content" }, [
     div({ class: "left" }, [
-      figure({ class: "image" }, [
-        img({ src: thumbnailSample, alt: "" }),
-        figcaption("또 국민연금의 몽니…현대百 지주사 불발"),
-      ]),
+      figure(
+        function (this: IFakeElement, element: HTMLElement) {
+          const press = getListData();
+          const { articles } = press;
+          const hasImgArticles = articles.filter((article) => article.hasImg);
+          const randomIndex = Math.floor(Math.random() * hasImgArticles.length);
+          const selectedArticle = hasImgArticles[randomIndex];
+          this.children = [
+            a({ href: selectedArticle.link }, [
+              img({ src: selectedArticle.img, alt: "" }),
+              strong({ ariaHidden: "true" }, selectedArticle.content),
+            ]),
+            figcaption({ class: "blind" }, selectedArticle.content),
+          ];
+        },
+        { class: "image" }
+      ),
     ]),
     div({ class: "right" }, [
-      ul([
-        li([a({ href: "" }, '"위스키 사려고 이틀 전부터 줄 섰어요"')]),
-        li([
-          a(
-            { href: "" },
-            "'방시혁 제국'이냐 '카카오 왕국'이냐…K엔터 누가 거머쥘까"
-          ),
-        ]),
-        li([
-          a(
-            { href: "" },
-            "사용후핵연료 저장시설 포화…이대론 7년 뒤 원전 멈춘다"
-          ),
-        ]),
-        li([
-          a(
-            { href: "" },
-            '[단독] 원희룡 "해외건설 근로자 소득공제 월 500만원으로 상향할 것'
-          ),
-        ]),
-        li([
-          a(
-            { href: "" },
-            "태평양에는 우영우의 고래만 있는게 아니었다 [로비의 그림]"
-          ),
-        ]),
-        li([
-          a(
-            { href: "" },
-            "LG엔솔, 폴란드 자동차산업협회 가입…“유럽서 목소리 키운다”"
-          ),
-        ]),
-      ]),
+      ul(function (this: IFakeElement) {
+        const press = getListData();
+        const { articles } = press;
+        this.children = articles
+          .filter((article) => !article.hasImg)
+          .slice(0, 6)
+          .map(Article);
+      }),
       p(
-        { class: "caption" },
-        "서울 경제신문 언론사에서 직접 편집한 뉴스입니다."
+        function (this: IFakeElement, element: HTMLElement) {
+          const { name } = getListData();
+          element.textContent = `${name} 언론사에서 직접 편집한 뉴스입니다.`;
+        },
+        { class: "caption" }
       ),
     ]),
   ]);
+}
+
+function Article({ link, content }: IArticle): IFakeElement {
+  return li([a({ href: link }, content)]);
 }
 
 export function ListTabs(): IFakeElement {
@@ -108,4 +153,17 @@ export function ListTab({ name, index, limit }: ITabData): IFakeElement {
 
 function getNews(): INews {
   return Store.state.news;
+}
+
+function getListData(): IPress {
+  const index = Store.state.listIndex;
+  return Store.state.pressArr[index];
+}
+
+function isSubscribe(name: string): boolean {
+  return Store.state.subscribePress[name];
+}
+
+function subscribePress(name: string): void {
+  Dispatcher.onAction({ type: "subscribe", payload: name });
 }
