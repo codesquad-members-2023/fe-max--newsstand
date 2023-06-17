@@ -1,10 +1,10 @@
-import { invoke } from '../../../store';
-import { getNewsFields } from '../../../utils/dataUtils';
-import { createElement } from '../../../utils/domUtils';
-import { Field } from './Field';
-import style from './ListView.module.css';
+import { dispatch } from '@/dispatcher';
+import { getNewsFields } from '@utils/dataUtils';
+import { createElement } from '@utils/domUtils';
+import Field from '@components/main/listView/Field';
+import style from '@components/main/listView/ListView.module.css';
 
-export class FieldTab {
+export default class FieldTab {
   public readonly element = createElement('nav', { class: style.field_tab });
   private container = createElement('ul', { class: style.field_tab__container });
   private fields;
@@ -19,7 +19,7 @@ export class FieldTab {
   }
 
   private async initFieldData() {
-    invoke({
+    dispatch({
       type: 'initFieldData',
       payload: {
         fields: await getNewsFields()
@@ -39,13 +39,14 @@ export class FieldTab {
       viewer: 'listView' | 'gridView';
     };
   }) {
-
     if (this.fields.length !== fields.length) {
       this.fields = fields.map(() => new Field());
       this.fields.forEach((field) => this.container.append(field.element));
     }
     if (news) {
-      this.fields.forEach((field, index) => field.updateView({ field: fields[index]!, news, viewer: mainViewerInfo.viewer}));
+      this.fields.forEach((field, index) =>
+        field.updateView({ field: fields[index]!, news, viewer: mainViewerInfo.viewer })
+      );
     }
   }
 }

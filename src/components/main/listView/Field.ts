@@ -1,8 +1,9 @@
-import { fetchNewsData, invoke } from '../../../store';
-import { createElement } from '../../../utils/domUtils';
-import style from '../listView/ListView.module.css';
+import { dispatch } from '@/dispatcher';
+import { fetchNewsData } from '@/actions';
+import { createElement } from '@utils/domUtils';
+import style from '@components/main/listView/ListView.module.css';
 
-export class Field {
+export default class Field {
   public readonly element = createElement('li', { class: [style.field_tab__item, 'font-body-sm'] });
   private link = createElement('a', { href: '#' });
   private counter = createElement('span');
@@ -78,7 +79,7 @@ export class Field {
   }
 
   moveToNextNews() {
-    invoke({
+    dispatch({
       type: 'onClickRightArrow'
     });
   }

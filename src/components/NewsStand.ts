@@ -1,17 +1,14 @@
-import { createElement } from '../utils/domUtils';
-import style from './NewsStand.module.css';
-import Header from './header/Header';
-import Main from './main/Main';
-import NewsBar from './newsBar/NewsBar';
+import { createElement } from '@utils/domUtils';
+import Header from '@components/header/Header';
+import Main from '@components/main/Main';
+import NewsBar from '@components/newsBar/NewsBar';
+import style from '@components/NewsStand.module.css';
 
 type NewsStandProps = {
   dateInfo: Date;
-  gridInfo: GridInfo;
+  gridViewInfo: GridViewInfo;
   subscriptionInfo: string[];
-  mainViewerInfo: {
-    targetMedia: 'total' | 'subscribed';
-    viewer: 'listView' | 'gridView';
-  };
+  mainViewerInfo: MainViewerInfo;
   news: NewsData | null;
   fields: FieldData[];
   listIndex: number;

@@ -1,17 +1,15 @@
-import GridView from './gridView/GridView';
-import MainHeader from './MainHeader';
-import style from './Main.module.css';
-import { createElement } from '../../utils/domUtils';
-import { ListView } from './listView/ListView';
-import { ArrowButton } from './ArrowButton';
+import { subscribe } from '@/dispatcher';
+import { createElement } from '@utils/domUtils';
+import MainHeader from '@components/main/MainHeader';
+import ListView from '@components/main/listView/ListView';
+import ArrowButton from '@components/main/ArrowButton';
+import GridView from '@components/main/gridView/GridView';
+import style from '@components/main/Main.module.css';
 
 type MainProps = {
-  gridInfo: GridInfo;
+  gridViewInfo: GridViewInfo;
   subscriptionInfo: string[];
-  mainViewerInfo: {
-    targetMedia: 'total' | 'subscribed';
-    viewer: 'listView' | 'gridView';
-  };
+  mainViewerInfo: MainViewerInfo;
   news: NewsData | null;
   fields: FieldData[];
   listIndex: number;
@@ -46,6 +44,8 @@ export default class Main {
       this.rightButton.element
     );
     this.viewer = props.mainViewerInfo.viewer;
+
+    subscribe(this.updateView.bind(this));
   }
 
   updateView(props: MainProps) {
@@ -55,9 +55,5 @@ export default class Main {
 
       this.element.replaceChild(this.content.element, this.element.childNodes[1]!);
     }
-    this.header.updateView(props);
-    this.content.updateView(props);
-    this.leftButton.updateView(props);
-    this.rightButton.updateView(props);
   }
 }

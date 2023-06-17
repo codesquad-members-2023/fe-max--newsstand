@@ -1,9 +1,9 @@
-import { createElement } from '../../../../utils/domUtils';
-import { MainArticle } from './MainArticle';
-import { SubArticle } from './SubArticle';
-import style from '../ListView.module.css';
+import { createElement } from '@utils/domUtils';
+import MainArticle from '@components/main/listView/pressNews/MainArticle';
+import SubArticle from '@components/main/listView/pressNews/SubArticle';
+import style from '@components/main/listView/ListView.module.css';
 
-export class ArticleSection {
+export default class ArticleSection {
   public readonly element = createElement('section', { class: style.news_section });
   private mainArticle = new MainArticle();
   private subArticle = new SubArticle();

@@ -1,12 +1,12 @@
-import { invoke } from '../../../store';
-import { createElement } from '../../../utils/domUtils';
-import { SubscriptionCover } from './SubscriptionCover';
-import { getGridImgs } from '../../../utils/dataUtils';
-import { shuffleArray } from '../../../utils/commonUtils';
-import style from './GridView.module.css';
+import { dispatch, subscribe } from '@/dispatcher';
+import { createElement } from '@utils/domUtils';
+import { getGridImgs } from '@utils/dataUtils';
+import { shuffleArray } from '@utils/commonUtils';
+import SubscriptionCover from '@components/main/gridView/SubscriptionCover';
+import style from '@components/main/gridView/GridView.module.css';
 
 type GridViewProps = {
-  gridInfo: GridInfo;
+  gridViewInfo: GridViewInfo;
   subscriptionInfo: string[];
 };
 
@@ -31,16 +31,18 @@ export default class GridView {
     this.setEvent();
 
     this.initGridImgs();
+
+    subscribe(this.updateView.bind(this));
   }
 
   async initGridImgs() {
-    invoke({
+    dispatch({
       type: 'initGridImages',
       payload: {
         images: shuffleArray(await getGridImgs())
       }
     });
-  };
+  }
 
   private createCells() {
     return [...Array(this.numberOfCells)].map((_, index) => {
@@ -88,10 +90,10 @@ export default class GridView {
 
   private updateProps(props: GridViewProps) {
     return {
-      imgs: [...props.gridInfo.imgs],
-      page: props.gridInfo.page,
-      isHover: props.gridInfo.isHover,
-      hoverIndex: props.gridInfo.hoverIndex,
+      imgs: [...props.gridViewInfo.imgs],
+      page: props.gridViewInfo.page,
+      isHover: props.gridViewInfo.isHover,
+      hoverIndex: props.gridViewInfo.hoverIndex,
       subscribedIds: [...props.subscriptionInfo]
     };
   }
@@ -110,7 +112,7 @@ export default class GridView {
       if (!cell || !cell.dataset.index) {
         return;
       }
-      invoke({
+      dispatch({
         type: 'turnOnSubscriptionCover',
         payload: {
           hoverOnGrid: true,
@@ -120,7 +122,7 @@ export default class GridView {
     });
 
     this.table.addEventListener('mouseleave', () => {
-      invoke({
+      dispatch({
         type: 'turnOffSubscriptionCover',
         payload: {
           hoverOnGrid: false
@@ -130,7 +132,7 @@ export default class GridView {
   }
 
   updateView(props: GridViewProps) {
-    const { imgs, page, isHover, hoverIndex } = props.gridInfo;
+    const { imgs, page, isHover, hoverIndex } = props.gridViewInfo;
     if (
       this.props.isHover !== isHover ||
       this.props.hoverIndex !== hoverIndex ||

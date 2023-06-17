@@ -1,8 +1,8 @@
-import { createElement } from '../../../../utils/domUtils';
-import { SubscribeButton } from '../../SubscribeButton';
-import style from '../ListView.module.css';
+import { createElement } from '@utils/domUtils';
+import SubscribeButton from '@components/main/SubscribeButton';
+import style from '@components/main/listView/ListView.module.css';
 
-export class PressInfo {
+export default class PressInfo {
   public readonly element = createElement('header', { class: style.press_info });
   private brandMark = createElement('a', { class: style.brand_mark });
   private brandMarkImage = createElement('img');
@@ -15,10 +15,13 @@ export class PressInfo {
   }
 
   updateView({ url, imgSrc, imgAlt, editInfo }: MediaInfo, subscriptionInfo: string[]) {
-    this.brandMark.setAttribute('href', url)
+    this.brandMark.setAttribute('href', url);
     this.brandMarkImage.setAttribute('src', imgSrc);
     this.brandMarkImage.setAttribute('alt', imgAlt);
     this.editDate.textContent = editInfo;
-    this.subscribeButton.updateView({ mediaName: imgAlt, isSubscribed: subscriptionInfo.includes(imgAlt)})
+    this.subscribeButton.updateView({
+      mediaName: imgAlt,
+      isSubscribed: subscriptionInfo.includes(imgAlt)
+    });
   }
 }
