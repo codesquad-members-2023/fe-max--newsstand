@@ -6,7 +6,7 @@
   }
 
   100% {
-    transform: translateY(-100%);
+    transform: translateY(-190%);
   }
 }
 
@@ -22,6 +22,7 @@
     padding: 1rem;
     background-color: $color-off-white;
     border: 1px solid $color-gray-100;
+    overflow: hidden;
 
     &__name {
       color: $color-black;
@@ -32,29 +33,18 @@
       cursor: pointer;
       flex-grow: 1;
       color: $color-gray-500;
-      overflow: hidden;
+
+      &.roll {
+        animation: rolling 0.7s;
+        animation-fill-mode: forwards;
+      }
 
       .title {
         position: absolute;
 
-        // transition: transform 0.5s;
-
-        &.roll {
-          animation: rolling 0.5s;
-          animation-fill-mode: forwards;
-        }
-
         &:hover {
           text-decoration: underline;
         }
-
-        // &.show {
-        //   transform: translateY(-1rem);
-        // }
-
-        // &.after {
-        //   transform: translateY(-1rem);
-        // }
       }
     }
   }

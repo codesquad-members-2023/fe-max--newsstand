@@ -1,0 +1,9 @@
+export const ROLLING = 'ROLLING';
+export const STOP_ROLLING = 'STOP_ROLLING';
+export const START_ROLLING = 'START_ROLLING';
+export const MOVE_PREV_PAGE = 'MOVE_PREV_PAGE';
+export const MOVE_NEXT_PAGE = 'MOVE_NEXT_PAGE';
+export const SHOW_ALL_TAB = 'SHOW_ALL_TAB';
+export const SHOW_SUB_TAB = 'SHOW_SUB_TAB';
+export const SHOW_GRID_VIEW = 'SHOW_GRID_VIEW';
+export const SHOW_LIST_VIEW = 'SHOW_LIST_VIEW';

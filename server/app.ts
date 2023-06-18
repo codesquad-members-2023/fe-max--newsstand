@@ -11,17 +11,17 @@ app.get('/', (_req: Request, res: Response) => {
   res.status(200).send('Express & TypeScript');
 });
 
-app.get('/oneLineNews', (_req: Request, res: Response) => {
+app.get('/breakingNews', (_req: Request, res: Response) => {
   const data = fs.readFileSync('server/data/oneLineData.json', 'utf8');
   res.status(200).send(JSON.parse(data));
 });
 
-app.get('/gridData', (_req: Request, res: Response) => {
-  const data = fs.readFileSync('server/data/gridData.json', 'utf8');
-  res.status(200).send(JSON.parse(data));
-});
+// app.get('/gridData', (_req: Request, res: Response) => {
+//   const data = fs.readFileSync('server/data/gridData.json', 'utf8');
+//   res.status(200).send(JSON.parse(data));
+// });
 
-app.get('/listData', (_req: Request, res: Response) => {
+app.get('/newsData', (_req: Request, res: Response) => {
   const data = fs.readFileSync('server/data/newsStandData.json', 'utf8');
   res.status(200).send(JSON.parse(data));
 });
