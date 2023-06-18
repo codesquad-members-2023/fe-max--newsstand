@@ -1,0 +1,23 @@
+@use '../abstracts' as *;
+
+.list-container {
+  width: 930px;
+  margin-top: 25px;
+  border: 1px solid $color-gray-100;
+
+  .category-tab {
+    height: 40px;
+    display: flex;
+
+    .category-btn {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 0px 16px;
+      gap: 8px;
+
+      width: 166px;
+      height: 40px;
+    }
+  }
+}

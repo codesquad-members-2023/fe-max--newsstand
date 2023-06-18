@@ -5,6 +5,9 @@
 @use 'layout/newsbar';
 @use 'layout/main';
 
+@use 'components/gridView';
+@use 'components/listView';
+
 #app {
   display: flex;
   justify-content: center;

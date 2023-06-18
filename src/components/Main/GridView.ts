@@ -25,7 +25,11 @@ export class GridView extends Component {
   }
 
   update(newState) {
-    if (newState.currentPage !== this.props.currentPage) {
+    if (newState.currentPageIdx === this.props.currentPageIdx) {
+      return;
+    }
+
+    if (newState.currentPageIdx !== this.props.currentPageIdx) {
       this.props = newState;
       this.renderPressLogo();
     }
@@ -50,8 +54,7 @@ export class GridView extends Component {
   renderPressLogo() {
     this.gridItems.forEach((item, idx) => {
       const itemImg = item.children[0] as HTMLImageElement;
-      const imgIdx = idx + (this.props.currentPage - 1) * 24;
-
+      const imgIdx = idx + (this.props.currentPageIdx - 1) * 24;
       itemImg.src = this.props.gridData[imgIdx]?.logoURL || '';
       itemImg.alt = this.props.gridData[imgIdx]?.name || '';
     });

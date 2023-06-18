@@ -24,16 +24,44 @@ export function reducer(state: State | undefined, action: Action) {
       break;
     }
 
-    case 'MOVE_TO_PREV': {
+    case 'SHOW_ALL_TAB': {
       return produce(state, (draftState) => {
-        draftState.currentPage -= 1;
+        draftState.viewTab = 'All';
         return draftState;
       });
     }
 
-    case 'MOVE_TO_NEXT': {
+    case 'SHOW_SUB_TAB': {
       return produce(state, (draftState) => {
-        draftState.currentPage += 1;
+        draftState.viewTab = 'Sub';
+        return draftState;
+      });
+    }
+
+    case 'SHOW_GRID_VIEW': {
+      return produce(state, (draftState) => {
+        draftState.viewType = 'Grid';
+        return draftState;
+      });
+    }
+
+    case 'SHOW_LIST_VIEW': {
+      return produce(state, (draftState) => {
+        draftState.viewType = 'List';
+        return draftState;
+      });
+    }
+
+    case 'MOVE_PREV_PAGE': {
+      return produce(state, (draftState) => {
+        draftState.currentPageIdx -= 1;
+        return draftState;
+      });
+    }
+
+    case 'MOVE_NEXT_PAGE': {
+      return produce(state, (draftState) => {
+        draftState.currentPageIdx += 1;
 
         return draftState;
       });

@@ -63,64 +63,10 @@
       background-image: url(/src/assets/left-btn.svg);
     }
 
-    // &--left[data-index: 0] {
-    //   display: none;
-    // }
-
     &--right {
       @include pos-center-y();
       right: calc(-24px - 3rem);
       background-image: url(/src/assets/right-btn.svg);
-    }
-  }
-}
-
-.grid-container {
-  width: 930px;
-  margin-top: 25px;
-  border-top: 1px solid $color-gray-100;
-  border-left: 1px solid $color-gray-100;
-
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: repeat(4, 6.046875rem);
-
-  .grid-item {
-    position: relative;
-    border-bottom: 1px solid $color-gray-100;
-    border-right: 1px solid $color-gray-100;
-
-    &:hover {
-      background-color: $color-off-white;
-    }
-
-    .press-logo {
-      height: 20px;
-      @include pos-center();
-    }
-
-    .sub-btn {
-      width: 74px;
-      height: 24px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 2px;
-      border: 1px solid $color-gray-100;
-      border-radius: 50px;
-      background-color: $color-white;
-      @include pos-center();
-
-      &__icon {
-        width: 12px;
-        height: 12px;
-      }
-
-      &__label {
-        width: 42px;
-        height: 14px;
-        color: $color-gray-200;
-      }
     }
   }
 }

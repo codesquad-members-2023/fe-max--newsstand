@@ -13,6 +13,9 @@ async function createInitialState() {
 
   return {
     systemDate: new Date(),
+    viewTab: 'All',
+    viewType: 'Grid',
+    currentPageIdx: 1,
     leftRoller: {
       isRolling: true,
       newsData: leftRollerNews,
@@ -23,10 +26,8 @@ async function createInitialState() {
       newsData: rightRollerNews,
       nextTitleIdx: 1,
     },
-    breakingNews,
     gridData,
     newsStandData,
-    currentPage: 1,
     subscriptionList: [],
   };
 }

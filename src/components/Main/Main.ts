@@ -2,6 +2,7 @@ import { store } from '../..';
 import { Component } from '../../Component';
 import { Actions } from '../../actions';
 import { GridView } from './GridView';
+import { ListView } from './ListView';
 import { NewsStandState } from '../../utils/types';
 
 export class Main extends Component {
@@ -16,6 +17,7 @@ export class Main extends Component {
   leftBtn: HTMLButtonElement;
   rightBtn: HTMLButtonElement;
   gridView: GridView;
+  listView;
 
   constructor(props: NewsStandState) {
     super(props);
@@ -33,19 +35,45 @@ export class Main extends Component {
   }
 
   setEvent(): void {
-    this.leftBtn.addEventListener('click', () => {
-      Actions.movePrev();
+    this.allPressTab.addEventListener('click', () => {
+      Actions.showAllTab();
     });
+
+    this.subPressTab.addEventListener('click', () => {
+      Actions.showSubTab();
+    });
+
+    this.gridBtn.addEventListener('click', () => {
+      Actions.showGridView();
+    });
+
+    this.listBtn.addEventListener('click', () => {
+      Actions.showListView();
+    });
+
+    this.leftBtn.addEventListener('click', () => {
+      Actions.movePrevPage();
+    });
+
     this.rightBtn.addEventListener('click', () => {
-      Actions.moveNext();
+      Actions.moveNextPage();
     });
   }
 
   mount(): void {
     this.gridView = new GridView(this.props);
+    this.listView = new ListView(this.props);
 
     this.header.append(this.tabArea, this.viewBtnArea);
-    this.content.append(this.leftBtn, this.rightBtn, this.gridView.element);
+    this.content.append(this.leftBtn, this.rightBtn);
+
+    if (this.props.viewType === 'Grid') {
+      this.content.append(this.gridView.element);
+    }
+
+    if (this.props.viewType === 'List') {
+      this.content.append(this.listView.element);
+    }
 
     this.element.append(this.header, this.content);
   }
@@ -60,19 +88,46 @@ export class Main extends Component {
   }
 
   update(newState: NewsStandState) {
-    if (newState === this.props) {
+    if (
+      newState.currentPageIdx === this.props.currentPageIdx &&
+      newState.viewTab === this.props.viewTab &&
+      newState.viewType === this.props.viewType
+    ) {
       return;
     }
 
     this.props = newState;
 
-    if (this.props.currentPage === 1) {
+    if (this.props.currentPageIdx === 1) {
       this.leftBtn.classList.add('hide');
-    } else if (this.props.currentPage === 4) {
+    } else if (this.props.currentPageIdx === 4) {
       this.rightBtn.classList.add('hide');
     } else {
       this.leftBtn.classList.remove('hide');
       this.rightBtn.classList.remove('hide');
+    }
+
+    if (this.props.viewTab === 'All') {
+      this.allPressTab.classList.add('active');
+      this.subPressTab.classList.remove('active');
+    }
+    if (this.props.viewTab === 'Sub') {
+      this.allPressTab.classList.remove('active');
+      this.subPressTab.classList.add('active');
+    }
+
+    if (this.props.viewType === 'Grid') {
+      this.gridBtn.classList.add('active');
+      this.listBtn.classList.remove('active');
+      this.content.removeChild(this.listView.element);
+      this.content.append(this.gridView.element);
+    }
+
+    if (this.props.viewType === 'List') {
+      this.gridBtn.classList.remove('active');
+      this.listBtn.classList.add('active');
+      this.content.removeChild(this.gridView.element);
+      this.content.append(this.listView.element);
     }
   }
 
