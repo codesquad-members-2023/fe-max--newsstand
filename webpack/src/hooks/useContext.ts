@@ -1,7 +1,7 @@
 import { IFakeElement } from "../interfaces/IFakeElement";
-import { CallBack } from "../types/Callback";
+import { Callback } from "../types/Callback";
 
-export function useContext(name: string, type?: string, callBack?: CallBack) {
+export function useContext(name: string, type?: string, callback?: Callback) {
   let first = true;
   return function (this: IFakeElement, element: Element): void {
     const fakeElement = this;
@@ -30,27 +30,24 @@ export function useContext(name: string, type?: string, callBack?: CallBack) {
 
       switch (type) {
         case "textContent":
-          element.textContent = foundContext ? callBack!(foundContext)! : "";
+          element.textContent = foundContext ? callback!(foundContext)! : "";
           return;
         case "render":
-          if (!callBack) {
-            fakeElement.render();
-            return;
+          if (callback) {
+            callback(element, foundContext, fakeElement);
           }
-          if (callBack()) {
-            fakeElement.render();
-            return;
-          }
+          fakeElement.render();
+          return;
         case "prop":
-          if (callBack) {
-            callBack(element, foundContext);
+          if (callback) {
+            callback(element, foundContext, fakeElement);
           }
           return;
       }
     }
 
     if (first) {
-      current?.subscribeContext![name].push(func);
+      current?.observers![name].push(func);
       first = false;
       func();
     }

@@ -1,0 +1,43 @@
+header
+  .inner
+    display: flex
+    align-items: end
+    justify-content: space-between
+    margin-bottom: 2.5rem
+  .logo
+    display: inline-block
+    img
+      margin-right: 0.5rem
+    span
+      @include font-display
+  .date
+    display: inline-block
+    @include font-body-md
+
+  .rolling-bar
+    display: flex
+    gap: 0.5rem
+    margin-bottom: 2.16rem
+  
+    li
+      width: 100%
+      overflow: hidden
+      .rolling
+        position: relative
+        li
+          padding: 1rem
+          box-sizing: border-box
+          border: 1px solid $color-gray-100
+          background-color: $color-off-white
+          transition-property: transform top
+          transition-duration: 300ms
+          text-overflow: ellipsis
+          white-space: nowrap
+          .outlet
+            @include font-title-sm
+            margin-right: 1rem
+            color: $color-black
+          .article
+            @include font-body-sm
+            line-height: 1rem
+            color: $color-gray-500

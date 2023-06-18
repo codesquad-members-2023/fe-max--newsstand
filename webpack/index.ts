@@ -3,7 +3,7 @@ import { Dispatcher } from "./src/core/Dispatcher";
 import { FakeDom } from "./src/core/FakeDom";
 import { initNews } from "./src/utils/initNews";
 import { initRolling } from "./src/utils/initRolling";
-import "./style.css";
+import "./src/sass/style.sass"
 
 (async () => {
   const root = FakeDom.createRoot(document.getElementById("root")!);

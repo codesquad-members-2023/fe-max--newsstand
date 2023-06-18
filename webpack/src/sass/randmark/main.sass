@@ -1,0 +1,13 @@
+@import "../ul/tabsBar"
+@import "../ul/control"
+@import "../ul/grid"
+@import "../ul/list"
+
+main
+  @include tabs-bar
+  .inner
+    min-height: 18rem
+    position: relative
+    @include grid
+    @include list
+    @include control
