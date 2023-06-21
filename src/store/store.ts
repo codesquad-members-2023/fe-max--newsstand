@@ -1,4 +1,5 @@
-import { Action, Reducer, Store } from "./types";
+import { Action, Reducer } from "@components/mainView/store/types";
+import { Store } from "./types";
 
 export const createStore = <T>(initialState: T, reducer: Reducer<T>): Store<T> => {
   let currentState = initialState;

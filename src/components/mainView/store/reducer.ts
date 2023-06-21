@@ -12,24 +12,12 @@ export const reducer: Reducer<MainViewState> = (state, actions) => {
         },
       };
 
-    case ActionType.UPDATE_LAST_PAGE:
-      return {
-        ...state,
-        gridState: {
-          ...state.gridState,
-          lastPage: Math.ceil(state.gridState.pressList.length / StateConst.ITEM_PER_PAGE),
-        },
-      };
-
     case ActionType.PREV_BUTTON_CLICK:
       return {
         ...state,
         gridState: {
           ...state.gridState,
-          currentPage:
-            state.gridState.currentPage > 1
-              ? state.gridState.currentPage - 1
-              : state.gridState.currentPage,
+          currentPage: state.gridState.currentPage - 1,
         },
       };
 
@@ -38,19 +26,7 @@ export const reducer: Reducer<MainViewState> = (state, actions) => {
         ...state,
         gridState: {
           ...state.gridState,
-          currentPage:
-            state.gridState.currentPage < state.gridState.lastPage
-              ? state.gridState.currentPage + 1
-              : state.gridState.currentPage,
-        },
-      };
-
-    case ActionType.SET_SUBSCRIBED_PRESS_LIST:
-      return {
-        ...state,
-        gridState: {
-          ...state.gridState,
-          ...actions.payload,
+          currentPage: state.gridState.currentPage + 1,
         },
       };
 
@@ -79,7 +55,7 @@ export const reducer: Reducer<MainViewState> = (state, actions) => {
     case ActionType.ALL_PRESS_TAB_CLICK:
       return {
         ...state,
-        currentTab: StateConst.ALL_PRESS,
+        currentTab: StateConst.ALL_PRESS_TAB,
         gridState: {
           ...state.gridState,
           currentPage: 1,
@@ -89,11 +65,23 @@ export const reducer: Reducer<MainViewState> = (state, actions) => {
     case ActionType.SUBSCRIBED_PRESS_TAB_CLICK:
       return {
         ...state,
-        currentTab: StateConst.SUBSCRIBED_PRESS,
+        currentTab: StateConst.SUBSCRIBED_PRESS_TAB,
         gridState: {
           ...state.gridState,
           currentPage: 1,
         },
+      };
+
+    case ActionType.LIST_VIEW_CLICK:
+      return {
+        ...state,
+        currentView: StateConst.LIST_VIEW,
+      };
+
+    case ActionType.GRID_VIEW_CLICK:
+      return {
+        ...state,
+        currentView: StateConst.GRID_VIEW,
       };
 
     default:

@@ -1,8 +1,9 @@
-import { StateConst, Store } from "@store/types";
+import { Store } from "@store/types";
 import { MainViewState, Press } from "..";
 import { GridPressBox } from "./gridPressBox";
-import { createAction } from "@store/actions";
+import { setPressList } from "@components/mainView/store/actions";
 import { shuffleArray } from "@utils/shuffleArray";
+import { StateConst } from "../store/types";
 
 export class GridView {
   private store: Store<MainViewState>;
@@ -52,8 +53,7 @@ export class GridView {
 
     const shuffledPressList = shuffleArray(pressList);
 
-    this.store.dispatch(createAction.setPressList(shuffledPressList));
-    this.store.dispatch(createAction.updateLastPage());
+    setPressList(this.store, shuffledPressList);
   }
 
   async fetchPressList(): Promise<Press[] | void> {
@@ -74,7 +74,7 @@ export class GridView {
     } = state;
 
     const filteredList =
-      currentTab === StateConst.ALL_PRESS
+      currentTab === StateConst.ALL_PRESS_TAB
         ? list
         : list.filter((press) => subscribedPressList.includes(press.alt));
 

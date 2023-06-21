@@ -1,8 +1,8 @@
 import { $ } from "@utils/domUtils";
 import { MainView } from "./mainView";
 import { createStore } from "@store/store";
-import { reducer } from "@store/reducer";
-import { LocalStorageKey, StateConst } from "@store/types";
+import { reducer } from "@components/mainView/store/reducer";
+import { LocalStorageKey, StateConst } from "./store/types";
 
 export interface Press {
   src: string;
@@ -10,14 +10,13 @@ export interface Press {
 }
 
 export interface MainViewState {
-  currentTab: StateConst.ALL_PRESS | StateConst.SUBSCRIBED_PRESS;
+  currentTab: StateConst.ALL_PRESS_TAB | StateConst.SUBSCRIBED_PRESS_TAB;
   currentView: StateConst.LIST_VIEW | StateConst.GRID_VIEW;
 
   gridState: {
     pressList: Press[];
     subscribedPressList: string[];
     currentPage: number;
-    lastPage: number;
   };
 }
 
@@ -26,14 +25,13 @@ const initialState: MainViewState = (() => {
   const parsedList: string[] = subscribedPressList ? JSON.parse(subscribedPressList) : [];
 
   return {
-    currentTab: StateConst.ALL_PRESS,
+    currentTab: StateConst.ALL_PRESS_TAB,
     currentView: StateConst.GRID_VIEW,
 
     gridState: {
       pressList: [],
       subscribedPressList: parsedList,
       currentPage: 1,
-      lastPage: 1,
     },
   };
 })();
